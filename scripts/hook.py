@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os
+import pytz
 import git
 import subprocess
 import mkdocs.plugins
@@ -8,7 +9,7 @@ import mkdocs.plugins
 def on_env(env, config, files):
     r = git.Repo(".")
     head = r.head.commit
-    sha = head.hexsha[:8]
+    sha = f"{head.hexsha[:8]}, {head.committed_datetime.astimezone(pytz.timezone('Asia/Shanghai'))}"
     modified_date = head.committed_date
 
     env.globals["buildsha"] = sha
