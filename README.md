@@ -22,6 +22,8 @@ mkdocs build
 
 导出 pdf: (真的很慢)
 
+修改了 mkdocs-with-pdf 以导出不同的章节，具体配置见 `mkdocs.yml` 中 `with-pdf: jobs` 节
+
 ```bash
 ENABLE_PDF_EXPORT=1 mkdocs build
 ```

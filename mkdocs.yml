@@ -14,6 +14,7 @@ nav:
       - WSL2: env/windows-wsl.md
     - macOS:
       - VirtualBox: env/macos-virtualbox.md
+      - test: lab1/lab1.md
   - 快速参考手册:
     - 目录: qrh/nav.md
     - gdb: qrh/gdb.md
@@ -26,9 +27,15 @@ plugins:
   - git-authors:
       show_contribution: true
       show_line_count: true
-  - pdf-export:
+  - with-pdf:
       enabled_if_env: ENABLE_PDF_EXPORT
-      combined: true
+      jobs:
+        - pdf: pdf/all.pdf
+          include: .*
+        - pdf: pdf/环境搭建.pdf
+          include: env
+        - pdf: pdf/快速参考手册.pdf
+          include: qrh
 markdown_extensions:
   - admonition
   - footnotes
