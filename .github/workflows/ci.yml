@@ -16,5 +16,21 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - run: pip install -r requirements.txt
-      - run: mkdocs gh-deploy --force
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Install Chinese fonts
+        run: |
+          wget -O SourceHanSansCN.zip -nv https://github.com/adobe-fonts/source-han-sans/releases/download/2.004R/SourceHanSansCN.zip
+          wget -O SourceHanSansHWSC.zip -nv https://github.com/adobe-fonts/source-han-sans/releases/download/2.004R/SourceHanSansHWSC.zip
+          unzip -n SourceHanSansHWSC.zip
+          unzip -n SourceHanSansCN.zip
+          sudo cp OTF/SimplifiedChineseHW/*.otf /usr/share/fonts/
+          sudo cp SubsetOTF/CN/*.otf /usr/share/fonts/
+          sudo fc-cache -fv
+      - name: Build
+        run: ENABLE_PDF_EXPORT=1 mkdocs build
+      - name: Upload PDFs to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf
+          path: site/pdf/**.pdf
