@@ -1,6 +1,6 @@
 site_name: 操作系统实验文档
 theme:
-  name: material
+  name: lantana
   features:
     - navigation.tabs
 nav:
