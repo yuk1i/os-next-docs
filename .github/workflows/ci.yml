@@ -16,5 +16,20 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - run: pip install -r requirements.txt
-      - run: mkdocs gh-deploy --force
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Install CNS11643 fonts
+        run: |
+        wget -O SourceHanSansHWSC.zip https://github.com/adobe-fonts/source-han-sans/releases/download/2.004R/SourceHanSansHWSC.zip
+        unzip SourceHanSansHWSC.zip
+        mkdir -p $HOME/share/fonts/SourceHanSans
+        sudo cp OTF/SimplifiedChineseHW/SourceHanSansHWSC-Regular.otf /usr/share/fonts/SourceHanSans
+        sudo cp OTF/SimplifiedChineseHW/SourceHanSansHWSC-Bold.otf /usr/share/fonts/SourceHanSans
+        sudo fc-cache -fv
+      - name: Build site
+        run: ENABLE_PDF_EXPORT=1 mkdocs build
+      - name: Upload PDFs to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf
+          path: site/pdf/**.pdf
