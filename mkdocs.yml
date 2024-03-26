@@ -30,11 +30,11 @@ plugins:
   - with-pdf:
       enabled_if_env: ENABLE_PDF_EXPORT
       jobs:
-        - pdf: pdf/all.pdf
+        - pdf: pdf/oslab-all.pdf
           include: .*
-        - pdf: pdf/环境搭建.pdf
+        - pdf: pdf/oslab-environment-setup.pdf
           include: env
-        - pdf: pdf/快速参考手册.pdf
+        - pdf: pdf/oslab-quick-reference-handbook.pdf
           include: qrh
 markdown_extensions:
   - admonition
