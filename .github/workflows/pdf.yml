@@ -24,6 +24,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Install Chinese fonts
         run: |
+          mkdir -p fonts && cd fonts
+          pwd
           wget -O SourceHanSansCN.zip -nv https://github.com/adobe-fonts/source-han-sans/releases/download/2.004R/SourceHanSansCN.zip
           wget -O SourceHanSansHWSC.zip -nv https://github.com/adobe-fonts/source-han-sans/releases/download/2.004R/SourceHanSansHWSC.zip
           unzip -n SourceHanSansHWSC.zip
@@ -31,8 +33,10 @@ jobs:
           sudo cp OTF/SimplifiedChineseHW/*.otf /usr/share/fonts/
           sudo cp SubsetOTF/CN/*.otf /usr/share/fonts/
           sudo fc-cache -fv
+          cd .. && rm -rf fonts
+          ls -lha
       - name: Build PDF
-        run: ENABLE_PDF_EXPORT=1 mkdocs build
+        run: GITHUBCI=1 ENABLE_PDF_EXPORT=1 mkdocs build
       - name: Upload PDFs to artifacts
         uses: actions/upload-artifact@v4
         with:
