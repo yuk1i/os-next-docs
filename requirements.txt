@@ -5,3 +5,4 @@ mkdocs-git-authors-plugin==0.8.0
 nltk==3.8.1
 # mkdocs-pdf-export-plugin
 git+https://github.com/yuk1i/mkdocs-with-pdf.git
+GitPython
