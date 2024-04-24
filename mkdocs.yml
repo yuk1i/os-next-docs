@@ -6,20 +6,46 @@ theme:
     - navigation.tabs
 nav:
   - 主页: index.md
-  - 开发环境:
+  - 实验环境搭建:
     - 主页: env/index.md
-    - Linux 下开发环境配置: env/linux-setup.md
-    - Windows:
-      - VirtualBox: env/windows-virtualbox.md
-      - VMWare: env/windows-vmware.md
-      - WSL2: env/windows-wsl.md
-    - macOS:
-      - VirtualBox: env/macos-virtualbox.md
-      - test: lab1/lab1.md
+    - 开发环境配置:
+      - Index: env/linux-setup.md
+      - Remote: env/remote.md
+      - Docker: env/docker.md
+      - Windows:
+        - VirtualBox: env/windows-virtualbox.md
+        - VMWare: env/windows-vmware.md
+        - WSL2: env/windows-wsl.md
+      - macOS:
+        - VirtualBox: env/macos-virtualbox.md
+    - C 语言: env/c.md
+    - Git: env/git.md
+    - Qemu: env/qemu.md
+    - Idea: env/neovim.md
+    - GDB: env/gdb.md
+  - 每周实验: 
+    - Week 1: lab/lab1.md
+    - Week 2: lab/lab1.md
+    - Week 3: lab/lab1.md
+    - Week 4: lab/lab1.md
+    - Week 5: lab/lab1.md
+    - Week 6: lab/lab1.md
+    - Week 7: lab/lab1.md
+    - Week 8: lab/lab1.md
+    - Week 9: lab/lab1.md
+    - Week 10: lab/lab1.md
+    - Week 11: lab/lab1.md
+    - Week 12: lab/lab1.md
+    - Week 13: lab/lab1.md
+    - Week 14: lab/lab1.md
+    - Week 15: lab/lab1.md
+    - Week 16: lab/lab1.md
+  - 课程作业: 
+    - HomeWork1: homework/homework1.md
   - 快速参考手册:
     - 目录: qrh/nav.md
-    - gdb: qrh/gdb.md
-  - Lab 1: lab1/lab1.md
+  - 推荐阅读文献:
+    - 某领域私货: reference/reference1.md
 hooks:
   - scripts/hook.py
   # enable social to generate build sha in the right bottom cornor
