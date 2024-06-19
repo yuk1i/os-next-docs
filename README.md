@@ -28,6 +28,13 @@ mkdocs build
 ENABLE_PDF_EXPORT=1 mkdocs build
 ```
 
+## Feature List
+
+###### Message Board
+
+Refered to:
+1. https://squidfunk.github.io/mkdocs-material/setup/adding-a-comment-system/
+> I'm not sure if it's because I'm not the owner of this repository, so I can't find where to turn on the repository Discussion feature.
 
 ## Bug List
 

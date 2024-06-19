@@ -26,6 +26,25 @@ theme:
       toggle:
         icon: material/toggle-switch-off
         name: Switch to system preference
+  icon:
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
 
 nav:
   - 主页: zh/index.md
@@ -47,21 +66,21 @@ nav:
     - GDB: zh/env/gdb.md
   - 每周实验: 
     - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
-    - 第一周: zh/lab/lab1.md
+    - 第二周: zh/lab/lab1.md
+    - 第三周: zh/lab/lab1.md
+    - 第四周: zh/lab/lab1.md
+    - 第五周: zh/lab/lab1.md
+    - 第六周: zh/lab/lab1.md
+    - 第七周: zh/lab/lab1.md
+    - 第八周: zh/lab/lab1.md
+    - 第九周: zh/lab/lab1.md
+    - 第十周: zh/lab/lab1.md
+    - 第十一周: zh/lab/lab1.md
+    - 第十二周: zh/lab/lab1.md
+    - 第十三周: zh/lab/lab1.md
+    - 第十四周: zh/lab/lab1.md
+    - 第十五周: zh/lab/lab1.md
+    - 第十六周: zh/lab/lab1.md
   - 课程作业: 
     - 第一次作业: zh/homework/homework1.md
   - 快速参考手册:
@@ -75,6 +94,7 @@ hooks:
 
 plugins:
   - search
+  - info
   - git-revision-date-localized:
       fallback_to_build_date: true
       locale: zh
