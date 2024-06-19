@@ -1,54 +1,59 @@
 site_name: 操作系统实验文档
+
 theme:
   name: material
+  language: zh
+  user_color_mode_toggle: true
   custom_dir: overrides
   features:
     - navigation.tabs
+
 nav:
-  - 主页: index.md
+  - 主页: zh/index.md
   - 实验环境搭建:
-    - 主页: env/index.md
+    - 主页: zh/env/index.md
     - 开发环境配置:
-      - Index: env/linux-setup.md
-      - Remote: env/remote.md
-      - Docker: env/docker.md
+      - Index: zh/env/linux-setup.md
+      - Docker: zh/env/docker.md
       - Windows:
-        - VirtualBox: env/windows-virtualbox.md
-        - VMWare: env/windows-vmware.md
-        - WSL2: env/windows-wsl.md
+        - VirtualBox: zh/env/windows-virtualbox.md
+        - VMWare: zh/env/windows-vmware.md
+        - WSL2: zh/env/windows-wsl.md
       - macOS:
-        - VirtualBox: env/macos-virtualbox.md
-    - C 语言: env/c.md
-    - Git: env/git.md
-    - Qemu: env/qemu.md
-    - Idea: env/neovim.md
-    - GDB: env/gdb.md
+        - VirtualBox: zh/env/macos-virtualbox.md
+    - C 语言: zh/env/c.md
+    - Git: zh/env/git.md
+    - Qemu: zh/env/qemu.md
+    - Idea: zh/env/neovim.md
+    - GDB: zh/env/gdb.md
   - 每周实验: 
-    - Week 1: lab/lab1.md
-    - Week 2: lab/lab1.md
-    - Week 3: lab/lab1.md
-    - Week 4: lab/lab1.md
-    - Week 5: lab/lab1.md
-    - Week 6: lab/lab1.md
-    - Week 7: lab/lab1.md
-    - Week 8: lab/lab1.md
-    - Week 9: lab/lab1.md
-    - Week 10: lab/lab1.md
-    - Week 11: lab/lab1.md
-    - Week 12: lab/lab1.md
-    - Week 13: lab/lab1.md
-    - Week 14: lab/lab1.md
-    - Week 15: lab/lab1.md
-    - Week 16: lab/lab1.md
+    - Week 1: zh/lab/lab1.md
+    - Week 2: zh/lab/lab1.md
+    - Week 3: zh/lab/lab1.md
+    - Week 4: zh/lab/lab1.md
+    - Week 5: zh/lab/lab1.md
+    - Week 6: zh/lab/lab1.md
+    - Week 7: zh/lab/lab1.md
+    - Week 8: zh/lab/lab1.md
+    - Week 9: zh/lab/lab1.md
+    - Week 10: zh/lab/lab1.md
+    - Week 11: zh/lab/lab1.md
+    - Week 12: zh/lab/lab1.md
+    - Week 13: zh/lab/lab1.md
+    - Week 14: zh/lab/lab1.md
+    - Week 15: zh/lab/lab1.md
+    - Week 16: zh/lab/lab1.md
   - 课程作业: 
-    - HomeWork1: homework/homework1.md
+    - HomeWork1: zh/homework/homework1.md
   - 快速参考手册:
-    - 目录: qrh/nav.md
+    - 目录: zh/qrh/nav.md
   - 推荐阅读文献:
-    - 某领域私货: reference/reference1.md
+    - 某领域私货: zh/reference/reference1.md
+
 hooks:
   - scripts/hook.py
   # enable social to generate build sha in the right bottom cornor
+
 plugins:
   - search
   - git-revision-date-localized:
@@ -67,6 +72,7 @@ plugins:
           include: env
         - pdf: pdf/oslab-quick-reference-handbook.pdf
           include: qrh
+
 markdown_extensions:
   - admonition
   - footnotes
@@ -94,5 +100,16 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
+
 repo_name: 'os-next-docs'
+
 repo_url: 'https://github.com/yuk1i/os-next-docs'
+
+extra:
+    alternate:
+    - name: English
+      link: /en/ 
+      lang: en
+    - name: 简体中文
+      link: /zh/ 
+      lang: zh
