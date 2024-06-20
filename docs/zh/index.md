@@ -16,5 +16,3 @@
         index.md  # The documentation homepage.
         ...       # Other markdown pages, images and other files.
 
-!!!note
-    say something perhaps

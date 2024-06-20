@@ -1,34 +1,42 @@
-## Developing Guide
+# OS Next Docs
 
-使用 venv 环境并安装依赖：
+Shall be used in future semester.
+
+> Perhaps
+
+## Quick Start
+
+Use `venv` and install dependencies：
 
 ```bash
+# Create your own vrtuial environment
 python3 -m venv venv
 source venv/bin/activate
+
+# Install dependenices
 pip3 install -r requirements.txt
 ```
 
-本地开发：
+###### Previewing:
 
 ```bash
 mkdocs serve
 ```
 
-导出静态页面：
+###### Build site：
 
 ```bash
 mkdocs build
 ```
 
-导出 pdf: (真的很慢)
+export pdf: ("really slow" says yuki)
 
-修改了 mkdocs-with-pdf 以导出不同的章节，具体配置见 `mkdocs.yml` 中 `with-pdf: jobs` 节
-
+> 修改了 mkdocs-with-pdf 以导出不同的章节，具体配置见 `mkdocs.yml` 中 `with-pdf: jobs` 节
 ```bash
 ENABLE_PDF_EXPORT=1 mkdocs build
 ```
 
-## Feature List
+## TODO List
 
 ###### Message Board
 
@@ -45,9 +53,9 @@ The simplest solution to this problem can be found at:
 1. https://squidfunk.github.io/mkdocs-material/plugins/projects/ 
 2. https://squidfunk.github.io/mkdocs-material/setup/building-an-optimized-site/#built-in-projects-plugin
 
-But we do not have the required "insider" identity, so we will not consider it for now.
+But we do not have the required "insider" identity, so we will not consider this for now.
 
-For a less elegant solution, we can refer to this discussion and case:
+For a less elegant solution, we can refer to this discussion and this case:
 1. https://github.com/squidfunk/mkdocs-material/discussions/2346
 2. https://github.com/berkantsahn/mkdocs-sample/tree/main
 
