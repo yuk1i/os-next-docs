@@ -44,6 +44,18 @@ Refered to:
 1. https://squidfunk.github.io/mkdocs-material/setup/adding-a-comment-system/
 > I'm not sure if it's because I'm not the owner of this repository, so I can't find where to turn on the repository Discussion feature.
 
+###### Contents Tab
+
+Refered to:
+1. https://squidfunk.github.io/mkdocs-material/reference/content-tabs/#linked-content-tabs-feature-enabled
+> Don't no why, no compile error, just struggled to have one.
+
+###### CodeBlock Highlight
+
+The current theme lacks highlighting support for bash and assembly languages. Possible solutions:
+1. https://github.com/squidfunk/mkdocs-material/discussions/6504
+> To Be Continue.
+
 ## Bug List
 
 ###### Navigation on Different Language
