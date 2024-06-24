@@ -67,12 +67,11 @@ markdown_extensions:
 nav:
   - 主页: zh/index.md
   - 实验环境搭建:
-    - 基础实验环境: zh/env/index.md
+    - Linux 环境: zh/env/index.md
+    - 虚拟机/WSL设置: zh/env/vm-setup.md
     - 开发环境配置: zh/env/setup.md
-    - C Language: zh/env/c.md
-    - Git: zh/env/git.md
-    - Qemu: zh/env/qemu.md
-    - GDB: zh/env/gdb.md
+    - 工具链编译: zh/env/dedicated-toolchains.md
+    - 运行 Hello World: zh/env/helloworld.md
   - 每周实验: 
     - 第一周: zh/lab/lab1.md
     - 第二周: zh/lab/lab1.md
