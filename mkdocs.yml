@@ -101,7 +101,7 @@ hooks:
 
 plugins:
   - search
-  - info
+  # - info
   - git-revision-date-localized:
       fallback_to_build_date: true
       locale: zh
@@ -159,9 +159,9 @@ repo_url: 'https://github.com/yuk1i/os-next-docs'
 extra:
     alternate:
     - name: English
-      link: /en/ 
+      link: en/ 
       lang: en
     - name: 简体中文
-      link: /zh/ 
+      link: zh/ 
       lang: zh
     homepage: https://teecertlabs.com/
