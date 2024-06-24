@@ -2618,9 +2618,9 @@
 <p>在本次实验中，我们将学习基本的 C 语言编程和静态链接。</p>
 <h2 id="_1">类型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>在 C 语言中，整数类型有 long, int, short, char 等。
-在主流的架构上，int 类型为 32 位长，而 long 类型为 64 位长。
-但是，为了避免编译目标架构的不同而导致 long、int 等类型实际长度与我们预想的不一致，在系统编程中，我们会使用定长的整形，如 uint64_t, int32_t 等。
-在不同的编译器环境下，使用这一些类型保证了它们绝对是指定长度的。</p>
+在绝大多数情况下，int 类型为 32 位长，而 long 类型的长度取决于 ABI。
+为了避免编译目标架构的不同而导致 long、int 等类型实际长度与我们预想的不一致，在系统编程中，我们会使用定长的整形，如 uint64_t, int32_t 等。
+在不同的ABI/编译器环境下，使用这一些类型保证了它们绝对是指定长度的。</p>
 <p>例如，在 <code>os/types.h</code> 中：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">uint</span><span class="p">;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">ushort</span><span class="p">;</span>
@@ -2691,7 +2691,12 @@
 <a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">  </span><span class="err">401826:</span><span class="w"> </span><span class="err">5</span><span class="nf">d</span><span class="w">                            </span><span class="no">pop</span><span class="w">     </span><span class="no">rbp</span>
 <a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">  </span><span class="err">401827:</span><span class="w"> </span><span class="nf">c3</span><span class="w">                            </span><span class="no">ret</span>
 </code></pre></div>
-<p>输出的第一行告诉我们 <code>a.out</code> 文件的格式是 <code>elf64-x86-64</code>，这代表这是一个 64 位 ELF 文件，架构为 x86-64。</p>
+<p>输出的第一行告诉我们 <code>a.out</code> 文件的格式是 <code>elf64-x86-64</code>，这代表这是一个 64 位 ELF 文件，架构为 x86-64。第二行表示我们正在反汇编其中的 <code>.text</code> 段。</p>
+<div class="admonition info">
+<p class="admonition-title">ELF 文件的 Section</p>
+<p><strong>ELF（Executable and Linkable Format）</strong> 是一种用于存储可执行文件、目标代码和共享库的标准文件格式，常用于类 Unix 操作系统。</p>
+<p><strong>Section</strong> 是 ELF 文件中的一个部分，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。</p>
+</div>
 <p>我们可以看到，在 <code>401816</code> 和 <code>401831</code> 处，分别有两次 <code>call    0x404620 &lt;printf&gt;</code>，这代表这调用了 <code>printf</code> 函数，而 <code>printf</code> 函数地址为 <code>0x404620</code>。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="w">  </span><span class="err">4017</span><span class="nl">fd:</span><span class="w"> </span><span class="err">48</span><span class="w"> </span><span class="err">8</span><span class="nf">d</span><span class="w"> </span><span class="mi">05</span><span class="w"> </span><span class="mi">0</span><span class="no">c</span><span class="w"> </span><span class="no">f3</span><span class="w"> </span><span class="mi">09</span><span class="w"> </span><span class="mi">00</span><span class="w">          </span><span class="no">lea</span><span class="w">     </span><span class="no">rax</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="no">rip</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">0x9f30c</span><span class="p">]</span><span class="w">    </span><span class="c1"># 0x4a0b10 &lt;a&gt;</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="err">401804:</span><span class="w"> </span><span class="err">48</span><span class="w"> </span><span class="err">89</span><span class="w"> </span><span class="nf">c6</span><span class="w">                      </span><span class="no">mov</span><span class="w">     </span><span class="no">rsi</span><span class="p">,</span><span class="w"> </span><span class="no">rax</span>
@@ -2700,6 +2705,10 @@
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="err">401811:</span><span class="w"> </span><span class="nf">b8</span><span class="w"> </span><span class="mi">00</span><span class="w"> </span><span class="mi">00</span><span class="w"> </span><span class="mi">00</span><span class="w"> </span><span class="mi">00</span><span class="w">                </span><span class="no">mov</span><span class="w">     </span><span class="no">eax</span><span class="p">,</span><span class="w"> </span><span class="mi">0x0</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="err">401816:</span><span class="w"> </span><span class="nf">e8</span><span class="w"> </span><span class="mi">05</span><span class="w"> </span><span class="mi">2</span><span class="no">e</span><span class="w"> </span><span class="mi">00</span><span class="w"> </span><span class="mi">00</span><span class="w">                </span><span class="no">call</span><span class="w">    </span><span class="mh">0x404620</span> <span class="p">&lt;</span><span class="no">printf</span><span class="p">&gt;</span>
 </code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">x86-64 汇编</p>
+<p>本手册将使用 Intel Syntax 展示 x86 的汇编代码。指令后第一个寄存器表示目的寄存器 (rd)。比如 <code>mov rsi, rax</code> 表示将 <code>rax</code> 的值赋给 <code>rsi</code>，<code>lea rax, [rip + 0x71814]</code> 表示将下一条指令的地址加上 0x71814 赋给 <code>rax</code></p>
+</div>
 <p>根据 <code>call</code> 指令前的指令序列，我们可以推测实际调用 <code>printf</code> 时寄存器值。并且，根据 x86-64 架构下的函数调用约定 (Calling Convention, 前 6 个整数参数通过 rdi, rsi, rdx, rcx, r8, r9 传递)，我们可以得到调用 <code>printf</code> 的具体参数：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nl">rdi:</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="err">401807:</span><span class="w"> </span><span class="err">48</span><span class="w"> </span><span class="err">8</span><span class="nf">d</span><span class="w"> </span><span class="mi">05</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="mi">18</span><span class="w"> </span><span class="mi">07</span><span class="w"> </span><span class="mi">00</span><span class="w">          </span><span class="no">lea</span><span class="w">     </span><span class="no">rax</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="no">rip</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">0x71814</span><span class="p">]</span><span class="w">    </span><span class="c1"># 0x473022 &lt;dummy_bucket.6+0x1e&gt;</span>
@@ -2709,10 +2718,18 @@
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="err">4017</span><span class="nl">fd:</span><span class="w"> </span><span class="err">48</span><span class="w"> </span><span class="err">8</span><span class="nf">d</span><span class="w"> </span><span class="mi">05</span><span class="w"> </span><span class="mi">0</span><span class="no">c</span><span class="w"> </span><span class="no">f3</span><span class="w"> </span><span class="mi">09</span><span class="w"> </span><span class="mi">00</span><span class="w">          </span><span class="no">lea</span><span class="w">     </span><span class="no">rax</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="no">rip</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">0x9f30c</span><span class="p">]</span><span class="w">    </span><span class="c1"># 0x4a0b10 &lt;a&gt;</span>
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="err">401804:</span><span class="w"> </span><span class="err">48</span><span class="w"> </span><span class="err">89</span><span class="w"> </span><span class="nf">c6</span><span class="w">                      </span><span class="no">mov</span><span class="w">     </span><span class="no">rsi</span><span class="p">,</span><span class="w"> </span><span class="no">rax</span>
 <a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># printf(0x473022, 0x4a0b10)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="err">401816:</span><span class="w"> </span><span class="nf">e8</span><span class="w"> </span><span class="mi">05</span><span class="w"> </span><span class="mi">2</span><span class="no">e</span><span class="w"> </span><span class="mi">00</span><span class="w"> </span><span class="mi">00</span><span class="w">                </span><span class="no">call</span><span class="w">    </span><span class="mh">0x404620</span> <span class="p">&lt;</span><span class="no">printf</span><span class="p">&gt;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># rdi = 0x473022, rsi = 0x4a0b10</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># printf(0x473022, 0x4a0b10)</span>
 </code></pre></div>
-<p><code>lea</code> 指令表示把 <code>rip</code> (即当前指令的地址) 加上一个立即数，由于这一条指令的地址是固定的，<code>objdump</code> 帮我们算出了这个地址，也就是变量 a 的地址。
-我们可以看出，第一次 <code>printf</code> 时，打印出来的地址是一个固定的数 <code>0x4a0b10</code>。</p>
+<p><code>lea</code> 指令表示把 <code>rip</code> (表示下一条指令的地址, 类似 PC+4) 加上一个立即数。</p>
+<p>由于这一条指令的地址是固定的，<code>objdump</code> 帮我们算出了这个地址，也就是变量 a 的地址。（ 0x401804 + 0x9f30c = 0x4a0b10 ）</p>
+<p>我们可以看出，第一次 <code>printf</code> 时，打印出来的地址是一个固定的数 <code>0x4a0b10</code>。</p>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>假如说，每条指令和每个数据的地址都不是固定的，那程序应该如何寻址？</p>
+<p>Hint: 一个 ELF 内，符号之间的偏移量是固定的。当我们对整个 ELF 的地址空间进行重定位 (Relocation) 时，我们仍然能通过 PC-Relative 偏移量寻址得到相对于当前 rip 偏移指定字节的符号。</p>
+</div>
 <p>类似的，我们观察<code>main</code>中第二次 <code>printf</code> 调用，以及 <code>recursive</code> 中的 <code>printf</code> 调用：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nl">main:</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="err">40181</span><span class="nl">b:</span><span class="w"> </span><span class="err">48</span><span class="w"> </span><span class="err">8</span><span class="nf">d</span><span class="w"> </span><span class="mi">45</span><span class="w"> </span><span class="no">fc</span><span class="w">                   </span><span class="no">lea</span><span class="w">     </span><span class="no">rax</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="no">rbp</span><span class="w"> </span><span class="p">-</span><span class="w"> </span><span class="mi">0x4</span><span class="p">]</span>
@@ -2744,11 +2761,23 @@
 <p>我们发现 <code>push rbp</code>, <code>mov     rbp, rsp</code> 与 <code>leave</code> 在语义上形成了相反的一对。
 实际上，它们是函数的 prologue 和 epilogue。
 分别是在进入函数时和在离开函数时执行的固定代码片段。
-这两段片段构建了当前函数的栈帧（类似一对压栈和弹栈操作）。</p>
+这两段片段构建了当前函数的栈帧（类似一对压栈和弹栈操作）。
+在 x86-64 上，<code>rsp</code> 是 栈寄存器 stack pointer, 而 <code>rbp</code> 一般称为 栈帧寄存器 frame pointer。在 RISC-V 上，它们是 <code>sp</code> 寄存器和 <code>fp</code> 寄存器。</p>
 <p><img alt="image" src="../img-stack-layout.png" /></p>
 <p>我们绘制这几条指令对程序栈、<code>rsp</code>寄存器和 <code>rbp</code> 寄存器的操作，我们可以看出，<code>b</code> 的实际地址是在 saved rbp 之上，指向 local variables 区域。</p>
 <p>实际上，这部分是编译器根据函数内定义的临时变量的大小在栈上开辟的空间。</p>
-<p>与在 <code>.data</code> 段的变量 <code>a</code> 不同，这些临时变量的地址并不是固定的，他们只在这个栈帧有效时是合法的。</p>
+<p>与在 <code>.data</code> 段的变量 <code>a</code> 不同，这些临时变量的地址并不是固定的，他们只在这个栈帧有效时是合法的，也就是说，当退出这个函数的时候，栈上的临时变量也就销毁了。</p>
+<div class="admonition abstract">
+<p class="admonition-title">总结</p>
+<ul>
+<li>
+<p>当编译器在为全局变量分配空间时，它们会拥有固定的地址。对这些全局变量的寻址方式包括立即数寻址或者 PC-relative 寻址。</p>
+</li>
+<li>
+<p>当编译器在生成函数代码时，编译器会生成 prologue 和 epiogue 来构建栈帧，并在栈上分配空间给局部变量。编译器通过偏移栈帧寄存器来寻址 (Addressing) 这些局部变量。</p>
+</li>
+</ul>
+</div>
 <div class="admonition question">
 <p class="admonition-title">Question</p>
 <p>int 类型只占 4 个字节，为什么 <code>sub rsp, 0x10</code> 开辟了 16 个字节的空间？在 x86-64 上行为如此，在 RISC-V 64 上呢？</p>
@@ -2793,8 +2822,7 @@
 </div>
 <p>在 <code>proc_init</code> 初始化函数中，我们将 <code>idle</code> 的地址赋予 <code>current_proc</code>（<code>&amp;</code> 是取地址符）。此时，<code>current_proc</code> 的值即是编译器为 <code>idle</code> 变量开辟的空间的起始地址。</p>
 <div class="admonition question">
-<p class="admonition-title">Question</p>
-<p>为什么是起始地址？</p>
+<p class="admonition-title">为什么是起始地址？</p>
 <p>我们在计算机组成原理课程上学过，RISC-V 的寻址模式 (Addressing Mode) 包含 Base displacement addressing (基地址 + 偏移量) 模式。
 因为结构体中某个变量相对于结构体基地址的偏移量是在编译期已知的，所以我们可以通过某个寄存器保存该结构体的基地址，使用 ld/sw 指令中的立即数偏移量访问结构体中的成员变量。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">;       current_proc-&gt;state = RUNNABLE;</span>
@@ -2809,6 +2837,7 @@
 <blockquote>
 <p>如果你理解了这两句汇编的意思，你就理解了指针</p>
 </blockquote>
+<p>现在，你能猜到为什么空指针异常时会出现 "The instruction at 0xdeadbeef referenced memory at 0x00000008. The memory could not be written." 了吗？</p>
 </div>
 <h3 id="_4">结构体的复制<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
@@ -2870,12 +2899,13 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="贡献者">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>
+        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>, 
+        <a href="mailto:not.committed.yet">Not Committed Yet</a>
     </nav>
   </span>
 
