@@ -88,14 +88,17 @@ nav:
     - 第十三周: lab/lab1.md
     - 第十四周: lab/lab1.md
     - 第十五周: lab/lab1.md
-  - 课程作业: 
-    - 第一次作业: homework/homework1.md
   - 快速参考手册:
     - 目录: qrh/nav.md
     - GDB: qrh/gdb.md
     - Git: qrh/git.md
+    - C 语言:
+      - C 语言基础: qrh/c-basic.md
+      - 静态链接: qrh/c-static-linking.md
   - 阅读材料:
     - 推荐文献: reference/reference1.md
+  - 课程作业: 
+    - 第一次作业: homework/homework1.md
 
 hooks:
   - scripts/hook.py
