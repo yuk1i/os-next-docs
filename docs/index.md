@@ -1,6 +1,6 @@
 # 序言
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+在这里查看完整文档 [mkdocs.org](https://www.mkdocs.org).
 
 ## Commands
 
@@ -15,3 +15,11 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
     docs/
         index.md  # The documentation homepage.
         ...       # Other markdown pages, images and other files.
+
+=== "C"
+
+    C language
+
+=== "C++"
+
+    C++ Language

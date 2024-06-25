@@ -56,8 +56,6 @@ The current theme lacks highlighting support for bash and assembly languages. Po
 1. https://github.com/squidfunk/mkdocs-material/discussions/6504
 > To Be Continue.
 
-## Bug List
-
 ###### Navigation on Different Language
 
 The existing version of the website has some bugs in the navigation bar. Simply put, when switching languages, only the page changes, and the navigation bar does not change to a different language.
@@ -73,4 +71,4 @@ For a less elegant solution, we can refer to this discussion and this case:
 
 But we cannot use two languages ​​at the same time in `mkdocs serve`, which is a great discovinent while developing this site.
 
-This bug will be left for later reconfiguration.
+This feature will be left for later reconfiguration.

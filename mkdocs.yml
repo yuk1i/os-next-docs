@@ -1,4 +1,6 @@
 site_name: 操作系统实验文档
+repo_name: 'os-next-docs'
+repo_url: 'https://github.com/yuk1i/os-next-docs'
 
 theme:
   name: material
@@ -65,35 +67,33 @@ markdown_extensions:
   - pymdownx.snippets
 
 nav:
-  - 主页: zh/index.md
+  - 主页: index.md
   - 实验环境搭建:
-    - Linux 环境: zh/env/index.md
-    - 虚拟机/WSL设置: zh/env/vm-setup.md
-    - 开发环境配置: zh/env/setup.md
-    - 工具链编译: zh/env/dedicated-toolchains.md
-    - 运行 Hello World: zh/env/helloworld.md
+    - Linux 环境: env/index.md
+    - 开发环境配置: env/setup.md
+    - 运行 Hello World: env/helloworld.md
   - 每周实验: 
-    - 第一周: zh/lab/lab1.md
-    - 第二周: zh/lab/lab1.md
-    - 第三周: zh/lab/lab1.md
-    - 第四周: zh/lab/lab1.md
-    - 第五周: zh/lab/lab1.md
-    - 第六周: zh/lab/lab1.md
-    - 第七周: zh/lab/lab1.md
-    - 第八周: zh/lab/lab1.md
-    - 第九周: zh/lab/lab1.md
-    - 第十周: zh/lab/lab1.md
-    - 第十一周: zh/lab/lab1.md
-    - 第十二周: zh/lab/lab1.md
-    - 第十三周: zh/lab/lab1.md
-    - 第十四周: zh/lab/lab1.md
-    - 第十五周: zh/lab/lab1.md
+    - 第一周: lab/lab1.md
+    - 第二周: lab/lab1.md
+    - 第三周: lab/lab1.md
+    - 第四周: lab/lab1.md
+    - 第五周: lab/lab1.md
+    - 第六周: lab/lab1.md
+    - 第七周: lab/lab1.md
+    - 第八周: lab/lab1.md
+    - 第九周: lab/lab1.md
+    - 第十周: lab/lab1.md
+    - 第十一周: lab/lab1.md
+    - 第十二周: lab/lab1.md
+    - 第十三周: lab/lab1.md
+    - 第十四周: lab/lab1.md
+    - 第十五周: lab/lab1.md
   - 课程作业: 
-    - 第一次作业: zh/homework/homework1.md
+    - 第一次作业: homework/homework1.md
   - 快速参考手册:
-    - 目录: zh/qrh/nav.md
+    - 目录: qrh/nav.md
   - 阅读材料:
-    - 推荐文献: zh/reference/reference1.md
+    - 推荐文献: reference/reference1.md
 
 hooks:
   - scripts/hook.py
@@ -152,16 +152,5 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
 
-repo_name: 'os-next-docs'
-
-repo_url: 'https://github.com/yuk1i/os-next-docs'
-
 extra:
-    alternate:
-    - name: English
-      link: en/ 
-      lang: en
-    - name: 简体中文
-      link: zh/ 
-      lang: zh
     homepage: https://teecertlabs.com/
