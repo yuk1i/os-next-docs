@@ -167,7 +167,7 @@ main:
 分别是在进入函数时和在离开函数时执行的固定代码片段。
 这两段片段构建了当前函数的栈帧（类似一对压栈和弹栈操作）。
 
-![image](./assets/img-stack-layout.png)
+![image](../assets/Lab1/img-stack-layout.png)
 
 我们绘制这几条指令对程序栈、`rsp`寄存器和 `rbp` 寄存器的操作，我们可以看出，`b` 的实际地址是在 saved rbp 之上，指向 local variables 区域。
 
