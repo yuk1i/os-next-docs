@@ -92,12 +92,13 @@ nav:
     - 第一次作业: homework/homework1.md
   - 快速参考手册:
     - 目录: qrh/nav.md
+    - GDB: qrh/gdb.md
+    - Git: qrh/git.md
   - 阅读材料:
     - 推荐文献: reference/reference1.md
 
 hooks:
   - scripts/hook.py
-  # enable social to generate build sha in the right bottom cornor
 
 plugins:
   - search
