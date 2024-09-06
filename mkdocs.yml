@@ -54,8 +54,8 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
-  - pymdownx.tabbed:
-      alternate_style: true
+  # - pymdownx.tabbed:
+  #     alternate_style: true
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
@@ -73,21 +73,10 @@ nav:
     - 开发环境配置: env/setup.md
     - 运行 Hello World: env/helloworld.md
   - 每周实验: 
-    - 第一周: lab/lab1.md
-    - 第二周: lab/lab1.md
-    - 第三周: lab/lab1.md
-    - 第四周: lab/lab1.md
-    - 第五周: lab/lab1.md
-    - 第六周: lab/lab1.md
-    - 第七周: lab/lab1.md
-    - 第八周: lab/lab1.md
-    - 第九周: lab/lab1.md
-    - 第十周: lab/lab1.md
-    - 第十一周: lab/lab1.md
-    - 第十二周: lab/lab1.md
-    - 第十三周: lab/lab1.md
-    - 第十四周: lab/lab1.md
-    - 第十五周: lab/lab1.md
+    - 第一周: zh/lab/lab1.md
+    - 第二周: zh/lab/lab2.md
+  - 课程作业: 
+    - 第一次作业: zh/homework/homework1.md
   - 快速参考手册:
     - 目录: qrh/nav.md
     - GDB: qrh/gdb.md
@@ -158,3 +147,15 @@ markdown_extensions:
 
 extra:
     homepage: https://teecertlabs.com/
+repo_name: 'os-next-docs'
+repo_url: 'https://github.com/yuk1i/os-next-docs'
+
+# extra:
+#     alternate:
+#     - name: English
+#       link: en/ 
+#       lang: en
+#     - name: 简体中文
+#       link: zh/ 
+#       lang: zh
+#     homepage: https://teecertlabs.com/
