@@ -476,9 +476,9 @@ Symbol table '.symtab' contains 83 entries:
 
 符号表中有 83 条 Symbol，每一条均有一个值、大小、类型、可见域 (Bind)、名字 (Name)，除此之外，Ndx 一列表示了这个符号是属于哪个 Section 的。
 
-例如，`main` 和 `recursize` 是两个函数，所以它们的类型是 FUNC，Ndx 为 1,表明属于 Section Headers 中的 1 号 Section `.text`。
+例如，`main` 和 `recursize` 是两个函数，所以它们的类型是 FUNC，Ndx 为 1，表明它属于 Section Headers 中的 1 号 Section `.text`。
 `a` 是一个未被初始化的 int 变量，所以它的类型是 OBJECT，所属于 `.bss` 段，大小为 4 个字节。
-特别的，我们在变量中引用了外部符号 (没有在 lab1-1.c 中定义) printf，它的 Ndx 是 UND (表明被该文件引用了，但是没有在该文件中被定义)，并且我们也不知道它的类型。
+特别的，我们在代码中引用了外部符号 (没有在 lab1-1.c 中定义) printf，它的 Ndx 是 UND (表明这个符号被该文件引用了，但是没有在该文件中被定义)，并且我们也不知道它的类型。
 
 链接器会读取所有要链接的 .o 文件的符号表，结合所有被定义的符号，和被引用的外部符号。这一步被成为符号解析 (Symbol Resolution)。
 
@@ -560,6 +560,8 @@ Relocation section '.rela.text' at offset 0xfb8 contains 38 entries:
 - 解析符号：确定 object 文件中引用的 Symbol 具体为哪个
 
 - 重定位：重定位 object 文件中的段，并重定位其中对 Symbol 的引用
+
+在第二步中，ld 会根据 Linker Script 指示进行重定位，所有函数、全局变量，均拥有了自己所属的空间以及其地址。
 
 ### Ex: libc
 
