@@ -1,0 +1,2010 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../lab2/">
+      
+      
+        <link rel="next" href="../../../qrh/nav/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
+    
+    
+      
+        <title>Week 3 - 裸机程序 Bare Metal - 操作系统实验文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+  
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M1 7.775V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 0 1 0 2.474l-5.026 5.026a1.75 1.75 0 0 1-2.474 0l-6.25-6.25A1.752 1.752 0 0 1 1 7.775Zm1.5 0c0 .066.026.13.073.177l6.25 6.25a.25.25 0 0 0 .354 0l5.025-5.025a.25.25 0 0 0 0-.354l-6.25-6.25a.25.25 0 0 0-.177-.073H2.75a.25.25 0 0 0-.25.25ZM6 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></svg>');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M2.5 1.75v11.5c0 .138.112.25.25.25h3.17a.75.75 0 0 1 0 1.5H2.75A1.75 1.75 0 0 1 1 13.25V1.75C1 .784 1.784 0 2.75 0h8.5C12.216 0 13 .784 13 1.75v7.736a.75.75 0 0 1-1.5 0V1.75a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25Zm13.274 9.537v-.001l-4.557 4.45a.75.75 0 0 1-1.055-.008l-1.943-1.95a.75.75 0 0 1 1.062-1.058l1.419 1.425 4.026-3.932a.75.75 0 1 1 1.048 1.074ZM4.75 4h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM4 7.75A.75.75 0 0 1 4.75 7h2a.75.75 0 0 1 0 1.5h-2A.75.75 0 0 1 4 7.75Z"/></svg>');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.499.75a.75.75 0 0 1 1.5 0v.996C5.9 2.903 6.793 3.65 7.662 4.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873 10.794-.045 12.622.26 14.408.558 16 1.94 16 4.25c0 1.278-.954 2.575-2.44 2.734l.146.508.065.22c.203.701.412 1.455.476 2.226.142 1.707-.4 3.03-1.487 3.898C11.714 14.671 10.27 15 8.75 15h-6a.75.75 0 0 1 0-1.5h1.376a4.484 4.484 0 0 1-.563-1.191 3.835 3.835 0 0 1-.05-2.063 4.647 4.647 0 0 1-2.025-.293.75.75 0 0 1 .525-1.406c1.357.507 2.376-.006 2.698-.318l.009-.01a.747.747 0 0 1 1.06 0 .748.748 0 0 1-.012 1.074c-.912.92-.992 1.835-.768 2.586.221.74.745 1.337 1.196 1.621H8.75c1.343 0 2.398-.296 3.074-.836.635-.507 1.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.425 2.425 0 0 1-.507-.441 3.075 3.075 0 0 1-.633-1.248.75.75 0 0 1 1.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738 0 1.25-.615 1.25-1.25 0-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706 1.345-.46.92-.27 1.774.019 3.062l.042.19a.884.884 0 0 1 .01.05c.348.443.666.949.94 1.553a.75.75 0 1 1-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7 5.527c-.814-.68-1.75-1.462-2.692-2.619a3.737 3.737 0 0 0-1.023.88c-.406.495-.663 1.036-.722 1.508.116.122.306.21.591.239.388.038.797-.06 1.032-.19a.75.75 0 0 1 .728 1.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75 5.677V5.5c0-.984.48-1.94 1.077-2.664.46-.559 1.05-1.055 1.673-1.353V.75Z"/></svg>');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></svg>');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.92 6.085h.001a.749.749 0 1 1-1.342-.67c.169-.339.436-.701.849-.977C6.845 4.16 7.369 4 8 4a2.756 2.756 0 0 1 1.637.525c.503.377.863.965.863 1.725 0 .448-.115.83-.329 1.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6.24 6.24 0 0 0-.26.16.952.952 0 0 0-.276.245.75.75 0 0 1-1.248-.832c.184-.264.42-.489.692-.661.103-.067.207-.132.313-.195l.007-.004c.1-.061.182-.11.258-.161a.969.969 0 0 0 .277-.245C8.96 6.514 9 6.427 9 6.25a.612.612 0 0 0-.262-.525A1.27 1.27 0 0 0 8 5.5c-.369 0-.595.09-.74.187a1.01 1.01 0 0 0-.34.398ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M2.344 2.343h-.001a8 8 0 0 1 11.314 11.314A8.002 8.002 0 0 1 .234 10.089a8 8 0 0 1 2.11-7.746Zm1.06 10.253a6.5 6.5 0 1 0 9.108-9.275 6.5 6.5 0 0 0-9.108 9.275ZM6.03 4.97 8 6.94l1.97-1.97a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l1.97 1.97a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-1.97 1.97a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L6.94 8 4.97 6.03a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018Z"/></svg>');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M9.504.43a1.516 1.516 0 0 1 2.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.249 1.249 0 0 1-.871.354h-.302a1.25 1.25 0 0 1-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429Zm1.047 1.074L3.286 8.571A.25.25 0 0 0 3.462 9H6.75a.75.75 0 0 1 .694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0 0 12.538 7H9.25a.75.75 0 0 1-.683-1.06l2.008-4.418.003-.006a.036.036 0 0 0-.004-.009l-.006-.006-.008-.001c-.003 0-.006.002-.009.004Z"/></svg>');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4.72.22a.75.75 0 0 1 1.06 0l1 .999a3.488 3.488 0 0 1 2.441 0l.999-1a.748.748 0 0 1 1.265.332.75.75 0 0 1-.205.729l-.775.776c.616.63.995 1.493.995 2.444v.327c0 .1-.009.197-.025.292.408.14.764.392 1.029.722l1.968-.787a.75.75 0 0 1 .556 1.392L13 7.258V9h2.25a.75.75 0 0 1 0 1.5H13v.5c0 .409-.049.806-.141 1.186l2.17.868a.75.75 0 0 1-.557 1.392l-2.184-.873A4.997 4.997 0 0 1 8 16a4.997 4.997 0 0 1-4.288-2.427l-2.183.873a.75.75 0 0 1-.558-1.392l2.17-.868A5.036 5.036 0 0 1 3 11v-.5H.75a.75.75 0 0 1 0-1.5H3V7.258L.971 6.446a.75.75 0 0 1 .558-1.392l1.967.787c.265-.33.62-.583 1.03-.722a1.677 1.677 0 0 1-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72 1.28a.75.75 0 0 1 0-1.06Zm.53 6.28a.75.75 0 0 0-.75.75V11a3.5 3.5 0 1 0 7 0V7.25a.75.75 0 0 0-.75-.75ZM6.173 5h3.654A.172.172 0 0 0 10 4.827V4.5a2 2 0 1 0-4 0v.327c0 .096.077.173.173.173Z"/></svg>');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5 5.782V2.5h-.25a.75.75 0 0 1 0-1.5h6.5a.75.75 0 0 1 0 1.5H11v3.282l3.666 5.76C15.619 13.04 14.543 15 12.767 15H3.233c-1.776 0-2.852-1.96-1.899-3.458Zm-2.4 6.565a.75.75 0 0 0 .633 1.153h9.534a.75.75 0 0 0 .633-1.153L12.225 10.5h-8.45ZM9.5 2.5h-3V6c0 .143-.04.283-.117.403L4.73 9h6.54L9.617 6.403A.746.746 0 0 1 9.5 6Z"/></svg>');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M1.75 2.5h10.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Zm4 5h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5Zm0 5h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1 0-1.5ZM2.5 7.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 1.5 0Z"/></svg>');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#xv6-lab1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="https://teecertlabs.com/" title="操作系统实验文档" class="md-header__button md-logo" aria-label="操作系统实验文档" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            操作系统实验文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Week 3 - 裸机程序 Bare Metal
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8v2m9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1 0 1.71-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 5-5 5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5M7 15a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/yuk1i/os-next-docs" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    os-next-docs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  主页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../env/" class="md-tabs__link">
+          
+  
+  实验环境搭建
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../lab1/" class="md-tabs__link">
+          
+  
+  每周实验
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../homework/homework1.md" class="md-tabs__link">
+          
+  
+  课程作业
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../qrh/nav/" class="md-tabs__link">
+          
+  
+  快速参考手册
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../reference/reference1/" class="md-tabs__link">
+          
+  
+  阅读材料
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../homework/homework1/" class="md-tabs__link">
+          
+  
+  课程作业
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://teecertlabs.com/" title="操作系统实验文档" class="md-nav__button md-logo" aria-label="操作系统实验文档" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    操作系统实验文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/yuk1i/os-next-docs" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    os-next-docs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    主页
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    实验环境搭建
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            实验环境搭建
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux 环境
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../env/setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    开发环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../env/helloworld/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    运行 Hello World
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    每周实验
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            每周实验
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week 1 - 系统调用 Syscall
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week 2 - 静态链接
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Week 3 - 裸机程序 Bare Metal
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Week 3 - 裸机程序 Bare Metal
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#privilege-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      特权级 (Privilege Level)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="特权级 (Privilege Level)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aarch64-x86" class="md-nav__link">
+    <span class="md-ellipsis">
+      AArch64 &amp; x86
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      运行环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      第一个裸机程序
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一个裸机程序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译链接参数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linker-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linker Script
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      XX，启动！
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sbi-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      SBI Call
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SBI Call">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sbi_call" class="md-nav__link">
+    <span class="md-ellipsis">
+      sbi_call
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    课程作业
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            课程作业
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../homework/homework1.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一次作业
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    快速参考手册
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            快速参考手册
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../qrh/nav/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    目录
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../qrh/gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GDB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../qrh/git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    C 语言
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            C 语言
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../qrh/c-basic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C 语言基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../qrh/c-static-linking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    静态链接
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    阅读材料
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            阅读材料
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/reference1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    推荐文献
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    课程作业
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            课程作业
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../homework/homework1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第一次作业
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#privilege-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      特权级 (Privilege Level)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="特权级 (Privilege Level)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aarch64-x86" class="md-nav__link">
+    <span class="md-ellipsis">
+      AArch64 &amp; x86
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      运行环境
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      第一个裸机程序
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一个裸机程序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译链接参数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linker-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linker Script
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      XX，启动！
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sbi-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      SBI Call
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SBI Call">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sbi_call" class="md-nav__link">
+    <span class="md-ellipsis">
+      sbi_call
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="xv6-lab1">运行裸机程序 : xv6-lab1<a class="headerlink" href="#xv6-lab1" title="Permanent link">&para;</a></h1>
+<p>当我们在为 Linux 环境编程时，我们通常只需要考虑程序的逻辑、并使用和 libc 函数和其封装的系统调用完成与操作系统和用户的交互；例如使用 printf 和 scanf 在标准输入输出流上进行操作。此时，我们的用户态运行环境是由 libc 提供的，而内核是由 Linux Kernel 提供的。</p>
+<p>当我们在写自己的操作系统时，我们并没有 Linux 或其他操作系统提供的运行环境，而是直接与 CPU 和硬件交互，这种程序被称为裸机程序 (<strong>bare-metal program</strong>)。</p>
+<div class="admonition info">
+<p class="admonition-title">什么是裸机程序</p>
+<p>A <strong>bare-metal program</strong> is a type of software that runs directly on the hardware of a device without relying on an underlying operating system (OS). Essentially, it's code that interacts with the hardware at the most fundamental level, controlling the processor, memory, input/output (I/O) devices, and other components directly.</p>
+</div>
+<p>在我们的 xv6 实验中，我们在 RISC-V 体系架构上编写操作系统程序。</p>
+<h2 id="privilege-level">特权级 (Privilege Level)<a class="headerlink" href="#privilege-level" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Privilege Levels (riscv-privileged.pdf)</p>
+<p>特权级（Privilege Level）是计算机系统中用于定义不同进程或用户在系统中所拥有的访问控制和权限的概念。
+特权级的存在是为了保护系统资源、确保安全性，并根据可信度和功能对进程进行隔离。</p>
+<p>At any time, a RISC-V hardware thread (hart) is running at some privilege level encoded as a mode in one or more CSRs (control and status registers). </p>
+<p>Three RISC-V privilege levels are currently defined as shown in Table 1.1. </p>
+<p>Privilege levels are used to provide protection between different components of the software stack, and attempts to perform operations not permitted by the current privilege mode will cause an exception to be raised. </p>
+<p>These exceptions will normally cause traps into an underlying execution environment.</p>
+</div>
+<p>特权级是CPU运行时的一个重要的状态，它表示了当前运行的程序有多高的特权来执行代码。例如，低特权状态不允许访问高特权的内存和CSR寄存器；但是高特权级允许CPU运行在低特权级时，主动或被动地切换至高特权级并执行预定的代码。</p>
+<p>特权级的区分是在 CPU 硬件电路上实现的。在 RISC-V 上，特权级使用 2bit 进行区分，分为 M mode，S mode，和 U mode。</p>
+<p><img alt="image" src="../../../assets/lab2/riscv-priviledge-levels.png" /></p>
+<blockquote>
+<p>The machine level has the highest privileges and is the only mandatory privilege level for a RISC-V hardware platform. Code run in machine-mode (M-mode) is usually inherently trusted, as it has low-level access to the machine implementation. M-mode can be used to manage secure execution environments on RISC-V. User-mode (U-mode) and supervisor-mode (S-mode) are intended for conventional application and operating system usage respectively.</p>
+</blockquote>
+<p>M mode 为 RISC-V 架构中的最高特权，一般运行 OpenSBI 固件程序，拥有对物理内存的直接访问；S mode 是为操作系统设计的特选等级，可以设置虚拟内存；U mode 是为用户程序设计的特权等级，拥有最小的特权，也适用于虚拟内存。</p>
+<p>在裸机程序中，我们需要完成对 CPU 状态的初始化，包括了页表、中断等基本功能。
+这些 CPU 的状态是通过 CSR (Control and Status Registers) 控制的，这些寄存器一般只允许高特权级的用户进行访问和修改。</p>
+<h3 id="aarch64-x86">AArch64 &amp; x86<a class="headerlink" href="#aarch64-x86" title="Permanent link">&para;</a></h3>
+<p>现代的指令集架构均有设置不同的特权级。</p>
+<p>移动设备上最常使用的 arm64 (AArch64) CPU 架构定义了四种特权级(Exception Levels)，从低到高： EL0、EL1、EL2和EL3。
+与 RISC-V 架构类似（<del>其实是 RISC-V 抄 AArch64 的</del>），最高特权级 EL3 运行最底层的固件(Secure Monitor)，EL1 特权级运行操作系统(OS)，EL0 特权级运行用户程序，而EL2特权级运行虚拟机程序(Hypervisor)。</p>
+<p>而 x86 (IA32 &amp; AMD64) 架构定义特权级为四个 Ring ：Ring 0 代表最高特权级，运行操作系统；而 Ring 3 代表最低特权级，运行用户程序。通常来说，x86架构上只会使用到 Ring 0 和 Ring 3 两种特权级。</p>
+<p><img alt="alt text" src="../../../assets/lab2/x86-privilege-levels.png" /></p>
+<div class="admonition info">
+<p class="admonition-title">为什么要定义特权级</p>
+<p>通过对比上述三种体系结构定义的特权级，我们可以发现用户程序和操作系统的运行环境被严格切分，这使得操作系统能正确隔离用户程序与操作系统，用户程序之间的访问。
+<!-- **Operating Systems: Three Easy Pieces** 教材总结操作系统的三大基本组成部分：虚拟化 (Virtualization)、并行 (Concurrency)、持久化 (Persistence)。 --></p>
+</div>
+<h2 id="_1">运行环境<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>在 RISC-V 的三个特权级上，RISC-V架构定义了三种运行状态：分别是固件(M mode)、操作系统(S mode)和用户态(U mode)。</p>
+<p>在 RISC-V 架构中，操作系统 (Supervisor) 向应用程序 (Application) 提供的运行环境被称为 ABI (Application Binary Interface)，而固件 (supervisor execution environment) 为操作系统 (Supervisor) 提供的运行环境则被称为 Supervisor Binary Interface (SBI)。</p>
+<p>固件 (OpenSBI) 中抽象了对底层硬件的访问，并通过类似 syscall 的方式为 S Mode 的操作系统提供了一些基本的访问硬件的接口，其中就包含了基本的串口输入输出函数，<code>sbi_console_putchar</code> 和 <code>sbi_console_getchar</code>。</p>
+<p><img alt="image" src="../../../assets/lab2/riscv-priviledge-arch.png" /></p>
+<h2 id="_2">第一个裸机程序<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">xv6-lab1 代码</p>
+<p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab1">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab1</a></p>
+</div>
+<p>在 git clone 上述代码仓库后，我们可以在本地运行 <code>make</code> 来编译 xv6 内核：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>/d/o/SUSTech-OS-2025<span class="w"> </span><span class="o">(</span>xv6-lab1<span class="o">)</span>&gt;<span class="w"> </span>make
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>riscv64-unknown-elf-gcc<span class="w"> </span>-fPIE<span class="w"> </span>-fno-pic<span class="w"> </span>-fno-plt<span class="w"> </span>-Wall<span class="w"> </span>-Wno-unused-variable<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-MD<span class="w"> </span>-mcmodel<span class="o">=</span>medany<span class="w"> </span>-ffreestanding<span class="w"> </span>-fno-common<span class="w"> </span>-nostdlib<span class="w"> </span>-mno-relax<span class="w"> </span>-Ios<span class="w"> </span>-std<span class="o">=</span>gnu17<span class="w"> </span>-fno-stack-protector<span class="w"> </span>-D<span class="w"> </span>LOG_LEVEL_ERROR<span class="w"> </span>-c<span class="w"> </span>os/console.c<span class="w"> </span>-o<span class="w"> </span>build/os/console.o
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>riscv64-unknown-elf-gcc<span class="w"> </span>-fPIE<span class="w"> </span>-fno-pic<span class="w"> </span>-fno-plt<span class="w"> </span>-Wall<span class="w"> </span>-Wno-unused-variable<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-MD<span class="w"> </span>-mcmodel<span class="o">=</span>medany<span class="w"> </span>-ffreestanding<span class="w"> </span>-fno-common<span class="w"> </span>-nostdlib<span class="w"> </span>-mno-relax<span class="w"> </span>-Ios<span class="w"> </span>-std<span class="o">=</span>gnu17<span class="w"> </span>-fno-stack-protector<span class="w"> </span>-D<span class="w"> </span>LOG_LEVEL_ERROR<span class="w"> </span>-c<span class="w"> </span>os/main.c<span class="w"> </span>-o<span class="w"> </span>build/os/main.o
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>riscv64-unknown-elf-gcc<span class="w"> </span>-fPIE<span class="w"> </span>-fno-pic<span class="w"> </span>-fno-plt<span class="w"> </span>-Wall<span class="w"> </span>-Wno-unused-variable<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-MD<span class="w"> </span>-mcmodel<span class="o">=</span>medany<span class="w"> </span>-ffreestanding<span class="w"> </span>-fno-common<span class="w"> </span>-nostdlib<span class="w"> </span>-mno-relax<span class="w"> </span>-Ios<span class="w"> </span>-std<span class="o">=</span>gnu17<span class="w"> </span>-fno-stack-protector<span class="w"> </span>-D<span class="w"> </span>LOG_LEVEL_ERROR<span class="w"> </span>-c<span class="w"> </span>os/printf.c<span class="w"> </span>-o<span class="w"> </span>build/os/printf.o
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>riscv64-unknown-elf-gcc<span class="w"> </span>-fPIE<span class="w"> </span>-fno-pic<span class="w"> </span>-fno-plt<span class="w"> </span>-Wall<span class="w"> </span>-Wno-unused-variable<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-MD<span class="w"> </span>-mcmodel<span class="o">=</span>medany<span class="w"> </span>-ffreestanding<span class="w"> </span>-fno-common<span class="w"> </span>-nostdlib<span class="w"> </span>-mno-relax<span class="w"> </span>-Ios<span class="w"> </span>-std<span class="o">=</span>gnu17<span class="w"> </span>-fno-stack-protector<span class="w"> </span>-D<span class="w"> </span>LOG_LEVEL_ERROR<span class="w"> </span>-c<span class="w"> </span>os/sbi.c<span class="w"> </span>-o<span class="w"> </span>build/os/sbi.o
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>riscv64-unknown-elf-gcc<span class="w"> </span>-fPIE<span class="w"> </span>-fno-pic<span class="w"> </span>-fno-plt<span class="w"> </span>-Wall<span class="w"> </span>-Wno-unused-variable<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-MD<span class="w"> </span>-mcmodel<span class="o">=</span>medany<span class="w"> </span>-ffreestanding<span class="w"> </span>-fno-common<span class="w"> </span>-nostdlib<span class="w"> </span>-mno-relax<span class="w"> </span>-Ios<span class="w"> </span>-std<span class="o">=</span>gnu17<span class="w"> </span>-fno-stack-protector<span class="w"> </span>-D<span class="w"> </span>LOG_LEVEL_ERROR<span class="w"> </span>-c<span class="w"> </span>os/string.c<span class="w"> </span>-o<span class="w"> </span>build/os/string.o
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>riscv64-unknown-elf-gcc<span class="w"> </span>-fPIE<span class="w"> </span>-fno-pic<span class="w"> </span>-fno-plt<span class="w"> </span>-Wall<span class="w"> </span>-Wno-unused-variable<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-MD<span class="w"> </span>-mcmodel<span class="o">=</span>medany<span class="w"> </span>-ffreestanding<span class="w"> </span>-fno-common<span class="w"> </span>-nostdlib<span class="w"> </span>-mno-relax<span class="w"> </span>-Ios<span class="w"> </span>-std<span class="o">=</span>gnu17<span class="w"> </span>-fno-stack-protector<span class="w"> </span>-D<span class="w"> </span>LOG_LEVEL_ERROR<span class="w"> </span>-c<span class="w"> </span>os/entry.S<span class="w"> </span>-o<span class="w"> </span>build/os/entry.o
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>riscv64-unknown-elf-ld<span class="w"> </span>-z<span class="w"> </span>max-page-size<span class="o">=</span><span class="m">4096</span><span class="w"> </span>-T<span class="w"> </span>os/kernel.ld<span class="w"> </span>-o<span class="w"> </span>build/kernel<span class="w"> </span>build/os/console.o<span class="w"> </span>build/os/main.o<span class="w"> </span>build/os/printf.o<span class="w"> </span>build/os/sbi.o<span class="w"> </span>build/os/string.o<span class="w"> </span>build/os/entry.o
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>riscv64-unknown-elf-objcopy<span class="w"> </span>-O<span class="w"> </span>binary<span class="w"> </span>build/kernel<span class="w"> </span>build/kernel.bin
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>riscv64-unknown-elf-objdump<span class="w"> </span>-S<span class="w"> </span>build/kernel<span class="w"> </span>&gt;<span class="w"> </span>build/kernel.asm
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>riscv64-unknown-elf-objdump<span class="w"> </span>-t<span class="w"> </span>build/kernel<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;1,/SYMBOL TABLE/d; s/ .* / /; /^$/d&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>build/kernel.sym
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>Build<span class="w"> </span>kernel<span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+<div class="admonition questions">
+<p class="admonition-title">什么是 make, Makefile</p>
+<p>Makefile 是一种描述编译流程的文件，而 <code>make</code> 命令则按照 Makefile 中指定的流程进行编译。</p>
+<p>推荐观看：<a href="https://www.bilibili.com/video/BV188411L7d2">https://www.bilibili.com/video/BV188411L7d2</a></p>
+</div>
+<h3 id="_3">编译链接参数<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>gcc 是我们常用的 C 语言编译器，而 <code>riscv64-unknown-elf-gcc</code> 则表示使用 RISC-V 64 位、面向未知平台、产出 ELF 格式的 gcc 套件。</p>
+<p>剩下的编译参数我们可以分开理解：</p>
+<ul>
+<li>
+<p><code>-march=rv64g -mcmodel=medany -mno-relax</code></p>
+<p>这表示我们的目标架构是 rv64g，寻址模型是 <code>medany</code>，并且链接器不要进行 Relax。</p>
+<p>See also: <a href="https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Options.html">https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Options.html</a></p>
+</li>
+<li>
+<p><code>-ffreestanding -fno-common -nostdlib</code></p>
+<p>这表示我们不使用标准库函数，也不假设一些通用函数（如 memset）的定义与标准函数库定义一致。</p>
+</li>
+<li>
+<p><code>-fno-pie -no-pie -fno-plt -fno-omit-frame-pointer -fno-stack-protector</code></p>
+<p>这表示生成的 ELF 文件不要使用位置无关代码 (Position-Independent Executable)，因为这会导致生成 got 和 plt 段，这是内核中不需要的。
+并且，保留 frame-pointer，禁用栈保护。</p>
+</li>
+<li>
+<p><code>-Wall -Wno-unused-variable -Werror -ggdb</code></p>
+<p>这表示显示所有警告、但是不提示未使用的变量警告、并将所有 warning 当作 error。最后 <code>-ggdb</code> 表示使用 gdb 调试。</p>
+</li>
+<li>
+<p><code>-Ios -std=gnu17 -O2 -c os/entry.S -o build/os/entry.o</code></p>
+<p>表示使用 os 目录作为 include 目录，使用 gnu17 C标准，启用 O2 优化。</p>
+<p>编译 (<code>-c</code>) 原文件 <code>os/entry.S</code>，输出到 <code>build/os/entry.o</code> 中。</p>
+</li>
+</ul>
+<p>ld 表示链接器，我们使用 ld 将所有编译器产生的 .o 文件链接为最终的 kernel ELF 文件。</p>
+<p><code>riscv64-unknown-elf-ld -z max-page-size=4096 -T os/kernel.ld -o build/kernel build/os/console.o build/os/main.o build/os/printf.o build/os/sbi.o build/os/string.o build/os/entry.o</code></p>
+<p>这一串命令表示：</p>
+<ul>
+<li>使用 os/kernel.ld 作为链接脚本</li>
+<li>输出为 <code>build/kernel</code></li>
+<li>输入为所有 .o 文件</li>
+</ul>
+<h3 id="linker-script">Linker Script<a class="headerlink" href="#linker-script" title="Permanent link">&para;</a></h3>
+<p>编译脚本表示：链接器应该如何排列所有 .o 文件中的段（Section），即内存布局 (Memory Layout)，并指明产生的 ELF 文件应该如何加载到内存中 (Program Header)。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>OUTPUT_ARCH(riscv)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>ENTRY(_entry)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>BASE_ADDRESS = 0x80200000;
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>SECTIONS
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>{
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    . = BASE_ADDRESS;
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    skernel = .;
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    s_text = .;
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    .text : {
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        *(.text.entry)
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        *(.text .text.*)
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        . = ALIGN(4K);
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        e_text = .;
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        s_trampolime = .;
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>        *(trampsec)
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    }
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>    . = ALIGN(4K);
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    s_rodata = .;
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>    .rodata : {
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>        *(.rodata .rodata.*)
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>    }
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>    . = ALIGN(4K);
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>    e_rodata = .;
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>    s_data = .;
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>    .data : {
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>        *(.data.apps)
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>        *(.data .data.*)
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>        *(.sdata .sdata.*)
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>    }
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>    . = ALIGN(4K);
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>    e_data = .;
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>    .bss : {
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>        *(.bss.stack)
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>        s_bss = .;
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>        *(.bss .bss.*)
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>        *(.sbss .sbss.*)
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>    }
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>    . = ALIGN(4K);
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>    e_bss = .;
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>    ekernel = .;
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>    /DISCARD/ : {
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>        *(.eh_frame)
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>    }
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>}
+</code></pre></div>
+<p>开头的 <code>OUTPUT_ARCH</code> 表示生成的 ELF 文件适用与 RISC-V 架构，<code>ENTRY</code> 表示 ELF 的入口点为符号 <code>_entry</code>。然后，我们定义一个常量为 <code>BASE_ADDRESS</code> 使它等于 0x80200000，这也是我们内核的起始地址。</p>
+<p>在 <code>SECTIONS</code> 中，我们首先定义当前地址 (<code>.</code> 符号) (想象链接器正在给所有 section 安排位置) 为 0x80200000，并导出 <code>skernel</code> 和 <code>s_text</code> 符号的值为当前地址。</p>
+<p>随后，我们定义 (.text) 段，这通常表示代码段：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>.text : {
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    *(.text.entry)
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    *(.text .text.*)
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    . = ALIGN(4K);
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    e_text = .;
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    s_trampolime = .;
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    *(trampsec)
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>}
+</code></pre></div>
+<p>首先排列所有位于 <code>.text.entry</code> 的符号，随后排列所有位于 <code>.text</code> 的符号。</p>
+<p>我们在 <code>.text</code> 段中首先包含了一个特殊的 Section <code>.text.entry</code>，这个 section 是在 <code>entry.S</code> 文件中定义的：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>    .section .text.entry
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    .globl _entry
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>_entry:
+</code></pre></div>
+<p>我们在 <code>entry.S</code> 文件中指定 <code>_entry</code> 符号应该被放置到 <code>.text.entry</code> 段，并在链接脚本中指定这个段为内核的开始地址。这样我们即可确保 _entry 会被放置到内核起始地址。当我们启动内核时，我们会从这个起始地址开始执行，也就是执行了内核的第一条指令。</p>
+<p>我们可以通过反编译 <code>build/kernel</code> 来观察这一点：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$ /d/o/SUSTech-OS-2025 (xv6-lab1)&gt; llvm-objdump-19 -d build/kernel| less
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>build/kernel:   file format elf64-littleriscv
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Disassembly of section .text:
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>0000000080200000 &lt;skernel&gt;:
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>80200000: 0000100f      fence.i
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>80200004: 00007117      auipc   sp, 0x7
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>80200008: ffc10113      addi    sp, sp, -0x4
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>8020000c: 00000097      auipc   ra, 0x0
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>80200010: 164080e7      jalr    0x164(ra) &lt;main&gt;
+</code></pre></div>
+<p>然后，将当前地址对齐到 4K 边界，导出 <code>e_text</code> 和 <code>s_trampolime</code> 符号，最后排列位于 <code>trampsec</code> 的符号。</p>
+<p>剩余的 <code>.rodata</code>, <code>.data</code> 和 <code>.bss</code> 则表示数据段，但是略有不同：</p>
+<ul>
+<li><code>.rodata</code> 表示只读的数据段</li>
+<li><code>.data</code> 表示可读可写的数据段</li>
+<li><code>.bss</code> 表示应该在程序启动时被清0的数据段</li>
+</ul>
+<p>当然，所有数据段均是不可执行的。</p>
+<p>最后，我们可以使用 <code>readelf</code> 工具观察最后产出的 kernel ELF 文件：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>/d/o/SUSTech-OS-2025<span class="w"> </span><span class="o">(</span>xv6-lab1<span class="o">)</span>&gt;<span class="w"> </span>llvm-readelf-19<span class="w"> </span>-a<span class="w"> </span>build/kernel
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>ELF<span class="w"> </span>Header:
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>Magic:<span class="w">   </span>7f<span class="w"> </span><span class="m">45</span><span class="w"> </span>4c<span class="w"> </span><span class="m">46</span><span class="w"> </span><span class="m">02</span><span class="w"> </span><span class="m">01</span><span class="w"> </span><span class="m">01</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>Class:<span class="w">                             </span>ELF64
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>Data:<span class="w">                              </span><span class="m">2</span><span class="err">&#39;</span>s<span class="w"> </span>complement,<span class="w"> </span>little<span class="w"> </span>endian
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span>Version:<span class="w">                           </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>current<span class="o">)</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span>OS/ABI:<span class="w">                            </span>UNIX<span class="w"> </span>-<span class="w"> </span>System<span class="w"> </span>V
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span>ABI<span class="w"> </span>Version:<span class="w">                       </span><span class="m">0</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span>Type:<span class="w">                              </span>EXEC<span class="w"> </span><span class="o">(</span>Executable<span class="w"> </span>file<span class="o">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">  </span>Machine:<span class="w">                           </span>RISC-V
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">  </span>Version:<span class="w">                           </span>0x1
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">  </span>Entry<span class="w"> </span>point<span class="w"> </span>address:<span class="w">               </span>0x80200000
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">  </span>Start<span class="w"> </span>of<span class="w"> </span>program<span class="w"> </span>headers:<span class="w">          </span><span class="m">64</span><span class="w"> </span><span class="o">(</span>bytes<span class="w"> </span>into<span class="w"> </span>file<span class="o">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">  </span>Start<span class="w"> </span>of<span class="w"> </span>section<span class="w"> </span>headers:<span class="w">          </span><span class="m">29280</span><span class="w"> </span><span class="o">(</span>bytes<span class="w"> </span>into<span class="w"> </span>file<span class="o">)</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">  </span>Flags:<span class="w">                             </span>0x4,<span class="w"> </span>double-float<span class="w"> </span>ABI
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">  </span>Size<span class="w"> </span>of<span class="w"> </span>this<span class="w"> </span>header:<span class="w">               </span><span class="m">64</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">  </span>Size<span class="w"> </span>of<span class="w"> </span>program<span class="w"> </span>headers:<span class="w">           </span><span class="m">56</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">  </span>Number<span class="w"> </span>of<span class="w"> </span>program<span class="w"> </span>headers:<span class="w">         </span><span class="m">3</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">  </span>Size<span class="w"> </span>of<span class="w"> </span>section<span class="w"> </span>headers:<span class="w">           </span><span class="m">64</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">  </span>Number<span class="w"> </span>of<span class="w"> </span>section<span class="w"> </span>headers:<span class="w">         </span><span class="m">20</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">  </span>Section<span class="w"> </span>header<span class="w"> </span>string<span class="w"> </span>table<span class="w"> </span>index:<span class="w"> </span><span class="m">19</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>There<span class="w"> </span>are<span class="w"> </span><span class="m">20</span><span class="w"> </span>section<span class="w"> </span>headers,<span class="w"> </span>starting<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span>0x7260:
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>Section<span class="w"> </span>Headers:
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">  </span><span class="o">[</span>Nr<span class="o">]</span><span class="w"> </span>Name<span class="w">              </span>Type<span class="w">            </span>Address<span class="w">          </span>Off<span class="w">    </span>Size<span class="w">   </span>ES<span class="w"> </span>Flg<span class="w"> </span>Lk<span class="w"> </span>Inf<span class="w"> </span>Al
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">0</span><span class="o">]</span><span class="w">                   </span>NULL<span class="w">            </span><span class="m">0000000000000000</span><span class="w"> </span><span class="m">000000</span><span class="w"> </span><span class="m">000000</span><span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">0</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">1</span><span class="o">]</span><span class="w"> </span>.text<span class="w">             </span>PROGBITS<span class="w">        </span><span class="m">0000000080200000</span><span class="w"> </span><span class="m">001000</span><span class="w"> </span><span class="m">001000</span><span class="w"> </span><span class="m">00</span><span class="w">  </span>AX<span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">4</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">2</span><span class="o">]</span><span class="w"> </span>.rodata<span class="w">           </span>PROGBITS<span class="w">        </span><span class="m">0000000080201000</span><span class="w"> </span><span class="m">002000</span><span class="w"> </span><span class="m">000181</span><span class="w"> </span><span class="m">00</span><span class="w">   </span>A<span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">8</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">3</span><span class="o">]</span><span class="w"> </span>.srodata<span class="w">          </span>PROGBITS<span class="w">        </span><span class="m">0000000080201188</span><span class="w"> </span><span class="m">002188</span><span class="w"> </span><span class="m">000048</span><span class="w"> </span><span class="m">00</span><span class="w">   </span>A<span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">8</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">4</span><span class="o">]</span><span class="w"> </span>.data<span class="w">             </span>PROGBITS<span class="w">        </span><span class="m">0000000080202000</span><span class="w"> </span><span class="m">003000</span><span class="w"> </span><span class="m">000008</span><span class="w"> </span><span class="m">00</span><span class="w">  </span>WA<span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">8</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">5</span><span class="o">]</span><span class="w"> </span>.bss<span class="w">              </span>NOBITS<span class="w">          </span><span class="m">0000000080203000</span><span class="w"> </span><span class="m">003008</span><span class="w"> </span><span class="m">004000</span><span class="w"> </span><span class="m">00</span><span class="w">  </span>WA<span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">6</span><span class="o">]</span><span class="w"> </span>.debug_info<span class="w">       </span>PROGBITS<span class="w">        </span><span class="m">0000000000000000</span><span class="w"> </span><span class="m">003008</span><span class="w"> </span>0010a1<span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">7</span><span class="o">]</span><span class="w"> </span>.debug_abbrev<span class="w">     </span>PROGBITS<span class="w">        </span><span class="m">0000000000000000</span><span class="w"> </span>0040a9<span class="w"> </span>0006e5<span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">8</span><span class="o">]</span><span class="w"> </span>.debug_loclists<span class="w">   </span>PROGBITS<span class="w">        </span><span class="m">0000000000000000</span><span class="w"> </span>00478e<span class="w"> </span>0004f3<span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="m">9</span><span class="o">]</span><span class="w"> </span>.debug_aranges<span class="w">    </span>PROGBITS<span class="w">        </span><span class="m">0000000000000000</span><span class="w"> </span>004c90<span class="w"> </span><span class="m">000130</span><span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w"> </span><span class="m">16</span>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="w">  </span><span class="o">[</span><span class="m">10</span><span class="o">]</span><span class="w"> </span>.debug_line<span class="w">       </span>PROGBITS<span class="w">        </span><span class="m">0000000000000000</span><span class="w"> </span>004dc0<span class="w"> </span><span class="m">001003</span><span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="w">  </span><span class="o">[</span><span class="m">11</span><span class="o">]</span><span class="w"> </span>.debug_str<span class="w">        </span>PROGBITS<span class="w">        </span><span class="m">0000000000000000</span><span class="w"> </span>005dc3<span class="w"> </span>0003b0<span class="w"> </span><span class="m">01</span><span class="w">  </span>MS<span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="w">  </span><span class="o">[</span><span class="m">12</span><span class="o">]</span><span class="w"> </span>.debug_line_str<span class="w">   </span>PROGBITS<span class="w">        </span><span class="m">0000000000000000</span><span class="w"> </span><span class="m">006173</span><span class="w"> </span>0000e4<span class="w"> </span><span class="m">01</span><span class="w">  </span>MS<span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="w">  </span><span class="o">[</span><span class="m">13</span><span class="o">]</span><span class="w"> </span>.comment<span class="w">          </span>PROGBITS<span class="w">        </span><span class="m">0000000000000000</span><span class="w"> </span><span class="m">006257</span><span class="w"> </span>00001b<span class="w"> </span><span class="m">01</span><span class="w">  </span>MS<span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="w">  </span><span class="o">[</span><span class="m">14</span><span class="o">]</span><span class="w"> </span>.riscv.attributes<span class="w"> </span>RISCV_ATTRIBUTES<span class="w"> </span><span class="m">0000000000000000</span><span class="w"> </span><span class="m">006272</span><span class="w"> </span><span class="m">000052</span><span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="w">  </span><span class="o">[</span><span class="m">15</span><span class="o">]</span><span class="w"> </span>.debug_frame<span class="w">      </span>PROGBITS<span class="w">        </span><span class="m">0000000000000000</span><span class="w"> </span>0062c8<span class="w"> </span>0004b0<span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">8</span>
+<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a><span class="w">  </span><span class="o">[</span><span class="m">16</span><span class="o">]</span><span class="w"> </span>.debug_rnglists<span class="w">   </span>PROGBITS<span class="w">        </span><span class="m">0000000000000000</span><span class="w"> </span><span class="m">006778</span><span class="w"> </span>00007c<span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a><span class="w">  </span><span class="o">[</span><span class="m">17</span><span class="o">]</span><span class="w"> </span>.symtab<span class="w">           </span>SYMTAB<span class="w">          </span><span class="m">0000000000000000</span><span class="w"> </span>0067f8<span class="w"> </span><span class="m">000720</span><span class="w"> </span><span class="m">18</span><span class="w">     </span><span class="m">18</span><span class="w">  </span><span class="m">32</span><span class="w">  </span><span class="m">8</span>
+<a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="w">  </span><span class="o">[</span><span class="m">18</span><span class="o">]</span><span class="w"> </span>.strtab<span class="w">           </span>STRTAB<span class="w">          </span><span class="m">0000000000000000</span><span class="w"> </span>006f18<span class="w"> </span><span class="m">000273</span><span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a><span class="w">  </span><span class="o">[</span><span class="m">19</span><span class="o">]</span><span class="w"> </span>.shstrtab<span class="w">         </span>STRTAB<span class="w">          </span><span class="m">0000000000000000</span><span class="w"> </span>00718b<span class="w"> </span>0000d5<span class="w"> </span><span class="m">00</span><span class="w">      </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">1</span>
+<a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a>Key<span class="w"> </span>to<span class="w"> </span>Flags:
+<a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a><span class="w">  </span>W<span class="w"> </span><span class="o">(</span>write<span class="o">)</span>,<span class="w"> </span>A<span class="w"> </span><span class="o">(</span>alloc<span class="o">)</span>,<span class="w"> </span>X<span class="w"> </span><span class="o">(</span>execute<span class="o">)</span>,<span class="w"> </span>M<span class="w"> </span><span class="o">(</span>merge<span class="o">)</span>,<span class="w"> </span>S<span class="w"> </span><span class="o">(</span>strings<span class="o">)</span>,<span class="w"> </span>I<span class="w"> </span><span class="o">(</span>info<span class="o">)</span>,
+<a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a><span class="w">  </span>L<span class="w"> </span><span class="o">(</span>link<span class="w"> </span>order<span class="o">)</span>,<span class="w"> </span>O<span class="w"> </span><span class="o">(</span>extra<span class="w"> </span>OS<span class="w"> </span>processing<span class="w"> </span>required<span class="o">)</span>,<span class="w"> </span>G<span class="w"> </span><span class="o">(</span>group<span class="o">)</span>,<span class="w"> </span>T<span class="w"> </span><span class="o">(</span>TLS<span class="o">)</span>,
+<a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a><span class="w">  </span>C<span class="w"> </span><span class="o">(</span>compressed<span class="o">)</span>,<span class="w"> </span>x<span class="w"> </span><span class="o">(</span>unknown<span class="o">)</span>,<span class="w"> </span>o<span class="w"> </span><span class="o">(</span>OS<span class="w"> </span>specific<span class="o">)</span>,<span class="w"> </span>E<span class="w"> </span><span class="o">(</span>exclude<span class="o">)</span>,
+<a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a><span class="w">  </span>R<span class="w"> </span><span class="o">(</span>retain<span class="o">)</span>,<span class="w"> </span>p<span class="w"> </span><span class="o">(</span>processor<span class="w"> </span>specific<span class="o">)</span>
+<a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a>
+<a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a>Elf<span class="w"> </span>file<span class="w"> </span><span class="nb">type</span><span class="w"> </span>is<span class="w"> </span>EXEC<span class="w"> </span><span class="o">(</span>Executable<span class="w"> </span>file<span class="o">)</span>
+<a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a>Entry<span class="w"> </span>point<span class="w"> </span>0x80200000
+<a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a>There<span class="w"> </span>are<span class="w"> </span><span class="m">3</span><span class="w"> </span>program<span class="w"> </span>headers,<span class="w"> </span>starting<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span><span class="m">64</span>
+<a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a>
+<a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a>Program<span class="w"> </span>Headers:
+<a id="__codelineno-5-57" name="__codelineno-5-57" href="#__codelineno-5-57"></a><span class="w">  </span>Type<span class="w">           </span>Offset<span class="w">   </span>VirtAddr<span class="w">           </span>PhysAddr<span class="w">           </span>FileSiz<span class="w">  </span>MemSiz<span class="w">   </span>Flg<span class="w"> </span>Align
+<a id="__codelineno-5-58" name="__codelineno-5-58" href="#__codelineno-5-58"></a><span class="w">  </span>ATTRIBUTES<span class="w">     </span>0x006272<span class="w"> </span>0x0000000000000000<span class="w"> </span>0x0000000000000000<span class="w"> </span>0x000052<span class="w"> </span>0x000000<span class="w"> </span>R<span class="w">   </span>0x1
+<a id="__codelineno-5-59" name="__codelineno-5-59" href="#__codelineno-5-59"></a><span class="w">  </span>LOAD<span class="w">           </span>0x001000<span class="w"> </span>0x0000000080200000<span class="w"> </span>0x0000000080200000<span class="w"> </span>0x0011d0<span class="w"> </span>0x0011d0<span class="w"> </span>R<span class="w"> </span>E<span class="w"> </span>0x1000
+<a id="__codelineno-5-60" name="__codelineno-5-60" href="#__codelineno-5-60"></a><span class="w">  </span>LOAD<span class="w">           </span>0x003000<span class="w"> </span>0x0000000080202000<span class="w"> </span>0x0000000080202000<span class="w"> </span>0x000008<span class="w"> </span>0x005000<span class="w"> </span>RW<span class="w">  </span>0x1000
+<a id="__codelineno-5-61" name="__codelineno-5-61" href="#__codelineno-5-61"></a>
+<a id="__codelineno-5-62" name="__codelineno-5-62" href="#__codelineno-5-62"></a>Section<span class="w"> </span>to<span class="w"> </span>Segment<span class="w"> </span>mapping:
+<a id="__codelineno-5-63" name="__codelineno-5-63" href="#__codelineno-5-63"></a><span class="w">  </span>Segment<span class="w"> </span>Sections...
+<a id="__codelineno-5-64" name="__codelineno-5-64" href="#__codelineno-5-64"></a><span class="w">   </span><span class="m">00</span><span class="w">     </span>.riscv.attributes<span class="w"> </span>
+<a id="__codelineno-5-65" name="__codelineno-5-65" href="#__codelineno-5-65"></a><span class="w">   </span><span class="m">01</span><span class="w">     </span>.text<span class="w"> </span>.rodata<span class="w"> </span>.srodata<span class="w"> </span>
+<a id="__codelineno-5-66" name="__codelineno-5-66" href="#__codelineno-5-66"></a><span class="w">   </span><span class="m">02</span><span class="w">     </span>.data<span class="w"> </span>.bss<span class="w"> </span>
+<a id="__codelineno-5-67" name="__codelineno-5-67" href="#__codelineno-5-67"></a><span class="w">   </span>None<span class="w">   </span>.debug_info<span class="w"> </span>.debug_abbrev<span class="w"> </span>.debug_loclists<span class="w"> </span>.debug_aranges<span class="w"> </span>.debug_line<span class="w"> </span>.debug_str<span class="w"> </span>.debug_line_str<span class="w"> </span>.comment<span class="w"> </span>.debug_frame<span class="w"> </span>.debug_rnglists<span class="w"> </span>.symtab<span class="w"> </span>.strtab<span class="w"> </span>.shstrtab<span class="w"> </span>
+</code></pre></div>
+<ul>
+<li>最终的文件类型为：<code>Type: EXEC (Executable file)</code></li>
+<li>入口地址为： <code>Entry point address: 0x80200000</code></li>
+<li>一共有 19 个 Sections：<ul>
+<li>Sections有自己的 Flags,其中 A 表示这一个 Section 在加载时应该被分配内存空间，W 表示可以写入，X 表示可以执行。</li>
+</ul>
+</li>
+<li>一共有 3 个 Program Headers，其中有两个 LOAD:<ul>
+<li>第一个 LOAD 表示：<ul>
+<li>在虚拟地址 (VirtAddr) 0x80200000处，映射物理地址 (PhysAddr) 0x80200000，分配 0x0011d0 字节的内存空间 (MemSiz)，该内存段的权限为 RE (Read &amp; Executable)。</li>
+<li>从该 ELF 文件的 (Offset) 0x001000 处复制 0x0011d0 字节 (FileSiz) 到上述内存空间。</li>
+</ul>
+</li>
+<li>第二个 LOAD 表示：<ul>
+<li>在虚拟地址 0x80202000 处，映射物理地址 0x80202000，分配 0x005000 的内存空间，该内存段权限为 RW (Read &amp; Write)。</li>
+<li>从该 ELF 文件的 0x3000 处，复制 0x0008 字节到该内存段。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>在 <code>Section to Segment mapping:</code> 处我们可以看到：<ul>
+<li>第一个 Program Headers 包含 .text, .rodata 和 .srodata 三个 Sections。</li>
+<li>第二个 Program Headers 包含 .data 和 .bss 段。</li>
+</ul>
+</li>
+</ul>
+<div class="admonition questions">
+<p class="admonition-title">问题 1</p>
+<p>我们可以发现第一个 LOAD 的 FileSiz 和 MemSiz 是相同的，而第二个是不同的。</p>
+<p>请你猜测为什么会这样？</p>
+</div>
+<h2 id="xx">XX，启动！<a class="headerlink" href="#xx" title="Permanent link">&para;</a></h2>
+<p>在 <code>make</code> 编译内核成功后，我们可以使用 <code>make run</code> 调用 qemu 来运行我们的 xv6-lab1 操作系统。</p>
+<p><code>make run</code> 会调用以下命令：<code>qemu-system-riscv64 -nographic -machine virt -cpu rv64,svadu=off -m 512 -kernel build/kernel</code>，这表示：</p>
+<ul>
+<li>使用 <code>qemu-system-riscv64</code> 模拟一个 RISC-V 64位 CPU</li>
+<li><code>-nographic</code>：禁用图形输出</li>
+<li><code>-machine virt</code>：使用 <code>virt</code> 机器模型</li>
+<li><code>-cpu rv64,svadu=off</code>：使用 riscv64 位 CPU,并禁用 svadu 特性</li>
+<li><code>-m 512</code>：指定内存大小 512MiB</li>
+<li><code>-kernel build/kernel</code>：指定加载的内核文件为 build/kernel</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$ /d/o/SUSTech-OS-2025 (xv6-lab1)&gt; make run
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>qemu-system-riscv64 -nographic -machine virt -cpu rv64,svadu=off -m 512 -kernel build/kernel 
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>OpenSBI v1.5
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>   ____                    _____ ____ _____
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  / __ \                  / ____|  _ \_   _|
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a> | |  | |_ __   ___ _ __ | (___ | |_) || |
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a> | |  | | &#39;_ \ / _ \ &#39;_ \ \___ \|  _ &lt; | |
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a> | |__| | |_) |  __/ | | |____) | |_) || |_
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>  \____/| .__/ \___|_| |_|_____/|____/_____|
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>        | |
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>        |_|
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>Platform Name             : riscv-virtio,qemu
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>Platform Features         : medeleg
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>Platform HART Count       : 1
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>Platform IPI Device       : aclint-mswi
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>Platform Timer Device     : aclint-mtimer @ 10000000Hz
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>Platform Console Device   : uart8250
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>Platform HSM Device       : ---
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>Platform PMU Device       : ---
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>Platform Reboot Device    : syscon-reboot
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>Platform Shutdown Device  : syscon-poweroff
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>Platform Suspend Device   : ---
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>Platform CPPC Device      : ---
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>Firmware Base             : 0x80000000
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>Firmware Size             : 327 KB
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>Firmware RW Offset        : 0x40000
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>Firmware RW Size          : 71 KB
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>Firmware Heap Offset      : 0x49000
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>Firmware Heap Size        : 35 KB (total), 2 KB (reserved), 11 KB (used), 21 KB (free)
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>Firmware Scratch Size     : 4096 B (total), 416 B (used), 3680 B (free)
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>Runtime SBI Version       : 2.0
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a>
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a>Domain0 Name              : root
+<a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a>Domain0 Boot HART         : 0
+<a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a>Domain0 HARTs             : 0*
+<a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a>Domain0 Region00          : 0x0000000000100000-0x0000000000100fff M: (I,R,W) S/U: (R,W)
+<a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a>Domain0 Region01          : 0x0000000010000000-0x0000000010000fff M: (I,R,W) S/U: (R,W)
+<a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a>Domain0 Region02          : 0x0000000002000000-0x000000000200ffff M: (I,R,W) S/U: ()
+<a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a>Domain0 Region03          : 0x0000000080040000-0x000000008005ffff M: (R,W) S/U: ()
+<a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a>Domain0 Region04          : 0x0000000080000000-0x000000008003ffff M: (R,X) S/U: ()
+<a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a>Domain0 Region05          : 0x000000000c400000-0x000000000c5fffff M: (I,R,W) S/U: (R,W)
+<a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a>Domain0 Region06          : 0x000000000c000000-0x000000000c3fffff M: (I,R,W) S/U: (R,W)
+<a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a>Domain0 Region07          : 0x0000000000000000-0xffffffffffffffff M: () S/U: (R,W,X)
+<a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a>Domain0 Next Address      : 0x0000000080200000
+<a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a>Domain0 Next Arg1         : 0x000000009fe00000
+<a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a>Domain0 Next Mode         : S-mode
+<a id="__codelineno-6-49" name="__codelineno-6-49" href="#__codelineno-6-49"></a>Domain0 SysReset          : yes
+<a id="__codelineno-6-50" name="__codelineno-6-50" href="#__codelineno-6-50"></a>Domain0 SysSuspend        : yes
+<a id="__codelineno-6-51" name="__codelineno-6-51" href="#__codelineno-6-51"></a>
+<a id="__codelineno-6-52" name="__codelineno-6-52" href="#__codelineno-6-52"></a>Boot HART ID              : 0
+<a id="__codelineno-6-53" name="__codelineno-6-53" href="#__codelineno-6-53"></a>Boot HART Domain          : root
+<a id="__codelineno-6-54" name="__codelineno-6-54" href="#__codelineno-6-54"></a>Boot HART Priv Version    : v1.12
+<a id="__codelineno-6-55" name="__codelineno-6-55" href="#__codelineno-6-55"></a>Boot HART Base ISA        : rv64imafdch
+<a id="__codelineno-6-56" name="__codelineno-6-56" href="#__codelineno-6-56"></a>Boot HART ISA Extensions  : sstc,zicntr,zihpm,zicboz,zicbom,sdtrig
+<a id="__codelineno-6-57" name="__codelineno-6-57" href="#__codelineno-6-57"></a>Boot HART PMP Count       : 16
+<a id="__codelineno-6-58" name="__codelineno-6-58" href="#__codelineno-6-58"></a>Boot HART PMP Granularity : 2 bits
+<a id="__codelineno-6-59" name="__codelineno-6-59" href="#__codelineno-6-59"></a>Boot HART PMP Address Bits: 54
+<a id="__codelineno-6-60" name="__codelineno-6-60" href="#__codelineno-6-60"></a>Boot HART MHPM Info       : 16 (0x0007fff8)
+<a id="__codelineno-6-61" name="__codelineno-6-61" href="#__codelineno-6-61"></a>Boot HART Debug Triggers  : 2 triggers
+<a id="__codelineno-6-62" name="__codelineno-6-62" href="#__codelineno-6-62"></a>Boot HART MIDELEG         : 0x0000000000001666
+<a id="__codelineno-6-63" name="__codelineno-6-63" href="#__codelineno-6-63"></a>Boot HART MEDELEG         : 0x0000000000f0b509
+<a id="__codelineno-6-64" name="__codelineno-6-64" href="#__codelineno-6-64"></a>
+<a id="__codelineno-6-65" name="__codelineno-6-65" href="#__codelineno-6-65"></a>clean bss: 0x0000000080207000 - 0x0000000080207000
+<a id="__codelineno-6-66" name="__codelineno-6-66" href="#__codelineno-6-66"></a>Kernel booted.
+<a id="__codelineno-6-67" name="__codelineno-6-67" href="#__codelineno-6-67"></a>Hello World!
+<a id="__codelineno-6-68" name="__codelineno-6-68" href="#__codelineno-6-68"></a>sysregs:
+<a id="__codelineno-6-69" name="__codelineno-6-69" href="#__codelineno-6-69"></a>sstatus : 0x8000000200006000
+<a id="__codelineno-6-70" name="__codelineno-6-70" href="#__codelineno-6-70"></a>scause  : 0x0000000000000000
+<a id="__codelineno-6-71" name="__codelineno-6-71" href="#__codelineno-6-71"></a>sepc    : 0x0000000000000000
+<a id="__codelineno-6-72" name="__codelineno-6-72" href="#__codelineno-6-72"></a>stval   : 0x0000000000000000
+<a id="__codelineno-6-73" name="__codelineno-6-73" href="#__codelineno-6-73"></a>sip     : 0x0000000000000000
+<a id="__codelineno-6-74" name="__codelineno-6-74" href="#__codelineno-6-74"></a>sie     : 0x0000000000000000
+<a id="__codelineno-6-75" name="__codelineno-6-75" href="#__codelineno-6-75"></a>satp    : 0x0000000000000000
+</code></pre></div>
+<p>QEMU 启动后会首先加载 OpenSBI，这是运行在 M mode 的固件。随后，OpenSBI 指定下一阶段的启动是我们的内核：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Domain0 Next Address      : 0x0000000080200000
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Domain0 Next Arg1         : 0x000000009fe00000
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Domain0 Next Mode         : S-mode
+</code></pre></div>
+<p>在 OpenSBI 初始化完成后，OpenSBI会降级到 S-mode 并将 PC 指针指向我们的内核起始地址 0x80200000。该地址上保存着内核的第一个入口, _entry：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>80200000: 0000100f      fence.i
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>80200004: 00007117      auipc   sp, 0x7
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>80200008: ffc10113      addi    sp, sp, -0x4
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>8020000c: 00000097      auipc   ra, 0x0
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>80200010: 164080e7      jalr    0x164(ra) &lt;main&gt;
+</code></pre></div>
+<p>源代码：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="w">    </span><span class="na">.section</span><span class="w"> </span><span class="no">.text.entry</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">_entry</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nl">_entry:</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nf">fence.i</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nf">la</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="no">boot_stack_top</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nf">call</span><span class="w"> </span><span class="no">main</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="na">.section</span><span class="w"> </span><span class="no">.bss.stack</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">boot_stack</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="nl">boot_stack:</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="na">.space</span><span class="w"> </span><span class="mi">4096</span><span class="w"> </span><span class="p">*</span><span class="w"> </span><span class="mi">4</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">boot_stack_top</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="nl">boot_stack_top:</span>
+</code></pre></div>
+<ul>
+<li>首先执行 fence.i 指令，这表示等待以前的指令全部执行完毕再继续执行（因为高性能处理器是允许乱序执行的），我们暂且不需要理解这一条指令的作用。</li>
+<li>然后，我们使用 <code>auipc</code> 和 <code>addi</code> 指令，将栈指针指向 <code>boot_stack_top</code>，这是我们提前为第一个内核入口开辟的栈。</li>
+<li>最后，我们通过 <code>auipc</code> 和 <code>jr</code> 指令，跳转到 main 函数继续执行。</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">为什么需要使用汇编作为内核入口</p>
+<p>因为在内核入口处，OpenSBI没有为我们设置 sp 栈指针，而 C 语言的运行环境要求有栈作为保存栈上变量和函数调用保存寄存器的地点，所以我们首先需要使用汇编初始化 sp 寄存器。</p>
+</div>
+<p>该 lab 的内核非常简单，观察 main.c 中的 main 函数：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;clean bss: %p - %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s_bss</span><span class="p">,</span><span class="w"> </span><span class="n">e_bss</span><span class="p">);</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">s_bss</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">e_bss</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s_bss</span><span class="p">);</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Kernel booted.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Hello World!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sysregs:</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="n">print_sysregs</span><span class="p">();</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">global_variable</span><span class="p">);</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>首先清空 .bss 段（在 Linux 操作系统上，这一步是 Linux Kernel 实现的，但是现在我们就是 Kernel，所以这件事情得自己干）</li>
+<li>然后用 printf 打印一些信息，随后开始死循环。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>clean bss: 0x0000000080207000 - 0x0000000080207000
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Kernel booted.
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Hello World!
+</code></pre></div>
+<h2 id="sbi-call">SBI Call<a class="headerlink" href="#sbi-call" title="Permanent link">&para;</a></h2>
+<p>在这个lab的内核中，printf 会调用 <code>consputc</code> 来向控制台打印一个字符，而这个函数最终会调用 <code>sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0)</code>。</p>
+<p><code>运行环境</code> 一章已经介绍了 OpenSBI 向操作系统通过 SBI 接口提供了一个基础的运行环境。其中就包括 <code>sbi_console_putchar</code> 和 <code>sbi_console_getchar</code> 函数。</p>
+<p>在我们的操作系统中，我们首先通过设置 a0、a1 等寄存器，然后通过 <code>ecall</code> 指令向 M Mode 的程序，即 OpenSBI,发起请求。</p>
+<div class="admonition info">
+<p class="admonition-title">Calling Convention</p>
+<p>Calling Convention 表示在进行函数调用时，调用者 (Caller) 和 被调用者 (Callee) 所遵循的规范。</p>
+<p>这通常包含了：</p>
+<ol>
+<li>参数与返回值是如何传递</li>
+<li>Caller 和 Callee 需要保存哪些寄存器</li>
+</ol>
+</div>
+<p>SBI 的 Calling Convention 定义如下 (riscv-sbi.pdf)：</p>
+<p>All SBI functions share a single binary encoding, which facilitates the mixing of SBI extensions. The SBI specification follows the below calling convention.</p>
+<ul>
+<li>An ECALL is used as the control transfer instruction between the supervisor and the SEE.</li>
+<li>a7 encodes the SBI extension ID (EID),</li>
+<li>a6 encodes the SBI function ID (FID) for a given extension ID encoded in a7 for any SBI extension defined in or after SBI v0.2.</li>
+<li>All registers except a0 &amp; a1 must be preserved across an SBI call by the callee.</li>
+<li>SBI functions must return a pair of values in a0 and a1, with a0 returning an error code. </li>
+</ul>
+<p>而我们要使用的 putchar 和 getchar 是来自 Legacy Extensions：</p>
+<ul>
+<li>Nothing is returned in a1 register.</li>
+<li>All registers except a0 must be preserved across an SBI call by the callee.</li>
+<li>The value returned in a0 register is SBI legacy extension specific.</li>
+</ul>
+<p>按照 RISC-V 的 Calling Convention，参数是通过 a 系列寄存器保存，从 a0 开始。</p>
+<h3 id="sbi_call"><code>sbi_call</code><a class="headerlink" href="#sbi_call" title="Permanent link">&para;</a></h3>
+<p>在 <code>sbi_call</code> 函数中，我们首先声明了4个变量，并且注明他们应该直接被分配到相应的寄存器上 (<code>register</code>, <code>asm("a0")</code>)。</p>
+<p>随后，我们将 a7 赋值为我们要调用哪个 SBI 函数，三个参数分别赋值给 a0, a1 和 a2。</p>
+<p>然后，我们使用 asm volatile 进行 ecall 调用。</p>
+<p>最后，返回 a0 寄存器的值。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">const</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">SBI_CONSOLE_PUTCHAR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">const</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">SBI_CONSOLE_GETCHAR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="kt">int</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="n">sbi_call</span><span class="p">(</span><span class="n">uint64</span><span class="w"> </span><span class="n">which</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">arg0</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">arg1</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">arg2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="k">register</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a0</span><span class="w"> </span><span class="k">asm</span><span class="p">(</span><span class="s">&quot;a0&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arg0</span><span class="p">;</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="k">register</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a1</span><span class="w"> </span><span class="k">asm</span><span class="p">(</span><span class="s">&quot;a1&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arg1</span><span class="p">;</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="k">register</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a2</span><span class="w"> </span><span class="k">asm</span><span class="p">(</span><span class="s">&quot;a2&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arg2</span><span class="p">;</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="k">register</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a7</span><span class="w"> </span><span class="k">asm</span><span class="p">(</span><span class="s">&quot;a7&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">which</span><span class="p">;</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="k">asm</span><span class="w"> </span><span class="k">volatile</span><span class="p">(</span><span class="s">&quot;ecall&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;=r&quot;</span><span class="p">(</span><span class="n">a0</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;r&quot;</span><span class="p">(</span><span class="n">a0</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;r&quot;</span><span class="p">(</span><span class="n">a1</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;r&quot;</span><span class="p">(</span><span class="n">a2</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;r&quot;</span><span class="p">(</span><span class="n">a7</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;memory&quot;</span><span class="p">);</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a0</span><span class="p">;</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="p">}</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="kt">void</span><span class="w"> </span><span class="n">console_putchar</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">    </span><span class="n">sbi_call</span><span class="p">(</span><span class="n">SBI_CONSOLE_PUTCHAR</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>asm volatile</code> 表示在 C 代码中直接插入汇编代码，它分为四部分：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>asm asm-qualifiers ( AssemblerTemplate 
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>                 : OutputOperands 
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>                 [ : InputOperands
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>                 [ : Clobbers ] ])
+</code></pre></div>
+<p>我们使用 <code>volatile</code> 作为 asm-qualifiers 表示禁止编译器对这一段代码进行可能的优化。</p>
+<p>AssemblerTemplate 表示汇编的模板，OutputOperands 表示哪些 C 变量会被这一段汇编代码修改，InputOperands 表示哪些 C 变量会被这一段汇编代码读取，Clobbers 表示哪一些寄存器会被这一段汇编代码修改。</p>
+<p>See also: <a href="https://gcc.gnu.org/onlinedocs/gcc-12.1.0/gcc/Extended-Asm.html">https://gcc.gnu.org/onlinedocs/gcc-12.1.0/gcc/Extended-Asm.html</a></p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最后更新">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2025年1月26日</span>
+  </span>
+
+    
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="贡献者">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../lab2/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Week 2 - 静态链接">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Week 2 - 静态链接
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../../qrh/nav/" class="md-footer__link md-footer__link--next" aria-label="下一页: 目录">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                目录
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-copyright">
+    <div class="md-copyright__highlight">
+        commit: 
+        <a href="https://github.com/yuk1i/os-next-docs/commit/6692e4cc, 2025-01-26 21:21:58+08:00" target="_blank" rel="noopener">
+            6692e4cc, 2025-01-26 21:21:58+08:00
+        </a>
+    </div>
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.ad660dcc.min.js"></script>
+      
+    
+  </body>
+</html>

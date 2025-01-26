@@ -12,7 +12,7 @@
         <link rel="prev" href="../../../env/helloworld/">
       
       
-        <link rel="next" href="../../../qrh/nav/">
+        <link rel="next" href="../lab2/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>第一周 - 操作系统实验文档</title>
+        <title>Week 1 - 系统调用 Syscall - 操作系统实验文档</title>
       
     
     
@@ -113,7 +113,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#lab1-" class="md-skip">
+        <a href="#syscall" class="md-skip">
           跳转至
         </a>
       
@@ -148,7 +148,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              第一周
+              Week 1 - 系统调用 Syscall
             
           </span>
         </div>
@@ -620,159 +620,15 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    第一周
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    第一周
+    Week 1 - 系统调用 Syscall
   </span>
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      类型
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      编译系统
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#definition-declaration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Definition 和 Declaration
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ucore" class="md-nav__link">
-    <span class="md-ellipsis">
-      理解 uCore 是如何构建的
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      理解编译器和链接器
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="理解编译器和链接器">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#aout" class="md-nav__link">
-    <span class="md-ellipsis">
-      反汇编 a.out
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      汇编中的寻址
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      符号解析
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      符号重定位
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      总结
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ex-libc" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ex: libc
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      结构体
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -786,11 +642,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../lab2.md" class="md-nav__link">
+      <a href="../lab2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    第二周
+    Week 2 - 静态链接
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week 3 - 裸机程序 Bare Metal
   </span>
   
 
@@ -1231,128 +1108,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      类型
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      编译系统
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#definition-declaration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Definition 和 Declaration
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ucore" class="md-nav__link">
-    <span class="md-ellipsis">
-      理解 uCore 是如何构建的
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      理解编译器和链接器
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="理解编译器和链接器">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#aout" class="md-nav__link">
-    <span class="md-ellipsis">
-      反汇编 a.out
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      汇编中的寻址
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      符号解析
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      符号重定位
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      总结
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ex-libc" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ex: libc
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      结构体
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1369,577 +1124,10 @@
   
 
 
-<h1 id="lab1-">Lab1 - 静态链接<a class="headerlink" href="#lab1-" title="Permanent link">&para;</a></h1>
-<p>在本次实验中，我们将了解静态链接和C语言中的地址分配是如何工作的。</p>
-<div class="admonition warning">
-<p class="admonition-title">C 语言基础</p>
-<p>如果你没有学习过 C 语言，我们 <strong>非常建议</strong> 你提前观看于老师的 C/C++ 课程 <a href="https://www.bilibili.com/video/BV1Vf4y1P7pq">https://www.bilibili.com/video/BV1Vf4y1P7pq</a> ，观看到第 6.5 章节有助于你了解基本的 C 语言语法。</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">RISC-V 汇编</p>
-<p>我们期望你已经完成了《计算机组成原理》课程，并了解 RISC-V 汇编的基础知识。</p>
-<p>此外，请常备 《The RISC-V Instruction Set Manual, Volume I: User-Level ISA, Version 2.1》(riscv-spec-v2.1.pdf) 与 《The RISC-V Instruction Set Manual, Volume II: Privileged Architecture, Document Version 20211203》(riscv-privileged-20211203.pdf) 作为参考 RISC-V 汇编的参考手册。</p>
-</div>
-<h2 id="_1">类型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>在 C 语言中，整数类型有 long, int, short, char 等。
-在绝大多数情况下，int 类型为 32 位长，而 long 类型的长度取决于 ABI（Application Binary Interface，在编译时由用户指定）。
-为了避免编译目标架构的不同而导致 long、int 等类型实际长度与我们预想的不一致，在系统编程中，我们会使用定长的整形，如 uint64_t, int32_t 等。
-在不同的ABI/编译器环境下，使用这一些类型保证了它们绝对是指定长度的。</p>
-<p>例如，在 <code>os/types.h</code> 中：</p>
-<div class="highlight"><span class="filename">os/types.h</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">uint</span><span class="p">;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">ushort</span><span class="p">;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">uchar</span><span class="p">;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">uint8</span><span class="p">;</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">uint16</span><span class="p">;</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">uint32</span><span class="p">;</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">uint64</span><span class="p">;</span>
-</code></pre></div>
-<p>我们定义了 <code>uint64</code>, <code>uint32</code> 等类型分别为 <code>unsigned long</code> 和 <code>unsigned int</code>。
-由于我们面向 riscv64 架构进行编程，我们可以确保在我们的 uCore 中，它们是 64 / 32 位的。</p>
-<h2 id="_2">编译系统<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>在计算机组成原理课程中，我们简要的介绍了 C 语言的编译系统。通常来说，编译一个程序分为以下几步：</p>
-<p><img alt="image" src="../../../assets/lab1/lab1-compilation-system.png" /></p>
-<ul>
-<li>源代码 .c 文件经过 Pre-processor 预处理 cpp 得到 .i 文件</li>
-<li>.i 文件通过编译器 cc1 编译器得到汇编文件 .s</li>
-<li>.s 文件通过汇编器 as 得到 Relocatable objects (可重定位文件) .o</li>
-<li>链接器 ld 链接所有 .o 文件得到最终的可执行文件 </li>
-</ul>
-<p>Object 文件有以下形式：</p>
-<ul>
-<li>Relocatable object file (可重定位文件): 这些文件是由编译器和汇编器生成，包含了二进制的数据和代码。这些文件通常和其他 Relocatable object files 一起被链接器处理，以生成可执行文件</li>
-<li>Executable object file (可执行文件): 这些文件是由链接器生成的。可执行文件可以直接被复制到内存中并执行。</li>
-<li>Shared object file (共享目标文件): 这是一种由链接器生成的特殊的可重定位文件，他们被加载进内存中时需要进行重定位。通常用于动态链接。</li>
-</ul>
-<p>在 Linux 系统上，Object 文件通常以 <strong>ELF (Executable and Linkable Format)</strong> 文件格式存储。
-ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。
-我们可以通过 binutils 中的 readelf 工具来分析 ELF 文件。</p>
-<p>通常来说，我们会用"编译器"来指代整个编译与链接过程中用到的所有工具，尽管编译器和链接器是两个不同的程序。特别的，当我们讨论编译器和链接器时，我们会将进行 预处理、汇编、编译 等步骤的工具集合统称为编译器；将最后的链接步骤所用的工具称为链接器。</p>
-<h2 id="definition-declaration">Definition 和 Declaration<a class="headerlink" href="#definition-declaration" title="Permanent link">&para;</a></h2>
-<p>Definition (定义) 和 Declaration (声明) 是 C 语言中非常容易混淆的两个概念。</p>
-<p>Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器在编译阶段能找到这些符号。
-而 Definition 实际上会为该符号分配地址。在链接阶段，链接器会为这些符号分配地址（如函数地址、全局变量地址）。</p>
-<div class="admonition info">
-<p class="admonition-title">Symbol (符号)</p>
-<p>在 C 语言中，符号（Symbol）是编译器用来表示程序中各种实体（如变量、函数、宏、类型名等）的名称。每个符号在编译过程中被关联到特定的内存地址或其他资源。当程序被编译时，编译器会为这些符号创建符号表 (Symbol Table)，记录它们的名称、类型、作用域以及对应的内存地址或值。</p>
-<p>简而言之，符号是程序中代表实体的名字，编译器通过符号表来管理和解析这些名字。</p>
-</div>
-<p>通常，我们会在头文件中 (如 a.h, header file) 中使用 <code>extern int a</code> 来 <strong>声明</strong> 一个变量 <code>a</code>，这使得所有引用该头文件 (<code>#include "a.h"</code>) 的 .c 文件都能找到 <code>a</code> 这个符号。并且在 a.c 中 <strong>定义</strong> 这个变量，这使得链接器为该变量分配内存地址。</p>
-<p>额外的，当编译器遇到了声明 (Declaration) 过但是没有定义 (Definition) 过的符号时 (如 printf)，编译器会假定该符号会在其他 Object 文件中被定义，留下一些信息后交给链接器寻找这个符号。</p>
-<p>在定义全局变量时，我们要确保变量名是唯一的。</p>
-<p>如果我们希望定义一些仅局部可见的变量，我们可以在 .c 文件中使用 static 关键字。</p>
-<p>现在，你是否理解了链接中常出现的两种错误：multiple definition 和 undefined reference 的原因？</p>
-<ul>
-<li><code>riscv64-unknown-elf-ld: build/os/proc.o:os/proc.c:14: multiple definition of 'idle'; build/os/main.o:os/main.c:7: first defined here</code><ul>
-<li>在不同的 .c 文件中定义了多次 <code>idle</code> 变量。</li>
-</ul>
-</li>
-<li><code>riscv64-unknown-elf-ld: build/os/proc.o: in function 'proc_init': os/proc.c:38:(.text+0xd0): undefined reference to 'idle'</code><ul>
-<li>在头文件中声明了 <code>idle</code> 变量，但是没有定义它。</li>
-</ul>
-</li>
-</ul>
-<h2 id="ucore">理解 uCore 是如何构建的<a class="headerlink" href="#ucore" title="Permanent link">&para;</a></h2>
-<p>当我们在 uCore 目录下执行 <code>make</code> 编译内核时，我们可以观察 make 工具是如何调用编译工具链的：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ make
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/console.c -o build/os/console.o
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/kalloc.c -o build/os/kalloc.o
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/loader.c -o build/os/loader.o
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/main.c -o build/os/main.o
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/printf.c -o build/os/printf.o
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/proc.c -o build/os/proc.o
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/queue.c -o build/os/queue.o
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/sbi.c -o build/os/sbi.o
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/string.c -o build/os/string.o
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/syscall.c -o build/os/syscall.o
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/timer.c -o build/os/timer.o
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/trap.c -o build/os/trap.o
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/vm.c -o build/os/vm.o
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/entry.S -o build/os/entry.o
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/switch.S -o build/os/switch.o
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/trampoline.S -o build/os/trampoline.o
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>riscv64-unknown-elf-gcc {Compiler_Flags} -c os/link_app.S -o build/os/link_app.o
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>riscv64-unknown-elf-ld -z max-page-size=4096 -T os/kernel.ld -o build/kernel build/os/console.o build/os/kalloc.o build/os/loader.o build/os/main.o build/os/printf.o build/os/proc.o build/os/queue.o build/os/sbi.o build/os/string.o build/os/syscall.o build/os/timer.o build/os/trap.o build/os/vm.o build/os/entry.o build/os/switch.o build/os/trampoline.o build/os/link_app.o
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>riscv64-unknown-elf-objcopy -O binary build/kernel build/kernel.bin
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>riscv64-unknown-elf-objdump -S build/kernel &gt; build/kernel.asm
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>riscv64-unknown-elf-objdump -t build/kernel | sed &#39;1,/SYMBOL TABLE/d; s/ .* / /; /^$/d&#39; &gt; build/kernel.sym
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>Build kernel done
-</code></pre></div>
-<p>首先，make 会调用 gcc 对所有的 .c 和 .S 源代码进行编译 (-c xxx.c)，生成 .o 的 Relocatable object file (-o xxx.o)。
-然后，make 会调用 ld 链接所有的 .o 文件，并且指定了使用 os/kernel.ld 作为链接脚本，生成内核的 ELF 文件 kernel (-o build/kernel)。</p>
-<p>链接脚本 (Linker Script) 指定了链接器 ld 应该如何排布所有 Object File 中的符号，并生成最终的 ELF 文件。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>OUTPUT_ARCH(riscv)
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>ENTRY(_entry)
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>BASE_ADDRESS = 0x80200000;
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>SECTIONS
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>{
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    . = BASE_ADDRESS;
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    skernel = .;
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    s_text = .;
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    .text : {
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        *(.text.entry)
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        *(.text .text.*)
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>        . = ALIGN(0x1000);
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        *(trampsec)
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        . = ALIGN(0x1000);
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    }
-<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
-<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    . = ALIGN(4K);
-<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    e_text = .;
-<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    s_rodata = .;
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    .rodata : {
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>        *(.rodata .rodata.*)
-<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    }
-<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
-<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>    . = ALIGN(4K);
-<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>    e_rodata = .;
-<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>    s_data = .;
-<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>    .data : {
-<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>        *(.data.apps)
-<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>        *(.data .data.*)
-<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>        *(.sdata .sdata.*)
-<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>    }
-<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>
-<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>    . = ALIGN(4K);
-<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>    e_data = .;
-<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>    .bss : {
-<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>        *(.bss.stack)
-<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a>        s_bss = .;
-<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a>        *(.bss .bss.*)
-<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a>        *(.sbss .sbss.*)
-<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a>    }
-<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a>
-<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>    . = ALIGN(4K);
-<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a>    e_bss = .;
-<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a>    ekernel = .;
-<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a>
-<a id="__codelineno-2-48" name="__codelineno-2-48" href="#__codelineno-2-48"></a>    /DISCARD/ : {
-<a id="__codelineno-2-49" name="__codelineno-2-49" href="#__codelineno-2-49"></a>        *(.eh_frame)
-<a id="__codelineno-2-50" name="__codelineno-2-50" href="#__codelineno-2-50"></a>    }
-<a id="__codelineno-2-51" name="__codelineno-2-51" href="#__codelineno-2-51"></a>}
-</code></pre></div>
-<p>在 Linker Script 中，我们首先指定了输出 ELF 的架构是 RISC-V 架构，入口函数为 _entry 符号，并定义了 ELF 的基地址为 0x80200000。</p>
-<p>在后续的 SECTIONS 中，我们首先指定了当前位置为 BASE_ADDRESS：<code>. = BASE_ADDRESS;</code>，并定义了 <code>skernel</code> 这个符号指向当前地址。</p>
-<p>然后，我们指定了如何排布 text, rodata, data, bss 等 Section，并在不同的 Section 之间使用 <code>. = ALIGN(4K)</code> 确保Section的开始地址对齐到了 4096 bytes 的边界。我们也指定了 <code>skernel</code>、<code>s_text</code>、<code>e_text</code> 等符号的值，这些值在后续内核中初始化内核的页表中会被使用到。</p>
-<p>例如，我们在 <code>.text</code> 段中首先包含了一个特殊的 Section <code>.text.entry</code>，这个 section 是在 <code>entry.S</code> 文件中定义的：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>    .section .text.entry
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    .globl _entry
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>_entry:
-</code></pre></div>
-<p>我们在 <code>entry.S</code> 文件中指定 <code>_entry</code> 符号应该被放置到 <code>.text.entry</code> 段，并在链接脚本中指定这个段为内核的开始地址。这样我们即可确保 _entry 会被放置到内核起始地址。当我们启动内核时，我们会从这个起始地址开始执行，也就是执行了内核的第一条指令。</p>
-<p>我们可以通过反编译 <code>build/kernel</code> 来观察这一点：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$ riscv64-linux-gnu-objdump -d  build/kernel
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Disassembly of section .text:
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>0000000080200000 &lt;_entry&gt;:
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    80200000:   0000100f                fence.i
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    80200004:   18001073                csrw    satp,zero
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    80200008:   00094117                auipc   sp,0x94
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    8020000c:   ff810113                addi    sp,sp,-8 # 80294000 &lt;idle&gt;
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    80200010:   00001097                auipc   ra,0x1
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    80200014:   a80080e7                jalr    -1408(ra) # 80200a90 &lt;main&gt;
-</code></pre></div>
-<h2 id="_3">理解编译器和链接器<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<div class="admonition info">
-<p class="admonition-title">推荐阅读：CSAPP Chapter 7: Linking</p>
-<p>在进行这一小节的学习前，我们非常建议你阅读 CSAPP 中的第7章 链接。</p>
-<p><a href="https://csapp.cs.cmu.edu/2e/ch7-preview.pdf">https://csapp.cs.cmu.edu/2e/ch7-preview.pdf</a></p>
-</div>
-<p>我们将通过一个简单的 printf 例子来说明静态链接中，链接器是如何为不同的符号分配地址的，以及从汇编分析代码是如何得到符号的地址 (Addressing)。</p>
-<p>在计算机的世界中，所有变量、外设均是内存地址访问的，CPU 只不过是在不同的内存地址上将数据来回搬运而已。所以，我们有必要了解在汇编代码中，CPU 是如何得到某个对象的内存地址的。</p>
-<p>下面这个例子 (lab1-1.c) 定义了一个全局变量 <code>a</code>，一个 <code>main</code> 的栈上变量 <code>b</code>，一个 <code>recursive</code> 的栈上变量 <code>c</code>，并打印它们的地址。</p>
-<div class="highlight"><span class="filename">example.c</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">recursive</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">depth</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">depth</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;[%d] c is at: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">depth</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">c</span><span class="p">);</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="n">recursive</span><span class="p">(</span><span class="n">depth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="p">}</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;main is at: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">main</span><span class="p">);</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;a is at: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;b is at: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">    </span><span class="n">recursive</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="p">}</span>
-</code></pre></div>
-<p>我们使用 <code>riscv64-linux-gnu-gcc -O0 -g -static -march=rv64g -Wl,--no-relax lab1-1.c</code> 编译它。<code>-O0</code> 表示禁用任何编译器优化；<code>-g</code> 表示生成的 ELF 文件带上调试信息，方便 objdump 时附带上源代码；<code>-static</code> 表示生成静态链接的 ELF 文件；<code>-march=rv64g</code> 阻止了编译器生成 RISC-V Compressed 短指令。</p>
-<p>我们运行编译产物：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>./a.out
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>main<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>0x105e0
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>a<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>0x7e8d8
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>b<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>0x7f2c6f5ffb2c
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="o">[</span><span class="m">0</span><span class="o">]</span><span class="w"> </span>c<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>0x7f2c6f5ffb0c
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>c<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>0x7f2c6f5ffadc
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span>c<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>0x7f2c6f5ffaac
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="o">[</span><span class="m">3</span><span class="o">]</span><span class="w"> </span>c<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>0x7f2c6f5ffa7c
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="o">[</span><span class="m">4</span><span class="o">]</span><span class="w"> </span>c<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>0x7f2c6f5ffa4c
-</code></pre></div>
-<p>我们可以看到，<code>main</code>的地址是 <code>0x105e0</code>，<code>a</code>的地址是 <code>0x7e8d8</code> ，而 <code>b</code> 与 <code>c</code> 的地址是以 <code>0x7f</code> 开头的。</p>
-<p>多次运行 a.out 可以发现，main 和 a 的地址是固定的，而 b 和 c 的地址均以 0x7f 开头，但是不是固定的，并且，五个 <code>c</code> 的地址之间均相差固定的 <code>0x30</code>。</p>
-<p>这是因为编译器将 <code>main</code> 放置到了 <code>.text</code> 段，<code>a</code> 放置到了程序的 <code>.data</code> 段，这两个符号拥有固定的地址；而 <code>b</code> 与 <code>c</code> 则是在程序的栈上分配的。</p>
-<h3 id="aout">反汇编 a.out<a class="headerlink" href="#aout" title="Permanent link">&para;</a></h3>
-<p>我们通过 <code>objdump</code> 工具查看编译产物 <code>a.out</code> 中 <code>main</code> 符号的汇编代码，<code>--disassemble=main</code> 表示只反汇编 <code>main</code> 符号，<code>-S</code> 表示在反汇编上标注对应的源代码。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nf">$</span><span class="w"> </span><span class="no">riscv64-linux-gnu-objdump</span><span class="w"> </span><span class="p">--</span><span class="no">disassemble</span><span class="err">=</span><span class="no">main</span><span class="w"> </span><span class="p">-</span><span class="no">S</span><span class="w"> </span><span class="no">a.out</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nl">a.out:</span><span class="w">     </span><span class="nf">file</span><span class="w"> </span><span class="no">format</span><span class="w"> </span><span class="no">elf64-littleriscv</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nf">Disassembly</span><span class="w"> </span><span class="no">of</span><span class="w"> </span><span class="no">section</span><span class="w"> </span><span class="no">.text</span><span class="p">:</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="err">00000000000105</span><span class="nf">e0</span><span class="w"> </span><span class="err">&lt;</span><span class="no">main</span><span class="err">&gt;</span><span class="p">:</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="nf">int</span><span class="w"> </span><span class="no">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">   </span><span class="err">105</span><span class="nl">e0:</span><span class="w">       </span><span class="nf">fe010113</span><span class="w">                </span><span class="no">addi</span><span class="w">    </span><span class="no">sp</span><span class="p">,</span><span class="no">sp</span><span class="p">,-</span><span class="mi">32</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">   </span><span class="err">105</span><span class="nl">e4:</span><span class="w">       </span><span class="err">00113</span><span class="nf">c23</span><span class="w">                </span><span class="no">sd</span><span class="w">      </span><span class="no">ra</span><span class="p">,</span><span class="mi">24</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">   </span><span class="err">105</span><span class="nl">e8:</span><span class="w">       </span><span class="err">00813823</span><span class="w">                </span><span class="nf">sd</span><span class="w">      </span><span class="no">s0</span><span class="p">,</span><span class="mi">16</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">   </span><span class="err">105</span><span class="nl">ec:</span><span class="w">       </span><span class="err">02010413</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">s0</span><span class="p">,</span><span class="no">sp</span><span class="p">,</span><span class="mi">32</span>
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="nf">int</span><span class="w"> </span><span class="no">b</span><span class="c1">;</span>
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="nf">printf</span><span class="p">(</span><span class="err">&quot;</span><span class="no">main</span><span class="w"> </span><span class="no">is</span><span class="w"> </span><span class="no">at</span><span class="p">:</span><span class="w"> </span><span class="nv">%p</span><span class="err">\</span><span class="no">n</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">&amp;</span><span class="no">main</span><span class="p">)</span><span class="c1">;</span>
-<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">   </span><span class="err">105</span><span class="nl">f0:</span><span class="w">       </span><span class="err">00000597</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">a1</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">   </span><span class="err">105</span><span class="nl">f4:</span><span class="w">       </span><span class="nf">ff058593</span><span class="w">                </span><span class="no">addi</span><span class="w">    </span><span class="no">a1</span><span class="p">,</span><span class="no">a1</span><span class="p">,-</span><span class="mi">16</span><span class="w"> </span><span class="c1"># 105e0 &lt;main&gt;</span>
-<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">   </span><span class="err">105</span><span class="nl">f8:</span><span class="w">       </span><span class="err">0003</span><span class="nf">f517</span><span class="w">                </span><span class="no">auipc</span><span class="w">   </span><span class="no">a0</span><span class="p">,</span><span class="mi">0x3f</span>
-<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">   </span><span class="err">105</span><span class="nl">fc:</span><span class="w">       </span><span class="err">63850513</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">a0</span><span class="p">,</span><span class="no">a0</span><span class="p">,</span><span class="mi">1592</span><span class="w"> </span><span class="c1"># 4fc30 &lt;__rseq_flags+0x1c&gt;</span>
-<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">   </span><span class="err">10600:</span><span class="w">       </span><span class="err">1</span><span class="nf">ad000ef</span><span class="w">                </span><span class="no">jal</span><span class="w">     </span><span class="mh">10fac</span> <span class="p">&lt;</span><span class="no">_IO_printf</span><span class="p">&gt;</span>
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">    </span><span class="nf">printf</span><span class="p">(</span><span class="err">&quot;</span><span class="no">a</span><span class="w"> </span><span class="no">is</span><span class="w"> </span><span class="no">at</span><span class="p">:</span><span class="w"> </span><span class="nv">%p</span><span class="err">\</span><span class="no">n</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">&amp;</span><span class="no">a</span><span class="p">)</span><span class="c1">;</span>
-<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">   </span><span class="err">10604:</span><span class="w">       </span><span class="err">84018593</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">a1</span><span class="p">,</span><span class="no">gp</span><span class="p">,-</span><span class="mi">1984</span><span class="w"> </span><span class="c1"># 7e8d8 &lt;a&gt;</span>
-<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">   </span><span class="err">10608:</span><span class="w">       </span><span class="err">0003</span><span class="nf">f517</span><span class="w">                </span><span class="no">auipc</span><span class="w">   </span><span class="no">a0</span><span class="p">,</span><span class="mi">0x3f</span>
-<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">   </span><span class="err">1060</span><span class="nl">c:</span><span class="w">       </span><span class="err">63850513</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">a0</span><span class="p">,</span><span class="no">a0</span><span class="p">,</span><span class="mi">1592</span><span class="w"> </span><span class="c1"># 4fc40 &lt;__rseq_flags+0x2c&gt;</span>
-<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">   </span><span class="err">10610:</span><span class="w">       </span><span class="err">19</span><span class="nf">d000ef</span><span class="w">                </span><span class="no">jal</span><span class="w">     </span><span class="mh">10fac</span> <span class="p">&lt;</span><span class="no">_IO_printf</span><span class="p">&gt;</span>
-<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">    </span><span class="nf">printf</span><span class="p">(</span><span class="err">&quot;</span><span class="no">b</span><span class="w"> </span><span class="no">is</span><span class="w"> </span><span class="no">at</span><span class="p">:</span><span class="w"> </span><span class="nv">%p</span><span class="err">\</span><span class="no">n</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">&amp;</span><span class="no">b</span><span class="p">)</span><span class="c1">;</span>
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">   </span><span class="err">10614:</span><span class="w">       </span><span class="nf">fec40793</span><span class="w">                </span><span class="no">addi</span><span class="w">    </span><span class="no">a5</span><span class="p">,</span><span class="no">s0</span><span class="p">,-</span><span class="mi">20</span>
-<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">   </span><span class="err">10618:</span><span class="w">       </span><span class="err">00078593</span><span class="w">                </span><span class="nf">mv</span><span class="w">      </span><span class="no">a1</span><span class="p">,</span><span class="no">a5</span>
-<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">   </span><span class="err">1061</span><span class="nl">c:</span><span class="w">       </span><span class="err">0003</span><span class="nf">f517</span><span class="w">                </span><span class="no">auipc</span><span class="w">   </span><span class="no">a0</span><span class="p">,</span><span class="mi">0x3f</span>
-<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">   </span><span class="err">10620:</span><span class="w">       </span><span class="err">63450513</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">a0</span><span class="p">,</span><span class="no">a0</span><span class="p">,</span><span class="mi">1588</span><span class="w"> </span><span class="c1"># 4fc50 &lt;__rseq_flags+0x3c&gt;</span>
-<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="w">   </span><span class="err">10624:</span><span class="w">       </span><span class="err">189000</span><span class="nf">ef</span><span class="w">                </span><span class="no">jal</span><span class="w">     </span><span class="mh">10fac</span> <span class="p">&lt;</span><span class="no">_IO_printf</span><span class="p">&gt;</span>
-<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">    </span><span class="nf">recursive</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="c1">;</span>
-<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="w">   </span><span class="err">10628:</span><span class="w">       </span><span class="err">00000513</span><span class="w">                </span><span class="nf">li</span><span class="w">      </span><span class="no">a0</span><span class="p">,</span><span class="mi">0</span>
-<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="w">   </span><span class="err">1062</span><span class="nl">c:</span><span class="w">       </span><span class="nf">f45ff0ef</span><span class="w">                </span><span class="no">jal</span><span class="w">     </span><span class="mh">10570</span> <span class="p">&lt;</span><span class="no">recursive</span><span class="p">&gt;</span>
-<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="w">   </span><span class="err">10630:</span><span class="w">       </span><span class="err">00000793</span><span class="w">                </span><span class="nf">li</span><span class="w">      </span><span class="no">a5</span><span class="p">,</span><span class="mi">0</span>
-<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a><span class="w">   </span><span class="err">10634:</span><span class="w">       </span><span class="err">00078513</span><span class="w">                </span><span class="nf">mv</span><span class="w">      </span><span class="no">a0</span><span class="p">,</span><span class="no">a5</span>
-<a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="w">   </span><span class="err">10638:</span><span class="w">       </span><span class="err">01813083</span><span class="w">                </span><span class="nf">ld</span><span class="w">      </span><span class="no">ra</span><span class="p">,</span><span class="mi">24</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
-<a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="w">   </span><span class="err">1063</span><span class="nl">c:</span><span class="w">       </span><span class="err">01013403</span><span class="w">                </span><span class="nf">ld</span><span class="w">      </span><span class="no">s0</span><span class="p">,</span><span class="mi">16</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
-<a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a><span class="w">   </span><span class="err">10640:</span><span class="w">       </span><span class="err">02010113</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">sp</span><span class="p">,</span><span class="no">sp</span><span class="p">,</span><span class="mi">32</span>
-<a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a><span class="w">   </span><span class="err">10644:</span><span class="w">       </span><span class="err">00008067</span><span class="w">                </span><span class="nf">ret</span>
-</code></pre></div>
-<p>输出的第一行告诉我们 <code>a.out</code> 文件的格式是 <code>elf64-littleriscv</code>，这代表这是一个 64 位 ELF 文件，架构为 RISC-V 小端序。第二行表示我们正在反汇编其中的 <code>.text</code> 段。</p>
-<p>我们可以看到，在 <code>10600</code>、<code>10610</code> 和 <code>10624</code> 处，分别有三次 <code>jal 10fac &lt;_IO_printf&gt;</code>，这表示调用了 <code>printf</code> 函数，而 <code>printf</code> 函数地址为 <code>0x10fac</code>。</p>
-<h3 id="_4">汇编中的寻址<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>在这一小节，我们主要探讨在汇编层面上，编译器是如何生成汇编指令来找到某个符号的地址的。</p>
-<p>在上述程序调用 printf 时，我们传入了两个参数，第一个参数是一个字符串常量，第二个参数是某个变量的地址。</p>
-<p>根据 <code>jal</code> 指令前的指令序列，我们可以推测 <code>jal printf</code> 前的寄存器值。并且，根据 RISC-V 架构下的函数调用约定 (Calling Convention, 前 8 个整数参数通过 a0-a7 传递)，我们可以得到调用 <code>printf</code> 的具体参数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># 第一次：</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">   </span><span class="err">105</span><span class="nl">f0:</span><span class="w">       </span><span class="err">00000597</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">a1</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">   </span><span class="err">105</span><span class="nl">f4:</span><span class="w">       </span><span class="nf">ff058593</span><span class="w">                </span><span class="no">addi</span><span class="w">    </span><span class="no">a1</span><span class="p">,</span><span class="no">a1</span><span class="p">,-</span><span class="mi">16</span><span class="w"> </span><span class="c1"># 105e0 &lt;main&gt;</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">   </span><span class="err">105</span><span class="nl">f8:</span><span class="w">       </span><span class="err">0003</span><span class="nf">f517</span><span class="w">                </span><span class="no">auipc</span><span class="w">   </span><span class="no">a0</span><span class="p">,</span><span class="mi">0x3f</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">   </span><span class="err">105</span><span class="nl">fc:</span><span class="w">       </span><span class="err">63850513</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">a0</span><span class="p">,</span><span class="no">a0</span><span class="p">,</span><span class="mi">1592</span><span class="w"> </span><span class="c1"># 4fc30 &lt;__rseq_flags+0x1c&gt;</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># a0 = 0x4fc30, a1 = 0x105e0</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># printf(0x4fc30, 0x105e0)</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">   </span><span class="err">10600:</span><span class="w">       </span><span class="err">1</span><span class="nf">ad000ef</span><span class="w">                </span><span class="no">jal</span><span class="w">     </span><span class="mh">10fac</span> <span class="p">&lt;</span><span class="no">_IO_printf</span><span class="p">&gt;</span>
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># 第二次：</span>
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">   </span><span class="err">10604:</span><span class="w">       </span><span class="err">84018593</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">a1</span><span class="p">,</span><span class="no">gp</span><span class="p">,-</span><span class="mi">1984</span><span class="w"> </span><span class="c1"># 7e8d8 &lt;a&gt;</span>
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">   </span><span class="err">10608:</span><span class="w">       </span><span class="err">0003</span><span class="nf">f517</span><span class="w">                </span><span class="no">auipc</span><span class="w">   </span><span class="no">a0</span><span class="p">,</span><span class="mi">0x3f</span>
-<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">   </span><span class="err">1060</span><span class="nl">c:</span><span class="w">       </span><span class="err">63850513</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">a0</span><span class="p">,</span><span class="no">a0</span><span class="p">,</span><span class="mi">1592</span><span class="w"> </span><span class="c1"># 4fc40 &lt;__rseq_flags+0x2c&gt;</span>
-<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="c1"># a0 = 0x4fc40, a1 = 0x7e8d8</span>
-<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="c1"># printf(0x4fc40, 0x7e8d8)</span>
-<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">   </span><span class="err">10610:</span><span class="w">       </span><span class="err">19</span><span class="nf">d000ef</span><span class="w">                </span><span class="no">jal</span><span class="w">     </span><span class="mh">10fac</span> <span class="p">&lt;</span><span class="no">_IO_printf</span><span class="p">&gt;</span>
-</code></pre></div>
-<div class="admonition info">
-<p class="admonition-title">auipc</p>
-<p>AUIPC (add upper immediate to pc) is used to build <strong>pc-relative addresses</strong> and uses the U-type format. AUIPC appends 12 low-order zero bits to the 20-bit U-immediate, sign-extends the result to 64 bits, then adds it to the pc and places the result in register rd.</p>
-<p>AUIPC 是 RISC-V 中实现 PC-Relative Addressing (PC相对寻址) 的方式。AUIPC 会将 20 位的立即数左移 12 位，符号扩展后加上 pc 寄存器的值，并保存到指定的 rd 寄存器中。</p>
-<p>例如，<code>auipc   a1,0x0</code>，将 pc (0x105f0) 加上 0x0，存入 a1 中。<code>addi    a1,a1,-16</code> 将 a1 减去 0x01，得到 0x105e0，即 <code>main</code> 的地址。</p>
-</div>
-<p>根据 <code>printf</code> 的定义: <code>int printf(const char *restrict format, ...);</code>，第一个参数 a0 应该是格式化字符串，我们可以通过 <code>objdump</code> 观察指定地址处的值来验证这一点：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>riscv64-linux-gnu-objdump<span class="w"> </span>-s<span class="w"> </span>--start-address<span class="o">=</span>0x4fc30<span class="w"> </span>--stop-address<span class="o">=</span>0x4fc60
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>a.out:<span class="w">     </span>file<span class="w"> </span>format<span class="w"> </span>elf64-littleriscv
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>Contents<span class="w"> </span>of<span class="w"> </span>section<span class="w"> </span>.rodata:
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w"> </span>4fc30<span class="w"> </span>6d61696e<span class="w"> </span><span class="m">20697320</span><span class="w"> </span>61743a20<span class="w"> </span>25700a00<span class="w">  </span>main<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>%p..
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w"> </span>4fc40<span class="w"> </span><span class="m">61206973</span><span class="w"> </span>2061743a<span class="w"> </span>2025700a<span class="w"> </span><span class="m">00000000</span><span class="w">  </span>a<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>%p.....
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w"> </span>4fc50<span class="w"> </span><span class="m">62206973</span><span class="w"> </span>2061743a<span class="w"> </span>2025700a<span class="w"> </span><span class="m">00000000</span><span class="w">  </span>b<span class="w"> </span>is<span class="w"> </span>at:<span class="w"> </span>%p.....
-</code></pre></div>
-<p><code>objdump</code> 的输出中，最左侧是内存地址 <code>4fc30</code>，后面跟随的是该地址上0x10 (32) bytes 的二进制内容，而最后是这些二进制内容的 ASCII 解码。</p>
-<p><code>objdump</code> 的结果表示，<code>0x4fc30</code> 到 <code>0x4fc60</code> 是 .rodata 段的内容；地址 <code>0x4fc30</code> 处是一个 NULL-terminated 的字符串 <code>main is at: %p..</code>，这正是我们第一次调用 <code>printf</code> 时指定的格式化字符串。</p>
-<p>第二个参数 a1 则分别是 <code>0x105e0</code> 和 <code>0x7e8d8</code>，它们分别是 <code>main</code> 和 <code>a</code> 的地址。我们可以发现，它们分别是通过 <code>auipc + addi</code> 和 <code>addi a1,gp,xxx</code> 计算出来的。</p>
-<div class="admonition info">
-<p class="admonition-title">寻址 (Addressing)</p>
-<p>寻址模式表示了如何计算内存地址，在 RISC-V 中，寻址模式 (Addressing Mode) 有以下几种：</p>
-<ul>
-<li>PC-relative: auipc, jal, branch 等指令，通过当前指令的 PC 值加上一个偏移量得到</li>
-<li>Register-offset: jalr, ld, sw 等所有访存指令，通过某个寄存器的值加上一个偏移量得到</li>
-<li>Absolute: lui 指令，直接通过立即数得到地址</li>
-</ul>
-</div>
-<p>我们发现，RISC-V 编译器通常会使用 auipc + addi 的方式使用 PC-Relative 来得到目标符号的地址。</p>
-<h3 id="_5">符号解析<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>我们在之前编译 <code>lab1-1.c</code> 时，使用了 gcc 直接编译。实际上 gcc 会进行编译并链接。现在，我们在编译 <code>lab1-1.c</code> 时加入 <code>-c</code> 参数，告诉 gcc 只要进行编译而不进行链接，这一步会生成Relocatable Object file <code>lab1-1.o</code></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>$<span class="w"> </span>riscv64-linux-gnu-gcc<span class="w"> </span>-O0<span class="w"> </span>-g<span class="w"> </span>-static<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-c<span class="w"> </span>lab1-1.c
-</code></pre></div>
-<p>我们使用 <code>llvm-readelf</code> 工具解析编译产物 <code>lab1-1.o</code>：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$ llvm-readelf-17 --all lab1-1.o
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>ELF Header:
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>  Class:                             ELF64
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>  Data:                              2&#39;s complement, little endian
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>  Version:                           1 (current)
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>  OS/ABI:                            UNIX - System V
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>  ABI Version:                       0
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>  Type:                              REL (Relocatable file)
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>  Machine:                           RISC-V
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>  Version:                           0x1
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>  Entry point address:               0x0
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>  Start of program headers:          0 (bytes into file)
-<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>  Start of section headers:          6856 (bytes into file)
-<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>  Flags:                             0x4, double-float ABI
-<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>  Size of this header:               64 (bytes)
-<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>  Size of program headers:           0 (bytes)
-<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>  Number of program headers:         0
-<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>  Size of section headers:           64 (bytes)
-<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>  Number of section headers:         23
-<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>  Section header string table index: 22
-<a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>There are 23 section headers, starting at offset 0x1ac8:
-<a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>
-<a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>Section Headers:
-<a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
-<a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0
-<a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>  [ 1] .text             PROGBITS        0000000000000000 000040 0000f4 00  AX  0   0  4
-<a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a>  [ 2] .rela.text        RELA            0000000000000000 000fb8 000390 18   I 20   1  8
-<a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a>  [ 3] .data             PROGBITS        0000000000000000 000134 000000 00  WA  0   0  1
-<a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>  [ 4] .bss              NOBITS          0000000000000000 000134 000004 00  WA  0   0  4
-<a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a>  [ 5] .rodata           PROGBITS        0000000000000000 000138 000045 00   A  0   0  8
-<a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a>  [ 6] .debug_info       PROGBITS        0000000000000000 00017d 000108 00      0   0  1
-<a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a>  [ 7] .rela.debug_info  RELA            0000000000000000 001348 000288 18   I 20   6  8
-<a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a>  [ 8] .debug_abbrev     PROGBITS        0000000000000000 000285 0000c8 00      0   0  1
-<a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a>  [ 9] .debug_aranges    PROGBITS        0000000000000000 00034d 000030 00      0   0  1
-<a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a>  [10] .rela.debug_aranges RELA          0000000000000000 0015d0 000060 18   I 20   9  8
-<a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a>  [11] .debug_line       PROGBITS        0000000000000000 00037d 0000a3 00      0   0  1
-<a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a>  [12] .rela.debug_line  RELA            0000000000000000 001630 0002d0 18   I 20  11  8
-<a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a>  [13] .debug_str        PROGBITS        0000000000000000 000420 0000e9 01  MS  0   0  1
-<a id="__codelineno-11-41" name="__codelineno-11-41" href="#__codelineno-11-41"></a>  [14] .debug_line_str   PROGBITS        0000000000000000 000509 00009e 01  MS  0   0  1
-<a id="__codelineno-11-42" name="__codelineno-11-42" href="#__codelineno-11-42"></a>  [15] .comment          PROGBITS        0000000000000000 0005a7 00001f 01  MS  0   0  1
-<a id="__codelineno-11-43" name="__codelineno-11-43" href="#__codelineno-11-43"></a>  [16] .note.GNU-stack   PROGBITS        0000000000000000 0005c6 000000 00      0   0  1
-<a id="__codelineno-11-44" name="__codelineno-11-44" href="#__codelineno-11-44"></a>  [17] .eh_frame         PROGBITS        0000000000000000 0005c8 000068 00   A  0   0  8
-<a id="__codelineno-11-45" name="__codelineno-11-45" href="#__codelineno-11-45"></a>  [18] .rela.eh_frame    RELA            0000000000000000 001900 0000f0 18   I 20  17  8
-<a id="__codelineno-11-46" name="__codelineno-11-46" href="#__codelineno-11-46"></a>  [19] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 000630 000061 00      0   0  1
-<a id="__codelineno-11-47" name="__codelineno-11-47" href="#__codelineno-11-47"></a>  [20] .symtab           SYMTAB          0000000000000000 000698 0007c8 18     21  79  8
-<a id="__codelineno-11-48" name="__codelineno-11-48" href="#__codelineno-11-48"></a>  [21] .strtab           STRTAB          0000000000000000 000e60 000156 00      0   0  1
-<a id="__codelineno-11-49" name="__codelineno-11-49" href="#__codelineno-11-49"></a>  [22] .shstrtab         STRTAB          0000000000000000 0019f0 0000d2 00      0   0  1
-<a id="__codelineno-11-50" name="__codelineno-11-50" href="#__codelineno-11-50"></a>Key to Flags:
-<a id="__codelineno-11-51" name="__codelineno-11-51" href="#__codelineno-11-51"></a>  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
-<a id="__codelineno-11-52" name="__codelineno-11-52" href="#__codelineno-11-52"></a>  L (link order), O (extra OS processing required), G (group), T (TLS),
-<a id="__codelineno-11-53" name="__codelineno-11-53" href="#__codelineno-11-53"></a>  C (compressed), x (unknown), o (OS specific), E (exclude),
-<a id="__codelineno-11-54" name="__codelineno-11-54" href="#__codelineno-11-54"></a>  R (retain), p (processor specific)
-</code></pre></div>
-<p>我们可以注意到以下几点：</p>
-<ol>
-<li>
-<p>ELF Header 中的 Type 是 <code>REL (Relocatable file)</code>，这表示这是一个可重定位文件。</p>
-</li>
-<li>
-<p>ELF 文件中一共有 23 个 Section，每个 Section 都有自己的名字 (Name)、类型 (Type)、地址 (Address)、在 ELF 文件中的偏移量 (Off)、大小 (Size) 和 Flag</p>
-</li>
-<li>
-<p>Flag 中标志了每个 Section 的一些属性，例如 <code>A (alloc)</code>、<code>W (write)</code>、<code>X (execute)</code>。<code>A (alloc)</code> 表示在加载 ELF 时，这个 Section 应该被分配内存并加载。而 <code>W</code> 与 <code>X</code> 则表示段是否可写和可执行。</p>
-</li>
-<li>
-<p>我们发现了常见的 <code>.text</code> 段，它是 AX ：需要被加载、可执行的。<code>.data</code> 段和 <code>.bss</code> 段是 AW 的：需要被加载、可写的。而 <code>.rodata</code> 是近需要被加载的，不可写和不可执行的。</p>
-</li>
-<li>
-<p>我们发现有一个特殊的 Section <code>.symtab</code>，它存储着这个 Relocatable file 的 Symbol Table 符号表。</p>
-</li>
-</ol>
-<p>符号表是连接编译器和链接器的重要数据结构，我们进一步观察 <code>lab1-1.o</code> 的符号表：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$ llvm-readelf-17 --symbols lab1-1.o
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Symbol table &#39;.symtab&#39; contains 83 entries:
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>   Num:    Value          Size Type    Bind   Vis       Ndx Name
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT   UND 
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>     1: 0000000000000000     0 FILE    LOCAL  DEFAULT   ABS lab1-1.c
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>     2: 0000000000000000     0 SECTION LOCAL  DEFAULT     1 .text
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>     3: 0000000000000000     0 SECTION LOCAL  DEFAULT     3 .data
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>     4: 0000000000000000     0 SECTION LOCAL  DEFAULT     4 .bss
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>     5: 0000000000000000     0 SECTION LOCAL  DEFAULT     5 .rodata
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    ...
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    79: 0000000000000000     4 OBJECT  GLOBAL DEFAULT     4 a
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>    80: 0000000000000000   120 FUNC    GLOBAL DEFAULT     1 recursive
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>    81: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND printf
-<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>    82: 0000000000000078   124 FUNC    GLOBAL DEFAULT     1 main
-</code></pre></div>
-<p>符号表中有 83 条 Symbol，每一条均有一个值、大小、类型、可见域 (Bind)、名字 (Name)，除此之外，Ndx 一列表示了这个符号是属于哪个 Section 的。</p>
-<p>例如，<code>main</code> 和 <code>recursize</code> 是两个函数，所以它们的类型是 FUNC，Ndx 为 1,表明属于 Section Headers 中的 1 号 Section <code>.text</code>。
-<code>a</code> 是一个未被初始化的 int 变量，所以它的类型是 OBJECT，所属于 <code>.bss</code> 段，大小为 4 个字节。
-特别的，我们在变量中引用了外部符号 (没有在 lab1-1.c 中定义) printf，它的 Ndx 是 UND (表明被该文件引用了，但是没有在该文件中被定义)，并且我们也不知道它的类型。</p>
-<p>链接器会读取所有要链接的 .o 文件的符号表，结合所有被定义的符号，和被引用的外部符号。这一步被成为符号解析 (Symbol Resolution)。</p>
-<h3 id="_6">符号重定位<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>我们使用 <code>objdump</code> 观察生成的 lab1-1.o 文件。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nf">$</span><span class="w"> </span><span class="no">riscv64-linux-gnu-objdump</span><span class="w"> </span><span class="p">--</span><span class="no">disassemble</span><span class="err">=</span><span class="no">main</span><span class="w"> </span><span class="p">-</span><span class="no">S</span><span class="w"> </span><span class="no">lab1-1.o</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nf">Disassembly</span><span class="w"> </span><span class="no">of</span><span class="w"> </span><span class="no">section</span><span class="w"> </span><span class="no">.text</span><span class="p">:</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="err">0000000000000078</span><span class="w"> </span><span class="err">&lt;</span><span class="nf">main</span><span class="err">&gt;</span><span class="p">:</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="nf">int</span><span class="w"> </span><span class="no">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">  </span><span class="err">78:</span><span class="w">   </span><span class="nf">fe010113</span><span class="w">                </span><span class="no">addi</span><span class="w">    </span><span class="no">sp</span><span class="p">,</span><span class="no">sp</span><span class="p">,-</span><span class="mi">32</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">  </span><span class="err">7</span><span class="nl">c:</span><span class="w">   </span><span class="err">00113</span><span class="nf">c23</span><span class="w">                </span><span class="no">sd</span><span class="w">      </span><span class="no">ra</span><span class="p">,</span><span class="mi">24</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">  </span><span class="err">80:</span><span class="w">   </span><span class="err">00813823</span><span class="w">                </span><span class="nf">sd</span><span class="w">      </span><span class="no">s0</span><span class="p">,</span><span class="mi">16</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">  </span><span class="err">84:</span><span class="w">   </span><span class="err">02010413</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">s0</span><span class="p">,</span><span class="no">sp</span><span class="p">,</span><span class="mi">32</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">    </span><span class="nf">int</span><span class="w"> </span><span class="no">b</span><span class="c1">;</span>
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="nf">printf</span><span class="p">(</span><span class="err">&quot;</span><span class="no">main</span><span class="w"> </span><span class="no">is</span><span class="w"> </span><span class="no">at</span><span class="p">:</span><span class="w"> </span><span class="nv">%p</span><span class="err">\</span><span class="no">n</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">&amp;</span><span class="no">main</span><span class="p">)</span><span class="c1">;</span>
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">  </span><span class="err">88:</span><span class="w">   </span><span class="err">00000597</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">a1</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">  </span><span class="err">8</span><span class="nl">c:</span><span class="w">   </span><span class="err">00058593</span><span class="w">                </span><span class="nf">mv</span><span class="w">      </span><span class="no">a1</span><span class="p">,</span><span class="no">a1</span>
-<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">  </span><span class="err">90:</span><span class="w">   </span><span class="err">00000517</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">a0</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="w">  </span><span class="err">94:</span><span class="w">   </span><span class="err">00050513</span><span class="w">                </span><span class="nf">mv</span><span class="w">      </span><span class="no">a0</span><span class="p">,</span><span class="no">a0</span>
-<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="w">  </span><span class="err">98:</span><span class="w">   </span><span class="err">00000097</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">ra</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="w">  </span><span class="err">9</span><span class="nl">c:</span><span class="w">   </span><span class="err">000080</span><span class="nf">e7</span><span class="w">                </span><span class="no">jalr</span><span class="w">    </span><span class="no">ra</span><span class="w"> </span><span class="c1"># 98 &lt;main+0x20&gt;</span>
-<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="w">    </span><span class="nf">printf</span><span class="p">(</span><span class="err">&quot;</span><span class="no">a</span><span class="w"> </span><span class="no">is</span><span class="w"> </span><span class="no">at</span><span class="p">:</span><span class="w"> </span><span class="nv">%p</span><span class="err">\</span><span class="no">n</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">&amp;</span><span class="no">a</span><span class="p">)</span><span class="c1">;</span>
-<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="w">  </span><span class="nl">a0:</span><span class="w">   </span><span class="err">00000597</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">a1</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="w">  </span><span class="nl">a4:</span><span class="w">   </span><span class="err">00058593</span><span class="w">                </span><span class="nf">mv</span><span class="w">      </span><span class="no">a1</span><span class="p">,</span><span class="no">a1</span>
-<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="w">  </span><span class="nl">a8:</span><span class="w">   </span><span class="err">00000517</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">a0</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="w">  </span><span class="nl">ac:</span><span class="w">   </span><span class="err">00050513</span><span class="w">                </span><span class="nf">mv</span><span class="w">      </span><span class="no">a0</span><span class="p">,</span><span class="no">a0</span>
-<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="w">  </span><span class="nl">b0:</span><span class="w">   </span><span class="err">00000097</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">ra</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="w">  </span><span class="nl">b4:</span><span class="w">   </span><span class="err">000080</span><span class="nf">e7</span><span class="w">                </span><span class="no">jalr</span><span class="w">    </span><span class="no">ra</span><span class="w"> </span><span class="c1"># b0 &lt;main+0x38&gt;</span>
-<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a><span class="w">    </span><span class="nf">printf</span><span class="p">(</span><span class="err">&quot;</span><span class="no">b</span><span class="w"> </span><span class="no">is</span><span class="w"> </span><span class="no">at</span><span class="p">:</span><span class="w"> </span><span class="nv">%p</span><span class="err">\</span><span class="no">n</span><span class="err">&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">&amp;</span><span class="no">b</span><span class="p">)</span><span class="c1">;</span>
-</code></pre></div>
-<p>我们对比 <code>a.out</code> 和 <code>lab1-1.o</code> 中第一次 <code>printf</code> 时的汇编代码：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># lab1-1.o:</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="err">88:</span><span class="w">          </span><span class="err">00000597</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">a1</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="err">8</span><span class="nl">c:</span><span class="w">          </span><span class="err">00058593</span><span class="w">                </span><span class="nf">mv</span><span class="w">      </span><span class="no">a1</span><span class="p">,</span><span class="no">a1</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="err">90:</span><span class="w">          </span><span class="err">00000517</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">a0</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="err">94:</span><span class="w">          </span><span class="err">00050513</span><span class="w">                </span><span class="nf">mv</span><span class="w">      </span><span class="no">a0</span><span class="p">,</span><span class="no">a0</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span><span class="err">98:</span><span class="w">          </span><span class="err">00000097</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">ra</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span><span class="err">9</span><span class="nl">c:</span><span class="w">          </span><span class="err">000080</span><span class="nf">e7</span><span class="w">                </span><span class="no">jalr</span><span class="w">    </span><span class="no">ra</span><span class="w"> </span><span class="c1"># 98 &lt;main+0x20&gt;</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="c1"># a.out:</span>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">  </span><span class="err">105</span><span class="nl">f0:</span><span class="w">       </span><span class="err">00000597</span><span class="w">                </span><span class="nf">auipc</span><span class="w">   </span><span class="no">a1</span><span class="p">,</span><span class="mi">0x0</span>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">  </span><span class="err">105</span><span class="nl">f4:</span><span class="w">       </span><span class="nf">ff058593</span><span class="w">                </span><span class="no">addi</span><span class="w">    </span><span class="no">a1</span><span class="p">,</span><span class="no">a1</span><span class="p">,-</span><span class="mi">16</span><span class="w"> </span><span class="c1"># 105e0 &lt;main&gt;</span>
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">  </span><span class="err">105</span><span class="nl">f8:</span><span class="w">       </span><span class="err">0003</span><span class="nf">f517</span><span class="w">                </span><span class="no">auipc</span><span class="w">   </span><span class="no">a0</span><span class="p">,</span><span class="mi">0x3f</span>
-<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">  </span><span class="err">105</span><span class="nl">fc:</span><span class="w">       </span><span class="err">63850513</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">a0</span><span class="p">,</span><span class="no">a0</span><span class="p">,</span><span class="mi">1592</span><span class="w"> </span><span class="c1"># 4fc30 &lt;__rseq_flags+0x1c&gt;</span>
-<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">  </span><span class="err">10600:</span><span class="w">       </span><span class="err">1</span><span class="nf">ad000ef</span><span class="w">                </span><span class="no">jal</span><span class="w">     </span><span class="mh">10fac</span> <span class="p">&lt;</span><span class="no">_IO_printf</span><span class="p">&gt;</span>
-</code></pre></div>
-<p>我们可以看到，<code>lab1-1.o</code> 中，<code>auipc</code> 和 <code>mv</code> 指令中的立即数均为 0。这是因为编译器并不知道这些符号 (main函数、printf函数、变量a等) 将会被链接器安排到什么地址，所以编译器只能摆烂，生成了一些占位指令，并生成了一些 Relocation 信息，将最终确认地址的任务留给了链接器处理。</p>
-<p>在静态链接中，函数的地址和全局变量的地址在链接阶段被确定。链接器会根据 Linker Script 合并所有 object 文件中的所有符号，并为其分配地址。
-在分配地址结束后，链接器会根据编译器生成的汇编代码，在指定汇编代码的位置填入立即数，以确保这些寻址代码能正确的找到它们所引用的符号。这一步被成为 Relocation 重定位。</p>
-<p>在 lab1-1.o 中，<code>main</code> 的地址是 0x0078，而最终的可执行文件中，<code>main</code> 的地址是 <code>0x105e0</code>。这是因为链接器完成了对 lab1-1.o 中 <code>main</code> 函数的重定位，也就是说，<code>main</code> 函数最终被重定位到了 <code>0x105e0</code>。并且，<code>printf</code> 的第一个参数，格式化字符串也被正确定位了 (0x4fc30)。</p>
-<p>我们使用 <code>readelf</code> 工具查阅 lab1-1.o 文件的信息，我们发现 <code>.rela.text</code> 段中有以下信息：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>$ llvm-readelf-17 --relocs lab1-1.o
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>Relocation section &#39;.rela.text&#39; at offset 0xfb8 contains 38 entries:
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    Offset             Info             Type               Symbol&#39;s Value  Symbol&#39;s Name + Addend
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>0000000000000088  0000005200000017 R_RISCV_PCREL_HI20     0000000000000078 main + 0
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>0000000000000098  0000005100000013 R_RISCV_CALL_PLT       0000000000000000 printf + 0
-</code></pre></div>
-<p>这表示了在 lab1-1.o 汇编的 0x88 处引用了 <code>main</code> 符号的地址，并在 0x98 处调用了 <code>printf</code> 函数，这与我们观察到 lab1-1.o 中的汇编行为相符合。链接器需要处理这些 Relocation 信息并最终生成最后的 a.out 文件。</p>
-<h3 id="_7">总结<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>综上，在静态链接中，链接器主要完成了两件事情：</p>
-<ul>
-<li>
-<p>解析符号：确定 object 文件中引用的 Symbol 具体为哪个</p>
-</li>
-<li>
-<p>重定位：重定位 object 文件中的段，并重定位其中对 Symbol 的引用</p>
-</li>
-</ul>
-<h3 id="ex-libc">Ex: libc<a class="headerlink" href="#ex-libc" title="Permanent link">&para;</a></h3>
-<p>main.c 中并没有定义 <code>printf</code> 函数，它在头文件 <code>stdio.h</code> 中被声明了。</p>
-<p>但是，我们在链接时也并没有额外指定其他 .o 文件。这是因为 <code>printf</code> 是 C 标准库 (libc) 的一部分，而默认的链接参数中均会链接上 libc。</p>
-<p>我们在编译链接 lab1-1.o 时，使用 <code>-Wl,-v</code> 显示链接器 ld 的具体参数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>$<span class="w"> </span>riscv64-linux-gnu-gcc<span class="w"> </span>-O0<span class="w"> </span>-g<span class="w"> </span>-static<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>lab1-1.o<span class="w"> </span>-Wl,-v
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>collect2<span class="w"> </span>version<span class="w"> </span><span class="m">14</span>.2.0
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>/usr/lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld<span class="w"> </span>-plugin<span class="w"> </span>/usr/libexec/gcc-cross/riscv64-linux-gnu/14/liblto_plugin.so<span class="w"> </span>-plugin-opt<span class="o">=</span>/usr/libexec/gcc-cross/riscv64-linux-gnu/14/lto-wrapper<span class="w"> </span>-plugin-opt<span class="o">=</span>-fresolution<span class="o">=</span>/tmp/cc0dIN9b.res<span class="w"> </span>-plugin-opt<span class="o">=</span>-pass-through<span class="o">=</span>-lgcc<span class="w"> </span>-plugin-opt<span class="o">=</span>-pass-through<span class="o">=</span>-lgcc_eh<span class="w"> </span>-plugin-opt<span class="o">=</span>-pass-through<span class="o">=</span>-lc<span class="w"> </span>--sysroot<span class="o">=</span>/<span class="w"> </span>--build-id<span class="w"> </span>-hash-style<span class="o">=</span>gnu<span class="w"> </span>--as-needed<span class="w"> </span>-melf64lriscv<span class="w"> </span>-X<span class="w"> </span>-static<span class="w"> </span>/usr/lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/lib/crt1.o<span class="w"> </span>/usr/lib/gcc-cross/riscv64-linux-gnu/14/crti.o<span class="w"> </span>/usr/lib/gcc-cross/riscv64-linux-gnu/14/crtbeginT.o<span class="w"> </span>-L/usr/lib/gcc-cross/riscv64-linux-gnu/14<span class="w"> </span>-L/usr/lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/lib<span class="w"> </span>-L/lib/riscv64-linux-gnu<span class="w"> </span>-L/usr/lib/riscv64-linux-gnu<span class="w"> </span>lab1-1.o<span class="w"> </span>-v<span class="w"> </span>--start-group<span class="w"> </span>-lgcc<span class="w"> </span>-lgcc_eh<span class="w"> </span>-lc<span class="w"> </span>--end-group<span class="w"> </span>/usr/lib/gcc-cross/riscv64-linux-gnu/14/crtend.o<span class="w"> </span>/usr/lib/gcc-cross/riscv64-linux-gnu/14/crtn.o
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>GNU<span class="w"> </span>ld<span class="w"> </span><span class="o">(</span>GNU<span class="w"> </span>Binutils<span class="w"> </span><span class="k">for</span><span class="w"> </span>Debian<span class="o">)</span><span class="w"> </span><span class="m">2</span>.43.1
-</code></pre></div>
-<p>其中包含了 <code>-L/usr/lib/gcc-cross/riscv64-linux-gnu/14</code> 指定了链接该目录下面的某些 Object 文件，<code>--start-group -lgcc -lgcc_eh -lc --end-group</code> 表示了链接 libc 库。</p>
-<p>我们可以使用 <code>-nostdlib</code> 来禁止链接标准库：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>$<span class="w"> </span>riscv64-linux-gnu-gcc<span class="w"> </span>-O0<span class="w"> </span>-g<span class="w"> </span>-static<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>lab1-1.o<span class="w"> </span>-Wl,-v<span class="w"> </span>-nostdlib
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>collect2<span class="w"> </span>version<span class="w"> </span><span class="m">14</span>.2.0
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>/usr/lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld<span class="w"> </span>-plugin<span class="w"> </span>/usr/libexec/gcc-cross/riscv64-linux-gnu/14/liblto_plugin.so<span class="w"> </span>-plugin-opt<span class="o">=</span>/usr/libexec/gcc-cross/riscv64-linux-gnu/14/lto-wrapper<span class="w"> </span>-plugin-opt<span class="o">=</span>-fresolution<span class="o">=</span>/tmp/cceuW8LP.res<span class="w"> </span>--sysroot<span class="o">=</span>/<span class="w"> </span>--build-id<span class="w"> </span>-hash-style<span class="o">=</span>gnu<span class="w"> </span>--as-needed<span class="w"> </span>-melf64lriscv<span class="w"> </span>-X<span class="w"> </span>-static<span class="w"> </span>-L/usr/lib/gcc-cross/riscv64-linux-gnu/14<span class="w"> </span>-L/usr/lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/lib<span class="w"> </span>-L/lib/riscv64-linux-gnu<span class="w"> </span>-L/usr/lib/riscv64-linux-gnu<span class="w"> </span>lab1-1.o<span class="w"> </span>-v
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>GNU<span class="w"> </span>ld<span class="w"> </span><span class="o">(</span>GNU<span class="w"> </span>Binutils<span class="w"> </span><span class="k">for</span><span class="w"> </span>Debian<span class="o">)</span><span class="w"> </span><span class="m">2</span>.43.1
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>/usr/lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld:<span class="w"> </span>warning:<span class="w"> </span>cannot<span class="w"> </span>find<span class="w"> </span>entry<span class="w"> </span>symbol<span class="w"> </span>_start<span class="p">;</span><span class="w"> </span>defaulting<span class="w"> </span>to<span class="w"> </span>000000000001017c
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>/usr/lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld:<span class="w"> </span>lab1-1.o:<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="sb">`</span>recursive<span class="s1">&#39;:</span>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="s1">lab1-1.c:8:(.text+0x40): undefined reference to `printf&#39;</span>
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>/usr/lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld:<span class="w"> </span>lab1-1.o:<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="sb">`</span>main<span class="s1">&#39;:</span>
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="s1">lab1-1.c:14:(.text+0x94): undefined reference to `printf&#39;</span>
-<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>/usr/lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld:<span class="w"> </span>lab1-1.c:15:<span class="o">(</span>.text+0xac<span class="o">)</span>:<span class="w"> </span>undefined<span class="w"> </span>reference<span class="w"> </span>to<span class="w"> </span><span class="sb">`</span>printf<span class="s1">&#39;</span>
-<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="s1">/usr/lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: lab1-1.c:16:(.text+0xc4): undefined reference to `printf&#39;</span>
-<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>collect2:<span class="w"> </span>error:<span class="w"> </span>ld<span class="w"> </span>returned<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span>status
-</code></pre></div>
-<p>我们可以观察到，尽管 ld 被指定了一些链接目录 <code>-L</code> 但是没有指定 <code>-lc</code>。因此 ld 报错了 undefined reference，提示找不到 <code>printf</code> 这个符号。</p>
-<h2 id="_8">结构体<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>C 语言中，结构体是对一些数据的表示。(A structure is a programmer-defined data type made up of variables of other data types (possibly including other structure types).)</p>
-<p>我们通过 <code>struct</code> 关键字声明一个结构体。
-通常，我们将一些相关联的数据放置在同一个结构体上。</p>
-<p>结构体有着编译期就已知的固定大小。通常来说，结构体中的变量会依次在内存中排布，但是变量之间可能会存在一些 Padding，确保结构体中的变量被正确对齐了。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="n">procstate</span><span class="w"> </span><span class="n">state</span><span class="p">;</span><span class="w">   </span><span class="c1">// Process state</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span><span class="w">                </span><span class="c1">// Process ID</span>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">pagetable</span><span class="p">;</span><span class="w">  </span><span class="c1">// User page table</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">ustack</span><span class="p">;</span><span class="w">          </span><span class="c1">// Virtual address of kernel stack</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">kstack</span><span class="p">;</span><span class="w">          </span><span class="c1">// Virtual address of kernel stack</span>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">trapframe</span><span class="w"> </span><span class="o">*</span><span class="n">trapframe</span><span class="p">;</span><span class="w"> </span><span class="c1">// data page for trampoline.S</span>
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">context</span><span class="w"> </span><span class="n">context</span><span class="p">;</span><span class="w"> </span><span class="c1">// swtch() here to run process</span>
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span><span class="w">    </span><span class="c1">// Parent process</span>
-<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="p">};</span>
-</code></pre></div>
-<p>例如，在我们的 uCore 内核上，描述进程的结构体 <code>struct proc</code> 包含了 进程状态 <code>state</code>，PID，页表，用户栈和内核栈地址等信息。</p>
-<p>在对结构体指针访问其成员变量时，我们使用 <code>-&gt;</code> 操作符。
-在对结构体访问其成员变量时，我们使用 <code>.</code> 操作符。</p>
-<p>在下面这个例子中，我们定义了一个全局变量 <code>current_proc</code>，它是一个指向 <code>struct proc</code> 结构体的指针；我们也定义了一个 <code>idle</code> 变量，它的类型是 <code>struct proc</code> 结构体。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">current_proc</span><span class="p">;</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="n">idle</span><span class="p">;</span>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">proc_init</span><span class="p">()</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="p">{</span>
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">    </span><span class="n">current_proc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">idle</span><span class="p">;</span>
-<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="p">}</span>
-<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
-<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="kt">void</span><span class="w"> </span><span class="nf">test</span><span class="p">()</span>
-<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="p">{</span>
-<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">    </span><span class="n">current_proc</span><span class="o">-&gt;</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x114514</span><span class="p">;</span>
-<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="p">}</span>
-</code></pre></div>
-<p>在内存中，这两个变量将按照以下格式排列：</p>
-<p><img alt="image" src="../../../assets/lab1/lab1-proc-memory-layout.png" /></p>
-<p>在 <code>proc_init</code> 初始化函数中，我们将 <code>idle</code> 的地址赋予 <code>current_proc</code>（<code>&amp;</code> 是取地址符）。此时，<code>current_proc</code> 的值即是 <code>idle</code> 变量的起始地址。</p>
-<div class="admonition question">
-<p class="admonition-title">为什么是起始地址？</p>
-<p>许多体系结构 (x86, ARM, RISC-V) 均包含 Base displacement addressing (基地址 + 偏移量) 的寻址模式。
-因为结构体中某个变量相对于结构体基地址的偏移量是在编译期已知的，所以我们可以通过某个寄存器保存该结构体的基地址，使用 ld/sw 指令中的立即数偏移量访问结构体中的成员变量。</p>
-</div>
-<p>我们将从汇编层面了解如何进行结构体访问：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="w">        </span><span class="nf">current_proc-</span><span class="err">&gt;</span><span class="no">pid</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">0x114514</span><span class="c1">;</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="err">802013</span><span class="nl">c4:</span><span class="w">   </span><span class="err">004</span><span class="nf">bb717</span><span class="w">                </span><span class="no">auipc</span><span class="w">   </span><span class="no">a4</span><span class="p">,</span><span class="mi">0x4bb</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="err">802013</span><span class="nl">c8:</span><span class="w">   </span><span class="nf">c4c70713</span><span class="w">                </span><span class="no">addi</span><span class="w">    </span><span class="no">a4</span><span class="p">,</span><span class="no">a4</span><span class="p">,-</span><span class="mi">948</span><span class="w"> </span><span class="c1"># 806bc010 &lt;current_proc&gt;</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span><span class="err">802013</span><span class="nl">cc:</span><span class="w">   </span><span class="err">00073683</span><span class="w">                </span><span class="nf">ld</span><span class="w">      </span><span class="no">a3</span><span class="p">,</span><span class="mi">0</span><span class="p">(</span><span class="no">a4</span><span class="p">)</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span><span class="err">802013</span><span class="nl">d0:</span><span class="w">   </span><span class="err">001147</span><span class="nf">b7</span><span class="w">                </span><span class="no">lui</span><span class="w">     </span><span class="no">a5</span><span class="p">,</span><span class="mi">0x114</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">    </span><span class="err">802013</span><span class="nl">d4:</span><span class="w">   </span><span class="err">51478793</span><span class="w">                </span><span class="nf">addi</span><span class="w">    </span><span class="no">a5</span><span class="p">,</span><span class="no">a5</span><span class="p">,</span><span class="mi">1300</span><span class="w"> </span><span class="c1"># 114514</span>
-<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">    </span><span class="err">802013</span><span class="nl">d8:</span><span class="w">   </span><span class="err">00</span><span class="nf">f6a223</span><span class="w">                </span><span class="no">sw</span><span class="w">      </span><span class="no">a5</span><span class="p">,</span><span class="mi">4</span><span class="p">(</span><span class="no">a3</span><span class="p">)</span>
-</code></pre></div>
-<p>这一串汇编对应的是 <code>current_proc-&gt;pid = 0x114514;</code> 语句。</p>
-<p>前两行汇编通过 auipc + addi 计算出来了 <code>current_proc</code> 这个变量的地址：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>    802013c4:   004bb717                auipc   a4,0x4bb
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>    802013c8:   c4c70713                addi    a4,a4,-948 # 806bc010 &lt;current_proc&gt;
-</code></pre></div>
-<p>然后，将该地址处的值读取到 a3 中。此时，a3 中存放的即是某个 <code>struct proc</code> 结构体的基地址。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>    802013cc:   00073683                ld      a3,0(a4)
-</code></pre></div>
-<p>然后，通过 lui + addi 构造立即数 0x114514：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>    802013d0:   001147b7                lui     a5,0x114
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>    802013d4:   51478793                addi    a5,a5,1300 # 114514
-</code></pre></div>
-<p>最后，将立即数 a5 写入 a3 + 4 的地址处。这里即是 <code>struct proc</code> 结构体中的 pid 变量的地址。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>    802013d8:   00f6a223                sw      a5,4(a3)
-</code></pre></div>
-<div class="admonition question">
-<p class="admonition-title">NULL-Pointer Dereference</p>
-<p>当我们尝试访问一个结构体中的变量时，如果结构体指针是一个空指针，那会发生什么？</p>
-<p>在 <code>sw a5,4(a3)</code> 时，a3 本应该存储着一个合法地址；但是，当它的值是空指针 0x0 时，CPU 就会对 0x00000004 这个地址发起写入，这会触发 CPU 的访存异常，导致程序终止。</p>
-<p>现在，你能猜到为什么有的应用程序运行时会崩溃 "The instruction at 0xdeadbeef referenced memory at 0x00000008. The memory could not be written." 了吗？</p>
-</div>
+<h1 id="syscall">Syscall<a class="headerlink" href="#syscall" title="Permanent link">&para;</a></h1>
+<p>what is syscall?</p>
+<p>how to use strace to trace syscall?</p>
+<p>how to write a minimal program.</p>
 
 
 
@@ -1960,7 +1148,7 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年9月6日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2025年1月26日</span>
   </span>
 
     
@@ -2028,13 +1216,13 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
         
         
           
-          <a href="../../../qrh/nav/" class="md-footer__link md-footer__link--next" aria-label="下一页: 目录">
+          <a href="../lab2/" class="md-footer__link md-footer__link--next" aria-label="下一页: Week 2 - 静态链接">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                目录
+                Week 2 - 静态链接
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2061,8 +1249,8 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/55f3e9db, 2024-09-06 15:42:33+08:00" target="_blank" rel="noopener">
-            55f3e9db, 2024-09-06 15:42:33+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/6692e4cc, 2025-01-26 21:21:58+08:00" target="_blank" rel="noopener">
+            6692e4cc, 2025-01-26 21:21:58+08:00
         </a>
     </div>
 </div>
