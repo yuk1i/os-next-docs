@@ -74,7 +74,8 @@ nav:
     - 运行 Hello World: env/helloworld.md
   - 每周实验: 
     - Week 1 - 系统调用 Syscall: zh/lab/lab1.md
-    - Week 2 - 裸机程序 Bare Metal: zh/lab/lab2.md
+    - Week 2 - 静态链接: zh/lab/lab2.md
+    - Week 3 - 裸机程序 Bare Metal: zh/lab/lab3.md
   - 课程作业: 
     - 第一次作业: zh/homework/homework1.md
   - 快速参考手册:
