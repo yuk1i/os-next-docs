@@ -435,7 +435,7 @@ Domain0 Next Arg1         : 0x000000009fe00000
 Domain0 Next Mode         : S-mode
 ```
 
-在 OpenSBI 初始化完成后，OpenSBI会降级到 S-mode 并将 PC 指针指向我们的内核起始地址 0x80200000。该地址上保存着内核的第一个入口, _entry：
+在 OpenSBI 初始化完成后，OpenSBI会降级到 S-mode 并将 PC 指针指向我们的内核起始地址 0x80200000。该地址上保存着内核的第一个入口 _entry 的代码：
 
 ```
 80200000: 0000100f      fence.i
@@ -453,7 +453,7 @@ Domain0 Next Mode         : S-mode
 _entry:
     fence.i
 
-    la sp, boot_stack_top
+    lla sp, boot_stack_top
     call main
 
     .section .bss.stack
@@ -464,7 +464,7 @@ boot_stack:
 boot_stack_top:
 ```
 
-- 首先执行 fence.i 指令，这表示等待以前的指令全部执行完毕再继续执行（因为高性能处理器是允许乱序执行的），我们暂且不需要理解这一条指令的作用。
+- 首先执行 fence.i 指令，我们暂且不需要理解这一条指令的作用。
 - 然后，我们使用 `auipc` 和 `addi` 指令，将栈指针指向 `boot_stack_top`，这是我们提前为第一个内核入口开辟的栈。
 - 最后，我们通过 `auipc` 和 `jr` 指令，跳转到 main 函数继续执行。
 
