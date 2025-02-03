@@ -472,7 +472,7 @@ uint64 kernel_la_end = kernel_la_base + PGSIZE_2M;
 
 此时 `va = pa + KERNEL_OFFSET`。
 
-最后，我们映射第一块 DIrect Mapping：VA `0xffff_ffc0_80xx_0000` -> 第一个空闲的 2 MiB 物理页 `0x80xx_0000`
+最后，我们映射第一块 Direct Mapping：VA `0xffff_ffc0_80xx_0000` -> 第一个空闲的 2 MiB 物理页 `0x80xx_0000`
 
 !!!warning "Question 2"
     请你阅读 `main.c` 里面的 `relocation_start` 并正确构建临时页表。

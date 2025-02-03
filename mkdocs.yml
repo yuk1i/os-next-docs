@@ -76,6 +76,7 @@ nav:
     - Week 1 - 系统调用 Syscall: zh/lab/lab1.md
     - Week 2 - 静态链接: zh/lab/lab2.md
     - Week 3 - 裸机程序 Bare Metal: zh/lab/lab3.md
+    - Week 4 - 中断 Interrupts: zh/lab/xv6lab-interrupts.md
     - Week ? - 页表 Paging: zh/lab/xv6lab-paging.md
   - 课程作业: 
     - 第一次作业: zh/homework/homework1.md
