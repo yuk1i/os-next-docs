@@ -1560,8 +1560,8 @@
 <a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">    </span><span class="nf">ret</span>
 </code></pre></div>
 <p>当我们需要进行上下文切换时，我们需要调用 <code>swtch</code> 函数，并给出两个 <code>struct context*</code> 指针，分别表示，当前的 Context 应该被保存到哪里 (old)，和之后应该从哪里继续执行 (new)。</p>
-<p>由于我们是在调用一个函数，返回地址会被写入在 <code>ra</code> 寄存器中，这通常是通过 <code>jalr</code> 指令实现的。</p>
-<p>而根据 RISC-V 的 Calling Convention，寄存器的值要么需要调用者自己保存 (Caller-saved register)，被调用者可能会修改这些寄存器；要么被调用者在需要修改这些寄存器时保存 (Callee-saved register)。并且，调用者会在自己的栈帧 (Stack Frame) 上保存这些 caller-saved register (这一步是由编译器自动进行的)，所以，<strong>我们只需要记住 <code>sp</code> 寄存器，即可再下次返回时令 <code>old</code> 找回这些 caller-saved register</strong>。</p>
+<p>由于我们是 C 语言中调用一个函数，编译器会按照 RISC-V 的 Calling Convention 构造环境，例如返回地址会被写入在 <code>ra</code> 寄存器中，这通常是通过 <code>jalr</code> 指令实现的。</p>
+<p>而根据 RISC-V 的 Calling Convention，寄存器的值要么需要调用者自己保存 (Caller-saved register)，被调用者能够随意修改这些寄存器；要么被调用者在需要修改这些寄存器时保存 (Callee-saved register)。并且，调用者会在自己的栈帧 (Stack Frame) 上保存这些 caller-saved register (这一步是由编译器自动进行的)，所以，<strong>我们只需要记住 <code>sp</code> 寄存器，即可再下次返回时让 <code>old</code> 找回这些 caller-saved register</strong>。</p>
 <p><img alt="alt text" src="../../../assets/xv6lab-contextswitch/riscv-cc.png" /></p>
 <p>下图展示了 P1 切换到 P2 的过程，P1 和 P2 有各自的 Stack，有各自的 Context 结构体。</p>
 <p><img alt="alt text" src="../../../assets/xv6lab-contextswitch/xv6lab-context-swtchfunc.png" /></p>
