@@ -793,6 +793,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#struct-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      struct cpu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       关中断
@@ -836,6 +845,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab 练习
+    </span>
+  </a>
   
 </li>
       
@@ -1359,6 +1377,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#struct-cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      struct cpu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       关中断
@@ -1402,6 +1429,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab 练习
+    </span>
+  </a>
   
 </li>
       
@@ -1529,13 +1565,16 @@
 <p><img alt="alt text" src="../../../assets/xv6lab-contextswitch/riscv-cc.png" /></p>
 <p>下图展示了 P1 切换到 P2 的过程，P1 和 P2 有各自的 Stack，有各自的 Context 结构体。</p>
 <p><img alt="alt text" src="../../../assets/xv6lab-contextswitch/xv6lab-context-swtchfunc.png" /></p>
-<p>P1 在执行 <code>P1</code> 函数时，会在函数开头 (prologe) 保存 <code>P1</code> 的调用者的返回地址，同时局部变量也是在栈上开辟的。在 P1 调用 <code>swtch</code> 前，编译器在已经将所有 Caller-Saved Registers 保存在栈上，然后编译器生成 <code>jal swtch</code> 的汇编，这一调汇编执行时会将 ra 设置为 <code>P1</code> 函数中 <code>jal</code> 的下一条指令。</p>
+<p>P1 在执行 <code>P1</code> 函数时，会在函数开头 (prologue) 保存 <code>P1</code> 的调用者的返回地址，同时局部变量也是在栈上开辟的。在 P1 调用 <code>swtch</code> 前，编译器在已经将所有 Caller-Saved Registers 保存在栈上，然后编译器生成 <code>jal swtch</code> 的汇编，这一调汇编执行时会将 ra 设置为 <code>P1</code> 函数中 <code>jal</code> 的下一条指令。</p>
 <p>在调用 <code>swtch</code> 时，<code>a0</code> 指向了 P1 的 <code>struct context</code> 结构体，<code>swtch</code> 使用 <code>sd</code> 指令保存 ra, sp 和 s0 - s11 寄存器。</p>
 <p>之后，<code>swtch</code> 从 <code>a1</code> 加载即将恢复的 P2 的 Context，使用 <code>ld</code> 指令从 <code>struct context</code> 结构体中读取属于 P2 的 ra, sp 和 s0 - s11 寄存器。</p>
 <p>在 CPU 执行到 <code>ret</code> 时，pc 被恢复为 ra 寄存器的值，此时开始执行上次 P2 调用 <code>swtch</code> 时保存的返回地址。</p>
 <p>至此，成功完成了从 P1 到 P2 的切换。</p>
 <p>此外，<code>swtch</code> 方法是天生成对的：如果上次使用 swtch 离开了当前执行，那么下次返回时，必定是有其他进程调用了 swtch 回到了该进程。</p>
 <h2 id="xv6-process">xv6 Process<a class="headerlink" href="#xv6-process" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>代码：<code>os/sched.c</code>, <code>os/smp.c</code>, <code>os/proc.h</code></p>
+</blockquote>
 <p>在 xv6 中，Process Control Block (PCB) 被定义如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Per-process state</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="p">{</span>
@@ -1575,9 +1614,7 @@
 <p>如果抢不到锁，那么 CPU 会进行原地空转直到抢到锁。</p>
 <p>我们使用 <code>acquire</code> 和 <code>release</code> 原语表示 上锁 和 解锁 的动作。</p>
 </div>
-<blockquote>
-<p>代码：<code>os/sched.c</code>, <code>os/smp.c</code>, <code>os/proc.h</code></p>
-</blockquote>
+<h3 id="struct-cpu"><code>struct cpu</code><a class="headerlink" href="#struct-cpu" title="Permanent link">&para;</a></h3>
 <p>在 xv6 中，我们使用 <code>struct cpu</code> 描述每个 CPU 的状态，我们是用 <code>mycpu()</code> 方法获取当前 <code>cpu</code> 对象。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">cpu</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">mhart_id</span><span class="p">;</span><span class="w">                  </span><span class="c1">// mhartid for this cpu, passed by OpenSBI</span>
@@ -1694,7 +1731,7 @@
 <p>当我们从 swtch 返回时，我们可以推导得出以下结论：</p>
 <ol>
 <li>因为 swtch 是成对的，我们上次从 swtch 离开，这次肯定是有谁调用了 swtch(... , &amp;c-&gt;sched_context)</li>
-<li>这是个 per-cpu scheduler，而在离开时我们将该 CPU 的控制权移交给了进程 p，所以从 swtch 回来肯定是进程 p 结束了运行。</li>
+<li>这是个 per-cpu scheduler，而在离开时我们将该 CPU 的控制权移交给了进程 p，所以肯定是从进程 p swtch 回来的。(这里其实要求了进程只能通过 scheduler 来进行切换，而不能直接 Pa &harr; Pb)。</li>
 </ol>
 <p>所以，我们可以写出三行 assert 来确保我们的 scheduler 机制运行正常：</p>
 <ol>
@@ -1754,10 +1791,13 @@
 <a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="cpu-interrupt_on">为什么需要保存 <code>cpu-&gt;interrupt_on</code><a class="headerlink" href="#cpu-interrupt_on" title="Permanent link">&para;</a></h3>
-<p>因为该属性是当前内核进程的属性，而并不是当前 cpu 的属性。因为我们会在没有 Process 的情况下使用 push_off/pop_off，所以我们必须将 interrupt_on 标志放置在 <code>struct cpu</code> 中，而不是 <code>struct proc</code> 中，并且在 sched 切换内核进程时，将该属性保存在该内核进程的栈上。</p>
+<p>因为该属性是当前内核进程的属性，而并不是当前 cpu 的属性。因为我们会在没有 Process 的情况下使用 push_off/pop_off，所以我们必须将 <code>interrupt_on</code> 标志放置在 <code>struct cpu</code> 中，而不是 <code>struct proc</code> 中，并且在 <code>sched</code> 切换内核进程时，将该属性保存在该内核进程的栈上。</p>
 <p>至于为什么不需要保存 noff：因为我们强制要求它为 1。</p>
-<p>下图展示了 Kernel Process 1 (红色) 的 Interrupt On 状态是如何通过 sched 和 scheduler (蓝色) 错误影响到 Kernel Process 2 (黄色) 的：</p>
+<p>如果我们注释掉保存 <code>interrupt_on</code> 这一行，下图展示了 Kernel Process 1 (红色) 的 Interrupt On 状态是如何通过 sched 和 scheduler (蓝色) 错误影响到 Kernel Process 2 (黄色) 的：</p>
+<p>Kernel Process 2 先运行了一段时间，此时中断为关，然后调用 sched 暂时离开(虚线)，而此时 Kernel Process 1 开始执行(实线)。P1 执行时，中断为开。在 P1 调用 sched 切换到 scheduler 时，中断状态被 acquire-&gt;push_off 保存在 <code>cpu-&gt;interrupt_on</code> 中，随后 scheduler 选择了 P2 继续执行。而 P2 在退出 sched 时调用了 <code>release</code>-&gt;<code>pop_off</code> 而错误恢复了中断开的状态。</p>
 <p><img alt="alt text" src="../../../assets/xv6lab-contextswitch/kernel-intron.png" /></p>
+<h2 id="lab">Lab 练习<a class="headerlink" href="#lab" title="Permanent link">&para;</a></h2>
+<p>目前，我们规定 <code>sched</code> 调度不允许发生在 kernel trap 环境中。请你修改内核代码，使得我们能在时钟中断中进行内核线程切换。</p>
 
 
 
