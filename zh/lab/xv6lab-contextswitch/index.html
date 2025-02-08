@@ -782,6 +782,63 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#xv6-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      xv6 Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="xv6 Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      关中断
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xv6-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      xv6 scheduler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="xv6 scheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sched" class="md-nav__link">
+    <span class="md-ellipsis">
+      sched 方法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu-interrupt_on" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么需要保存 cpu-&gt;interrupt_on
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1291,6 +1348,63 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#xv6-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      xv6 Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="xv6 Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      关中断
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xv6-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      xv6 scheduler
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="xv6 scheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sched" class="md-nav__link">
+    <span class="md-ellipsis">
+      sched 方法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu-interrupt_on" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么需要保存 cpu-&gt;interrupt_on
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1420,6 +1534,230 @@
 <p>之后，<code>swtch</code> 从 <code>a1</code> 加载即将恢复的 P2 的 Context，使用 <code>ld</code> 指令从 <code>struct context</code> 结构体中读取属于 P2 的 ra, sp 和 s0 - s11 寄存器。</p>
 <p>在 CPU 执行到 <code>ret</code> 时，pc 被恢复为 ra 寄存器的值，此时开始执行上次 P2 调用 <code>swtch</code> 时保存的返回地址。</p>
 <p>至此，成功完成了从 P1 到 P2 的切换。</p>
+<p>此外，<code>swtch</code> 方法是天生成对的：如果上次使用 swtch 离开了当前执行，那么下次返回时，必定是有其他进程调用了 swtch 回到了该进程。</p>
+<h2 id="xv6-process">xv6 Process<a class="headerlink" href="#xv6-process" title="Permanent link">&para;</a></h2>
+<p>在 xv6 中，Process Control Block (PCB) 被定义如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Per-process state</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">spinlock_t</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="c1">// p-&gt;lock must be held when accessing to these fields:</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="n">procstate</span><span class="w"> </span><span class="n">state</span><span class="p">;</span><span class="w">  </span><span class="c1">// Process state</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span><span class="w">               </span><span class="c1">// Process ID</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">exit_code</span><span class="p">;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">sleep_chan</span><span class="p">;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">killed</span><span class="p">;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span><span class="w">  </span><span class="c1">// Parent process</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="c1">// User Memory Management</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="w"> </span><span class="o">*</span><span class="n">vma_ustack</span><span class="p">;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="w"> </span><span class="o">*</span><span class="n">vma_brk</span><span class="p">;</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="w"> </span><span class="o">*</span><span class="n">vma_trapframe</span><span class="p">;</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="w"> </span><span class="o">*</span><span class="n">vma_trampoline</span><span class="p">;</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="c1">// User Trapframe</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">trapframe</span><span class="w"> </span><span class="o">*</span><span class="n">__kva</span><span class="w"> </span><span class="n">trapframe</span><span class="p">;</span><span class="w">  </span><span class="c1">// data page for trampoline.S</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">__kva</span><span class="w"> </span><span class="n">kstack</span><span class="p">;</span><span class="w">                </span><span class="c1">// Virtual address of kernel stack</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">context</span><span class="w"> </span><span class="n">context</span><span class="p">;</span><span class="w">             </span><span class="c1">// swtch() here to run process</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="p">};</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="k">enum</span><span class="w"> </span><span class="n">procstate</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">UNUSED</span><span class="p">,</span><span class="w"> </span><span class="n">USED</span><span class="p">,</span><span class="w"> </span><span class="n">SLEEPING</span><span class="p">,</span><span class="w"> </span><span class="n">RUNNABLE</span><span class="p">,</span><span class="w"> </span><span class="n">RUNNING</span><span class="p">,</span><span class="w"> </span><span class="n">ZOMBIE</span><span class="w"> </span><span class="p">};</span>
+</code></pre></div>
+<p>每个 Process 有自己的 pid, 进程状态、parent 指针、内核栈、和内核 Context。</p>
+<p>对于有用户态的 Process，PCB 中还有负责管理内存的 <code>struct mm</code>，和保存 User mode 下 Trap 触发时数据的 Trapframe。</p>
+<p>除此之外，每个进程都有一个自旋锁 <code>spinlock_t</code>，尽管我们目前理论课还没有接触到锁的相关知识，但是我们在 xv6 中规定：访问所有 <code>struct proc</code> 的成员时，都需要在持有 <code>p-&gt;lock</code> 的情况下进行。</p>
+<div class="admonition info">
+<p class="admonition-title">偷跑：什么是锁</p>
+<p>锁 (lock) 是一种控制并发访问的基本工具。</p>
+<p>我们规定：在我们持有 (holding) 一把自旋锁时：1. 该 CPU 不能被中断，2. 其他 CPU 不能同时持有这一把锁。</p>
+<p>如果抢不到锁，那么 CPU 会进行原地空转直到抢到锁。</p>
+<p>我们使用 <code>acquire</code> 和 <code>release</code> 原语表示 上锁 和 解锁 的动作。</p>
+</div>
+<blockquote>
+<p>代码：<code>os/sched.c</code>, <code>os/smp.c</code>, <code>os/proc.h</code></p>
+</blockquote>
+<p>在 xv6 中，我们使用 <code>struct cpu</code> 描述每个 CPU 的状态，我们是用 <code>mycpu()</code> 方法获取当前 <code>cpu</code> 对象。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">cpu</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">mhart_id</span><span class="p">;</span><span class="w">                  </span><span class="c1">// mhartid for this cpu, passed by OpenSBI</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">proc</span><span class="p">;</span><span class="w">             </span><span class="c1">// current process</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">context</span><span class="w"> </span><span class="n">sched_context</span><span class="p">;</span><span class="w">  </span><span class="c1">// scheduler context, swtch() here to run scheduler</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">inkernel_trap</span><span class="p">;</span><span class="w">             </span><span class="c1">// whether we are in a kernel trap context</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">noff</span><span class="p">;</span><span class="w">                      </span><span class="c1">// how many push-off</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">interrupt_on</span><span class="p">;</span><span class="w">              </span><span class="c1">// Is the interrupt Enabled before the first push-off?</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">sched_kstack_top</span><span class="p">;</span><span class="w">       </span><span class="c1">// top of per-cpu sheduler kernel stack</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">cpuid</span><span class="p">;</span><span class="w">                     </span><span class="c1">// for debug purpose</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">};</span>
+</code></pre></div>
+<h3 id="_1">关中断<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>在内核代码中，我们有时会希望当前的执行不会被打断、不会被其他任务抢占，我们可以通过关闭中断来实现这一点。（当然，异常还是会直接跳入 Trap Handler 的）</p>
+<p>我们使用 <code>push_off()</code> 和 <code>pop_off()</code> 表示一对 关中断/开中断的操作。由于我们可能会有嵌套 <code>push_off</code> 的情况，我们可以将关中断视为一种“压栈”操作，并且当且仅当栈空时才恢复原样，我们在 <code>struct cpu</code> 中记录两个变量：</p>
+<ol>
+<li>
+<p><code>noff</code>：我们目前 <code>push_off</code>/<code>pop_off</code> 的深度是多少。</p>
+<p>例如 <code>push_off()</code>, <code>push_off()</code>, <code>pop_off()</code> 序列后，<code>noff</code> 应该为 1.</p>
+</li>
+<li>
+<p>在第一次 <code>push_off()</code> 时，即 <code>noff == 0</code> 时，CPU 的中断是开的还是关的。</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">push_off</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">ra</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_ra</span><span class="p">();</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">old</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intr_get</span><span class="p">();</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">intr_off</span><span class="p">();</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mycpu</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">noff</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="c1">// warnf(&quot;intr on saved: %p&quot;, ra);</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="n">mycpu</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">interrupt_on</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old</span><span class="p">;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="n">mycpu</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">noff</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="p">}</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="kt">void</span><span class="w"> </span><span class="nf">pop_off</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">ra</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_ra</span><span class="p">();</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu</span><span class="w"> </span><span class="o">*</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mycpu</span><span class="p">();</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">intr_get</span><span class="p">())</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;pop_off - interruptible&quot;</span><span class="p">);</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">noff</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;pop_off - unpair&quot;</span><span class="p">);</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="n">c</span><span class="o">-&gt;</span><span class="n">noff</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">noff</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">c</span><span class="o">-&gt;</span><span class="n">interrupt_on</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">inkernel_trap</span><span class="p">)</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">            </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;pop_off-&gt;intr_on happens in kernel trap&quot;</span><span class="p">);</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">        </span><span class="c1">// we only open the interrupt if: </span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">        </span><span class="c1">//    1. the push-pop stack is cleared, and </span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">        </span><span class="c1">//    2. the interrupt was on before the first push-off</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">        </span><span class="n">intr_on</span><span class="p">();</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="xv6-scheduler">xv6 scheduler<a class="headerlink" href="#xv6-scheduler" title="Permanent link">&para;</a></h2>
+<p>xv6 中，每个 CPU 都有一个自己的 scheduler。<code>scheduler</code> 方法从不返回，其中是一个 <code>while(1)</code> 死循环。</p>
+<p><code>p = fetch_task();</code> ：每次循环时，scheduler 都尝试获取一个 task。</p>
+<p>如果获取不到，检查是否所有进程都退出了。如果是，则表明系统应该结束运行了，如果不是，我们使用 <code>wfi</code> (Wait For Interrupt) 指令等待下一次时钟中断，这一步等价于用 <code>while(1);</code> 使CPU空转一段时间。</p>
+<p>如果我们成功获取到了一个进程，则对该进程上锁 <code>acquire(&amp;p-&gt;lock)</code>，将其状态设置为 RUNNING，将当前 cpu 正在运行的进程设为该进程，随后，<strong>使用 <code>swtch</code> 方法跳转到该进程保存的 Context 中，并保存当前 Context 到 cpu-&gt;sched_context 中</strong>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Scheduler never returns.  It loops, doing:</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">//  - choose a process to run.</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">//  - swtch to start running that process.</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">//  - eventually that process transfers control</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">//    via swtch back to the scheduler.</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">scheduler</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu</span><span class="w"> </span><span class="o">*</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mycpu</span><span class="p">();</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="c1">// We only get here once.</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="c1">// After each cpu boots, it calls scheduler().</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="c1">// If this scheduler finds any possible process to run, it will switch to it.</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="c1">//  And the scheduler context is saved on &quot;mycpu()-&gt;sched_context&quot;</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(;;)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">        </span><span class="c1">// intr may be on here.</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fetch_task</span><span class="p">();</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">            </span><span class="c1">// if we cannot find a process in the task_queue</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">            </span><span class="c1">//  maybe some processes are SLEEPING and some are RUNNABLE</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">all_dead</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">                </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;[cpu %d] scheduler dead.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="o">-&gt;</span><span class="n">cpuid</span><span class="p">);</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">                </span><span class="c1">// nothing to run; stop running on this core until an interrupt.</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">                </span><span class="n">intr_on</span><span class="p">();</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">                </span><span class="k">asm</span><span class="w"> </span><span class="k">volatile</span><span class="p">(</span><span class="s">&quot;wfi&quot;</span><span class="p">);</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="w">                </span><span class="n">intr_off</span><span class="p">();</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">                </span><span class="k">continue</span><span class="p">;</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">        </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">RUNNABLE</span><span class="p">);</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="w">        </span><span class="n">infof</span><span class="p">(</span><span class="s">&quot;switch to proc %d(%d)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">);</span>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="w">        </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RUNNING</span><span class="p">;</span>
+<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="w">        </span><span class="n">c</span><span class="o">-&gt;</span><span class="n">proc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">;</span>
+<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="w">        </span><span class="n">swtch</span><span class="p">(</span><span class="o">&amp;</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">sched_context</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">context</span><span class="p">);</span>
+<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>
+<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="w">        </span><span class="c1">// When we get back here, someone must have called swtch(..., &amp;c-&gt;sched_context);</span>
+<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">proc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p</span><span class="p">);</span>
+<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a><span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">intr_get</span><span class="p">());</span><span class="w">        </span><span class="c1">// scheduler should never have intr_on()</span>
+<a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a><span class="w">        </span><span class="n">assert</span><span class="p">(</span><span class="n">holding</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">));</span><span class="w">  </span><span class="c1">// whoever switch to us must acquire p-&gt;lock</span>
+<a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="w">        </span><span class="n">c</span><span class="o">-&gt;</span><span class="n">proc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a>
+<a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">RUNNABLE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a><span class="w">            </span><span class="n">add_task</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a><span class="w">        </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a><span class="p">}</span>
+</code></pre></div>
+<p>当我们从 swtch 返回时，我们可以推导得出以下结论：</p>
+<ol>
+<li>因为 swtch 是成对的，我们上次从 swtch 离开，这次肯定是有谁调用了 swtch(... , &amp;c-&gt;sched_context)</li>
+<li>这是个 per-cpu scheduler，而在离开时我们将该 CPU 的控制权移交给了进程 p，所以从 swtch 回来肯定是进程 p 结束了运行。</li>
+</ol>
+<p>所以，我们可以写出三行 assert 来确保我们的 scheduler 机制运行正常：</p>
+<ol>
+<li>swtch 返回时，中断一定是关闭的</li>
+<li>我们一定持有者 p-&gt;lock 这把锁</li>
+<li>当前 cpu 正在运行的进程一定是 p</li>
+</ol>
+<p>最后，我们清除 <code>c-&gt;proc</code>。如果 p 还能继续运行 (RUNNABLE)，则将其丢回队列。释放 p-&gt;lock 后，scheduler 进入下一个循环。</p>
+<h3 id="sched">sched 方法<a class="headerlink" href="#sched" title="Permanent link">&para;</a></h3>
+<p><code>sched</code> 方法用于将 CPU 控制权由当前内核进程交还给 scheduler。</p>
+<p>我们规定在 sched 时：</p>
+<ol>
+<li>必须持有 curr_proc()-&gt;lock 这把锁，因为要操作该 <code>struct proc</code> 结构体。</li>
+<li>
+<p>必须只持有 curr_proc()-&gt;lock 这把锁，防止内核出现死锁</p>
+<p>这一步是通过检查 mycpu()-&gt;noff 实现的，因为每次 acquire 会 pushoff 一次，每次 release 会 popoff 一次。</p>
+</li>
+<li>
+<p>必须已经修改 p-&gt;state 为非 RUNNING。</p>
+</li>
+<li>禁止在 kernel trap 环境中调用 sched。</li>
+</ol>
+<p>如果检查通过，则将当前进程状态保存到 p-&gt;context, 并跳转到 scheduler 的 context 上面。</p>
+<p>同理，如果 scheduler 还会切换回来，我们一样要求 scheduler 在给予 CPU 控制权时将 p-&gt;lock 上锁。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// Switch to scheduler.  Must hold only p-&gt;lock</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1">// and have changed proc-&gt;state. Saves and restores</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1">// interrupt_on because interrupt_on is a property of this</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">// kernel thread, not this CPU. It should</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1">// be proc-&gt;interrupt_on and proc-&gt;noff, but that would</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1">// break in the few places where a lock is held but</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">// there&#39;s no process.</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="kt">void</span><span class="w"> </span><span class="nf">sched</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">interrupt_on</span><span class="p">;</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">();</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">holding</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">))</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;not holding p-&gt;lock&quot;</span><span class="p">);</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mycpu</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">noff</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;holding another locks&quot;</span><span class="p">);</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">RUNNING</span><span class="p">)</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;sched running process&quot;</span><span class="p">);</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mycpu</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">inkernel_trap</span><span class="p">)</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;sched should never be called in kernel trap context.&quot;</span><span class="p">);</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">intr_get</span><span class="p">());</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="w">    </span><span class="n">interrupt_on</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mycpu</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">interrupt_on</span><span class="p">;</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">    </span><span class="n">infof</span><span class="p">(</span><span class="s">&quot;switch to scheduler %d(%d)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">);</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="w">    </span><span class="n">swtch</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mycpu</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">sched_context</span><span class="p">);</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="w">    </span><span class="n">infof</span><span class="p">(</span><span class="s">&quot;switch back from scheduler %d(%d)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">);</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">    </span><span class="n">mycpu</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">interrupt_on</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interrupt_on</span><span class="p">;</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="w">    </span><span class="c1">// if scheduler returns here: p-&gt;lock must be holding.</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">holding</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">))</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;not holding p-&gt;lock after sched.swtch returns&quot;</span><span class="p">);</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="cpu-interrupt_on">为什么需要保存 <code>cpu-&gt;interrupt_on</code><a class="headerlink" href="#cpu-interrupt_on" title="Permanent link">&para;</a></h3>
+<p>因为该属性是当前内核进程的属性，而并不是当前 cpu 的属性。因为我们会在没有 Process 的情况下使用 push_off/pop_off，所以我们必须将 interrupt_on 标志放置在 <code>struct cpu</code> 中，而不是 <code>struct proc</code> 中，并且在 sched 切换内核进程时，将该属性保存在该内核进程的栈上。</p>
+<p>至于为什么不需要保存 noff：因为我们强制要求它为 1。</p>
+<p>下图展示了 Kernel Process 1 (红色) 的 Interrupt On 状态是如何通过 sched 和 scheduler (蓝色) 错误影响到 Kernel Process 2 (黄色) 的：</p>
+<p><img alt="alt text" src="../../../assets/xv6lab-contextswitch/kernel-intron.png" /></p>
 
 
 
