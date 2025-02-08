@@ -430,7 +430,7 @@ kernel_image_end_2M = KERNEL_PHYS_BASE + kernel_size_2M;
 printf("Kernel size: %p, Rounded to 2MiB: %p\n", kernel_size, kernel_size_2M);
 ```
 
-在 `kernel_image_end_2M` 后面，我们再开辟一个 2MiB 的页面作为 Kernel Direct Mapping 的第一个内存池，这是为了在后续 `kvmmake` 申请次级页表时提供物理页面。
+在 `kernel_image_end_2M` 后面，我们再开辟一个 2MiB 的页面作为 Kernel Direct Mapping 的第一个内存池，这是为了在第二阶段中，在 `kpagemgr`还未初始化时，给`kvmmake` 提供构建页表时所需要的物理页面。
 
 ```c
 // Calculate Kernel Mapping Base & End
