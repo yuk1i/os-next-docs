@@ -9,25 +9,25 @@
       
       
       
-        <link rel="prev" href="../../zh/lab/xv6lab-paging/">
+        <link rel="prev" href="../xv6lab-interrupts/">
       
       
-        <link rel="next" href="../gdb/">
+        <link rel="next" href="../xv6lab-paging/">
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
     
     
       
-        <title>目录 - 操作系统实验文档</title>
+        <title>Week 5 - 上下文切换 Context Switch - 操作系统实验文档</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.6543a935.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6543a935.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
   
@@ -87,7 +87,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -113,7 +113,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#context-switch" class="md-skip">
           跳转至
         </a>
       
@@ -131,7 +131,7 @@
   <nav class="md-header__inner md-grid" aria-label="页眉">
     <a href="https://teecertlabs.com/" title="操作系统实验文档" class="md-header__button md-logo" aria-label="操作系统实验文档" data-md-component="logo">
       
-  <img src="../../assets/logo.png" alt="logo">
+  <img src="../../../assets/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -148,7 +148,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              目录
+              Week 5 - 上下文切换 Context Switch
             
           </span>
         </div>
@@ -259,7 +259,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
     
@@ -278,7 +278,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../env/" class="md-tabs__link">
+        <a href="../../../env/" class="md-tabs__link">
           
   
   实验环境搭建
@@ -292,11 +292,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../zh/lab/lab1/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../lab1/" class="md-tabs__link">
           
   
   每周实验
@@ -314,7 +316,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../zh/homework/homework1.md" class="md-tabs__link">
+        <a href="../../homework/homework1.md" class="md-tabs__link">
           
   
   课程作业
@@ -328,13 +330,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../qrh/nav/" class="md-tabs__link">
           
   
   快速参考手册
@@ -352,7 +352,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../reference/reference1/" class="md-tabs__link">
+        <a href="../../../reference/reference1/" class="md-tabs__link">
           
   
   阅读材料
@@ -370,7 +370,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../homework/homework1/" class="md-tabs__link">
+        <a href="../../../homework/homework1/" class="md-tabs__link">
           
   
   课程作业
@@ -411,7 +411,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="https://teecertlabs.com/" title="操作系统实验文档" class="md-nav__button md-logo" aria-label="操作系统实验文档" data-md-component="logo">
       
-  <img src="../../assets/logo.png" alt="logo">
+  <img src="../../../assets/logo.png" alt="logo">
 
     </a>
     操作系统实验文档
@@ -438,7 +438,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -498,7 +498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../env/" class="md-nav__link">
+      <a href="../../../env/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -519,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../env/setup/" class="md-nav__link">
+      <a href="../../../env/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -540,7 +540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../env/helloworld/" class="md-nav__link">
+      <a href="../../../env/helloworld/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -565,25 +565,28 @@
       
   
   
+    
   
   
+  
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -594,7 +597,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             每周实验
@@ -608,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../zh/lab/lab1/" class="md-nav__link">
+      <a href="../lab1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -629,7 +632,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../zh/lab/lab2/" class="md-nav__link">
+      <a href="../lab2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -650,7 +653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../zh/lab/lab3/" class="md-nav__link">
+      <a href="../lab3/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -671,7 +674,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../zh/lab/xv6lab-interrupts/" class="md-nav__link">
+      <a href="../xv6lab-interrupts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -689,10 +692,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../zh/lab/xv6lab-contextswitch/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Week 5 - 上下文切换 Context Switch
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -701,6 +724,68 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是 Context
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="什么是 Context">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#context-switch_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么要 Context Switch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-switch_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么时候进行 Context Switch
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xv6-context-switch" class="md-nav__link">
+    <span class="md-ellipsis">
+      xv6 Context Switch 实现
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -713,7 +798,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../zh/lab/xv6lab-paging/" class="md-nav__link">
+      <a href="../xv6lab-paging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -781,7 +866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../zh/homework/homework1.md" class="md-nav__link">
+      <a href="../../homework/homework1.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -806,28 +891,25 @@
       
   
   
-    
   
   
-  
     
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -838,7 +920,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             快速参考手册
@@ -849,19 +931,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../qrh/nav/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -870,7 +943,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -883,7 +955,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../gdb/" class="md-nav__link">
+      <a href="../../../qrh/gdb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -904,7 +976,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../git/" class="md-nav__link">
+      <a href="../../../qrh/git/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -965,7 +1037,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../c-basic/" class="md-nav__link">
+      <a href="../../../qrh/c-basic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -986,7 +1058,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../c-static-linking/" class="md-nav__link">
+      <a href="../../../qrh/c-static-linking/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1062,7 +1134,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/reference1/" class="md-nav__link">
+      <a href="../../../reference/reference1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1130,7 +1202,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../homework/homework1/" class="md-nav__link">
+      <a href="../../../homework/homework1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1171,6 +1243,56 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是 Context
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="什么是 Context">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#context-switch_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么要 Context Switch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context-switch_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么时候进行 Context Switch
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xv6-context-switch" class="md-nav__link">
+    <span class="md-ellipsis">
+      xv6 Context Switch 实现
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1187,12 +1309,117 @@
   
 
 
-<h1 id="_1">快速参考手册<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>本手册会记录你在进行操作系统实验中可能会遇到的问题，或者需要学习的前置知识</p>
-<ul>
-<li><a href="../gdb/">GDB 教程</a></li>
-<li><a href="../git/">Git 教程</a></li>
-</ul>
+<h1 id="context-switch">Context Switch<a class="headerlink" href="#context-switch" title="Permanent link">&para;</a></h1>
+<p>上下文切换 (Context Switch) 是操作系统中的一个重要概念，本章我们将集中于 Context Switch 在技术上的实现，和 xv6 中调度器 (scheduler) 的设计。</p>
+<h2 id="context">什么是 Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>在操作系统中，Context (上下文) 是指在某一时刻程序运行所需的所有状态信息的集合。在 xv6 系统中，我们规定每个 Process 是一个独立的可被调度的实体，也就是说，每个 Process 拥有自己的 Context。</p>
+<p>理解 Context 的重要性在于：当操作系统需要切换执行不同的进程时，必须保存当前进程的 Context，并加载要切换到的进程的 Context。这样才能确保进程在下次获得 CPU 时能够从之前的状态继续执行。这个保存和恢复 Context 的过程就是 Context Switch 的核心内容。</p>
+<p>想象一下你正在读一本书，当你需要暂时去做别的事情时，你会用书签标记当前阅读的位置。这个书签就相当于保存了你的"阅读上下文"。当你回来继续读书时，通过书签就能知道从哪里继续读起。操作系统中的 Context 作用与此类似，只是需要保存和恢复的信息要复杂得多。</p>
+<h3 id="context-switch_1">为什么要 Context Switch<a class="headerlink" href="#context-switch_1" title="Permanent link">&para;</a></h3>
+<p>从调度 (Scheduling) 的角度来看，Context Switch 是实现多任务处理和资源复用的关键机制：</p>
+<ol>
+<li>
+<p>CPU 资源的时分复用</p>
+<p>当系统中有多个就绪进程需要运行时，操作系统需要让它们轮流使用 CPU。即使操作系统只有单个CPU，通过时分复用轮流运行不同的进程，可以实现所有进程好像在同时运行的效果。调度器会根据调度策略（如 Round Robin、Priority Scheduling 等）决定在某个时刻应该运行哪个进程。为了切换到被调度的进程，就必须执行 Context Switch。</p>
+</li>
+<li>
+<p>提高系统吞吐量</p>
+<p>当一个进程因为 I/O 操作而阻塞时，CPU 会闲置。通过 Context Switch，调度器可以切换到其他就绪进程，这样 CPU 就能在等待 I/O 的同时继续执行其他任务，最终提高了整个系统的资源利用率和吞吐量。</p>
+</li>
+<li>
+<p>响应交互式任务</p>
+<p>用户交互程序需要及时响应。通过 Context Switch，调度器可以暂停当前运行的批处理任务，迅速切换到需要立即响应的交互式任务，实现更好的用户体验。</p>
+</li>
+</ol>
+<h3 id="context-switch_2">什么时候进行 Context Switch<a class="headerlink" href="#context-switch_2" title="Permanent link">&para;</a></h3>
+<p>通常 Context Switch 发生在以下几种情况：</p>
+<ol>
+<li>
+<p>时间片到期时（Time Slice Expiration）</p>
+<p>在采用时间片轮转调度算法时，当进程用完分配的时间片，系统的时钟中断触发，操作系统强制进行 Context Switch，切换到其他就绪进程。</p>
+</li>
+<li>
+<p>进程进入阻塞状态时（Process Blocking）</p>
+<p>进程发起系统调用等待 I/O 操作，进程等待某个事件（如信号量），进程申请资源但无法立即获得。</p>
+<p>此时进程主动放弃 CPU，调度器选择其他就绪进程运行。</p>
+</li>
+<li>
+<p>进程主动让出 CPU 时（Voluntary Yield）</p>
+<p>进程调用 <code>yield</code> 系统调用，主动放弃剩余的时间片，通常用于进程感知到自己短期内无事可做时。</p>
+</li>
+</ol>
+<h2 id="xv6-context-switch">xv6 Context Switch 实现<a class="headerlink" href="#xv6-context-switch" title="Permanent link">&para;</a></h2>
+<p>在 xv6 中，我们定义一个进程的内核 Context 为：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Saved registers for kernel context switches.</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">context</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">ra</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">sp</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="c1">// callee-saved</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s0</span><span class="p">;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s1</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s2</span><span class="p">;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s3</span><span class="p">;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s4</span><span class="p">;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s5</span><span class="p">;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s6</span><span class="p">;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s7</span><span class="p">;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s8</span><span class="p">;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s9</span><span class="p">;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s10</span><span class="p">;</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s11</span><span class="p">;</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="p">};</span>
+</code></pre></div>
+<p>在 <code>switch.S</code> 文件中，我们定义"函数" <code>swtch</code>，该函数的原型为 <code>void swtch(struct context *old, struct context *new)</code>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Context switch</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">#   void swtch(struct context *old, struct context *new);</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Save current registers in old. Load from new.</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="na">.globl</span><span class="w"> </span><span class="no">swtch</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nl">swtch:</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">ra</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s0</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s1</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s2</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s3</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s4</span><span class="p">,</span><span class="w"> </span><span class="mi">48</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s5</span><span class="p">,</span><span class="w"> </span><span class="mi">56</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s6</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s7</span><span class="p">,</span><span class="w"> </span><span class="mi">72</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s8</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s9</span><span class="p">,</span><span class="w"> </span><span class="mi">88</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s10</span><span class="p">,</span><span class="w"> </span><span class="mi">96</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">s11</span><span class="p">,</span><span class="w"> </span><span class="mi">104</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">ra</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s0</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s1</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s2</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s3</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s4</span><span class="p">,</span><span class="w"> </span><span class="mi">48</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s5</span><span class="p">,</span><span class="w"> </span><span class="mi">56</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s6</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s7</span><span class="p">,</span><span class="w"> </span><span class="mi">72</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s8</span><span class="p">,</span><span class="w"> </span><span class="mi">80</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s9</span><span class="p">,</span><span class="w"> </span><span class="mi">88</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s10</span><span class="p">,</span><span class="w"> </span><span class="mi">96</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">s11</span><span class="p">,</span><span class="w"> </span><span class="mi">104</span><span class="p">(</span><span class="no">a1</span><span class="p">)</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">    </span><span class="nf">ret</span>
+</code></pre></div>
+<p>当我们需要进行上下文切换时，我们需要调用 <code>swtch</code> 函数，并给出两个 <code>struct context*</code> 指针，分别表示，当前的 Context 应该被保存到哪里 (old)，和之后应该从哪里继续执行 (new)。</p>
+<p>由于我们是在调用一个函数，返回地址会被写入在 <code>ra</code> 寄存器中，这通常是通过 <code>jalr</code> 指令实现的。</p>
+<p>而根据 RISC-V 的 Calling Convention，寄存器的值要么需要调用者自己保存 (Caller-saved register)，被调用者可能会修改这些寄存器；要么被调用者在需要修改这些寄存器时保存 (Callee-saved register)。并且，调用者会在自己的栈帧 (Stack Frame) 上保存这些 caller-saved register (这一步是由编译器自动进行的)，所以，<strong>我们只需要记住 <code>sp</code> 寄存器，即可再下次返回时令 <code>old</code> 找回这些 caller-saved register</strong>。</p>
+<p><img alt="alt text" src="../../../assets/xv6lab-contextswitch/riscv-cc.png" /></p>
+<p>下图展示了 P1 切换到 P2 的过程，P1 和 P2 有各自的 Stack，有各自的 Context 结构体。</p>
+<p><img alt="alt text" src="../../../assets/xv6lab-contextswitch/xv6lab-context-swtchfunc.png" /></p>
+<p>P1 在执行 <code>P1</code> 函数时，会在函数开头 (prologe) 保存 <code>P1</code> 的调用者的返回地址，同时局部变量也是在栈上开辟的。在 P1 调用 <code>swtch</code> 前，编译器在已经将所有 Caller-Saved Registers 保存在栈上，然后编译器生成 <code>jal swtch</code> 的汇编，这一调汇编执行时会将 ra 设置为 <code>P1</code> 函数中 <code>jal</code> 的下一条指令。</p>
+<p>在调用 <code>swtch</code> 时，<code>a0</code> 指向了 P1 的 <code>struct context</code> 结构体，<code>swtch</code> 使用 <code>sd</code> 指令保存 ra, sp 和 s0 - s11 寄存器。</p>
+<p>之后，<code>swtch</code> 从 <code>a1</code> 加载即将恢复的 P2 的 Context，使用 <code>ld</code> 指令从 <code>struct context</code> 结构体中读取属于 P2 的 ra, sp 和 s0 - s11 寄存器。</p>
+<p>在 CPU 执行到 <code>ret</code> 时，pc 被恢复为 ra 寄存器的值，此时开始执行上次 P2 调用 <code>swtch</code> 时保存的返回地址。</p>
+<p>至此，成功完成了从 P1 到 P2 的切换。</p>
 
 
 
@@ -1213,7 +1440,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2024年6月25日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2025年2月8日</span>
   </span>
 
     
@@ -1229,8 +1456,6 @@
     </span>
     <nav>
       
-        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>, 
-        <a href="mailto:1725375420@qq.com">DiWangShePi</a>
     </nav>
   </span>
 
@@ -1265,7 +1490,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../../zh/lab/xv6lab-paging/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Week ? - 页表 Paging">
+          <a href="../xv6lab-interrupts/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Week 4 - 中断 Interrupts">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1275,20 +1500,20 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                Week ? - 页表 Paging
+                Week 4 - 中断 Interrupts
               </div>
             </div>
           </a>
         
         
           
-          <a href="../gdb/" class="md-footer__link md-footer__link--next" aria-label="下一页: GDB">
+          <a href="../xv6lab-paging/" class="md-footer__link md-footer__link--next" aria-label="下一页: Week ? - 页表 Paging">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                GDB
+                Week ? - 页表 Paging
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1331,10 +1556,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.ad660dcc.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.ad660dcc.min.js"></script>
       
     
   </body>

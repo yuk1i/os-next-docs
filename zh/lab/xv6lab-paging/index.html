@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../xv6lab-interrupts/">
+        <link rel="prev" href="../xv6lab-contextswitch/">
       
       
         <link rel="next" href="../../../qrh/nav/">
@@ -679,6 +679,27 @@
   
   <span class="md-ellipsis">
     Week 4 - 中断 Interrupts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xv6lab-contextswitch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week 5 - 上下文切换 Context Switch
   </span>
   
 
@@ -1815,7 +1836,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
 <a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Kernel size: %p, Rounded to 2MiB: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">);</span>
 </code></pre></div>
-<p>在 <code>kernel_image_end_2M</code> 后面，我们再开辟一个 2MiB 的页面作为 Kernel Direct Mapping 的第一个内存池，这是为了在后续 <code>kvmmake</code> 申请次级页表时提供物理页面。</p>
+<p>在 <code>kernel_image_end_2M</code> 后面，我们再开辟一个 2MiB 的页面作为 Kernel Direct Mapping 的第一个内存池，这是为了在第二阶段中，在 <code>kpagemgr</code>还未初始化时，给<code>kvmmake</code> 提供构建页表时所需要的物理页面。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// Calculate Kernel Mapping Base &amp; End</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_PHYS_BASE</span><span class="p">;</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_phys_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">;</span>
@@ -1899,12 +1920,13 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
   <span class="md-source-file__fact">
     <span class="md-icon" title="贡献者">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>
+        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>, 
+        <a href="mailto:not.committed.yet">Not Committed Yet</a>
     </nav>
   </span>
 
@@ -1939,7 +1961,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../xv6lab-interrupts/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Week 4 - 中断 Interrupts">
+          <a href="../xv6lab-contextswitch/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Week 5 - 上下文切换 Context Switch">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1949,7 +1971,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
                 上一页
               </span>
               <div class="md-ellipsis">
-                Week 4 - 中断 Interrupts
+                Week 5 - 上下文切换 Context Switch
               </div>
             </div>
           </a>
