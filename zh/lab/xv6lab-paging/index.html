@@ -20,7 +20,7 @@
     
     
       
-        <title>Week ? - 页表 Paging - 操作系统实验文档</title>
+        <title>Week ? - 内核页表 Kernel Paging - 操作系统实验文档</title>
       
     
     
@@ -148,7 +148,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Week ? - 页表 Paging
+              Week ? - 内核页表 Kernel Paging
             
           </span>
         </div>
@@ -615,7 +615,7 @@
         
   
   <span class="md-ellipsis">
-    Week 1 - 系统调用 Syscall
+    Week 1 - 环境配置
   </span>
   
 
@@ -636,7 +636,7 @@
         
   
   <span class="md-ellipsis">
-    Week 2 - 静态链接
+    Week 2 - C 语言基础
   </span>
   
 
@@ -653,7 +653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lab3/" class="md-nav__link">
+      <a href="../xv6lab-baremetal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -678,7 +678,7 @@
         
   
   <span class="md-ellipsis">
-    Week 4 - 中断 Interrupts
+    Week 4 - 陷入与中断 Trap & Interrupts
   </span>
   
 
@@ -729,7 +729,7 @@
           
   
   <span class="md-ellipsis">
-    Week ? - 页表 Paging
+    Week ? - 内核页表 Kernel Paging
   </span>
   
 
@@ -740,7 +740,7 @@
         
   
   <span class="md-ellipsis">
-    Week ? - 页表 Paging
+    Week ? - 内核页表 Kernel Paging
   </span>
   
 
@@ -822,6 +822,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#kalloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      kalloc 模块
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#relocation" class="md-nav__link">
     <span class="md-ellipsis">
       Relocation
@@ -858,6 +867,132 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xv6lab-userspace.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week ? - 用户空间 Userspace
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xv6lab-userprocess.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week ? - 用户进程 User Process
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xv6lab-pagefault.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week ? - 缺页异常 Page Fault
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xv6lab-sync1.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week ? - 同步与多处理器编程 Sync (1)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xv6lab-io.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week ? - 输入输出 I/O
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xv6lab-sync2.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week ? - 同步与多处理器编程 Sync (2)
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1361,6 +1496,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#kalloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      kalloc 模块
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#relocation" class="md-nav__link">
     <span class="md-ellipsis">
       Relocation
@@ -1442,32 +1586,46 @@ The 27-bit VPN is translated into a 44-bit PPN via a three-level page table, whi
 <li>R, W, X: Read, Write, Executable 权限</li>
 </ul>
 <p>RWX 定义如下图所示：
-注意 XWR == 3b000 的情况表示物理地址 [PPN: 12b0] 为下一级页表的基地址。</p>
+注意 <code>XWR == 3'b000</code> 的情况表示物理地址 [PPN: 12b0] 为下一级页表的基地址。</p>
 <p><img alt="alt text" src="../../../assets/xv6lab-paging/pte-rwx-encoding.png" /></p>
 <p>地址翻译的过程如下图所示：</p>
 <p><img alt="alt text" src="../../../assets/xv6lab-paging/riscv-address-translation.png" /></p>
 <p>See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process</p>
 <p>文字描述，以下 <code>{xx | yy}</code> 表示在 <code>xx</code> bit 右边并上 <code>yy</code> bit，类似于 Verilog 的写法。</p>
 <ol>
-<li><code>{ 25b'signed_ext, 9b'VPN2, 9b'VPN1, 9b'VPN0, 12b'pgoff} = 64b'VirtualAddress</code></li>
+<li>分解 Virtual Address: <code>{ 25'signed_ext, 9'VPN2, 9'VPN1, 9'VPN0, 12'pgoff} = 64'VirtualAddress</code></li>
 <li>将 satp 寄存器中第二级页表的基地址取出</li>
-<li>使用 VPN2 作为 index 在第二级页表中找到 PTE。
-   这一步等效于 C 代码：<code>uint64 pte2 = *(uint64*)(satp.base + VPN2 * 8);</code></li>
-<li>如果 pte2.WXR != 3b000，则表示该 PTE 为 1GiB 大页映射。
-   检查 PPN 是否对齐到 1GiB，aka：<code>pte2.PPN1 == 9b0 &amp;&amp; pte2.PPN0 == 9b0</code>。如果满足，则跳转至 10.，否则 Page Fault。</li>
-<li>否则，<code>{pte2.PPN, 12b'0}</code> 为第一级页表的基地址</li>
-<li>使用 VPN1 作为 index 在第一级页表中找到 PTE。
-   这一步等效于 C 代码：<code>uint64 pte1 = *(uint64*)((pte2.ppn &lt;&lt; 12) + VPN1 * 8);</code></li>
-<li>如果 pte1.WXR != 3b000，则表示该 PTE 为 2MiB 大页映射。
-   检查 PPN 是否对齐到 2MiB，aka：<code>pte2.PPN0 == 9b0</code>。如果满足，则跳转至 10.，否则 Page Fault。</li>
-<li>否则，<code>{pte1.PPN | 12b'0}</code> 为第零级页表的基地址</li>
-<li>使用 VPN0 作为 index 在第零级页表中找到 PTE。
-   这一步等效于 C 代码：<code>uint64 pte0 = *(uint64*)((pte1.ppn &lt;&lt; 12) + VPN0 * 8);</code></li>
-<li>得到最终的物理地址：<code>PA = (final_pte.ppn &lt;&lt; 12) | final_page_offset</code>，
-    如果为 2MiB 大页映射，<code>final_page_offset = {9b'VPN0, 12b'pgoff}</code>。
-    如果为 1GiB 大页映射，<code>final_page_offset = {9b'VPN1, 9b'VPN0, 12b'pgoff}</code>
-    否则，<code>final_page_offset = pgoff</code></li>
-<li>权限检查：检查 <code>final_pte.rwx</code> 是否与访存请求相同。</li>
+<li>使用 VPN2 作为 index 在第二级页表中找到 PTE。</li>
+</ol>
+<p>这一步等效于 C 代码：<code>uint64 pte2 = *(uint64*)(satp.base + VPN2 * 8);</code></p>
+<ol>
+<li>如果 <code>pte2.WXR != 3'b000</code>，则表示该 PTE 为 1GiB 大页映射。</li>
+</ol>
+<p>检查 PPN 是否对齐到 1GiB，aka：<code>pte2.PPN1 == 9'b0 &amp;&amp; pte2.PPN0 == 9'b0</code>。如果满足，则跳转至 10.，否则 Page Fault。</p>
+<ol>
+<li>否则，<code>{pte2.PPN, 12'b0}</code> 为第一级页表的基地址</li>
+<li>使用 VPN1 作为 index 在第一级页表中找到 PTE。</li>
+</ol>
+<p>这一步等效于 C 代码：<code>uint64 pte1 = *(uint64*)((pte2.ppn &lt;&lt; 12) + VPN1 * 8);</code></p>
+<ol>
+<li>如果 <code>pte1.WXR != 3'b000</code>，则表示该 PTE 为 2MiB 大页映射。</li>
+</ol>
+<p>检查 PPN 是否对齐到 2MiB，aka：<code>pte2.PPN0 == 9'b0</code>。如果满足，则跳转至 10.，否则 Page Fault。</p>
+<ol>
+<li>否则，<code>{pte1.PPN | 12'b0}</code> 为第零级页表的基地址</li>
+<li>使用 VPN0 作为 index 在第零级页表中找到 PTE。</li>
+</ol>
+<p>这一步等效于 C 代码：<code>uint64 pte0 = *(uint64*)((pte1.ppn &lt;&lt; 12) + VPN0 * 8);</code></p>
+<ol>
+<li>
+<p>得到最终的物理地址：<code>PA = (final_pte.ppn &lt;&lt; 12) | final_page_offset</code>，</p>
+<p>如果为 2MiB 大页映射，<code>final_page_offset = {9'bVPN0, 12'bpgoff}</code>。</p>
+<p>如果为 1GiB 大页映射，<code>final_page_offset = {9'bVPN1, 9'bVPN0, 12'bpgoff}</code></p>
+<p>否则，<code>final_page_offset = pgoff</code></p>
+</li>
+<li>
+<p>权限检查：检查 <code>final_pte.rwx</code> 是否与访存请求相同。</p>
+</li>
 </ol>
 <h3 id="a-d">A &amp; D<a class="headerlink" href="#a-d" title="Permanent link">&para;</a></h3>
 <p>每个叶 PTE 包含 Accessed 和 Dirty 两个 bits：</p>
@@ -1611,7 +1769,7 @@ When SUM=0, S-mode memory accesses to pages that are accessible by U-mode (U=1 i
 </code></pre></div>
 <p>其中，<code>0x1000</code> 上放置的是 BootROM，是 CPU 上电后的执行的第一块代码。（类似于在组成原理课程里面使用的 BlockRAM）
 OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也是为什么我们内核的 BASE_ADDRESS 不能是 <code>0x8000_0000</code> 而得是 <code>0x8020_0000</code>）
-内核ELF 被加载到 <code>0x8020_0000</code> 的地址。</p>
+内核 ELF 被加载到 <code>0x8020_0000</code> 的地址。</p>
 <table>
 <thead>
 <tr>
@@ -1649,6 +1807,10 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align: right;"><code>0x0000_0000_xxxx_xxxx</code></td>
+<td>Userspace</td>
+</tr>
 <tr>
 <td style="text-align: right;"><code>0x0000_003f_ffff_f000</code></td>
 <td>Trampoline</td>
@@ -1694,23 +1856,27 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="cp">#define KVA_TO_PA(x) (((uint64)(x)) - KERNEL_DIRECT_MAPPING_BASE)</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="cp">#define PA_TO_KVA(x) (((uint64)(x)) + KERNEL_DIRECT_MAPPING_BASE)</span>
 </code></pre></div>
-<ul>
-<li>kalloc 包含两个功能：<ol>
-<li>对物理页面的分配</li>
-<li>对固定大小对象的动态分配和回收</li>
-</ol>
+<h2 id="kalloc">kalloc 模块<a class="headerlink" href="#kalloc" title="Permanent link">&para;</a></h2>
+<p><code>kalloc.c</code> 会在启动后接管 Direct Mapping，其负责两个功能：</p>
+<ol>
+<li>
+<p>对物理页面的分配 (物理页面管理)</p>
 </li>
-<li>在 kalloc 接管剩余的物理内存后，我们需要从它分配：<ol>
+<li>
+<p>对固定大小对象的动态分配和回收 (对象分配器管理)</p>
+</li>
+</ol>
+<p>在 kalloc 接管剩余的物理内存后，我们需要从它分配：</p>
+<ol>
 <li>每个 object allocator 的内存池</li>
 <li>每个 process 的 kernel stack</li>
 <li>每个 cpu 的 scheduler stack</li>
 </ol>
-</li>
-</ul>
+<p>随后，用户空间所需要的页面和配置页表所需要的页面均由 <code>kalloc</code> 模块管理。</p>
 <h2 id="relocation">Relocation<a class="headerlink" href="#relocation" title="Permanent link">&para;</a></h2>
 <p>对于内核本身(即编译出来的 ELF 文件：<code>build/kernel</code>，也称为 内核镜像)，我们采用基地址偏移映射。</p>
 <p>也就是说，内核中定义 (Defined) 的符号(变量、函数)，它们会被 OpenSBI 加载到指定的物理地址 <code>0x0000_0000_8020_abcd</code>，而该符号所对应的虚拟地址是 <code>0xffff_ffff_8020_abcd</code>。对于所有符号，这两个地址之间永远相差一个固定的值。我们将该值定义为内核偏移量 (kernel offset)。</p>
-<p>该值定义为宏 <code>KERNEL_OFFSET</code>，并定义宏 <code>KIVA_TO_PA</code> 和 <code>PA_TO_KIVA</code> 在便于两者之间转换。</p>
+<p>该值定义为宏 <code>KERNEL_OFFSET</code>，并定义宏 <code>KIVA_TO_PA</code> 和 <code>PA_TO_KIVA</code> 在便于两者之间转换。(KIAV: Kernel Image Virtual Address)</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// (Kernel Image Virtual Address) TO (Physical Address)</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#define KIVA_TO_PA(x) (((uint64)(x)) - KERNEL_OFFSET)</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#define PA_TO_KIVA(x) (((uint64)(x)) + KERNEL_OFFSET)</span>
@@ -1792,7 +1958,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    3  _entry:
 <a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>→   4      lla sp, boot_stack_top
 <a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    5      call main
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>    6  
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>    6
 <a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    7      .section .bss.stack
 <a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    8      .globl boot_stack
 <a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>    9  boot_stack:
@@ -1804,7 +1970,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <li><code>mv a0, 0xffff_ffff_8020_xxxx</code></li>
 <li><code>jr a0</code></li>
 </ol>
-<p>但是，当我们执行第 1 条指令时，我们的 PC 还指向着 0x8020_xxxx 上面，当设置完 satp 后页表启用，下一条指令的寻址地址是 上一个PC + 4，仍然是在 0x8020_xxxx 的范围里面。
+<p>但是，当我们执行第 1 条指令时，我们的 PC 还指向着 0x8020_xxxx 上面，当设置完 satp 后页表启用，下一条指令的寻址地址是 上一个 PC + 4，仍然是在 0x8020_xxxx 的范围里面。
 这样我们的第二条指令就会发生 Instruction Page Fault 异常。
 也就是说，在我们设置完高地址的内核页表后，我们并不能直接切换到仅包含高地址的页表上，因为此时我们的 PC 指针还指向低地址。</p>
 <p>所以，我们需要一个临时页表，其中包含了两份映射：</p>
@@ -1812,7 +1978,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <li>VA <code>0x0000_0000_8020_0000</code> -&gt; PA <code>0x8020_0000</code></li>
 <li>VA <code>0xffff_ffff_8020_0000</code> -&gt; PA <code>0x8020_0000</code></li>
 </ol>
-<p>当执行完上述第1条指令启用 Sv39 后，我们目前的 PC 仍然指向合法的虚拟地址，我们可以加载一个绝对地址到寄存器中，然后使用 <code>jr</code> 指令跳转到该寄存器的值，从而进入到内核的高地址。</p>
+<p>当执行完上述第 1 条指令启用 Sv39 后，我们目前的 PC 仍然指向合法的虚拟地址，我们可以加载一个绝对地址到寄存器中，然后使用 <code>jr</code> 指令跳转到该寄存器的值，从而进入到内核的高地址。</p>
 <p>我们将这一系列步骤称为 Relocate (重定位)。</p>
 <p>See also: <a href="https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-6.html">https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-6.html</a></p>
 <h3 id="relocation_start">relocation_start<a class="headerlink" href="#relocation_start" title="Permanent link">&para;</a></h3>
@@ -1850,7 +2016,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 </code></pre></div>
 <p>然后，我们开始映射：VA <code>0x0000_0000_8020_0000</code> -&gt; PA <code>0x8020_0000</code></p>
 <ol>
-<li>在 <code>pgt_root</code> 上添加一条PTE，使其指向第一级页表 <code>pgt_ident</code>。</li>
+<li>在 <code>pgt_root</code> 上添加一条 PTE，使其指向第一级页表 <code>pgt_ident</code>。</li>
 <li>从 <code>kernel_phys_base</code> 到 <code>kernel_phys_end</code>，每 2 MiB 添加一个 PTE 映射</li>
 <li>计算该物理地址应该被映射到哪个虚拟地址上，在这个映射中，<code>va = pa</code>。</li>
 <li>计算 <code>VPN1</code>，并在 <code>pgt_ident</code> 中添加映射。</li>
@@ -1884,7 +2050,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    [2], pte[0x0000000080209010]: 0xffffffc080400000 -&gt; 0x0000000080400000 DA---WRV
 <a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>[1fe], pte[0x000000008020bff0]: 0xffffffff80000000 -&gt; 0x0000000080208000 -------V
 <a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    [1], pte[0x0000000080208008]: 0xffffffff80200000 -&gt; 0x0000000080200000 DA--XWRV
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>=== END === 
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>=== END ===
 </code></pre></div>
 </div>
 <h2 id="_4">固定大小对象分配器<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
@@ -1909,7 +2075,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2025年2月3日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2025年2月8日</span>
   </span>
 
     
@@ -2011,8 +2177,8 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/29698d33, 2025-02-03 23:16:33+08:00" target="_blank" rel="noopener">
-            29698d33, 2025-02-03 23:16:33+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/d1b0dfe8, 2025-02-08 22:01:07+08:00" target="_blank" rel="noopener">
+            d1b0dfe8, 2025-02-08 22:01:07+08:00
         </a>
     </div>
 </div>
