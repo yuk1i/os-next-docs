@@ -12,7 +12,7 @@
         <link rel="prev" href="../xv6lab-contextswitch/">
       
       
-        <link rel="next" href="../../../qrh/nav/">
+        <link rel="next" href="../xv6lab-userspace/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -113,7 +113,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#risc-v-xv6" class="md-skip">
           跳转至
         </a>
       
@@ -790,7 +790,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -813,7 +813,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       内核内存布局
     </span>
@@ -855,7 +855,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       固定大小对象分配器
     </span>
@@ -879,7 +879,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../xv6lab-userspace.md" class="md-nav__link">
+      <a href="../xv6lab-userspace/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1464,7 +1464,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -1487,7 +1487,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       内核内存布局
     </span>
@@ -1529,7 +1529,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       固定大小对象分配器
     </span>
@@ -1555,7 +1555,7 @@
   
 
 
-<h1 id="_1">内核内存管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h1 id="risc-v-xv6">RISC-V 页表模型 &amp; xv6 内核页表<a class="headerlink" href="#risc-v-xv6" title="Permanent link">&para;</a></h1>
 <h2 id="satp">satp<a class="headerlink" href="#satp" title="Permanent link">&para;</a></h2>
 <p>satp (Supervisor Address Translation and Protection) 寄存器是控制 S mode 和 U mode 下地址翻译的寄存器，其中包含三个属性：<code>MODE</code>, <code>ASID</code> 和 <code>PPN</code>。</p>
 <blockquote>
@@ -1649,7 +1649,7 @@ The 27-bit VPN is translated into a 44-bit PPN via a three-level page table, whi
 <p>1. When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, a page-fault exception is raised.
 2. When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, the implementation sets the corresponding bit(s) in the PTE.</p>
 <p>See also: "riscv-privilege.pdf" "4.3.1 Addressing and Memory Protection"</p>
-<h3 id="_2">权限检查<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h3 id="_1">权限检查<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
 <p>凭直觉的，读取的页面要带有 R bit，写入的页面要带有 W bit，执行的页面要带有 X bit。</p>
 <p>但是，如果一个页面的权限带有 U bit，并且现在 CPU 核心运行在 S mode 下，我们需要对此进行额外检查：如果 <code>sstatus.SUM == 1</code> 则访问被允许，否则 Page Fault.</p>
 <blockquote>
@@ -1797,7 +1797,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 </tbody>
 </table>
 <p><img alt="alt text" src="../../../assets/xv6lab-paging/xv6lab-paging-phymemlayout.png" /></p>
-<h2 id="_3">内核内存布局<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_2">内核内存布局<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>Sv39 虚拟地址的高位是 Sign-Extension 的，在 <code>&lt; 256 GiB</code> 和 <code>256 GiB ~ 512 GiB</code> 之间有着巨大的 gap，我们利用此特性在地址上区分用户地址（低，以 0x0000 开头）和内核地址（高，以 0xffff 开头）。</p>
 <table>
 <thead>
@@ -2053,7 +2053,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>=== END ===
 </code></pre></div>
 </div>
-<h2 id="_4">固定大小对象分配器<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_3">固定大小对象分配器<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>TODO</p>
 
 
@@ -2144,13 +2144,13 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
         
         
           
-          <a href="../../../qrh/nav/" class="md-footer__link md-footer__link--next" aria-label="下一页: 目录">
+          <a href="../xv6lab-userspace/" class="md-footer__link md-footer__link--next" aria-label="下一页: Week ? - 用户空间 Userspace">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                目录
+                Week ? - 用户空间 Userspace
               </div>
             </div>
             <div class="md-footer__button md-icon">
