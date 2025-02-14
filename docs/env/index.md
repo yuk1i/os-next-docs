@@ -24,9 +24,9 @@ Linux是一个免费可用的操作系统，非常适用于操作系统开发。
 - **Install Fedora Workstation：** https://fedoraproject.org/
 
 不同的 Linux 发行版有不同的包管理工具和系统管理界面。
-不过，他们大多遵守类似的“哲学”和设计理念，因而将你在一个Linux 发行版上学到的东西应用到另一个上并非难事。
+不过，他们大多遵守类似的“哲学”和设计理念，因而将你在一个 Linux 发行版上学到的东西应用到另一个上并非难事。
 
-为了应对后续的实验，我们推荐同学们选择 Ubuntu Desktop、openSUSE Tumbleweed 或者 Fedora workstation。
+为了应对后续的实验，我们推荐同学们选择 Ubuntu LTS 或 Debian stable。
 你也可以选择安装 Ubuntu server、openSUSE Leap 和 Fedora server，但要记得安装一个相应的图形化操作界面。
 
 ## 搭建 Linux 虚拟环境
@@ -51,9 +51,3 @@ Linux是一个免费可用的操作系统，非常适用于操作系统开发。
     2. 语言尽量选择英文，中文路径可能导致部分实验内容无法顺利完成。
 
 > Maybe we can add a simple tutorial like installing Ubuntu after installing VMware on Windows?
-
-## 使用容器构建开发环境
-
-同学们也可以尝试在 Windows 或者 MacOS 上通过运行容器来完成实验，但我们需要事先提醒各位，后续文档中所提供的指令在这类情境下不一定有效。
-
-我们也提供了基于 Windows WSL 2.0 的方案：

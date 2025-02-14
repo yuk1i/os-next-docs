@@ -22,7 +22,7 @@
 
     同步的异常是由于指令执行时产生的，所以异常的产生是与 clk 对齐的；而异步的异常则完全与当前指令、clk无关。
 
-    ![alt text](../../assets/xv6lab-interrupts/sync-async.png)
+    ![alt text](../assets/xv6lab-interrupts/sync-async.png)
 
 所以，很显然为什么 Trap 所指的控制流转移是“同步”的：我们起码需要等待时钟周期来临才能进行控制流转移。
 
@@ -38,7 +38,7 @@ Source: riscv-spec-v2.1.pdf, Section 1.3 "Exceptions, Traps, and Interrupts".
 !!!info "RISC-V 与 x86 的不同："
     在不同的教材中，我们对 Exception (异常)、Trap (陷阱) 和 Interrupt (中断) 有着类似的定义，例如 CSAPP 参照 x86 模型描述了如下四种类型的控制流中断：主要区别在于异常控制流产生是否同步与指令流、以及跳转至异常控制流后时候会返回到原来程序的控制流。
 
-    ![alt text](../../assets/xv6lab-interrupts/csapp-definition.png)
+    ![alt text](../assets/xv6lab-interrupts/csapp-definition.png)
 
     例如，x86 中的异常类型： Page Fault (缺页异常)，Machine Check (Abort) (内存或硬件错误)。
 
@@ -51,9 +51,9 @@ Source: riscv-spec-v2.1.pdf, Section 1.3 "Exceptions, Traps, and Interrupts".
 
 mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-V 核心的控制状态，sstaus 实际上是 mstatus 的一个 Restricted View.
 
-![alt text](../../assets/xv6lab-interrupts/mstatus.png)
+![alt text](../assets/xv6lab-interrupts/mstatus.png)
 
-![alt text](../../assets/xv6lab-interrupts/sstatus.png)
+![alt text](../assets/xv6lab-interrupts/sstatus.png)
 
 由于 RISC-V 的手册对 CSR 寄存器每个 Field 的定义实在是太难找，我们在此处提供一个用于快速查找的表：
 
@@ -95,15 +95,15 @@ mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-
 
 ### stvec
 
-![alt text](../../assets/xv6lab-interrupts/stvec.png)
+![alt text](../assets/xv6lab-interrupts/stvec.png)
 
 ### scause
 
 When a trap is taken into S-mode, scause is written with a code indicating the event that caused the trap.
 
-![alt text](../../assets/xv6lab-interrupts/scause.png)
+![alt text](../assets/xv6lab-interrupts/scause.png)
 
-![alt text](../../assets/xv6lab-interrupts/scause-table.png)
+![alt text](../assets/xv6lab-interrupts/scause-table.png)
 
 ### sie & sip
 
@@ -112,9 +112,9 @@ while sie is the corresponding 64-bit read/write register containing interrupt e
 
 Interrupt cause number i (as reported in CSR scause, Section 4.1.8) corresponds with bit i in both sip and sie. Bits 15:0 are allocated to standard interrupt causes only, while bits 16 and above are designated for platform or custom use.
 
-![alt text](../../assets/xv6lab-interrupts/sipsie.png)
+![alt text](../assets/xv6lab-interrupts/sipsie.png)
 
-![alt text](../../assets/xv6lab-interrupts/sie-standard-def.png)
+![alt text](../assets/xv6lab-interrupts/sie-standard-def.png)
 
 ### sepc
 
@@ -276,7 +276,7 @@ free:
 
 下图展示了 进入 Trap，构造 ktrapframe，然后恢复并sret过程的栈结构：
 
-![alt text](../../assets/xv6lab-interrupts/trap-stacklayout.png)
+![alt text](../assets/xv6lab-interrupts/trap-stacklayout.png)
 
 
 !!!questions "Lab TODO: "
@@ -323,7 +323,7 @@ PLIC 能够管理 0~15871 个 Context，能设置每个中断源是否允许路�
 
 PLIC 会拉起 Hart 的 mip.MEIP/sip.SEIP bit，而该 hart 是否进入 Interrupt 的 Trap 由上述 `进入中断的条件` 决定。
 
-![alt text](../../assets/xv6lab-interrupts/plic-structure.png)
+![alt text](../assets/xv6lab-interrupts/plic-structure.png)
 
 #### Memory-Mapped Register
 
@@ -353,4 +353,4 @@ base + 0x000FFC: Interrupt source 1023 priority
 
 在 Hart 因为 External Interrupt 陷入 Trap 后，Hart 需要向 PLIC 申请处理该中断。在处理完成后，Hart 还需要向 PLIC 申明该中断处理完毕。
 
-![alt text](../../assets/xv6lab-interrupts/PLICInterruptFlow.jpg)
+![alt text](../assets/xv6lab-interrupts/PLICInterruptFlow.jpg)

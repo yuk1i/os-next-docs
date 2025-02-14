@@ -118,11 +118,11 @@ swtch:
 
 而根据 RISC-V 的 Calling Convention，寄存器的值要么需要调用者自己保存 (Caller-saved register)，被调用者能够随意修改这些寄存器；要么被调用者在需要修改这些寄存器时保存 (Callee-saved register)。并且，调用者会在自己的栈帧 (Stack Frame) 上保存这些 caller-saved register (这一步是由编译器自动进行的)，所以，**我们只需要记住 `sp` 寄存器，即可再下次返回时让 `old` 找回这些 caller-saved register**。
 
-![alt text](../../assets/xv6lab-contextswitch/riscv-cc.png)
+![alt text](../assets/xv6lab-contextswitch/riscv-cc.png)
 
 下图展示了 P1 切换到 P2 的过程，P1 和 P2 有各自的 Stack，有各自的 Context 结构体。
 
-![alt text](../../assets/xv6lab-contextswitch/xv6lab-context-swtchfunc.png)
+![alt text](../assets/xv6lab-contextswitch/xv6lab-context-swtchfunc.png)
 
 P1 在执行 `P1` 函数时，会在函数开头 (prologue) 保存 `P1` 的调用者的返回地址，同时局部变量也是在栈上开辟的。在 P1 调用 `swtch` 前，编译器在已经将所有 Caller-Saved Registers 保存在栈上，然后编译器生成 `jal swtch` 的汇编，这一调汇编执行时会将 ra 设置为 `P1` 函数中 `jal` 的下一条指令。
 
@@ -391,7 +391,7 @@ void sched() {
 
 Kernel Process 2 先运行了一段时间，此时中断为关，然后调用 sched 暂时离开(虚线)，而此时 Kernel Process 1 开始执行(实线)。P1 执行时，中断为开。在 P1 调用 sched 切换到 scheduler 时，中断状态被 acquire->push_off 保存在 `cpu->interrupt_on` 中，随后 scheduler 选择了 P2 继续执行。而 P2 在退出 sched 时调用了 `release`->`pop_off` 而错误恢复了中断开的状态。
 
-![alt text](../../assets/xv6lab-contextswitch/kernel-intron.png)
+![alt text](../assets/xv6lab-contextswitch/kernel-intron.png)
 
 ## Lab 练习
 

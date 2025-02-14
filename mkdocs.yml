@@ -73,20 +73,18 @@ nav:
     - 开发环境配置: env/setup.md
     - 运行 Hello World: env/helloworld.md
   - 每周实验: 
-    - Week 1 - 环境配置: zh/lab/lab1.md
-    - Week 2 - C 语言基础: zh/lab/lab2.md
-    - Week 3 - 裸机程序 Bare Metal: zh/lab/xv6lab-baremetal.md
-    - Week 4 - 陷入与中断 Trap & Interrupts: zh/lab/xv6lab-interrupts.md
-    - Week 5 - 上下文切换 Context Switch: zh/lab/xv6lab-contextswitch.md
-    - Week ? - 内核页表 Kernel Paging: zh/lab/xv6lab-paging.md
-    - Week ? - 用户空间 Userspace: zh/lab/xv6lab-userspace.md
-    - Week ? - 用户进程 User Process: zh/lab/xv6lab-userprocess.md
-    - Week ? - 缺页异常 Page Fault: zh/lab/xv6lab-pagefault.md
-    - Week ? - 同步与多处理器编程 Sync (1): zh/lab/xv6lab-sync1.md
-    - Week ? - 输入输出 I/O: zh/lab/xv6lab-io.md
-    - Week ? - 同步与多处理器编程 Sync (2): zh/lab/xv6lab-sync2.md
-  - 课程作业: 
-    - 第一次作业: zh/homework/homework1.md
+    - Week 1 - 环境配置: lab/lab1.md
+    - Week 2 - C 语言基础: lab/lab2.md
+    - Week 3 - 裸机程序 Bare Metal: lab/xv6lab-baremetal.md
+    - Week 4 - 陷入与中断 Trap & Interrupts: lab/xv6lab-interrupts.md
+    - Week 5 - 上下文切换 Context Switch: lab/xv6lab-contextswitch.md
+    - Week 6 - 内核页表 Kernel Paging: lab/xv6lab-paging.md
+    - Week 7 - 用户空间 Userspace: lab/xv6lab-userspace.md
+    # - Week 8 - 用户进程 User Process: zh/lab/xv6lab-userprocess.md
+    # - Week ? - 缺页异常 Page Fault: zh/lab/xv6lab-pagefault.md
+    # - Week ? - 同步与多处理器编程 Sync (1): zh/lab/xv6lab-sync1.md
+    # - Week ? - 输入输出 I/O: zh/lab/xv6lab-io.md
+    # - Week ? - 同步与多处理器编程 Sync (2): zh/lab/xv6lab-sync2.md
   - 快速参考手册:
     - 目录: qrh/nav.md
     - GDB: qrh/gdb.md
@@ -96,8 +94,6 @@ nav:
       - 静态链接: qrh/c-static-linking.md
   - 阅读材料:
     - 推荐文献: reference/reference1.md
-  - 课程作业: 
-    - 第一次作业: homework/homework1.md
 
 hooks:
   - scripts/hook.py

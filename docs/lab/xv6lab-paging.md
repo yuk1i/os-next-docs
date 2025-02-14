@@ -6,13 +6,13 @@ satp (Supervisor Address Translation and Protection) 寄存器是控制 S mode �
 
 > This register holds the physical page number (PPN) of the root page table, i.e., its supervisor physical address divided by 4 KiB; an address space identifier (ASID), which facilitates address-translation fences on a per-address-space basis; and the MODE field, which selects the current address-translation scheme. Further details on the access to this register are described in Section 3.1.6.5.
 
-![alt text](../../assets/xv6lab-paging/satp.png)
+![alt text](../assets/xv6lab-paging/satp.png)
 
 Mode 表示使用的地址翻译模式，0 则表示禁用地址翻译，所有请求的地址均作为物理地址看待，`PPN` 表示根页表的基地址。在我们的课程中，我们将使用 Sv39 作为页表模式。
 
 我们暂且不需要理解 ASID 的作用。
 
-![alt text](../../assets/xv6lab-paging/satp-mode.png)
+![alt text](../assets/xv6lab-paging/satp-mode.png)
 
 ## Sv39
 
@@ -25,7 +25,7 @@ RISC-V 的 Sv39 模式支持了 39-bit 的虚拟地址空间，每个页面大�
 > Instruction fetch addresses and load and store effective addresses, which are 64 bits, must have bits 63–39 all equal to bit 38, or else a page-fault exception will occur.
 > The 27-bit VPN is translated into a 44-bit PPN via a three-level page table, while the 12-bit page offset is untranslated.
 
-![alt text](../../assets/xv6lab-paging/sv39-pgt-structure.png)
+![alt text](../assets/xv6lab-paging/sv39-pgt-structure.png)
 
 虚拟地址分为四部分：VPN[2-0] (Virtual Page Number) 和 page offset。三级 VPN 表示在三级页表中的 index, 而 page offset 表示当前地址在被翻译的页面中的偏移量。
 
@@ -42,11 +42,11 @@ Flags 定义如下：
 RWX 定义如下图所示：
 注意 `XWR == 3'b000` 的情况表示物理地址 [PPN: 12b0] 为下一级页表的基地址。
 
-![alt text](../../assets/xv6lab-paging/pte-rwx-encoding.png)
+![alt text](../assets/xv6lab-paging/pte-rwx-encoding.png)
 
 地址翻译的过程如下图所示：
 
-![alt text](../../assets/xv6lab-paging/riscv-address-translation.png)
+![alt text](../assets/xv6lab-paging/riscv-address-translation.png)
 
 See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process
 
@@ -236,7 +236,7 @@ OpenSBI 被加载到 DRAM 空间开始的 `0x8000_0000`。（这也是为什么�
 | `0x8020_0000` | `0x0000_2790` | kernel segment 1 |
 | `0x8020_3000` | `0x0000_9048` | kernel segment 1 |
 
-![alt text](../../assets/xv6lab-paging/xv6lab-paging-phymemlayout.png)
+![alt text](../assets/xv6lab-paging/xv6lab-paging-phymemlayout.png)
 
 ## 内核内存布局
 
@@ -258,7 +258,7 @@ Sv39 虚拟地址的高位是 Sign-Extension 的，在 `< 256 GiB` 和 `256 GiB 
 - 其次，映射一些内核 setup 所需要的页面，如每个 CPU 的 scheduler 所用的栈，以及外设所需要的 MMIO。
 - 最后，剩下的所有可用的物理页面将被 Direct Mapping 到 `0xffff_ffc0_0000_0000`，并交给 kalloc 管理。
 
-![alt text](../../assets/xv6lab-paging/xv6lab-paging-kmemlayout.png)
+![alt text](../assets/xv6lab-paging/xv6lab-paging-kmemlayout.png)
 
 Direct Mapping 的作用是让 Kernel 能直接操纵所有可用的物理内存，但是除了内核本身镜像以外。
 
@@ -501,7 +501,7 @@ uint64 kernel_la_end = kernel_la_base + PGSIZE_2M;
 
     你可以使用 `vm_print_tmp(pgt_root)` 打印临时页表。最终，你的临时页表结构应该如下所示：
 
-    ![alt text](../../assets/xv6lab-paging/xv6lab-paging-temporary-pgt.png)
+    ![alt text](../assets/xv6lab-paging/xv6lab-paging-temporary-pgt.png)
 
     ```
     === Temporary PageTable at 0x000000008020b000 ===

@@ -223,7 +223,7 @@ userret:
         ld t5, 272(a0)
         ld t6, 280(a0)
 
-	# restore user a0, and save TRAPFRAME in sscratch
+        # restore user a0, and save TRAPFRAME in sscratch
         csrrw a0, sscratch, a0
 
         # return to user mode and user pc.
@@ -232,4 +232,10 @@ userret:
 ```
 
 ## 用户页表的设置
+
+TODO: proc.c 设置 kstack，trapframe
+
+kvm.c 映射 trampoline
+
+vm.c 映射 trampline 和 trapframe
 

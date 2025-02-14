@@ -1,4 +1,4 @@
-# 运行裸机程序 : xv6-lab1
+# 运行裸机程序
 
 当我们在为 Linux 环境编程时，我们通常只需要考虑程序的逻辑、并使用和 libc 函数和其封装的系统调用完成与操作系统和用户的交互；例如使用 printf 和 scanf 在标准输入输出流上进行操作。此时，我们的用户态运行环境是由 libc 提供的，而内核是由 Linux Kernel 提供的。
 
@@ -27,7 +27,7 @@
 
 特权级的区分是在 CPU 硬件电路上实现的。在 RISC-V 上，特权级使用 2bit 进行区分，分为 M mode，S mode，和 U mode。
 
-![image](../../assets/lab2/riscv-priviledge-levels.png)
+![image](../assets/lab2/riscv-priviledge-levels.png)
 
 > The machine level has the highest privileges and is the only mandatory privilege level for a RISC-V hardware platform. Code run in machine-mode (M-mode) is usually inherently trusted, as it has low-level access to the machine implementation. M-mode can be used to manage secure execution environments on RISC-V. User-mode (U-mode) and supervisor-mode (S-mode) are intended for conventional application and operating system usage respectively.
 
@@ -45,7 +45,7 @@ M mode 为 RISC-V 架构中的最高特权，一般运行 OpenSBI 固件程序�
 
 而 x86 (IA32 & AMD64) 架构定义特权级为四个 Ring ：Ring 0 代表最高特权级，运行操作系统；而 Ring 3 代表最低特权级，运行用户程序。通常来说，x86架构上只会使用到 Ring 0 和 Ring 3 两种特权级。
 
-![alt text](../../assets/lab2/x86-privilege-levels.png)
+![alt text](../assets/lab2/x86-privilege-levels.png)
 
 !!!info "为什么要定义特权级"
     通过对比上述三种体系结构定义的特权级，我们可以发现用户程序和操作系统的运行环境被严格切分，这使得操作系统能正确隔离用户程序与操作系统，用户程序之间的访问。
@@ -59,7 +59,7 @@ M mode 为 RISC-V 架构中的最高特权，一般运行 OpenSBI 固件程序�
 
 固件 (OpenSBI) 中抽象了对底层硬件的访问，并通过类似 syscall 的方式为 S Mode 的操作系统提供了一些基本的访问硬件的接口，其中就包含了基本的串口输入输出函数，`sbi_console_putchar` 和 `sbi_console_getchar`。
 
-![image](../../assets/lab2/riscv-priviledge-arch.png)
+![image](../assets/lab2/riscv-priviledge-arch.png)
 
 ## 第一个裸机程序
 
