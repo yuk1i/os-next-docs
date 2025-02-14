@@ -833,6 +833,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户页表的设置
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1435,6 +1444,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户页表的设置
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1486,8 +1504,10 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <p>我们将 512 GiB 的地址切分为用户地址(低地址)和内核地址(高地址)，用户地址为 0x0000_00 开头，而内核地址以 0xffff_ff 开头。</p>
 <p>每一个用户进程都有自己独立的地址空间，所以，对于每一个用户程序，我们都为它创建一个单独的页表。我们将其称为用户页表。</p>
 <p>在 xv6 中，用户页表并不包含内核页表项目，也就是说不包含内核镜像的代码、数据和 Direct Mapping 等。</p>
-<p>由于我们从 U mode 进入 S mode 的方式是 Trap，而在进入 Trap Handler 时，CPU 还会在使用着处于 U mode 时所用的页表，并不包含内核空间的地址映射。所以说，我们不能直接在 U mode 下使用内核所用的 <code>stvec</code>。这个问题与我们在实现 Relocation 时所遇到的问题类似。</p>
-<p>所以，我们设置一个专门的代码页面，让它在内核页表和用户页表中都映射到相同的虚拟地址。在我们需要 S mode -&gt; U mode 时，我们切换到用户页表，并设置用户的 <code>stvec</code> 为该代码页面中的一个简易 Trap Handler。而在进入该 Trap Handler 时，即 U mode -&gt; S mode 时，我们切换回内核的页表和内核的 <code>stvec</code>，保存用户的执行环境，并恢复内核的运行环境。</p>
+<p>由于我们从 U mode 进入 S mode 的方式是 Trap，而在进入 Trap Handler 时，CPU 会将 pc 跳转为 <code>stvec</code>，但是此时 CPU 仍然还使用着原来的 satp，即 U mode 时所用的页表，并不包含内核空间的地址映射。所以说，我们不能直接在 U mode 下使用内核所用的 <code>stvec</code> (<code>0xffff_ffff_8020_xxxx</code>)。这个问题与我们在实现 Relocation 时所遇到的问题类似。</p>
+<p>所以，我们设置一个专门的代码页面，让它在内核页表和用户页表中都映射到相同的虚拟地址。</p>
+<p>在我们需要 S mode -&gt; U mode 时，我们切换到用户页表，并设置用户的 <code>stvec</code> 为该代码页面中的一个简易 Trap Handler。而在进入该 Trap Handler 时，即 U mode -&gt; S mode 时，我们切换回内核的页表和内核的 <code>stvec</code>，保存用户的执行环境，并恢复内核的运行环境。</p>
+<p>我们将该特殊页面称为 Trampoline，并将其映射到 <code>0x0000_003f_ffff_f000</code>。</p>
 <h3 id="trampoline">Trampoline<a class="headerlink" href="#trampoline" title="Permanent link">&para;</a></h3>
 <blockquote>
 <p>Trampoline n. 蹦床</p>
@@ -1501,27 +1521,150 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nl">uservec:</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="c1"># trap.c sets stvec to point here, so</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="c1"># traps from user space start here,</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="c1"># in supervisor mode, but with a</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="c1"># user page table.</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">        </span><span class="c1">#</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">        </span><span class="c1"># sscratch points to where the process&#39;s p-&gt;trapframe is</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="c1"># mapped into user space, at TRAPFRAME.</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">        </span><span class="c1">#</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">        </span><span class="nf">j</span><span class="w"> </span><span class="no">usertrap</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="na">.globl</span><span class="w"> </span><span class="no">userret</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="nl">userret:</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">        </span><span class="c1"># userret(TRAPFRAME, pagetable, stvec)</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">        </span><span class="c1"># switch from kernel to user.</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">        </span><span class="c1"># usertrapret() calls here.</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="c1"># in supervisor mode, but with a user page table.</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="c1">#</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">        </span><span class="c1"># sscratch points to where the process&#39;s p-&gt;trapframe is</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">        </span><span class="c1"># mapped into user space, at TRAPFRAME.</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="c1"># swap a0 and sscratch, so that a0 is TRAPFRAME</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">        </span><span class="nf">csrrw</span><span class="w"> </span><span class="no">a0</span><span class="p">,</span><span class="w"> </span><span class="no">sscratch</span><span class="p">,</span><span class="w"> </span><span class="no">a0</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">        </span><span class="c1"># save the user registers (x1 - x31) in TRAPFRAME</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">        </span><span class="nf">sd</span><span class="w"> </span><span class="no">ra</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">        </span><span class="nf">sd</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">48</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">        </span><span class="c1"># ...</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">        </span><span class="nf">sd</span><span class="w"> </span><span class="no">t5</span><span class="p">,</span><span class="w"> </span><span class="mi">272</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">        </span><span class="nf">sd</span><span class="w"> </span><span class="no">t6</span><span class="p">,</span><span class="w"> </span><span class="mi">280</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">        </span><span class="c1"># ...</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">        </span><span class="c1"># return to user mode and user pc.</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">        </span><span class="c1"># usertrapret() set up sstatus and sepc.</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">        </span><span class="nf">sret</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">        </span><span class="c1"># we have saved t0, so we can smash it</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">        </span><span class="c1"># resotre a0 from sscratch, and save it</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">        </span><span class="nf">csrr</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="no">sscratch</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">        </span><span class="nf">sd</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">112</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">        </span><span class="c1"># save epc</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">        </span><span class="nf">csrr</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="no">sepc</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">        </span><span class="nf">sd</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">        </span><span class="c1"># load kernel&#39;s satp, sp, usertrap handler, tp(hartid)</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">tp</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="w">        </span><span class="nf">csrw</span><span class="w"> </span><span class="no">satp</span><span class="p">,</span><span class="w"> </span><span class="no">t1</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="w">        </span><span class="nf">sfence.vma</span><span class="w"> </span><span class="no">zero</span><span class="p">,</span><span class="w"> </span><span class="no">zero</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a><span class="w">        </span><span class="nf">jr</span><span class="w"> </span><span class="no">t0</span>
 </code></pre></div>
+<p>在 Trampoline 中，所有 GPR (x1-x31) 均为用户程序所使用的，我们需要在进入 trap / 退出 trap 时保持所有 GPR 一致。</p>
+<p>我们将保存用户寄存器的地方称为 Trapframe，大小小于一个页面。</p>
+<p>Trapframe 定义在 <code>proc.h</code> 中：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">trapframe</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="cm">/*   0 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_satp</span><span class="p">;</span><span class="w">    </span><span class="c1">// kernel page table</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="cm">/*   8 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_sp</span><span class="p">;</span><span class="w">      </span><span class="c1">// top of process&#39;s kernel stack</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="cm">/*  16 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_trap</span><span class="p">;</span><span class="w">    </span><span class="c1">// usertrap()</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="cm">/*  24 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">epc</span><span class="p">;</span><span class="w">            </span><span class="c1">// saved user program counter</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="cm">/*  32 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_hartid</span><span class="p">;</span><span class="w">  </span><span class="c1">// saved kernel tp</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="cm">/*  40 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">ra</span><span class="p">;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="cm">/*  48 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">sp</span><span class="p">;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="cm">/*  ... */</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="cm">/* 272 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">t5</span><span class="p">;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="cm">/* 280 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">t6</span><span class="p">;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">};</span>
+</code></pre></div>
+<p>由于 RISC-V 的指令的 destination 均为寄存器，而我们在保存用户寄存器前不能修改寄存器的内容，所以我们起码需要一个能修改的寄存器来给我们操作空间。RISC-V 提供了一个 <code>sscratch</code> 寄存器来给 Trap Handler 一个暂存寄存器的地方。我们可以使用 <code>csrrw a0, sscratch, a0</code> 交换 <code>sscratch</code> 和 <code>a0</code> 寄存器。</p>
+<p>我们规定，<code>sscratch</code> 寄存器保存着用户页表中 Trapframe 所映射的虚拟地址，我们将它放置在 Trampoline 下面一个页，即 <code>0x0000_003f_ffff_e000</code>。</p>
+<p>在进入 <code>uservec</code> 后，我们交换 a0 和 sscratch，此时 a0 为 <code>0x0000_003f_ffff_e000</code>，映射到该进程的 <code>struct trapframe</code> 结构体。</p>
+<p>随后，我们即可使用 a0 + 40 来得到 <code>trapframe</code> 中的 ra 字段的地址，所以，我们用 <code>sd ra, 40(a0)</code> 等来保存除了 a0 以外的所有用户寄存器。在正确保存用户寄存器后，我们能够修改所有寄存器了，我们将保存在 <code>sscratch</code> 中的用户 <code>a0</code> 读取到 t0，并写入 trapframe 中，至此我们成功保存了所有用户寄存器。然，我们保存 <code>sepc</code> 寄存器。</p>
+<p>最后，我们从 <code>trapframe</code> 中读取内核相关的数据，如内核的页表 <code>satp</code>，内核栈 sp <code>kernel_sp</code>，内核的 cpuid (tp寄存器) <code>kernel_hartid</code>，以及下一阶段的跳转地址 <code>kenrel_trap</code>。</p>
+<p>在切换回内核的页表后，我们即可跳转 <code>tf-&gt;kernel_trap</code> 进入C语言环境处理 User Trap。此时，我们回到了内核的页表。</p>
+<p>在 <code>usertrap</code> 中，我们先将 stvec 设置为 <code>kerneltrap</code>，以此捕捉可能出现的中断和异常。随后读取 scause 处理异常。最后，使用 <code>usertrapret</code> 返回用户空间。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">usertrap</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">set_kerneltrap</span><span class="p">();</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">intr_get</span><span class="p">());</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">r_sstatus</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SSTATUS_SPP</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;usertrap: not from user mode&quot;</span><span class="p">);</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">trapframe</span><span class="w"> </span><span class="o">*</span><span class="n">trapframe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="p">;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_scause</span><span class="p">();</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="c1">// handle usertrap according to scause</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">intr_get</span><span class="p">());</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="n">usertrapret</span><span class="p">();</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>usertrapret</code> 先将内核的信息保存到 <code>trapframe</code>，修改 <code>sepc</code>，设置 <code>sstatus</code> 返回 U mode，计算出用户页表的 satp 和 stvec 值，并跳转到 Trampoline 中的 <code>userret</code> 地址。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">//</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// return to user space</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">//</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">usertrapret</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">intr_get</span><span class="p">())</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;usertrapret entered with intr on&quot;</span><span class="p">);</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">trapframe</span><span class="w"> </span><span class="o">*</span><span class="n">trapframe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="p">;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">kernel_satp</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">r_satp</span><span class="p">();</span><span class="w">                                 </span><span class="c1">// kernel page table</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">kernel_sp</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">kstack</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">KERNEL_STACK_SIZE</span><span class="p">;</span><span class="w">  </span><span class="c1">// process&#39;s kernel stack</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">kernel_trap</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">usertrap</span><span class="p">;</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">kernel_hartid</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">r_tp</span><span class="p">();</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="n">w_sepc</span><span class="p">(</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">epc</span><span class="p">);</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="c1">// set up the registers that trampoline.S&#39;s sret will use to get to user space.</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="c1">// set S Previous Privilege mode to User.</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_sstatus</span><span class="p">();</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="n">SSTATUS_SPP</span><span class="p">;</span><span class="w">  </span><span class="c1">// clear SPP to 0 for user mode</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">SSTATUS_SPIE</span><span class="p">;</span><span class="w">  </span><span class="c1">// enable interrupts in user mode</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">    </span><span class="n">w_sstatus</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">    </span><span class="c1">// tell trampoline.S the user page table to switch to.</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">satp</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">MAKE_SATP</span><span class="p">(</span><span class="n">KVA_TO_PA</span><span class="p">(</span><span class="n">curr_proc</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">mm</span><span class="o">-&gt;</span><span class="n">pgt</span><span class="p">));</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">stvec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">TRAMPOLINE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">uservec</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">trampoline</span><span class="p">))</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">~</span><span class="mh">0x3</span><span class="p">;</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">fn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TRAMPOLINE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">userret</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">trampoline</span><span class="p">);</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">    </span><span class="n">tracef</span><span class="p">(</span><span class="s">&quot;return to user @%p, fn %p&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">epc</span><span class="p">);</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">    </span><span class="p">((</span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="n">uint64</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="p">))</span><span class="n">fn</span><span class="p">)(</span><span class="n">TRAPFRAME</span><span class="p">,</span><span class="w"> </span><span class="n">satp</span><span class="p">,</span><span class="w"> </span><span class="n">stvec</span><span class="p">);</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="p">}</span>
+</code></pre></div>
+<p>在调用 <code>userret</code> 时，我们传入了3个参数。在汇编中，我们可以使用 a0-a3 引用它们。</p>
+<p>我们首先换回用户页表，此时我们即可使用 <code>0x0000_003f_ffff_e000</code> 引用 trapframe，然后设置用户的 stvec。</p>
+<p>我们先将用户的 a0 存入 <code>sscratch</code>，然后从 trapframe 中恢复了其他用户寄存器。最后，我们使用 <code>csrrw a0, sscratch, a0</code> 交换 a0 和 <code>sscratch</code>，此时 a0 为用户的 a0，<code>sscratch</code> 是 trapframe 的虚拟地址。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="na">.globl</span><span class="w"> </span><span class="no">userret</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nl">userret:</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">        </span><span class="c1"># userret(TRAPFRAME, pagetable, stvec)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="c1"># switch from kernel to user.</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="c1"># usertrapret() calls here.</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="c1"># a0: TRAPFRAME, in user page table.</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="c1"># a1: user page table, for satp.</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="c1"># switch to the user page table.</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="nf">csrw</span><span class="w"> </span><span class="no">satp</span><span class="p">,</span><span class="w"> </span><span class="no">a1</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">        </span><span class="nf">sfence.vma</span><span class="w"> </span><span class="no">zero</span><span class="p">,</span><span class="w"> </span><span class="no">zero</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">        </span><span class="c1"># switch to the user stvec.</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">        </span><span class="nf">csrw</span><span class="w"> </span><span class="no">stvec</span><span class="p">,</span><span class="w"> </span><span class="no">a2</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">        </span><span class="c1"># put the saved user a0 in sscratch, so we</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">        </span><span class="c1"># can swap it with our a0 (TRAPFRAME) in the last step.</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">112</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">        </span><span class="nf">csrw</span><span class="w"> </span><span class="no">sscratch</span><span class="p">,</span><span class="w"> </span><span class="no">t0</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">        </span><span class="c1"># restore all but a0 from TRAPFRAME</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">ra</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">48</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span><span class="c1"># ...</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">t5</span><span class="p">,</span><span class="w"> </span><span class="mi">272</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">t6</span><span class="p">,</span><span class="w"> </span><span class="mi">280</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">    </span><span class="c1"># restore user a0, and save TRAPFRAME in sscratch</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">        </span><span class="nf">csrrw</span><span class="w"> </span><span class="no">a0</span><span class="p">,</span><span class="w"> </span><span class="no">sscratch</span><span class="p">,</span><span class="w"> </span><span class="no">a0</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">        </span><span class="c1"># return to user mode and user pc.</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">        </span><span class="c1"># usertrapret() set up sstatus and sepc.</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="w">        </span><span class="nf">sret</span>
+</code></pre></div>
+<h2 id="_4">用户页表的设置<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 
 
 
@@ -1553,12 +1696,13 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
   <span class="md-source-file__fact">
     <span class="md-icon" title="贡献者">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>
+        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>, 
+        <a href="mailto:not.committed.yet">Not Committed Yet</a>
     </nav>
   </span>
 
