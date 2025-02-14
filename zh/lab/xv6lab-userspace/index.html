@@ -746,6 +746,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Week ? - 用户空间 Userspace
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -755,6 +766,76 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户态和内核态的切换
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="用户态和内核态的切换">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kernel-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kernel -&gt; User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      User -&gt; Kernel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户页表 / 内核页表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trampoline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trampoline
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1297,6 +1378,65 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户态和内核态的切换
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="用户态和内核态的切换">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kernel-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kernel -&gt; User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      User -&gt; Kernel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      用户页表 / 内核页表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trampoline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trampoline
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1314,6 +1454,74 @@
 
 
 <h1 id="_1">用户空间<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>用户空间 (Userspace) 是操作系统为用户程序提供的一个受限制的运行环境。操作系统通过 CPU 的硬件功能辅助来实现隔离，这通常包括：</p>
+<ul>
+<li>特权级的隔离。用户空间一般使用低特权级运行，使用高特权级指令会触发异常。</li>
+<li>内存空间的隔离。用户空间下可见的地址是操作系统为其设置的。</li>
+</ul>
+<h2 id="_2">用户态和内核态的切换<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>RISC-V CPU 运行时会处于某个特权级状态。操作系统运行在 S mode，而用户模式处于 U mode。</p>
+<h3 id="kernel-user">Kernel -&gt; User<a class="headerlink" href="#kernel-user" title="Permanent link">&para;</a></h3>
+<p>在 CSR <code>sstatus</code> 中，<code>SPP</code> 的描述如下：</p>
+<p>The SPP bit indicates the privilege level at which a hart was executing before entering supervisor mode.
+When a trap is taken, SPP is set to 0 if the trap originated from user mode, or 1 otherwise.
+When an SRET instruction (see Section 3.3.2) is executed to return from the trap handler, the privilege level is set to user mode if the SPP bit is 0, or supervisor mode if the SPP bit is 1; SPP is then set to 0.</p>
+<p>只要在 <code>sret</code> 执行时，<code>sstatus.SPP</code> 为 0，我们即可去到 U mode 下。（这并不要求我们一定处于 Trap Handler 中）</p>
+<h3 id="user-kernel">User -&gt; Kernel<a class="headerlink" href="#user-kernel" title="Permanent link">&para;</a></h3>
+<p>若 CPU 运行在 U mode 下，CPU 通过触发 Trap 来回到 S mode，这通常包括：</p>
+<ul>
+<li>中断。包含时钟中断、外部中断等。</li>
+<li>
+<p>异常通常包括：</p>
+<ul>
+<li>Illegal Instruction</li>
+<li>(Load, Store, Fetch) Page Fault</li>
+<li>Environment call (<strong>这是 RISC-V 的 syscall 方式</strong>)</li>
+</ul>
+</li>
+</ul>
+<p>当需要进行系统调用时，用户程序可以使用 <code>ecall</code> 指令触发一次异常，而这将使内核 Trap 回到 S mode.</p>
+<h3 id="_3">用户页表 / 内核页表<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>在上一节 Lab 中，我们介绍了 RISC-V 的页表模型，并且为内核设置了页表。在 PTE 中的第 4 个 bit U 表示该映射关系是否允许在用户模式下访问。</p>
+<p>我们将 512 GiB 的地址切分为用户地址(低地址)和内核地址(高地址)，用户地址为 0x0000_00 开头，而内核地址以 0xffff_ff 开头。</p>
+<p>每一个用户进程都有自己独立的地址空间，所以，对于每一个用户程序，我们都为它创建一个单独的页表。我们将其称为用户页表。</p>
+<p>在 xv6 中，用户页表并不包含内核页表项目，也就是说不包含内核镜像的代码、数据和 Direct Mapping 等。</p>
+<p>由于我们从 U mode 进入 S mode 的方式是 Trap，而在进入 Trap Handler 时，CPU 还会在使用着处于 U mode 时所用的页表，并不包含内核空间的地址映射。所以说，我们不能直接在 U mode 下使用内核所用的 <code>stvec</code>。这个问题与我们在实现 Relocation 时所遇到的问题类似。</p>
+<p>所以，我们设置一个专门的代码页面，让它在内核页表和用户页表中都映射到相同的虚拟地址。在我们需要 S mode -&gt; U mode 时，我们切换到用户页表，并设置用户的 <code>stvec</code> 为该代码页面中的一个简易 Trap Handler。而在进入该 Trap Handler 时，即 U mode -&gt; S mode 时，我们切换回内核的页表和内核的 <code>stvec</code>，保存用户的执行环境，并恢复内核的运行环境。</p>
+<h3 id="trampoline">Trampoline<a class="headerlink" href="#trampoline" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Trampoline n. 蹦床</p>
+</blockquote>
+<p>在 xv6 中，Trampoline 是两段特殊的代码 <code>uservec</code> 和 <code>userret</code>，用于切换到用户态和切换回内核态。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span><span class="na">.section</span><span class="w"> </span><span class="no">trampsec</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="na">.globl</span><span class="w"> </span><span class="no">trampoline</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nl">trampoline:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="na">.globl</span><span class="w"> </span><span class="no">uservec</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nl">uservec:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="c1"># trap.c sets stvec to point here, so</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="c1"># traps from user space start here,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="c1"># in supervisor mode, but with a</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="c1"># user page table.</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">        </span><span class="c1">#</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">        </span><span class="c1"># sscratch points to where the process&#39;s p-&gt;trapframe is</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="c1"># mapped into user space, at TRAPFRAME.</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">        </span><span class="c1">#</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">        </span><span class="nf">j</span><span class="w"> </span><span class="no">usertrap</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="na">.globl</span><span class="w"> </span><span class="no">userret</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="nl">userret:</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">        </span><span class="c1"># userret(TRAPFRAME, pagetable, stvec)</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">        </span><span class="c1"># switch from kernel to user.</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">        </span><span class="c1"># usertrapret() calls here.</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">        </span><span class="c1"># ...</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">        </span><span class="c1"># return to user mode and user pc.</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">        </span><span class="c1"># usertrapret() set up sstatus and sepc.</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">        </span><span class="nf">sret</span>
+</code></pre></div>
 
 
 
@@ -1345,11 +1553,12 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="贡献者">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
       
     </span>
     <nav>
       
+        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>
     </nav>
   </span>
 
@@ -1434,8 +1643,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/d1b0dfe8, 2025-02-08 22:01:07+08:00" target="_blank" rel="noopener">
-            d1b0dfe8, 2025-02-08 22:01:07+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/1e2769f2, 2025-02-14 16:53:38+08:00" target="_blank" rel="noopener">
+            1e2769f2, 2025-02-14 16:53:38+08:00
         </a>
     </div>
 </div>
