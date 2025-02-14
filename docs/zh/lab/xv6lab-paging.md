@@ -1,4 +1,4 @@
-# 内核内存管理
+# RISC-V 页表模型 & xv6 内核页表
 
 ## satp
 
@@ -40,7 +40,7 @@ Flags 定义如下：
 - R, W, X: Read, Write, Executable 权限
 
 RWX 定义如下图所示：
-注意 XWR == 3b000 的情况表示物理地址 [PPN: 12b0] 为下一级页表的基地址。
+注意 `XWR == 3'b000` 的情况表示物理地址 [PPN: 12b0] 为下一级页表的基地址。
 
 ![alt text](../../assets/xv6lab-paging/pte-rwx-encoding.png)
 
@@ -52,24 +52,38 @@ See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process
 
 文字描述，以下 `{xx | yy}` 表示在 `xx` bit 右边并上 `yy` bit，类似于 Verilog 的写法。
 
-1. `{ 25b'signed_ext, 9b'VPN2, 9b'VPN1, 9b'VPN0, 12b'pgoff} = 64b'VirtualAddress`
+1. 分解 Virtual Address: `{ 25'signed_ext, 9'VPN2, 9'VPN1, 9'VPN0, 12'pgoff} = 64'VirtualAddress`
 2. 将 satp 寄存器中第二级页表的基地址取出
 3. 使用 VPN2 作为 index 在第二级页表中找到 PTE。
+
    这一步等效于 C 代码：`uint64 pte2 = *(uint64*)(satp.base + VPN2 * 8);`
-4. 如果 pte2.WXR != 3b000，则表示该 PTE 为 1GiB 大页映射。
-   检查 PPN 是否对齐到 1GiB，aka：`pte2.PPN1 == 9b0 && pte2.PPN0 == 9b0`。如果满足，则跳转至 10.，否则 Page Fault。
-5. 否则，`{pte2.PPN, 12b'0}` 为第一级页表的基地址
+
+4. 如果 `pte2.WXR != 3'b000`，则表示该 PTE 为 1GiB 大页映射。
+
+   检查 PPN 是否对齐到 1GiB，aka：`pte2.PPN1 == 9'b0 && pte2.PPN0 == 9'b0`。如果满足，则跳转至 10.，否则 Page Fault。
+
+5. 否则，`{pte2.PPN, 12'b0}` 为第一级页表的基地址
 6. 使用 VPN1 作为 index 在第一级页表中找到 PTE。
+
    这一步等效于 C 代码：`uint64 pte1 = *(uint64*)((pte2.ppn << 12) + VPN1 * 8);`
-7. 如果 pte1.WXR != 3b000，则表示该 PTE 为 2MiB 大页映射。
-   检查 PPN 是否对齐到 2MiB，aka：`pte2.PPN0 == 9b0`。如果满足，则跳转至 10.，否则 Page Fault。
-8. 否则，`{pte1.PPN | 12b'0}` 为第零级页表的基地址
+
+7. 如果 `pte1.WXR != 3'b000`，则表示该 PTE 为 2MiB 大页映射。
+
+   检查 PPN 是否对齐到 2MiB，aka：`pte2.PPN0 == 9'b0`。如果满足，则跳转至 10.，否则 Page Fault。
+
+8. 否则，`{pte1.PPN | 12'b0}` 为第零级页表的基地址
 9. 使用 VPN0 作为 index 在第零级页表中找到 PTE。
+
    这一步等效于 C 代码：`uint64 pte0 = *(uint64*)((pte1.ppn << 12) + VPN0 * 8);`
+
 10. 得到最终的物理地址：`PA = (final_pte.ppn << 12) | final_page_offset`，
-    如果为 2MiB 大页映射，`final_page_offset = {9b'VPN0, 12b'pgoff}`。
-    如果为 1GiB 大页映射，`final_page_offset = {9b'VPN1, 9b'VPN0, 12b'pgoff}`
+
+    如果为 2MiB 大页映射，`final_page_offset = {9'bVPN0, 12'bpgoff}`。
+
+    如果为 1GiB 大页映射，`final_page_offset = {9'bVPN1, 9'bVPN0, 12'bpgoff}`
+
     否则，`final_page_offset = pgoff`
+
 11. 权限检查：检查 `final_pte.rwx` 是否与访存请求相同。
 
 ### A & D
@@ -214,7 +228,7 @@ addr=000000009fe00000 size=0x0012b8 mem=ram name="fdt"
 
 其中，`0x1000` 上放置的是 BootROM，是 CPU 上电后的执行的第一块代码。（类似于在组成原理课程里面使用的 BlockRAM）
 OpenSBI 被加载到 DRAM 空间开始的 `0x8000_0000`。（这也是为什么我们内核的 BASE_ADDRESS 不能是 `0x8000_0000` 而得是 `0x8020_0000`）
-内核ELF 被加载到 `0x8020_0000` 的地址。
+内核 ELF 被加载到 `0x8020_0000` 的地址。
 
 | `Base`        | Size          | Description      |
 | :------------ | :------------ | ---------------- |
@@ -230,6 +244,7 @@ Sv39 虚拟地址的高位是 Sign-Extension 的，在 `< 256 GiB` 和 `256 GiB 
 
 |          `Base Address` | Description                                           |
 | ----------------------: | ----------------------------------------------------- |
+| `0x0000_0000_xxxx_xxxx` | Userspace                                             |
 | `0x0000_003f_ffff_f000` | Trampoline                                            |
 | `0xffff_ffc0_0000_0000` | Kernel Direct Mapping of all available physical pages |
 | `0xffff_fffd_0000_0000` | Kernel Heap (fixed-size object)                       |
@@ -257,13 +272,21 @@ Direct Mapping 的作用是让 Kernel 能直接操纵所有可用的物理内存
 #define PA_TO_KVA(x) (((uint64)(x)) + KERNEL_DIRECT_MAPPING_BASE)
 ```
 
-- kalloc 包含两个功能：
-    1. 对物理页面的分配
-    2. 对固定大小对象的动态分配和回收
-- 在 kalloc 接管剩余的物理内存后，我们需要从它分配：
-    1. 每个 object allocator 的内存池
-    2. 每个 process 的 kernel stack
-    3. 每个 cpu 的 scheduler stack
+## kalloc 模块
+
+`kalloc.c` 会在启动后接管 Direct Mapping，其负责两个功能：
+
+1. 对物理页面的分配 (物理页面管理)
+
+2. 对固定大小对象的动态分配和回收 (对象分配器管理)
+
+在 kalloc 接管剩余的物理内存后，我们需要从它分配：
+
+1. 每个 object allocator 的内存池
+2. 每个 process 的 kernel stack
+3. 每个 cpu 的 scheduler stack
+
+随后，用户空间所需要的页面和配置页表所需要的页面均由 `kalloc` 模块管理。
 
 ## Relocation
 
@@ -271,7 +294,7 @@ Direct Mapping 的作用是让 Kernel 能直接操纵所有可用的物理内存
 
 也就是说，内核中定义 (Defined) 的符号(变量、函数)，它们会被 OpenSBI 加载到指定的物理地址 `0x0000_0000_8020_abcd`，而该符号所对应的虚拟地址是 `0xffff_ffff_8020_abcd`。对于所有符号，这两个地址之间永远相差一个固定的值。我们将该值定义为内核偏移量 (kernel offset)。
 
-该值定义为宏 `KERNEL_OFFSET`，并定义宏 `KIVA_TO_PA` 和 `PA_TO_KIVA` 在便于两者之间转换。
+该值定义为宏 `KERNEL_OFFSET`，并定义宏 `KIVA_TO_PA` 和 `PA_TO_KIVA` 在便于两者之间转换。(KIAV: Kernel Image Virtual Address)
 
 ```c
 // (Kernel Image Virtual Address) TO (Physical Address)
@@ -308,7 +331,7 @@ BASE_ADDRESS = 0xffffffff80200000;
 
     1. 使用 `make` 编译内核，使用 `make run` 启动内核，观察内核是否能够启动。
     2. 使用 `readelf -a build/kernel` 打印出 kernel ELF 的结构，并解释里面的 Program Headers。
-    
+
     随后，将 `kernel.ld` 的内容覆盖为 `kernel-backup.ld` 中的内容。
 
     1. 使用 `make` 编译内核，使用 `make run` 启动内核，观察内核是否能够启动。
@@ -374,12 +397,11 @@ Kernel is Relocating...
         3  _entry:
     →   4      lla sp, boot_stack_top
         5      call main
-        6  
+        6
         7      .section .bss.stack
         8      .globl boot_stack
         9  boot_stack:
     ```
-
 
 如果我们直接构建上图的页表，我们需要两条或更多指令来跳转到高地址：
 
@@ -387,7 +409,7 @@ Kernel is Relocating...
 2. `mv a0, 0xffff_ffff_8020_xxxx`
 3. `jr a0`
 
-但是，当我们执行第 1 条指令时，我们的 PC 还指向着 0x8020_xxxx 上面，当设置完 satp 后页表启用，下一条指令的寻址地址是 上一个PC + 4，仍然是在 0x8020_xxxx 的范围里面。
+但是，当我们执行第 1 条指令时，我们的 PC 还指向着 0x8020_xxxx 上面，当设置完 satp 后页表启用，下一条指令的寻址地址是 上一个 PC + 4，仍然是在 0x8020_xxxx 的范围里面。
 这样我们的第二条指令就会发生 Instruction Page Fault 异常。
 也就是说，在我们设置完高地址的内核页表后，我们并不能直接切换到仅包含高地址的页表上，因为此时我们的 PC 指针还指向低地址。
 
@@ -396,7 +418,7 @@ Kernel is Relocating...
 1. VA `0x0000_0000_8020_0000` -> PA `0x8020_0000`
 1. VA `0xffff_ffff_8020_0000` -> PA `0x8020_0000`
 
-当执行完上述第1条指令启用 Sv39 后，我们目前的 PC 仍然指向合法的虚拟地址，我们可以加载一个绝对地址到寄存器中，然后使用 `jr` 指令跳转到该寄存器的值，从而进入到内核的高地址。
+当执行完上述第 1 条指令启用 Sv39 后，我们目前的 PC 仍然指向合法的虚拟地址，我们可以加载一个绝对地址到寄存器中，然后使用 `jr` 指令跳转到该寄存器的值，从而进入到内核的高地址。
 
 我们将这一系列步骤称为 Relocate (重定位)。
 
@@ -447,7 +469,7 @@ uint64 kernel_la_end = kernel_la_base + PGSIZE_2M;
 
 然后，我们开始映射：VA `0x0000_0000_8020_0000` -> PA `0x8020_0000`
 
-1. 在 `pgt_root` 上添加一条PTE，使其指向第一级页表 `pgt_ident`。
+1. 在 `pgt_root` 上添加一条 PTE，使其指向第一级页表 `pgt_ident`。
 2. 从 `kernel_phys_base` 到 `kernel_phys_end`，每 2 MiB 添加一个 PTE 映射
 3. 计算该物理地址应该被映射到哪个虚拟地址上，在这个映射中，`va = pa`。
 4. 计算 `VPN1`，并在 `pgt_ident` 中添加映射。
@@ -478,7 +500,7 @@ uint64 kernel_la_end = kernel_la_base + PGSIZE_2M;
     请你阅读 `main.c` 里面的 `relocation_start` 并正确构建临时页表。
 
     你可以使用 `vm_print_tmp(pgt_root)` 打印临时页表。最终，你的临时页表结构应该如下所示：
-    
+
     ![alt text](../../assets/xv6lab-paging/xv6lab-paging-temporary-pgt.png)
 
     ```
@@ -489,7 +511,7 @@ uint64 kernel_la_end = kernel_la_base + PGSIZE_2M;
         [2], pte[0x0000000080209010]: 0xffffffc080400000 -> 0x0000000080400000 DA---WRV
     [1fe], pte[0x000000008020bff0]: 0xffffffff80000000 -> 0x0000000080208000 -------V
         [1], pte[0x0000000080208008]: 0xffffffff80200000 -> 0x0000000080200000 DA--XWRV
-    === END === 
+    === END ===
     ```
 
 ## 固定大小对象分配器
