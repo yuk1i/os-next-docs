@@ -1,8 +1,5 @@
 ## VMWare
 
-![alt text](image.png)
-![alt text](../assets/xv6lab-paging/satp-mode.png)
-
 ## 安装Vmware Workstation Pro 16：
 
 [Download VMware Workstation Pro](https://dl.cra.moe/CS302-OS-2025-Spring/)
@@ -13,7 +10,7 @@
 
 [Download Ubuntu 24.04]([CS302-OS-2025-Spring - dl.cra.moe > CS302-OS-2025-Spring](https://dl.cra.moe/CS302-OS-2025-Spring/))
 
-<img src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1739626789598.png" alt="1739626789598" style="zoom:67%;" />
+![alt text](../assets/env/1739626789598.png)
 
 ## 在Vmware中安装ubuntu虚拟机：
 
