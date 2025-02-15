@@ -32,7 +32,9 @@ jobs:
           cd .. && rm -rf fonts
           ls -lha
       - name: Build
-        run: GITHUBCI=1 ENABLE_PDF_EXPORT=1 mkdocs build
+        run: | 
+          GITHUBCI=1 ENABLE_PDF_EXPORT=1 mkdocs build
+          mkdocs gh-deploy
       - name: Upload PDFs to artifacts
         uses: actions/upload-artifact@v4
         with:
