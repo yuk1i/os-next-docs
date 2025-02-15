@@ -5,9 +5,9 @@
 
 ```shell
 
-$ git clone https://github.com/yuk1i/uCore-VisionFive2
-$ cd uCore-VisionFive2
-$ git clone https://github.com/yuk1i/uCore-VF2-user.git user
+git clone https://github.com/yuk1i/SUSTechOS
+cd uCore-VisionFive2
+git clone https://github.com/yuk1i/SUSTechOS-2025S-user user
 ```
 
 编译用户程序：
