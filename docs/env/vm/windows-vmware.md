@@ -1,6 +1,6 @@
 在这部分内容中，我们将引导同学们在windows系统中安装VMware Workstation Pro, 并在VMware中配置Ubuntu虚拟机
 
-## 安装VMware Workstation Pro 16：
+### 安装VMware Workstation Pro 16
 
 同学们可以通过以下链接下载VMware Workstation Pro 17，并将其安装在自己的计算机中。
 
@@ -10,7 +10,9 @@
 
 接下来，关于安装Ubuntu24.04，我们提供两种选择，大家可以选择下载已经搭载实验环境的Ubuntu系统镜像导入进虚拟机，或者Ubuntu官方原版镜像。
 
-## 1. 导入已搭载实验环境的系统镜像
+### 安装Ubuntu24.04
+
+**1. 导入已搭载实验环境的系统镜像**
 
 此步骤为在VMware中导入已经搭载实验环境的系统镜像。如你已经拥有一个现有环境，可参考`2.`的步骤在系统中配置实验环境，不过我们更加推荐使用我们提供的环境以防止系统版本导致的实验差异。
 
@@ -24,7 +26,7 @@
 
 ![image](https://github.com/user-attachments/assets/fca4c76a-e2bc-46a9-9f2a-d97c382c70f6)
 
-## 2. 安装官方ubuntu 24.04并配置实验环境
+**2. 安装官方ubuntu 24.04并配置实验环境**
 
 同学们可以通过以下链接下载原版Ubuntu24.04镜像，并将其安装在自己的虚拟机中。
 
