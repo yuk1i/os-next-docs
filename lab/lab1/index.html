@@ -113,7 +113,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#linux" class="md-skip">
           跳转至
         </a>
       
@@ -770,18 +770,456 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#linux" class="md-nav__link">
     <span class="md-ellipsis">
-      环境配置
+      Linux基础
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Linux基础">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1. 打开terminal
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#cui-vs-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      CUI vs GUI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ls-man-pwd-cd-mkdir-rm-cp-mv-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      第三步. 使用指令: ls, man, pwd, cd, mkdir, rm, cp, mv, history
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三步. 使用指令: ls, man, pwd, cd, mkdir, rm, cp, mv, history">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ls" class="md-nav__link">
+    <span class="md-ellipsis">
+      ls命令，列出当前路径下的所有文件（文件夹）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manmanlinux" class="md-nav__link">
+    <span class="md-ellipsis">
+      man命令，帮助指令，通过man指令可以查看linux指令的使用帮助
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pwd" class="md-nav__link">
+    <span class="md-ellipsis">
+      pwd命令，查看当前目录完整的绝对路径
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      cd命令，跳转工作目录
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mkdir" class="md-nav__link">
+    <span class="md-ellipsis">
+      mkdir命令，在当前目录创建文件夹
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rm" class="md-nav__link">
+    <span class="md-ellipsis">
+      rm命令，删除文件或文件夹
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp" class="md-nav__link">
+    <span class="md-ellipsis">
+      cp命令，复制文件或文件夹
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mv" class="md-nav__link">
+    <span class="md-ellipsis">
+      mv命令，移动文件或文件夹，同目录下移动相当于重命名操作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      history命令，查看历史命令
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#echo-find-cat-grep-pipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      第四步. 使用指令: echo, find, cat, grep, |(pipe)，&gt;，&gt;&gt;，&lt;
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四步. 使用指令: echo, find, cat, grep, |(pipe)，>，>>，<">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#echo" class="md-nav__link">
+    <span class="md-ellipsis">
+      echo命令，输出内容
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find" class="md-nav__link">
+    <span class="md-ellipsis">
+      find命令，查找文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#catterminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      cat命令，在terminal中查看文件内容
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grep" class="md-nav__link">
+    <span class="md-ellipsis">
+      grep命令，查找文件中符合条件的字符串
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      | (pipe)操作符，将|符号前命令的输出作为|符号后命令的输入
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      &gt; , &gt;&gt;, &lt; 操作符，重定向输入输出
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sudo-chmod" class="md-nav__link">
+    <span class="md-ellipsis">
+      第五步. 使用指令: sudo, chmod
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第五步. 使用指令: sudo, chmod">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sudo" class="md-nav__link">
+    <span class="md-ellipsis">
+      sudo指令，使用管理员权限执行后面的命令
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chmod" class="md-nav__link">
+    <span class="md-ellipsis">
+      chmod指令，修改文件或文件夹的权限
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vim" class="md-nav__link">
+    <span class="md-ellipsis">
+      第六步. 安装vim
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第六步. 安装vim">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apt-get-install-vim-vimvimterminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      通过apt-get install vim 指令安装vim软件，vim是一个文件编辑器，可以通过terminal对文件进行编辑
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gccc" class="md-nav__link">
+    <span class="md-ellipsis">
+      第七步. 通过gcc运行一个c程序
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第七步. 通过gcc运行一个c程序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vim-helloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      vim hello.c
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gcc-helloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      gcc hello.c
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aout" class="md-nav__link">
+    <span class="md-ellipsis">
+      ./a.out
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ps-kill-pstree" class="md-nav__link">
+    <span class="md-ellipsis">
+      第八步. 使用指令: ps, kill, pstree
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第八步. 使用指令: ps, kill, pstree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#terminalps" class="md-nav__link">
+    <span class="md-ellipsis">
+      打开另一个terminal，执行ps指令，可以查看当前会话中的进程列表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pstreepstree-p" class="md-nav__link">
+    <span class="md-ellipsis">
+      pstree指令可以查看进程之间的关系，"pstree -p"可以显示带进程号的进程树
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#killkill-9-sigkill" class="md-nav__link">
+    <span class="md-ellipsis">
+      kill指令可以向进程发送中断，其中“kill -9 进程号”发送的是强制终止的信号（SIGKILL）可以用来杀死该进程号代表的进程（强制结束进程）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ctrlc-ctrlz-fg" class="md-nav__link">
+    <span class="md-ellipsis">
+      第九步. 使用指令: ctrl+c, ctrl+z, fg
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第九步. 使用指令: ctrl+c, ctrl+z, fg">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ctrlc" class="md-nav__link">
+    <span class="md-ellipsis">
+      ctrl+c，终止前台进程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ctrlz" class="md-nav__link">
+    <span class="md-ellipsis">
+      ctrl+z，暂停前台进程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fg-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      可以通过“fg job号”命令将暂停的进程恢复到前台运行。
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      第十步. 实验环境安装
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第十步. 实验环境安装">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      获取镜像的访问密钥：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#podman" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装podman
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#podman_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用podman来运行已经打包好的容器环境：
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#linux" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      Linux 基础
+      六、本节知识点回顾
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、本节知识点回顾">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      在本次实验中，你需要了解以下知识点：
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、下一实验简单介绍
     </span>
   </a>
   
@@ -1222,18 +1660,456 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#linux" class="md-nav__link">
     <span class="md-ellipsis">
-      环境配置
+      Linux基础
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Linux基础">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1. 打开terminal
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#cui-vs-gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      CUI vs GUI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ls-man-pwd-cd-mkdir-rm-cp-mv-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      第三步. 使用指令: ls, man, pwd, cd, mkdir, rm, cp, mv, history
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三步. 使用指令: ls, man, pwd, cd, mkdir, rm, cp, mv, history">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ls" class="md-nav__link">
+    <span class="md-ellipsis">
+      ls命令，列出当前路径下的所有文件（文件夹）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manmanlinux" class="md-nav__link">
+    <span class="md-ellipsis">
+      man命令，帮助指令，通过man指令可以查看linux指令的使用帮助
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pwd" class="md-nav__link">
+    <span class="md-ellipsis">
+      pwd命令，查看当前目录完整的绝对路径
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      cd命令，跳转工作目录
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mkdir" class="md-nav__link">
+    <span class="md-ellipsis">
+      mkdir命令，在当前目录创建文件夹
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rm" class="md-nav__link">
+    <span class="md-ellipsis">
+      rm命令，删除文件或文件夹
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp" class="md-nav__link">
+    <span class="md-ellipsis">
+      cp命令，复制文件或文件夹
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mv" class="md-nav__link">
+    <span class="md-ellipsis">
+      mv命令，移动文件或文件夹，同目录下移动相当于重命名操作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      history命令，查看历史命令
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#echo-find-cat-grep-pipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      第四步. 使用指令: echo, find, cat, grep, |(pipe)，&gt;，&gt;&gt;，&lt;
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四步. 使用指令: echo, find, cat, grep, |(pipe)，>，>>，<">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#echo" class="md-nav__link">
+    <span class="md-ellipsis">
+      echo命令，输出内容
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find" class="md-nav__link">
+    <span class="md-ellipsis">
+      find命令，查找文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#catterminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      cat命令，在terminal中查看文件内容
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grep" class="md-nav__link">
+    <span class="md-ellipsis">
+      grep命令，查找文件中符合条件的字符串
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      | (pipe)操作符，将|符号前命令的输出作为|符号后命令的输入
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      &gt; , &gt;&gt;, &lt; 操作符，重定向输入输出
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sudo-chmod" class="md-nav__link">
+    <span class="md-ellipsis">
+      第五步. 使用指令: sudo, chmod
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第五步. 使用指令: sudo, chmod">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sudo" class="md-nav__link">
+    <span class="md-ellipsis">
+      sudo指令，使用管理员权限执行后面的命令
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chmod" class="md-nav__link">
+    <span class="md-ellipsis">
+      chmod指令，修改文件或文件夹的权限
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vim" class="md-nav__link">
+    <span class="md-ellipsis">
+      第六步. 安装vim
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第六步. 安装vim">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apt-get-install-vim-vimvimterminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      通过apt-get install vim 指令安装vim软件，vim是一个文件编辑器，可以通过terminal对文件进行编辑
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gccc" class="md-nav__link">
+    <span class="md-ellipsis">
+      第七步. 通过gcc运行一个c程序
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第七步. 通过gcc运行一个c程序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vim-helloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      vim hello.c
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gcc-helloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      gcc hello.c
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aout" class="md-nav__link">
+    <span class="md-ellipsis">
+      ./a.out
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ps-kill-pstree" class="md-nav__link">
+    <span class="md-ellipsis">
+      第八步. 使用指令: ps, kill, pstree
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第八步. 使用指令: ps, kill, pstree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#terminalps" class="md-nav__link">
+    <span class="md-ellipsis">
+      打开另一个terminal，执行ps指令，可以查看当前会话中的进程列表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pstreepstree-p" class="md-nav__link">
+    <span class="md-ellipsis">
+      pstree指令可以查看进程之间的关系，"pstree -p"可以显示带进程号的进程树
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#killkill-9-sigkill" class="md-nav__link">
+    <span class="md-ellipsis">
+      kill指令可以向进程发送中断，其中“kill -9 进程号”发送的是强制终止的信号（SIGKILL）可以用来杀死该进程号代表的进程（强制结束进程）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ctrlc-ctrlz-fg" class="md-nav__link">
+    <span class="md-ellipsis">
+      第九步. 使用指令: ctrl+c, ctrl+z, fg
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第九步. 使用指令: ctrl+c, ctrl+z, fg">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ctrlc" class="md-nav__link">
+    <span class="md-ellipsis">
+      ctrl+c，终止前台进程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ctrlz" class="md-nav__link">
+    <span class="md-ellipsis">
+      ctrl+z，暂停前台进程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fg-job" class="md-nav__link">
+    <span class="md-ellipsis">
+      可以通过“fg job号”命令将暂停的进程恢复到前台运行。
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      第十步. 实验环境安装
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第十步. 实验环境安装">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      获取镜像的访问密钥：
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#podman" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装podman
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#podman_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用podman来运行已经打包好的容器环境：
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#linux" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      Linux 基础
+      六、本节知识点回顾
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、本节知识点回顾">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      在本次实验中，你需要了解以下知识点：
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      七、下一实验简单介绍
     </span>
   </a>
   
@@ -1259,9 +2135,221 @@
 
   <h1>Week 1 - 环境配置</h1>
 
-<h2 id="_1">环境配置<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>请参考 <a href="../../env/">环境配置</a> 章节。</p>
-<h2 id="linux">Linux 基础<a class="headerlink" href="#linux" title="Permanent link">&para;</a></h2>
+<h2 id="linux">Linux基础<a class="headerlink" href="#linux" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>在完成本实验前，请参照<code>实验环境搭建</code>完成实验环境的配置</p>
+</div>
+<p>本部分内容中，我们会通过实验步骤熟悉Linux的常用命令，从而对Linux系统有一个初步了解。</p>
+<h3 id="step-1-terminal">Step 1. 打开terminal<a class="headerlink" href="#step-1-terminal" title="Permanent link">&para;</a></h3>
+<p><strong>Terminal（终端）是一个命令行界面，用户可以通过输入文本命令与操作系统进行交互。它是 Ubuntu 和其他基于 Linux 的操作系统的核心工具之一，允许用户执行各种任务，如文件管理、软件安装、系统配置等。</strong></p>
+<p>可以通过以下三种方式打开终端terminal</p>
+<ul>
+<li>使用快捷键：<code>Ctrl + Alt + T</code></li>
+<li>在Show Applications中搜索Terminal后单击打开</li>
+<li>在桌面或者文件夹内点击鼠标右键，选择Open in Terminal</li>
+</ul>
+<p>下图是Terminal的一个基本界面</p>
+<p><img alt="1644722072314" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644722072314.png" /></p>
+<blockquote>
+<ul>
+<li>sy-OSlab代表当前主机名</li>
+<li>sy代表当前用户名</li>
+<li>~/Desktop代表当前工作目录，相当于你的所有命令都是在这个目录执行的</li>
+<li>~代表相对路径“/home/用户名”，相当于当前用户所属的目录</li>
+<li>$代表目前用户为普通用户非管理员用户</li>
+<li>通过键盘的上、下按钮可以选择历史命令</li>
+<li>通过输入部分路径或文件名后点击Tab键可以自动补全</li>
+</ul>
+<h3 id="cui-vs-gui">CUI vs GUI<a class="headerlink" href="#cui-vs-gui" title="Permanent link">&para;</a></h3>
+<p>CUI(Command User Interface)，命令行用户接口，用户通过文本命令对操作系统进行交互，如windows系统中的Command Line和我们即将使用的Linux系统的Terminal。在本课程实验中，我们主要通过CUI操作完成实验。</p>
+<p>GUI(Graphical User Interface)，图形用户接口，用户通过对图形化的界面进行多种形式（鼠标、键盘等输入设备）的操作来与系统进行交互，如我们日常使用的电脑桌面系统及手机操作。</p>
+</blockquote>
+<h3 id="ls-man-pwd-cd-mkdir-rm-cp-mv-history"><mark>第三步. 使用指令: ls, man, pwd, cd, mkdir, rm, cp, mv, history</mark><a class="headerlink" href="#ls-man-pwd-cd-mkdir-rm-cp-mv-history" title="Permanent link">&para;</a></h3>
+<h5 id="ls">ls命令，列出当前路径下的所有文件（文件夹）<a class="headerlink" href="#ls" title="Permanent link">&para;</a></h5>
+<p><img alt="1644723396025" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644723396025.png" /></p>
+<p>请尝试"ls -l" 及 "ls -a"</p>
+<h5 id="manmanlinux">man命令，帮助指令，通过man指令可以查看linux指令的使用帮助<a class="headerlink" href="#manmanlinux" title="Permanent link">&para;</a></h5>
+<p>请尝试"man ls"</p>
+<h5 id="pwd">pwd命令，查看当前目录完整的绝对路径<a class="headerlink" href="#pwd" title="Permanent link">&para;</a></h5>
+<p><img alt="1644723550008" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644723550008.png" /></p>
+<h5 id="cd">cd命令，跳转工作目录<a class="headerlink" href="#cd" title="Permanent link">&para;</a></h5>
+<p><img alt="1644724632905" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644724632905.png" /></p>
+<p>"cd .."，跳转至上级目录</p>
+<p>"cd 路径"跳转至路径的目录</p>
+<p>"cd /"跳转至系统根目录，linux系统根目录为/</p>
+<p>"cd ~"跳转至当前用户目录，即"/home/用户名"目录</p>
+<h5 id="mkdir">mkdir命令，在当前目录创建文件夹<a class="headerlink" href="#mkdir" title="Permanent link">&para;</a></h5>
+<p><img alt="1644723722246" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644723722246.png" /></p>
+<p>linux系统是严格区分大小写的，同一个字母的大小写会作为不同的两个字母</p>
+<h5 id="rm">rm命令，删除文件或文件夹<a class="headerlink" href="#rm" title="Permanent link">&para;</a></h5>
+<p><img alt="1644724699807" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644724699807.png" /></p>
+<p>删除文件夹时可能会碰到以下报错</p>
+<p><img alt="1644724737916" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644724737916.png" /></p>
+<p>这是由于文件夹与文件不同，文件夹内可能有文件或文件夹，因此我们需要“递归地”进行删除，因此在删除时增加 -r  参数以递归地删除文件夹</p>
+<p><img alt="1644724854918" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644724854918.png" /></p>
+<h5 id="cp">cp命令，复制文件或文件夹<a class="headerlink" href="#cp" title="Permanent link">&para;</a></h5>
+<p><img alt="1644808155293" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644808155293.png" /></p>
+<p>请尝试通过cp命令复制文件夹</p>
+<h5 id="mv">mv命令，移动文件或文件夹，同目录下移动相当于重命名操作<a class="headerlink" href="#mv" title="Permanent link">&para;</a></h5>
+<p><img alt="1644808634095" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644808634095.png" /></p>
+<h5 id="history">history命令，查看历史命令<a class="headerlink" href="#history" title="Permanent link">&para;</a></h5>
+<h3 id="echo-find-cat-grep-pipe"><mark>第四步. 使用指令: echo, find, cat, grep, |(pipe)，&gt;，&gt;&gt;，&lt;</mark><a class="headerlink" href="#echo-find-cat-grep-pipe" title="Permanent link">&para;</a></h3>
+<h5 id="echo">echo命令，输出内容<a class="headerlink" href="#echo" title="Permanent link">&para;</a></h5>
+<p><img alt="1644808797099" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644808797099.png" /></p>
+<h5 id="find">find命令，查找文件<a class="headerlink" href="#find" title="Permanent link">&para;</a></h5>
+<p><img alt="1644808942164" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644808942164.png" /></p>
+<p>可以指定通过文件名、文件类型、大小等信息进行查找</p>
+<h5 id="catterminal">cat命令，在terminal中查看文件内容<a class="headerlink" href="#catterminal" title="Permanent link">&para;</a></h5>
+<p><img alt="1644809034258" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644809034258.png" /></p>
+<p>相关的命令还有head, tail, more, less，可以实现看文件头尾，分页查看的功能</p>
+<p><img alt="1644809347958" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644809347958.png" /></p>
+<h5 id="grep">grep命令，查找文件中符合条件的字符串<a class="headerlink" href="#grep" title="Permanent link">&para;</a></h5>
+<p><img alt="1644809585535" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644809585535.png" /></p>
+<h5 id="pipe">| (pipe)操作符，将|符号前命令的输出作为|符号后命令的输入<a class="headerlink" href="#pipe" title="Permanent link">&para;</a></h5>
+<p><img alt="1644809746945" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644809746945.png" /></p>
+<h5 id="_1">&gt; , &gt;&gt;, &lt; 操作符，重定向输入输出<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h5>
+<p><img alt="1644818612666" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644818612666.png" /></p>
+<p>&gt;可以将输出重定向到文件，上图中即将ls指令的结果输出到test文件中</p>
+<p>请尝试&gt;&gt;, &lt;操作符的功能</p>
+<h3 id="sudo-chmod"><mark>第五步. 使用指令: sudo, chmod</mark><a class="headerlink" href="#sudo-chmod" title="Permanent link">&para;</a></h3>
+<h5 id="sudo">sudo指令，使用管理员权限执行后面的命令<a class="headerlink" href="#sudo" title="Permanent link">&para;</a></h5>
+<p><img alt="1644819147177" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644819147177.png" /></p>
+<p>当我们需要执行一些指令，但是没有管理员权限无法执行时，可使用sudo指令</p>
+<p>请尽量不要尝试"sudo rm -rf /*"</p>
+<h5 id="chmod">chmod指令，修改文件或文件夹的权限<a class="headerlink" href="#chmod" title="Permanent link">&para;</a></h5>
+<p>通过“ls -l”指令可以查看文件的权限</p>
+<p><img alt="1644819404430" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644819404430.png" /></p>
+<p>上图中文件/文件夹最前方的drwxrwxr-x代表该文件/文件夹的文件权限。其所代表的含义如下图所示：</p>
+<p><img alt="1644819530277" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644819530277.png" /></p>
+<p>需要修改权限可以通过chmod命令</p>
+<p><img alt="1644819780878" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644819780878.png" /></p>
+<p>如上图所示，u\g\o分别代表user\group\other类别用户，+、-、=分别代表增加、减少、设置为相应的权限。</p>
+<p>chmod 775则可以将所有组别的权限一次设置完成，数字7和5分别代表二进制111和101，二进制位上的数字分别代表rwx的相应权限，如101即代表"1可r+0不可w+1可x"，因此chmod 775即代表将该文件权限改为user组可读可写可执行，group可读可写可执行，other可读不可写可执行。</p>
+<h3 id="vim"><mark>第六步. 安装vim</mark><a class="headerlink" href="#vim" title="Permanent link">&para;</a></h3>
+<h5 id="apt-get-install-vim-vimvimterminal">通过apt-get install vim 指令安装vim软件，vim是一个文件编辑器，可以通过terminal对文件进行编辑<a class="headerlink" href="#apt-get-install-vim-vimvimterminal" title="Permanent link">&para;</a></h5>
+<p><img alt="1644820329836" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644820329836.png" /></p>
+<p>安装完成后可以通过vim指令创建或打开文件</p>
+<p><img alt="1644820616124" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644820616124.png" /></p>
+<blockquote>
+<p><img alt="1644820659140" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644820659140.png" /></p>
+<p>通过vim打开文件后会进入上图的Command mode，vim一共有三种模式：</p>
+<ul>
+<li>Command mode：用户所有的输入都是command而不是文本</li>
+<li>Insert mode：从Command mode通过点击i键进入Insert mode，进入后可以进行文本输入；通过Esc按钮退出Insert mode回到Command mode</li>
+<li>Last line mode：从Command mode通过输入冒号（shift+;）进入，terminal最后一行左侧会出现“:”，此时可以输入特殊指令，如"wq"即写入（保存）后退出（write and quit)</li>
+</ul>
+<p><img src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644820991186.png" alt="1644820991186" style="zoom:50%;" /></p>
+</blockquote>
+<h3 id="gccc"><mark>第七步. 通过gcc运行一个c程序</mark><a class="headerlink" href="#gccc" title="Permanent link">&para;</a></h3>
+<h5 id="vim-helloc">vim hello.c<a class="headerlink" href="#vim-helloc" title="Permanent link">&para;</a></h5>
+<p>通过vim创建并完成一个简单的死循环代码</p>
+<p><img alt="1644821202231" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644821202231.png" /></p>
+<p>保存并退出</p>
+<p><img alt="1644821225530" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644821225530.png" /></p>
+<h5 id="gcc-helloc">gcc hello.c<a class="headerlink" href="#gcc-helloc" title="Permanent link">&para;</a></h5>
+<p>通过gcc指令对该文件进行编译并产生可执行文件，未指定输出文件名的情况下可执行文件默认文件名为a.out。更具体的gcc操作过程将在下一次实验课进行练习。本节课我们只需要能运行起一个最简单的c语言程序。</p>
+<p><img alt="1644821366974" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644821366974.png" /></p>
+<h5 id="aout">./a.out<a class="headerlink" href="#aout" title="Permanent link">&para;</a></h5>
+<p>通过"./a.out"指令运行a.out文件，其中.符号代表当前路径</p>
+<p><img alt="1644821424310" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644821424310.png" /></p>
+<p>由于我们写的是一个死循环程序，可以观察到程序执行后进入了死循环。</p>
+<h3 id="ps-kill-pstree"><mark>第八步. 使用指令: ps, kill, pstree</mark><a class="headerlink" href="#ps-kill-pstree" title="Permanent link">&para;</a></h3>
+<h5 id="terminalps">打开另一个terminal，执行ps指令，可以查看当前会话中的进程列表<a class="headerlink" href="#terminalps" title="Permanent link">&para;</a></h5>
+<p><img alt="1644821596517" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644821596517.png" /></p>
+<p>由于之前运行的程序和新的terminal不在一个会话组，因此上图中没有显示，可以通过"ps -a"指令查看</p>
+<p><img alt="1644822450722" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644822450722.png" /></p>
+<p>该列表中PID为Process ID即进程号，每个进程拥有不同的进程号，一般为增序顺序分配。但进程号的数量是有限的，并且会回收再利用。</p>
+<h5 id="pstreepstree-p">pstree指令可以查看进程之间的关系，"pstree -p"可以显示带进程号的进程树<a class="headerlink" href="#pstreepstree-p" title="Permanent link">&para;</a></h5>
+<p><img alt="1644822751984" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644822751984.png" /></p>
+<h5 id="killkill-9-sigkill">kill指令可以向进程发送中断，其中“kill -9 进程号”发送的是强制终止的信号（SIGKILL）可以用来杀死该进程号代表的进程（强制结束进程）<a class="headerlink" href="#killkill-9-sigkill" title="Permanent link">&para;</a></h5>
+<p><img alt="1644822913475" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644822913475.png" /></p>
+<h3 id="ctrlc-ctrlz-fg"><mark>第九步. 使用指令: ctrl+c, ctrl+z, fg</mark><a class="headerlink" href="#ctrlc-ctrlz-fg" title="Permanent link">&para;</a></h3>
+<p>当我们运行了一个程序无法退出，也可以不通过其他terminal发送信号来停止该进程。</p>
+<h5 id="ctrlc">ctrl+c，终止前台进程<a class="headerlink" href="#ctrlc" title="Permanent link">&para;</a></h5>
+<p><img alt="1644823625646" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644823625646.png" /></p>
+<h5 id="ctrlz">ctrl+z，暂停前台进程<a class="headerlink" href="#ctrlz" title="Permanent link">&para;</a></h5>
+<p><img alt="1644823864559" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644823864559.png" /></p>
+<p><img alt="1644824133479" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644824133479.png" /></p>
+<p>暂停的前台进程并没有被杀死，只是进入了T暂停状态。后面的课程中我们会了解到更多进程的状态。</p>
+<p><img alt="1644824227527" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644824227527.png" /></p>
+<p>进程暂停时显示的号码为该进程的job号</p>
+<h5 id="fg-job">可以通过“fg job号”命令将暂停的进程恢复到前台运行。<a class="headerlink" href="#fg-job" title="Permanent link">&para;</a></h5>
+<p><img alt="1644824305833" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1644824305833.png" /></p>
+<h3 id="_2"><mark>第十步. 实验环境安装</mark><a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>在今后的实验中，我们需要运行一个基于riscv架构的迷你操作系统，并且理解这个操作系统的代码。所以我们需要准备一个实验环境用来模拟一个riscv架构的机器，然后在这个机器上运行我们的代码。qemu就是一个硬件模拟器，可以在我们的机器上模拟出一个riscv架构的虚拟计算机。</p>
+<p>qemu介绍：</p>
+<p>qemu是一个硬件模拟器，可以模拟不同架构的CPU，它甚至可以模拟不同架构的 CPU，比如说在使用 Intel X86 的 CPU 的电脑中模拟出一个 ARM 的电脑或 RISC-V 的电脑。</p>
+<p>qemu 同时也是一个非常简单的虚拟机，给它一个硬盘镜像就可以启动一个虚拟机，并且可以定制虚拟机的配置，比如要使用的CPU 、显卡啊、网络配置等，指定相应的命令行参数就可以了。它支持许多格式的磁盘镜像，包括 VirtualBox 创建的磁盘镜像文件。它同时也提供一个创建和管理磁盘镜像的工具 qemu-img。QEMU 及其工具所使用的命令行参数，直接查看其文档即可。</p>
+<p><a href="https://www.qemu.org/docs/master/about/index.html">About QEMU — QEMU documentation</a></p>
+<p>由于编译安装Qemu的过程比较复杂，本学期我们使用podman容器管理工具直接运行已经打包好实验环境的镜像进行实验。下面是podman运行实验环境的基本过程：</p>
+<h5 id="_3"><strong>获取镜像的访问密钥：</strong><a class="headerlink" href="#_3" title="Permanent link">&para;</a></h5>
+<p>请在南科大GitLab（<a href="https://mirrors.sustech.edu.cn/git/">https://mirrors.sustech.edu.cn/git/</a>）上使用SUSTech CAS注册帐号。</p>
+<p>之后根据以下流程生成一个访问密钥（Personal Access Token）：</p>
+<ol>
+<li>先点击个人头像
+   <img src="C:\Users\sy\Desktop\2024春CS302OS\OS_2022summer\lab1\podman\podman1.png" style="zoom: 67%;" /></li>
+<li>点击 Edit Profile
+   <img src="C:\Users\sy\Desktop\2024春CS302OS\OS_2022summer\lab1\podman\podman2.PNG" style="zoom:67%;" /></li>
+<li>在边栏找到Access Tokens
+   <img src="C:\Users\sy\Desktop\2024春CS302OS\OS_2022summer\lab1\podman\podman3.PNG" style="zoom:67%;" /></li>
+<li>点击Add New Token，输入相关信息。请将密钥过期时间设置至学期末，scopes选择read_registry。
+   <img src="C:\Users\sy\Desktop\2024春CS302OS\OS_2022summer\lab1\podman\podman4.png" style="zoom:67%;" /></li>
+<li>将密钥复制并保存。<strong>注意之后将无法再在网页上获取到这个密钥</strong>，请妥善保管，不要泄漏给他人！！！
+   <img alt="" src="C:\Users\sy\Desktop\2024春CS302OS\OS_2022summer\lab1\podman\podman5.png" /></li>
+</ol>
+<h5 id="podman">安装podman<a class="headerlink" href="#podman" title="Permanent link">&para;</a></h5>
+<p>打开terminal，执行指令安装podman:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo apt install podman
+</code></pre></div>
+<h5 id="podman_1"><strong>使用podman来运行已经打包好的容器环境：</strong><a class="headerlink" href="#podman_1" title="Permanent link">&para;</a></h5>
+<p>podman login用户名为学号，密码为上面获得的密钥。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>podman<span class="w"> </span>login<span class="w"> </span>glcr.cra.ac.cn
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># then input your student id and key</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># pull the image, 注意这条指令需要在校内网环境执行</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>podman<span class="w"> </span>pull<span class="w"> </span>glcr.cra.ac.cn/operating-systems/project/kernel/ucore-tools:v0.0.4
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>podman<span class="w"> </span>pull<span class="w"> </span>glcr.cra.ac.cn/operating-systems/project/kernel_legacy/ucore-tools:v0.0.9
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># run the containers</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>podman<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span>.:/src<span class="w"> </span>--name<span class="w"> </span>kernel_lab<span class="w"> </span>-it<span class="w"> </span>glcr.cra.ac.cn/operating-systems/project/kernel/ucore-tools:v0.0.4<span class="w"> </span>/bin/bash
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>podman<span class="w"> </span>run<span class="w"> </span>-v<span class="w"> </span>.:/src<span class="w"> </span>--name<span class="w"> </span>oslab<span class="w"> </span>-it<span class="w">  </span>glcr.cra.ac.cn/operating-systems/project/kernel_legacy/ucore-tools:v0.0.9<span class="w"> </span>/bin/bash
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1"># Mess around and see what you can do in the container</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1"># for example: test the qemu version</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>qemu-system-riscv64<span class="w"> </span>--version
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1"># Use Ctrl + d to exit the container terminal</span>
+</code></pre></div>
+<p>运行成功的界面：</p>
+<p><img alt="1708400301072" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1708400301072.png" /></p>
+<p>我们使用的计算机都是基于x86架构的。如何把程序编译到riscv64架构的汇编？这需要我们使用“目标语言为riscv64机器码的编译器”，在我们的电脑上进行**交叉编译**。因此在实验镜像中，我们已经配置好了交叉编译器，可以运行指令<code>riscv64-unknown-elf-gcc -v</code>检查是否正常：</p>
+<p><img alt="1708400424430" src="C:\Users\sy\AppData\Roaming\Typora\typora-user-images\1708400424430.png" /></p>
+<p>以下指令可以用于重启或删除已有的容器或镜像：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># restart the kernel_lab containers</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>podman<span class="w"> </span>start<span class="w"> </span>-a<span class="w"> </span>kernel_lab
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># remove the containers</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>podman<span class="w"> </span>rm<span class="w"> </span>kernel_lab
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># remove the image</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>podman<span class="w"> </span>rmi<span class="w"> </span>glcr.cra.ac.cn/operating-systems/project/kernel/ucore-tools:v0.0.4
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># Check that you can start and stop a container.</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Find out what the command-line options above mean.</span>
+</code></pre></div>
+<h2 id="_4">六、本节知识点回顾<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">在本次实验中，你需要了解以下知识点：<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ol>
+<li>linux常见命令</li>
+<li>如何使用vim</li>
+<li>如何运行一个c语言程序</li>
+<li>如何查看一些进程信息</li>
+</ol>
+<h2 id="_6">七、下一实验简单介绍<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>在下一次实验中，我们将对c语言编程，嵌入式汇编及makefile进行介绍。下周需要提交实验报告，因此请大家带根笔。</p>
 
 
 
@@ -1282,7 +2370,7 @@
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2025年2月14日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">2025年2月16日</span>
   </span>
 
     
@@ -1293,12 +2381,13 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="贡献者">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>
+        <a href="mailto:chenjf2020@mail.sustech.edu.cn">yuki</a>, 
+        <a href="mailto:34365087@qq.com">besiesie</a>
     </nav>
   </span>
 
@@ -1383,8 +2472,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/85f5dce6, 2025-02-16 18:01:07+08:00" target="_blank" rel="noopener">
-            85f5dce6, 2025-02-16 18:01:07+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/8097fcd7, 2025-02-16 18:16:09+08:00" target="_blank" rel="noopener">
+            8097fcd7, 2025-02-16 18:16:09+08:00
         </a>
     </div>
 </div>
