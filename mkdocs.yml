@@ -79,7 +79,7 @@ nav:
     - VSCode 远程配置: env/vscode.md
     - 验证环境: env/helloworld.md
   - 每周实验: 
-    - Week 1 - 环境配置: lab/lab1.md
+    - Week 1 - Linux基础: lab/lab1.md
     - Week 2 - C 语言基础: lab/lab2.md
     - Week 3 - 裸机程序 Bare Metal: lab/xv6lab-baremetal.md
     - Week 4 - 陷入与中断 Trap & Interrupts: lab/xv6lab-interrupts.md
