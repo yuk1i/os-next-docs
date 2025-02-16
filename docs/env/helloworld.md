@@ -6,14 +6,14 @@
 ```shell
 
 git clone https://github.com/yuk1i/SUSTechOS
-cd uCore-VisionFive2
+cd SUSTechOS
 git clone https://github.com/yuk1i/SUSTechOS-2025S-user user
 ```
 
 编译用户程序：
 
 ```shell
-make CH_TESTS=usershell user
+make user
 ```
 
 编译内核:

@@ -33,8 +33,8 @@ jobs:
           ls -lha
       - name: Build
         run: | 
-          GITHUBCI=1 ENABLE_PDF_EXPORT=1 mkdocs build
           mkdocs gh-deploy
+          GITHUBCI=1 ENABLE_PDF_EXPORT=1 mkdocs build
       - name: Upload PDFs to artifacts
         uses: actions/upload-artifact@v4
         with:
