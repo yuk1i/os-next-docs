@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/e1579f1a-47d8-4d06-8641-0e863eac98a2)在这部分内容中，我们将引导同学们在windows系统中安装VMware Workstation Pro, 并在VMware中配置Ubuntu虚拟机
+在这部分内容中，我们将引导同学们在windows系统中安装VMware Workstation Pro, 并在VMware中配置Ubuntu虚拟机
 
 ## 安装VMware Workstation Pro 16：
 
@@ -38,7 +38,7 @@
 
 根据以下指引完成虚拟机配置：
 
-！！！ note
+!!! note
 
   请同学们在安装系统时尽量满足以下要求：
 
@@ -76,9 +76,6 @@
 
 之后运行虚拟机完成虚拟机安装即可。
 
-另外，由于原版Ubuntu系统不包含本课程实验的开发环境，还需要参考环境配置完成实验开发环境配置。除此之外，我们还推荐安装vscode用于代码的阅读与编写。
-
-sudo apt update && sudo apt install gcc-riscv64-unknown-elf qemu-system-misc git make cmake python3-pip elfutils gdb-multiarch
-
+另外，由于原版Ubuntu系统不包含本课程实验的开发环境，还需要参考`环境配置`完成实验开发环境配置。除此之外，我们还推荐安装vscode用于代码的阅读与编写。
 
 
