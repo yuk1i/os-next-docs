@@ -47,7 +47,7 @@ Source: riscv-spec-v2.1.pdf, Section 1.3 "Exceptions, Traps, and Interrupts".
 ## CSR: mstatus/sstatus
 
 !!!info "CSR"
-    如果你不清楚 CSR 是什么，请参照：[QRH - CSR](../../qrh/csr.md)
+    如果你不清楚 CSR 是什么，请参照：[QRH - CSR](../qrh/csr.md)
 
 mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-V 核心的控制状态，sstaus 实际上是 mstatus 的一个 Restricted View.
 
