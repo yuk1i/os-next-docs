@@ -489,27 +489,6 @@
   
   
     <li class="md-nav__item">
-      <a href="vm/windows-vbox.md" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Windows + VirtualBox
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="vm/wsl/" class="md-nav__link">
         
   
@@ -564,7 +543,7 @@
         
   
   <span class="md-ellipsis">
-    环境配置
+    手动环境配置
   </span>
   
 
@@ -1008,16 +987,16 @@
 <p>为了应对后续的实验，我们推荐同学们选择 Ubuntu LTS 或 Debian stable，并加装图形界面。</p>
 <p>你也可以选择使用 SSH + vscode 进行远程开发，即在你的宿主机 （通常是 Windows 或 macOS 系统）上使用 vscode 或 SSH 连接到你的虚拟机中进行开发。</p>
 <h2 id="linux">搭建 Linux 虚拟环境<a class="headerlink" href="#linux" title="Permanent link">&para;</a></h2>
-<p>我们推荐多种虚拟环境方案，请参照左侧目录。</p>
+<p>我们推荐使用 VMware 作为虚拟机软件，并对 Windows (amd64) 和 macOS (arm64, Apple Silicon) 提供支持。</p>
 <ul>
 <li>
-<p>请你参照上述方案进行 Linux 虚拟机配置后，导入我们预先提供的虚拟环境。</p>
+<p>请你参照列表中的方案进行 VMware 安装后，导入我们预先提供的虚拟环境(OVF)。</p>
 </li>
 <li>
-<p>如果你选择从零安装 Linux 虚拟机，请你安装 Ubuntu LTS / Debian stable，并参照 (环境配置)[setup.md] 安装 RISC-V gcc 工具链、QEMU 模拟器等。</p>
+<p>如果你选择从零安装 Linux 虚拟机，请你安装 Ubuntu LTS / Debian stable，并参照 <a href="setup/">手动环境配置</a> 安装 RISC-V gcc 工具链、QEMU 模拟器等。</p>
 </li>
 </ul>
-<p>最后，配置 VSCode 开发工具以及验证环境可用。</p>
+<p>最后，你可以考虑配置 VSCode 开发工具以及验证环境可用。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>请同学们在安装系统时额外满足如下要求：</p>
@@ -1065,8 +1044,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/9ccb1b64, 2025-02-17 17:04:16+08:00" target="_blank" rel="noopener">
-            9ccb1b64, 2025-02-17 17:04:16+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/42f0769b, 2025-02-17 17:26:06+08:00" target="_blank" rel="noopener">
+            42f0769b, 2025-02-17 17:26:06+08:00
         </a>
     </div>
 </div>

@@ -440,27 +440,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../vm/windows-vbox.md" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Windows + VirtualBox
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../vm/wsl/" class="md-nav__link">
         
   
@@ -515,7 +494,7 @@
         
   
   <span class="md-ellipsis">
-    环境配置
+    手动环境配置
   </span>
   
 
@@ -1009,13 +988,13 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>make<span class="w"> </span>run
 </code></pre></div>
 <p>如果一切正常，你将能够看到：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>OpenSBI v1.3
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>OpenSBI v1.5
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>   ____                    _____ ____ _____
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  / __ \                  / ____|  _ \_   _|
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a> | |  | |_ __   ___ _ __ | (___ | |_) || |
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a> | |  | | &#39;_ \ / _ \ &#39;_ \ \___ \|  _ &lt; | |
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a> | |__| | |_) |  __/ | | |____) | |_) || |_
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>  \____/| .__/ \___|_| |_|_____/|___/_____|
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>  \____/| .__/ \___|_| |_|_____/|____/_____|
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        | |
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        |_|
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
@@ -1027,54 +1006,94 @@
 <a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>Platform Console Device   : uart8250
 <a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>Platform HSM Device       : ---
 <a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>Platform PMU Device       : ---
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>Platform Reboot Device    : sifive_test
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>Platform Shutdown Device  : sifive_test
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>Platform Reboot Device    : syscon-reboot
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>Platform Shutdown Device  : syscon-poweroff
 <a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>Platform Suspend Device   : ---
 <a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>Platform CPPC Device      : ---
 <a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>Firmware Base             : 0x80000000
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>Firmware Size             : 322 KB
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>Firmware Size             : 327 KB
 <a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>Firmware RW Offset        : 0x40000
-<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>Firmware RW Size          : 66 KB
-<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>Firmware Heap Offset      : 0x48000
-<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>Firmware Heap Size        : 34 KB (total), 2 KB (reserved), 9 KB (used), 22 KB (free)
-<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>Firmware Scratch Size     : 4096 B (total), 760 B (used), 3336 B (free)
-<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>Runtime SBI Version       : 1.0
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>Firmware RW Size          : 71 KB
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>Firmware Heap Offset      : 0x49000
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>Firmware Heap Size        : 35 KB (total), 2 KB (reserved), 11 KB (used), 21 KB (free)
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>Firmware Scratch Size     : 4096 B (total), 416 B (used), 3680 B (free)
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>Runtime SBI Version       : 2.0
 <a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>
 <a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>Domain0 Name              : root
 <a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>Domain0 Boot HART         : 0
 <a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>Domain0 HARTs             : 0*
-<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>Domain0 Region00          : 0x0000000002000000-0x000000000200ffff M: (I,R,W) S/U: ()
-<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>Domain0 Region01          : 0x0000000080040000-0x000000008005ffff M: (R,W) S/U: ()
-<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>Domain0 Region02          : 0x0000000080000000-0x000000008003ffff M: (R,X) S/U: ()
-<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>Domain0 Region03          : 0x0000000000000000-0xffffffffffffffff M: (R,W,X) S/U: (R,W,X)
-<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>Domain0 Next Address      : 0x0000000080200000
-<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>Domain0 Next Arg1         : 0x0000000087e00000
-<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>Domain0 Next Mode         : S-mode
-<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>Domain0 SysReset          : yes
-<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>Domain0 SysSuspend        : yes
-<a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>
-<a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>Boot HART ID              : 0
-<a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>Boot HART Domain          : root
-<a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>Boot HART Priv Version    : v1.12
-<a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>Boot HART Base ISA        : rv64imafdch
-<a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>Boot HART ISA Extensions  : time,sstc
-<a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>Boot HART PMP Count       : 16
-<a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a>Boot HART PMP Granularity : 4
-<a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a>Boot HART PMP Address Bits: 54
-<a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a>Boot HART MHPM Count      : 16
-<a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a>Boot HART MIDELEG         : 0x0000000000001666
-<a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a>Boot HART MEDELEG         : 0x0000000000f0b509
-<a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a>etext: 0x0000000080205000
-<a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a>Kernel is initializing...
-<a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a>proc_init done!
-<a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a>trap_init done!
-<a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a>kvm_init done!
-<a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a>applist:
-<a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a>        usershell
-<a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a>loader done!
-<a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a>timer_init done!
-<a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a>C user shell
-<a id="__codelineno-4-66" name="__codelineno-4-66" href="#__codelineno-4-66"></a>&gt;&gt; 
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>Domain0 Region00          : 0x0000000000100000-0x0000000000100fff M: (I,R,W) S/U: (R,W)
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>Domain0 Region01          : 0x0000000010000000-0x0000000010000fff M: (I,R,W) S/U: (R,W)
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>Domain0 Region02          : 0x0000000002000000-0x000000000200ffff M: (I,R,W) S/U: ()
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>Domain0 Region03          : 0x0000000080040000-0x000000008005ffff M: (R,W) S/U: ()
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>Domain0 Region04          : 0x0000000080000000-0x000000008003ffff M: (R,X) S/U: ()
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>Domain0 Region05          : 0x000000000c400000-0x000000000c5fffff M: (I,R,W) S/U: (R,W)
+<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>Domain0 Region06          : 0x000000000c000000-0x000000000c3fffff M: (I,R,W) S/U: (R,W)
+<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>Domain0 Region07          : 0x0000000000000000-0xffffffffffffffff M: () S/U: (R,W,X)
+<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>Domain0 Next Address      : 0x0000000080200000
+<a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>Domain0 Next Arg1         : 0x000000009fe00000
+<a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>Domain0 Next Mode         : S-mode
+<a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>Domain0 SysReset          : yes
+<a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>Domain0 SysSuspend        : yes
+<a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>
+<a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>Boot HART ID              : 0
+<a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>Boot HART Domain          : root
+<a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a>Boot HART Priv Version    : v1.12
+<a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a>Boot HART Base ISA        : rv64imafdch
+<a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a>Boot HART ISA Extensions  : sstc,zicntr,zihpm,zicboz,zicbom,sdtrig,svadu
+<a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a>Boot HART PMP Count       : 16
+<a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a>Boot HART PMP Granularity : 2 bits
+<a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a>Boot HART PMP Address Bits: 54
+<a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a>Boot HART MHPM Info       : 16 (0x0007fff8)
+<a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a>Boot HART Debug Triggers  : 2 triggers
+<a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a>Boot HART MIDELEG         : 0x0000000000001666
+<a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a>Boot HART MEDELEG         : 0x0000000000f0b509
+<a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a>
+<a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a>
+<a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a>=====
+<a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a>Hello World!
+<a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a>=====
+<a id="__codelineno-4-66" name="__codelineno-4-66" href="#__codelineno-4-66"></a>
+<a id="__codelineno-4-67" name="__codelineno-4-67" href="#__codelineno-4-67"></a>Boot stack: 0x000000008021d000
+<a id="__codelineno-4-68" name="__codelineno-4-68" href="#__codelineno-4-68"></a>clean bss: 0x000000008021e000 - 0x0000000080228000
+<a id="__codelineno-4-69" name="__codelineno-4-69" href="#__codelineno-4-69"></a>Boot m_hartid 0
+<a id="__codelineno-4-70" name="__codelineno-4-70" href="#__codelineno-4-70"></a>[INFO  0,-1] bootcpu_entry: basic smp inited, thread_id available now, we are cpu 0: 0x00000000802270d8
+<a id="__codelineno-4-71" name="__codelineno-4-71" href="#__codelineno-4-71"></a>Kernel Starts Relocating...
+<a id="__codelineno-4-72" name="__codelineno-4-72" href="#__codelineno-4-72"></a>Kernel size: 0x0000000000028000, Rounded to 2MiB: 0x0000000000200000
+<a id="__codelineno-4-73" name="__codelineno-4-73" href="#__codelineno-4-73"></a>[INFO  0,-1] bootcpu_start_relocation: Kernel phy_base: 0x0000000080200000, phy_end_4k:0x0000000080228000, phy_end_2M 0x0000000080400000
+<a id="__codelineno-4-74" name="__codelineno-4-74" href="#__codelineno-4-74"></a>Mapping Identity: 0x0000000080200000 to 0x0000000080200000
+<a id="__codelineno-4-75" name="__codelineno-4-75" href="#__codelineno-4-75"></a>Mapping kernel image: 0xffffffff80200000 to 0x0000000080200000
+<a id="__codelineno-4-76" name="__codelineno-4-76" href="#__codelineno-4-76"></a>Mapping Direct Mapping: 0xffffffc080400000 to 0x0000000080400000
+<a id="__codelineno-4-77" name="__codelineno-4-77" href="#__codelineno-4-77"></a>Enable SATP on temporary pagetable.
+<a id="__codelineno-4-78" name="__codelineno-4-78" href="#__codelineno-4-78"></a>Boot HART Relocated. We are at high address now! PC: 0xffffffff80203cc4
+<a id="__codelineno-4-79" name="__codelineno-4-79" href="#__codelineno-4-79"></a>[INFO  0,-1] kvm_init: boot-stage page allocator: base 0xffffffc080400000, end 0xffffffc080600000
+<a id="__codelineno-4-80" name="__codelineno-4-80" href="#__codelineno-4-80"></a>[INFO  0,-1] kvmmake: Memory after kernel image (phys) size = 0x0000000003c00000
+<a id="__codelineno-4-81" name="__codelineno-4-81" href="#__codelineno-4-81"></a>[INFO  0,-1] kvm_init: enable pageing at 0x8000000000080400
+<a id="__codelineno-4-82" name="__codelineno-4-82" href="#__codelineno-4-82"></a>[INFO  0,-1] kvm_init: boot-stage page allocator ends up: base 0xffffffc080400000, used: 0xffffffc080411000
+<a id="__codelineno-4-83" name="__codelineno-4-83" href="#__codelineno-4-83"></a>Relocated. Boot halt sp at 0xffffffffff001fb0
+<a id="__codelineno-4-84" name="__codelineno-4-84" href="#__codelineno-4-84"></a>Boot another cpus.
+<a id="__codelineno-4-85" name="__codelineno-4-85" href="#__codelineno-4-85"></a>- booting hart 1: hsm_hart_start(hartid=1, pc=_entry_sec, opaque=1) = -3. waiting for hart online
+<a id="__codelineno-4-86" name="__codelineno-4-86" href="#__codelineno-4-86"></a>skipped for hart 1
+<a id="__codelineno-4-87" name="__codelineno-4-87" href="#__codelineno-4-87"></a>- booting hart 2: hsm_hart_start(hartid=2, pc=_entry_sec, opaque=1) = -3. waiting for hart online
+<a id="__codelineno-4-88" name="__codelineno-4-88" href="#__codelineno-4-88"></a>skipped for hart 2
+<a id="__codelineno-4-89" name="__codelineno-4-89" href="#__codelineno-4-89"></a>- booting hart 3: hsm_hart_start(hartid=3, pc=_entry_sec, opaque=1) = -3. waiting for hart online
+<a id="__codelineno-4-90" name="__codelineno-4-90" href="#__codelineno-4-90"></a>skipped for hart 3
+<a id="__codelineno-4-91" name="__codelineno-4-91" href="#__codelineno-4-91"></a>System has 1 cpus online
+<a id="__codelineno-4-92" name="__codelineno-4-92" href="#__codelineno-4-92"></a>
+<a id="__codelineno-4-93" name="__codelineno-4-93" href="#__codelineno-4-93"></a>UART inited.
+<a id="__codelineno-4-94" name="__codelineno-4-94" href="#__codelineno-4-94"></a>[INFO  0,-1] kpgmgrinit: page allocator init: base: 0xffffffc080411000, stop: 0xffffffc084000000
+<a id="__codelineno-4-95" name="__codelineno-4-95" href="#__codelineno-4-95"></a>[INFO  0,-1] allocator_init: allocator mm inited base 0xfffffffd00000000
+<a id="__codelineno-4-96" name="__codelineno-4-96" href="#__codelineno-4-96"></a>[INFO  0,-1] allocator_init: allocator vma inited base 0xfffffffd01000000
+<a id="__codelineno-4-97" name="__codelineno-4-97" href="#__codelineno-4-97"></a>[INFO  0,-1] allocator_init: allocator proc inited base 0xfffffffd02000000
+<a id="__codelineno-4-98" name="__codelineno-4-98" href="#__codelineno-4-98"></a>[INFO  0,-1] allocator_init: allocator kstrbuf inited base 0xfffffffd03000000
+<a id="__codelineno-4-99" name="__codelineno-4-99" href="#__codelineno-4-99"></a>applist:
+<a id="__codelineno-4-100" name="__codelineno-4-100" href="#__codelineno-4-100"></a>        init
+<a id="__codelineno-4-101" name="__codelineno-4-101" href="#__codelineno-4-101"></a>        sh
+<a id="__codelineno-4-102" name="__codelineno-4-102" href="#__codelineno-4-102"></a>        test_arg
+<a id="__codelineno-4-103" name="__codelineno-4-103" href="#__codelineno-4-103"></a>        test_malloc
+<a id="__codelineno-4-104" name="__codelineno-4-104" href="#__codelineno-4-104"></a>[INFO  0,-1] load_init_app: load init proc init
+<a id="__codelineno-4-105" name="__codelineno-4-105" href="#__codelineno-4-105"></a>[INFO  0,-1] bootcpu_init: start scheduler!
+<a id="__codelineno-4-106" name="__codelineno-4-106" href="#__codelineno-4-106"></a>init: starting sh
 </code></pre></div>
 
 
@@ -1115,8 +1134,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/9ccb1b64, 2025-02-17 17:04:16+08:00" target="_blank" rel="noopener">
-            9ccb1b64, 2025-02-17 17:04:16+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/42f0769b, 2025-02-17 17:26:06+08:00" target="_blank" rel="noopener">
+            42f0769b, 2025-02-17 17:26:06+08:00
         </a>
     </div>
 </div>

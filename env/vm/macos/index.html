@@ -61,6 +61,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#vmware-fusion" class="md-skip">
+          跳转至
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -437,27 +442,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../windows-vbox.md" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Windows + VirtualBox
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../wsl/" class="md-nav__link">
         
   
@@ -486,6 +470,17 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    macOS + VMware
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -495,6 +490,56 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vmware-fusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装 VMware Fusion
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="安装 VMware Fusion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ovf" class="md-nav__link">
+    <span class="md-ellipsis">
+      导入 OVF
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -520,7 +565,7 @@
         
   
   <span class="md-ellipsis">
-    环境配置
+    手动环境配置
   </span>
   
 
@@ -918,6 +963,47 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vmware-fusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装 VMware Fusion
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="安装 VMware Fusion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ovf" class="md-nav__link">
+    <span class="md-ellipsis">
+      导入 OVF
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -936,7 +1022,17 @@
 
   <h1>macOS + VMware</h1>
 
-
+<h2 id="vmware-fusion">安装 VMware Fusion<a class="headerlink" href="#vmware-fusion" title="Permanent link">&para;</a></h2>
+<p>在 <a href="https://dl.cra.moe/CS302-OS-2025-Spring/">https://dl.cra.moe/CS302-OS-2025-Spring/</a> 下载 VMware-funsion-macOS.zip。打开 Finder，解压该 zip 后在 payload 文件夹下有一个 "VMware Fusion"，将它拖到左侧"应用程序"后即可。</p>
+<p>用 Spotlight 打开 VMware fusion，同意所有权限要求。</p>
+<p>你可以选择直接导入 OVF，或者手动创建 Debian 虚拟机。</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>请你先确认你的 macOS 系统的 CPU 类型是 Intel 还是 Apple Silicon (Apple M系列处理器)。</p>
+</div>
+<p>目前，我们只提供对 Apple M系列处理器的支持，不提供 Intel 系列处理器的支持。</p>
+<h3 id="ovf">导入 OVF<a class="headerlink" href="#ovf" title="Permanent link">&para;</a></h3>
+<h3 id="_1"><a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
 
 
 
@@ -976,8 +1072,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/9ccb1b64, 2025-02-17 17:04:16+08:00" target="_blank" rel="noopener">
-            9ccb1b64, 2025-02-17 17:04:16+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/42f0769b, 2025-02-17 17:26:06+08:00" target="_blank" rel="noopener">
+            42f0769b, 2025-02-17 17:26:06+08:00
         </a>
     </div>
 </div>
