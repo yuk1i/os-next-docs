@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#vmware-fusion" class="md-skip">
+        <a href="#macos-vmware-fusion" class="md-skip">
           跳转至
         </a>
       
@@ -469,6 +469,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -497,6 +499,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -511,29 +515,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="安装 VMware Fusion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ovf" class="md-nav__link">
-    <span class="md-ellipsis">
-      导入 OVF
-    </span>
-  </a>
-  
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      导入已安装好的镜像
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -962,6 +951,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -976,29 +967,14 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="安装 VMware Fusion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ovf" class="md-nav__link">
-    <span class="md-ellipsis">
-      导入 OVF
-    </span>
-  </a>
-  
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      导入已安装好的镜像
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1020,8 +996,7 @@
   
 
 
-  <h1>macOS + VMware</h1>
-
+<h1 id="macos-vmware-fusion">macOS + VMware Fusion<a class="headerlink" href="#macos-vmware-fusion" title="Permanent link">&para;</a></h1>
 <h2 id="vmware-fusion">安装 VMware Fusion<a class="headerlink" href="#vmware-fusion" title="Permanent link">&para;</a></h2>
 <p>在 <a href="https://dl.cra.moe/CS302-OS-2025-Spring/">https://dl.cra.moe/CS302-OS-2025-Spring/</a> 下载 VMware-funsion-macOS.zip。打开 Finder，解压该 zip 后在 payload 文件夹下有一个 "VMware Fusion"，将它拖到左侧"应用程序"后即可。</p>
 <p>用 Spotlight 打开 VMware fusion，同意所有权限要求。</p>
@@ -1031,8 +1006,13 @@
 <p>请你先确认你的 macOS 系统的 CPU 类型是 Intel 还是 Apple Silicon (Apple M系列处理器)。</p>
 </div>
 <p>目前，我们只提供对 Apple M系列处理器的支持，不提供 Intel 系列处理器的支持。</p>
-<h3 id="ovf">导入 OVF<a class="headerlink" href="#ovf" title="Permanent link">&para;</a></h3>
-<h3 id="_1"><a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<h2 id="_1">导入已安装好的镜像<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>在 <a href="https://dl.cra.moe/CS302-OS-2025-Spring/">https://dl.cra.moe/CS302-OS-2025-Spring/</a> 下载 <code>OSLab-2025S-macOS-arm64 的克隆.zip</code>，下载后解压。</p>
+<p>打开 VMware Fusion。在菜单栏中： 窗口 -&gt; 虚拟机资源库。打开虚拟机列表。</p>
+<p><img alt="alt text" src="../../../assets/env/2025-02-17%2020.52.31.png" /></p>
+<p>将解压出来的 <code>OSLab-2025S-macOS-arm64 的克隆</code> 直接拖到虚拟机列表中。</p>
+<p><img alt="alt text" src="../../../assets/env/2025-02-17%2020.52.37.png" /></p>
+<p>双击启动，并验证环境。</p>
 
 
 
@@ -1072,8 +1052,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/42f0769b, 2025-02-17 17:26:06+08:00" target="_blank" rel="noopener">
-            42f0769b, 2025-02-17 17:26:06+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/64e9690c, 2025-02-17 23:35:19+08:00" target="_blank" rel="noopener">
+            64e9690c, 2025-02-17 23:35:19+08:00
         </a>
     </div>
 </div>
