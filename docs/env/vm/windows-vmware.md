@@ -1,20 +1,22 @@
 在这部分内容中，我们将引导同学们在windows系统中安装VMware Workstation Pro, 并在VMware中配置Ubuntu虚拟机
 
-### 安装VMware Workstation Pro 16
+### 安装 VMware Workstation Pro 16
 
 同学们可以通过以下链接下载VMware Workstation Pro 17，并将其安装在自己的计算机中。
+
+> https://dl.cra.moe/CS302-OS-2025-Spring/
 
 [Download VMware Workstation Pro](https://dl.cra.moe/CS302-OS-2025-Spring/)
 
 ![alt text](../../assets/env/1739626473455.png)
 
-接下来，关于安装Ubuntu24.04，我们提供两种选择，大家可以选择下载已经搭载实验环境的Ubuntu系统镜像导入进虚拟机，或者Ubuntu官方原版镜像。
+接下来，关于安装 Ubuntu 24.04，我们提供两种选择，大家可以选择下载已经搭载实验环境的 Ubuntu 系统镜像 (OVF) 导入进虚拟机，或者 Ubuntu 官方原版镜像。
 
 ### 安装Ubuntu24.04
 
 **1. 导入已搭载实验环境的系统镜像**
 
-此步骤为在VMware中导入已经搭载实验环境的系统镜像。如你已经拥有一个现有环境，可参考`环境配置`的步骤在系统中配置实验环境，不过我们更加推荐使用我们提供的环境以防止系统版本导致的实验差异。
+此步骤为在VMware中导入已经搭载实验环境的系统镜像。如你已经拥有一个现有环境，例如你自己的用的 Linux 虚拟机/物理机环境，可参考 `手动环境配置` 的步骤在系统中配置实验环境，不过我们更加推荐使用我们提供的环境以防止系统版本导致的实验差异。
 
 首先通过以下链接下载Ubuntu24.04的ovf格式（Open Virtualization Format）文件并进行解压。
 

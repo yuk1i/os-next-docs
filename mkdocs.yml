@@ -24,10 +24,9 @@ nav:
     - 主页: env/index.md
     - Linux VM 搭建:
       - Windows + VMware: env/vm/windows-vmware.md
-      - Windows + VirtualBox: env/vm/windows-vbox.md
       - Windows + WSL (不推荐): env/vm/wsl.md
       - macOS + VMware: env/vm/macos.md
-    - 环境配置: env/setup.md
+    - 手动环境配置: env/setup.md
     - VSCode 远程配置: env/vscode.md
     - 验证环境: env/helloworld.md
   - 每周实验: 

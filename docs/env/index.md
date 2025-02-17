@@ -16,13 +16,13 @@ Linux是一个免费可用的操作系统，非常适用于操作系统开发。
 
 ## 搭建 Linux 虚拟环境
 
-我们推荐多种虚拟环境方案，请参照左侧目录。
+我们推荐使用 VMware 作为虚拟机软件，并对 Windows (amd64) 和 macOS (arm64, Apple Silicon) 提供支持。
 
-- 请你参照上述方案进行 Linux 虚拟机配置后，导入我们预先提供的虚拟环境。
+- 请你参照列表中的方案进行 VMware 安装后，导入我们预先提供的虚拟环境(OVF)。
 
-- 如果你选择从零安装 Linux 虚拟机，请你安装 Ubuntu LTS / Debian stable，并参照 (环境配置)[setup.md] 安装 RISC-V gcc 工具链、QEMU 模拟器等。
+- 如果你选择从零安装 Linux 虚拟机，请你安装 Ubuntu LTS / Debian stable，并参照 [手动环境配置](setup.md) 安装 RISC-V gcc 工具链、QEMU 模拟器等。
 
-最后，配置 VSCode 开发工具以及验证环境可用。
+最后，你可以考虑配置 VSCode 开发工具以及验证环境可用。
 
 !!! note
 
