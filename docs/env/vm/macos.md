@@ -8,10 +8,8 @@
 
 你可以选择直接导入 OVF，或者手动创建 Debian 虚拟机。
 
-!!!info
-    请你先确认你的 macOS 系统的 CPU 类型是 Intel 还是 Apple Silicon (Apple M系列处理器)。
 
-目前，我们只提供对 Apple M系列处理器的支持，不提供 Intel 系列处理器的支持。
+请你先确认你的 macOS 系统的 CPU 类型是 Intel 还是 Apple Silicon (Apple M系列处理器)。目前，我们只提供对 Apple M系列处理器的支持，不提供 Intel 系列处理器的支持。
 
 ## 导入已安装好的镜像
 
