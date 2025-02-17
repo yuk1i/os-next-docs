@@ -6,65 +6,17 @@ theme:
   name: material
   language: zh
   logo: assets/logo.png
-  user_color_mode_toggle: true
   custom_dir: overrides
   features:
     - navigation.tabs
     - navigation.tabs.sticky
-    - navigation.expand
-    - navigation.top
-    - navigation.footer
-    - content.code.copy
-    - content.code.annotate
-  palette:
-    - media: "(prefers-color-scheme)"
-      toggle:
-        icon: material/link
-        name: Switch to light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/toggle-switch
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: black
-      accent: indigo
-      toggle:
-        icon: material/toggle-switch-off
-        name: Switch to system preference
-  icon:
-    admonition:
-      note: octicons/tag-16
-      abstract: octicons/checklist-16
-      info: octicons/info-16
-      tip: octicons/squirrel-16
-      success: octicons/check-16
-      question: octicons/question-16
-      warning: octicons/alert-16
-      failure: octicons/x-circle-16
-      danger: octicons/zap-16
-      bug: octicons/bug-16
-      example: octicons/beaker-16
-      quote: octicons/quote-16
 
 markdown_extensions:
   - admonition
-  - pymdownx.details
-  - pymdownx.superfences
-  # - pymdownx.tabbed:
-  #     alternate_style: true
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - codehilite:
+      guess_lang: false
+      linenums: true
+
 
 nav:
   - 主页: index.md
@@ -95,34 +47,31 @@ nav:
     - 目录: qrh/nav.md
     - GDB: qrh/gdb.md
     - Git: qrh/git.md
-    - C 语言:
-      - C 语言基础: qrh/c-basic.md
-      - 静态链接: qrh/c-static-linking.md
-  - 阅读材料:
-    - 推荐文献: reference/reference1.md
+    - 静态链接: qrh/c-static-linking.md
 
 hooks:
   - scripts/hook.py
 
 plugins:
   - search
-  # - info
-  - git-revision-date-localized:
-      fallback_to_build_date: true
-      locale: zh
-  - git-authors:
-      show_contribution: true
-      show_line_count: true
   - with-pdf:
       enabled_if_env: ENABLE_PDF_EXPORT
-      cover_subtitle: genpdfversion
+      cover: true
+      custom_template_path: mkdocs-pdf-template
+      verbose: true
+      author: genpdfversion
+      toc: false
       jobs:
-        - pdf: pdf/oslab-all.pdf
-          include: .*
+        # - pdf: pdf/oslab-all.pdf
+        #   include: .*
         - pdf: pdf/oslab-environment-setup.pdf
-          include: env
-        - pdf: pdf/oslab-quick-reference-handbook.pdf
-          include: qrh
+          subtitle: Week 1 - 环境配置 & Linux 基础
+          include: 
+          - env
+          - lab/lab1.md
+
+        # - pdf: pdf/oslab-quick-reference-handbook.pdf
+        #   include: qrh
 
 markdown_extensions:
   - admonition

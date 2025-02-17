@@ -1,0 +1,56 @@
+
+article#doc-cover > .wrapper h1 {
+    font-size: 3rem;
+    line-height: 1.4;
+}
+
+article#doc-cover > .wrapper.upper {
+    height: 30%;
+}
+
+.md-typeset img {
+    max-width: 80%;
+    margin-left: 10%;
+}
+
+article h3 {
+    font-size: 2rem;
+}
+
+body {
+    font-family: 'PingFang SC','Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+code, kbd, pre {
+    font-family: "Fira Mono", "DeJaVu Sans Mono", Menlo, Consolas, "Lucida Console", monospace, sans-serif;
+}
+
+.md-typeset {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.md-typeset .admonition {
+    font-size: .8rem;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.md-typeset .admonition-title, .md-typeset summary {
+    padding-left: 2rem;
+    padding-top: .2rem;
+}
+
+.md-typeset .admonition-title:before {
+    left: .625rem;
+    top: 1rem;
+}
+
+.md-typeset .admonition>p:not(.admonition-title) {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.md-typeset ol, .md-typeset ul {
+    padding-left: 20px;
+}
