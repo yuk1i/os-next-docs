@@ -1176,7 +1176,7 @@
 </div>
 <p>特权级是CPU运行时的一个重要的状态，它表示了当前运行的程序有多高的特权来执行代码。例如，低特权状态不允许访问高特权的内存和CSR寄存器；但是高特权级允许CPU运行在低特权级时，主动或被动地切换至高特权级并执行预定的代码。</p>
 <p>特权级的区分是在 CPU 硬件电路上实现的。在 RISC-V 上，特权级使用 2bit 进行区分，分为 M mode，S mode，和 U mode。</p>
-<p><img alt="image" src="../../assets/lab2/riscv-priviledge-levels.png" /></p>
+<p><img alt="image" src="../../assets/xv6lab-baremetal/riscv-priviledge-levels.png" /></p>
 <blockquote>
 <p>The machine level has the highest privileges and is the only mandatory privilege level for a RISC-V hardware platform. Code run in machine-mode (M-mode) is usually inherently trusted, as it has low-level access to the machine implementation. M-mode can be used to manage secure execution environments on RISC-V. User-mode (U-mode) and supervisor-mode (S-mode) are intended for conventional application and operating system usage respectively.</p>
 </blockquote>
@@ -1188,7 +1188,7 @@
 <p>移动设备上最常使用的 arm64 (AArch64) CPU 架构定义了四种特权级(Exception Levels)，从低到高： EL0、EL1、EL2和EL3。
 与 RISC-V 架构类似（<del>其实是 RISC-V 抄 AArch64 的</del>），最高特权级 EL3 运行最底层的固件(Secure Monitor)，EL1 特权级运行操作系统(OS)，EL0 特权级运行用户程序，而EL2特权级运行虚拟机程序(Hypervisor)。</p>
 <p>而 x86 (IA32 &amp; AMD64) 架构定义特权级为四个 Ring ：Ring 0 代表最高特权级，运行操作系统；而 Ring 3 代表最低特权级，运行用户程序。通常来说，x86架构上只会使用到 Ring 0 和 Ring 3 两种特权级。</p>
-<p><img alt="alt text" src="../../assets/lab2/x86-privilege-levels.png" /></p>
+<p><img alt="alt text" src="../../assets/xv6lab-baremetal/x86-privilege-levels.png" /></p>
 <div class="admonition info">
 <p class="admonition-title">为什么要定义特权级</p>
 <p>通过对比上述三种体系结构定义的特权级，我们可以发现用户程序和操作系统的运行环境被严格切分，这使得操作系统能正确隔离用户程序与操作系统，用户程序之间的访问。
@@ -1198,7 +1198,7 @@
 <p>在 RISC-V 的三个特权级上，RISC-V架构定义了三种运行状态：分别是固件(M mode)、操作系统(S mode)和用户态(U mode)。</p>
 <p>在 RISC-V 架构中，操作系统 (Supervisor) 向应用程序 (Application) 提供的运行环境被称为 ABI (Application Binary Interface)，而固件 (supervisor execution environment) 为操作系统 (Supervisor) 提供的运行环境则被称为 Supervisor Binary Interface (SBI)。</p>
 <p>固件 (OpenSBI) 中抽象了对底层硬件的访问，并通过类似 syscall 的方式为 S Mode 的操作系统提供了一些基本的访问硬件的接口，其中就包含了基本的串口输入输出函数，<code>sbi_console_putchar</code> 和 <code>sbi_console_getchar</code>。</p>
-<p><img alt="image" src="../../assets/lab2/riscv-priviledge-arch.png" /></p>
+<p><img alt="image" src="../../assets/xv6lab-baremetal/riscv-priviledge-arch.png" /></p>
 <h2 id="_3">第一个裸机程序<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
 <p class="admonition-title">xv6-lab1 代码</p>
@@ -1698,8 +1698,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/afac09b3, 2025-02-23 17:12:01+08:00" target="_blank" rel="noopener">
-            afac09b3, 2025-02-23 17:12:01+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/d11491d1, 2025-02-23 18:00:55+08:00" target="_blank" rel="noopener">
+            d11491d1, 2025-02-23 18:00:55+08:00
         </a>
     </div>
 </div>
