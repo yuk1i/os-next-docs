@@ -1,4 +1,4 @@
-# C 语言基础
+# C 语言基础及Makefile
 
 !!! warning "C 语言基础"
 
@@ -48,22 +48,22 @@ typedef unsigned long uint64;
 
 ![image](../assets/lab1/lab1-compilation-system.png)
 
-- 源代码 .c 文件经过 Pre-processor 预处理 cpp 得到 .i 文件
+1. 源代码 .c 文件经过 Pre-processor 预处理 cpp 得到 .i 文件
 
-  .i 文件是 GCC 预处理阶段生成的中间文件，包含了展开的头文件、宏定义和条件编译后的代码。使用 gcc -E 可以生成 .i 文件。
+   .i 文件是 GCC 预处理阶段生成的中间文件，包含了展开的头文件、宏定义和条件编译后的代码。使用 gcc -E 可以生成 .i 文件。
+
+2. .i 文件通过编译器 cc1 编译器得到汇编文件 .s
+
+   编译器对.i文件进行语法检查，检查无误后将.i文件转换成机器可以理解的汇编代码（人类可阅读形式的机器代码），在此过程中优化器可以对代码进行优化。
+
+3. .s 文件通过汇编器 as 得到 Relocatable objects (可重定位文件) .o
+
+   在此过程中，汇编器将汇编代码转换为目标代码（机器代码-直接在机器上执行的代码，人类不可读）。
   
-- .i 文件通过编译器 cc1 编译器得到汇编文件 .s
+4. 链接器 ld 链接所有 .o 文件得到最终的可执行文件
 
-  编译器对.i文件进行语法检查，检查无误后将.i文件转换成机器可以理解的汇编代码（人类可阅读形式的机器代码），在此过程中优化器可以对代码进行优化。
-
-- .s 文件通过汇编器 as 得到 Relocatable objects (可重定位文件) .o
-
-  在此过程中，汇编器将汇编代码转换为目标代码（机器代码-直接在机器上执行的代码，人类不可读）。
-  
-- 链接器 ld 链接所有 .o 文件得到最终的可执行文件 
-
-在 Linux 系统上，目标文件及可执行文件通常以 **ELF (Executable and Linkable Format)** 文件格式存储。
-ELF 文件分为不同的段 **Section**，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。
+   在 Linux 系统上，目标文件及可执行文件通常以 **ELF (Executable and Linkable Format)** 文件格式存储。
+   ELF 文件分为不同的段 **Section**，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。
 
 通常来说，我们会用"编译器"来指代整个编译与链接过程中用到的所有工具，尽管编译器和链接器是两个不同的程序。特别的，当我们讨论编译器和链接器时，我们会将进行 预处理、汇编、编译 等步骤的工具集合统称为编译器；将最后的链接步骤所用的工具称为链接器。
 
@@ -114,8 +114,8 @@ int main() {
 
 Definition (定义) 和 Declaration (声明) 是 C 语言中非常容易混淆的两个概念。
 
-Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器在编译阶段能找到这些符号。
-而 Definition 实际上会为该符号分配地址。在链接阶段，链接器会为这些符号分配地址（如函数地址、全局变量地址）。
+Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器**在编译阶段能找到这些符号**。
+而 Definition 实际上会为该符号分配地址。链接器会**在链接阶段为这些符号分配地址**（如函数地址、全局变量地址）。
 
 !!! info "Symbol (符号)"
 
@@ -137,3 +137,95 @@ Declaration 声明了一个符号（变量、函数等），和它的的一些�
     - 在不同的 .c 文件中定义了多次 `idle` 变量。
 - `riscv64-unknown-elf-ld: build/os/proc.o: in function 'proc_init': os/proc.c:38:(.text+0xd0): undefined reference to 'idle'`
     - 在头文件中声明了 `idle` 变量，但是没有定义它。
+
+## Make 和 Makefile介绍
+
+考虑一下，如果我们的工程稍微大一点（比如包含多个C语言文件），每次运行一次我们都要执行很多次gcc命令，是否有一种编译工具可以简化这个过程呢？接下来我们介绍自动化编译工具make。
+
+`Makefile` 是一个用于自动化构建（编译、链接等）程序的配置文件，通常用于管理包含多个源文件的项目。它定义了如何从源代码生成目标文件（如可执行文件、库文件等），并确保只重新编译那些需要更新的部分，从而提高构建效率。
+
+`Makefile` 是 `make` 工具的输入文件，`make` 是一个经典的构建工具，广泛用于 Unix/Linux 系统。
+
+<h2 style="color: orange;">实验步骤2：使用makefile进行自动化构建</h2>
+
+首先我们创建三个文件
+
+```c
+//print.h 头文件
+#include <stdio.h>
+void print(void);
+
+//print.c
+#include "print.h"
+void print(){
+    printf("Hello, World!\n");
+}
+
+//main.c
+#include "print.h"
+int main(){
+	print();
+	return 0;
+}
+
+```
+
+因为文件中的依赖关系，如果我们想要运行上面的代码，我们需要为每个.c文件生成.o目标文件，然后把两个.o文件生成可执行文件：
+
+```bash
+gcc -c main.c
+gcc -c print.c
+gcc -o main main.o print.o
+
+./main
+```
+
+![image-20220212090901375](.\lab2images\image-20220212090901375.png)
+
+![image-20220212090954211](.\lab2images\image-20220212090954211.png)
+
+由此可见，如果我们的文件数量很多，每次运行就会变得十分的复杂。为了使整个编译过程更加容易，可以使用Makefile。
+
+接着，我们创建一个文本文件并命名为Makefile。
+
+Makefile文件内容：
+
+```makefile
+main : main.o print.o
+	gcc -o main main.o print.o
+main.o : main.c print.h
+	gcc -c main.c
+print.o : print.c print.h
+	gcc -c print.c
+clean:
+	rm main main.o print.o
+```
+
+最后，我们只需要执行一句make命令，就可以完成整个编译过程：
+
+![image-20220212091943782](.\lab2images\image-20220212091943782.png)
+
+### Makefile的基本结构
+
+```makefile
+target: dependencies
+[tab] system command
+```
+
+### Makefile工作原理
+
+参考：（[makefile介绍 — 跟我一起写Makefile 1.0 文档 (seisman.github.io)](https://seisman.github.io/how-to-write-makefile/introduction.html)）
+
+在默认的方式下，也就是我们只输入 `make` 命令。那么，
+
+1. make会在当前目录下找名字叫“Makefile”或“makefile”的文件。
+2. 如果找到，它会找文件中的第一个目标文件（target），在上面的例子中，他会找到“main”这个文件，并把这个文件作为最终的目标文件。
+3. 如果main文件不存在，或是main所依赖的后面的 `.o` 文件的文件修改时间要比 `main` 这个文件新，那么，他就会执行后面所定义的命令来生成 `main` 这个文件。
+4. 如果 `main` 所依赖的 `.o` 文件也不存在，那么make会在当前文件中找目标为 `.o` 文件的依赖性，如果找到则再根据那一个规则生成 `.o` 文件。（这有点像一个堆栈的过程）
+5. 当然，你的C文件和H文件是存在的啦，于是make会生成 `.o` 文件，然后再用 `.o` 文件生成make的终极任务，也就是执行文件 `main` 了。
+
+### make clean
+
+通过上述分析，我们知道，像clean这种，没有被第一个目标文件直接或间接关联，那么它后面所定义的命令将不会被自动执行，不过，我们可以显式要make执行。即命令—— `make clean` ，以此来清除所有的目标文件，以便重新编译。
+
+更多关于Makefile的知识请查看：（[跟我一起写Makefile 1.0 文档 ](https://seisman.github.io/how-to-write-makefile/introduction.html)）
