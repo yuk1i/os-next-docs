@@ -1236,19 +1236,19 @@
 <p class="admonition-title">Note</p>
 <ul>
 <li>
-<p>在一个.c文件中声明且定义的全局变量其他.c文件是无法 <strong>直接</strong> 使用的。例如你在一个.c文件中int a;，则在另一个文件中需要extern int a;，那么两个文件才是共享同一个变量a。</p>
+<p>在一个 <code>.c</code> 文件中声明且定义的全局变量其他.c文件是无法 <strong>直接</strong> 使用的。例如你在一个.c文件中 <code>int a</code> ;，则在另一个文件中需要 <code>extern int a;</code> ，那么两个文件才是共享同一个 <code>a</code> 。</p>
 </li>
 <li>
-<p>在多个.c文件中定义全局变量时，我们要确保变量名是唯一的。否则会导致多重定义。</p>
+<p>在多个 <code>.c</code> 文件中定义全局变量时，我们要确保变量名是唯一的。否则会导致多重定义。</p>
 </li>
 <li>
-<p>如果我们希望定义一些仅当前.c可见的全局变量，我们可以使用 static 关键字。</p>
+<p>如果我们希望定义一些仅当前 <code>.c</code> 可见的全局变量，我们可以使用 <code>static</code> 关键字。</p>
 </li>
 <li>
-<p>.h文件中仅能声明变量，如果.h声明了一个变量并且存在两个以上的.c文件include了这个.h文件，则也会出现多重定义，因为两个.c都会对这个文件进行定义。</p>
+<p><code>.h</code> 文件中仅能声明变量，如果 <code>.h</code> 声明了一个变量并且存在两个以上的 <code>.c</code> 文件 <code>include</code> 了这个 <code>.h</code> 文件，则也会出现多重定义，因为两个 <code>.c</code> 都会对这个文件进行定义。</p>
 </li>
 <li>
-<p>如果你希望一个变量由多个.c共享使用，可以在.h文件中声明这个变量并且使用 extern 关键字进行修饰。</p>
+<p>如果你希望一个变量由多个 <code>.c</code> 共享使用，可以在 <code>.h</code> 文件中声明这个变量并且使用 <code>extern</code> 关键字进行修饰。</p>
 </li>
 </ul>
 </div>
@@ -1365,8 +1365,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/cff825aa, 2025-02-23 16:50:28+08:00" target="_blank" rel="noopener">
-            cff825aa, 2025-02-23 16:50:28+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/89b9270a, 2025-02-23 17:10:25+08:00" target="_blank" rel="noopener">
+            89b9270a, 2025-02-23 17:10:25+08:00
         </a>
     </div>
 </div>
