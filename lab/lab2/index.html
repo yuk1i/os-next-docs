@@ -1037,7 +1037,13 @@
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">uint64</span><span class="p">;</span>
 </code></pre></div>
 <p>我们定义了 <code>uint64</code>, <code>uint32</code> 等类型分别为 <code>unsigned long</code> 和 <code>unsigned int</code>。
-由于我们面向 riscv64 架构进行编程，我们可以确保在我们的 uCore 中，它们是 64 / 32 位的。</p>
+由于我们面向 riscv64 架构进行编程，我们可以确保在我们的 XV6 中，它们是 64 / 32 位的。</p>
+<div class="admonition warning">
+<p class="admonition-title">unsigned</p>
+<p>注意在C语言中值在int类型取值范围内的整数字面量的默认类型是int。当unsigned int与有符号整数（如int）比较时，有符号整数会被提升为unsigned int。如果常数为负数，提升后可能变成一个非常大的无符号值，导致比较结果与预期不符。</p>
+<p>可以尝试执行以下代码，观察结果：
+<img alt="image" src="https://github.com/user-attachments/assets/7abc8a00-e968-424e-93be-d489d28392c4" /></p>
+</div>
 <h2 id="_2">编译系统<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>在计算机组成原理课程中，我们简要的介绍了 C 语言的编译系统。通常来说，编译一个程序分为以下几步：</p>
 <p><img alt="image" src="../../assets/lab1/lab1-compilation-system.png" /></p>
@@ -1120,8 +1126,8 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/e40fab77, 2025-02-17 23:36:00+08:00" target="_blank" rel="noopener">
-            e40fab77, 2025-02-17 23:36:00+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/8b0e7f59, 2025-02-23 11:54:47+08:00" target="_blank" rel="noopener">
+            8b0e7f59, 2025-02-23 11:54:47+08:00
         </a>
     </div>
 </div>
