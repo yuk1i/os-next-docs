@@ -61,11 +61,11 @@ plugins:
       author: genpdfversion
       toc: false
       jobs:
-        - pdf: pdf/week1.pdf
-          subtitle: Week 1 - 环境配置 & Linux 基础
-          include: 
-          - env
-          - lab/lab1
+        # - pdf: pdf/week1.pdf
+        #   subtitle: Week 1 - 环境配置 & Linux 基础
+        #   include: 
+        #   - env
+        #   - lab/lab1
         - pdf: pdf/lab2.pdf
           subtitle: Lab 2 - C 语言基础及Makefile
           include:

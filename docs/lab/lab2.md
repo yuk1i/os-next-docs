@@ -114,8 +114,8 @@ int main() {
 
 Definition (定义) 和 Declaration (声明) 是 C 语言中非常容易混淆的两个概念。
 
-Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器**在编译阶段能找到这些符号**。
-而 Definition 实际上会为该符号分配地址。链接器会**在链接阶段为这些符号分配地址**（如函数地址、全局变量地址）。
+Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器 **在编译阶段** 能使用这些类型信息进行代码生成 (Code Generation)。
+而 Definition 实际上会为该符号分配内存地址。链接器会 **在链接阶段为这些符号分配地址**（如函数地址、全局变量地址）。
 
 !!! info "Symbol (符号)"
 
@@ -138,6 +138,43 @@ Declaration 声明了一个符号（变量、函数等），和它的的一些�
     - `.h` 文件中仅能声明变量，如果 `.h` 声明了一个变量并且存在两个以上的 `.c` 文件 `include` 了这个 `.h` 文件，则也会出现多重定义，因为两个 `.c` 都会对这个文件进行定义。
     
     - 如果你希望一个变量由多个 `.c` 共享使用，可以在 `.h` 文件中声明这个变量并且使用 `extern` 关键字进行修饰。
+
+我们再次解释一下 Declaration 和 Definition 的区别：
+
+- Definition 是向链接器表示，这个 .o 文件里面有一个符号，链接器需要为它分配内存地址。如果其他 .o 需要引用这个符号，则要判断这个符号是否允许被外部访问，即声明时是否使用了 static。
+
+- Declaration 是向编译器保证，这个符号会在链接时从其他 .o 文件中被找到。编译器只要根据声明的变量类型或函数原型进行代码生成（如变量访存时的宽度 (lb, lw, ld)，函数的参数个数），链接器会负责去找到这些符号。
+
+我们可以通过 `llvm-readelf-19 --symbol <file>` 查看一个 ELF 文件的符号表：
+
+```
+$ llvm-readelf-19 --symbols build/os/proc.o | grep -E "FUNC|OBJECT|GLOBAL"
+Symbol table '.symtab' contains 1240 entries:
+   Num:    Value          Size Type    Bind   Vis       Ndx Name
+     5: 0000000000000000    72 FUNC    LOCAL  DEFAULT     1 curr_proc
+    23: 0000000000000048   304 FUNC    LOCAL  DEFAULT     1 freeproc
+    97: 0000000000000178    92 FUNC    LOCAL  DEFAULT     1 first_sched_ret
+   128: 0000000000000000     4 OBJECT  LOCAL  DEFAULT     6 proc_inited.1
+   237: 0000000000000000     4 OBJECT  LOCAL  DEFAULT     7 PID.0
+   663: 0000000000000000    32 OBJECT  LOCAL  DEFAULT     4 pid_lock
+   664: 0000000000000020    32 OBJECT  LOCAL  DEFAULT     4 wait_lock
+   665: 0000000000000040   104 OBJECT  LOCAL  DEFAULT     4 proc_allocator
+  1201: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND push_off
+  1202: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND mycpu
+  1203: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND pop_off
+  1210: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND usertrapret
+  1211: 00000000000001d4   544 FUNC    GLOBAL DEFAULT     1 proc_init
+  1212: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND spinlock_init
+  1213: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND allocator_init
+  1214: 00000000000000a8  4096 OBJECT  GLOBAL DEFAULT     4 pool
+  1215: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kernel_pagetable
+  1216: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kallocpage
+  1217: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kalloc
+  1218: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND memset
+  1219: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kvmmap
+```
+
+Type 列表示该符号是函数 (FUNC) 还是变量 (OBJECT), Bind 表示这个符号是否允许其他 .o 找到 (LOCAL/GLOBAL)。Ndx 表示这个符号是否定义在这个 .o 里面，`UND` 表示它是外部的 `.o`，即需要从其他 .o 导入的符号，所以它的 Type 和 Size 都是未知的。
 
 现在，你是否理解了链接中常出现的两种错误：multiple definition 和 undefined reference 的原因？
 
