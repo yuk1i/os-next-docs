@@ -180,9 +180,11 @@ gcc -o main main.o print.o
 ./main
 ```
 
-![image-20220212090901375](.\lab2images\image-20220212090901375.png)
+![image-20220212090901375](https://github.com/user-attachments/assets/44cc95f1-6eb4-41d4-9c01-0d6dd8f13b64)
 
-![image-20220212090954211](.\lab2images\image-20220212090954211.png)
+
+![image-20220212090954211](https://github.com/user-attachments/assets/99779e00-ce5e-4421-9c1b-2fdbb022beec)
+
 
 由此可见，如果我们的文件数量很多，每次运行就会变得十分的复杂。为了使整个编译过程更加容易，可以使用Makefile。
 
@@ -203,7 +205,7 @@ clean:
 
 最后，我们只需要执行一句make命令，就可以完成整个编译过程：
 
-![image-20220212091943782](.\lab2images\image-20220212091943782.png)
+![image-20220212091943782](https://github.com/user-attachments/assets/5cedda77-c3d2-4b68-a053-b2d00da58a52)
 
 ### Makefile的基本结构
 
