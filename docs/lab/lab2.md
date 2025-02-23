@@ -64,7 +64,6 @@ typedef unsigned long uint64;
 
 在 Linux 系统上，目标文件及可执行文件通常以 **ELF (Executable and Linkable Format)** 文件格式存储。
 ELF 文件分为不同的段 **Section**，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。
-我们可以通过 binutils 中的 readelf 工具来分析 ELF 文件。
 
 通常来说，我们会用"编译器"来指代整个编译与链接过程中用到的所有工具，尽管编译器和链接器是两个不同的程序。特别的，当我们讨论编译器和链接器时，我们会将进行 预处理、汇编、编译 等步骤的工具集合统称为编译器；将最后的链接步骤所用的工具称为链接器。
 
@@ -109,7 +108,7 @@ int main() {
    ```bash
    gcc main.o -o main
    ```
-   这会生成可执行文件 `main`，可以通过 `objdump` 工具来分析其内容。
+   这会生成可执行文件 `main`，可以通过 `file main` 来查看 `main` 的文件类型为ELF。可以通过GNU Binutils工具集中的 `readelf` 工具，你可以查看 ELF 文件的文件头、段信息、符号表、动态段信息等。例如使用 `readelf -h main` 可以查看 `main` 的文件头。
 
 ## Definition 和 Declaration
 
