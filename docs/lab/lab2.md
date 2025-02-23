@@ -97,21 +97,21 @@ int main() {
    ```bash
    gcc -E main.c -o main.i
    ```
-   这会生成 `main.i` 文件，其中包含了预处理后的代码（宏展开、头文件包含等），通过 `cat main.i` 即可查看其内容。
+   这会生成 `main.i` 文件，其中包含了预处理后的代码（宏展开、头文件包含等），可以通过 `cat main.i` 查看其内容。
 
 2. **编译（Compilation）**：生成 `.s` 文件
    ```bash
    gcc -S main.i -o main.s
    ```
-   这会生成 `main.s` 文件，其中包含了汇编代码。
+   这会生成 `main.s` 文件，其中包含了汇编代码，可以通过 `cat main.s` 查看其内容
 
-3. **汇编（Assembly）**：生成 `.o` 文件
+4. **汇编（Assembly）**：生成 `.o` 文件
    ```bash
    gcc -c main.s -o main.o
    ```
    这会生成 `main.o` 文件，其中包含了目标代码（机器代码）。
 
-4. **链接（Linking）**：生成可执行文件
+5. **链接（Linking）**：生成可执行文件
    ```bash
    gcc main.o -o main
    ```
