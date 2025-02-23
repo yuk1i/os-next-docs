@@ -701,15 +701,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      观察文件内容
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1037,15 +1028,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      观察文件内容
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1170,22 +1152,15 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
 <p><strong>汇编（Assembly）</strong>：生成 <code>.o</code> 文件
    <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gcc<span class="w"> </span>-c<span class="w"> </span>main.s<span class="w"> </span>-o<span class="w"> </span>main.o
 </code></pre></div>
-   这会生成 <code>main.o</code> 文件，其中包含了目标代码（机器代码）。</p>
+   这会生成 <code>main.o</code> 文件，其中包含了目标代码（机器代码），可以通过 <code>objdump</code> 工具来分析 <code>main.o</code> 的内容。例如使用 <code>objdump -d hello.o</code> 可以查看机器码及其对应的汇编指令。 </p>
 </li>
 <li>
 <p><strong>链接（Linking）</strong>：生成可执行文件
    <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gcc<span class="w"> </span>main.o<span class="w"> </span>-o<span class="w"> </span>main
 </code></pre></div>
-   这会生成可执行文件 <code>main</code>。</p>
+   这会生成可执行文件 <code>main</code>，可以通过 <code>objdump</code> 工具来分析其内容。</p>
 </li>
 </ol>
-<h3 id="_5">观察文件内容<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>main.i</code>：查看预处理后的代码，可以看到 <code>#include</code> 被替换为实际的 <code>stdio.h</code> 内容。</li>
-<li><code>main.s</code>：查看汇编代码，了解C代码是如何被转换为汇编指令的。</li>
-<li><code>main.o</code>：查看目标文件，可以使用 <code>objdump</code> 或 <code>nm</code> 等工具来分析目标文件的内容。</li>
-</ul>
-<p>通过这些步骤，你可以更好地理解GCC的编译过程。</p>
 <h2 id="definition-declaration">Definition 和 Declaration<a class="headerlink" href="#definition-declaration" title="Permanent link">&para;</a></h2>
 <p>Definition (定义) 和 Declaration (声明) 是 C 语言中非常容易混淆的两个概念。</p>
 <p>Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器在编译阶段能找到这些符号。
@@ -1249,8 +1224,8 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/d4c2fe4a, 2025-02-23 13:29:51+08:00" target="_blank" rel="noopener">
-            d4c2fe4a, 2025-02-23 13:29:51+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/2478a388, 2025-02-23 13:39:42+08:00" target="_blank" rel="noopener">
+            2478a388, 2025-02-23 13:39:42+08:00
         </a>
     </div>
 </div>
