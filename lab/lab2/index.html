@@ -708,11 +708,26 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#1c" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤1：观察C语言编译过程
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验步骤1：观察C语言编译过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       观察编译过程
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -731,6 +746,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      头文件
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#readelf-symbol-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      readelf 读取 Symbol Table
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#make-makefile" class="md-nav__link">
     <span class="md-ellipsis">
       Make 和 Makefile介绍
@@ -739,6 +772,15 @@
   
     <nav class="md-nav" aria-label="Make 和 Makefile介绍">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤2：使用makefile进行自动化构建
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#makefile" class="md-nav__link">
@@ -1092,11 +1134,26 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#1c" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤1：观察C语言编译过程
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验步骤1：观察C语言编译过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       观察编译过程
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1115,6 +1172,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      头文件
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#readelf-symbol-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      readelf 读取 Symbol Table
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#make-makefile" class="md-nav__link">
     <span class="md-ellipsis">
       Make 和 Makefile介绍
@@ -1123,6 +1198,15 @@
   
     <nav class="md-nav" aria-label="Make 和 Makefile介绍">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤2：使用makefile进行自动化构建
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#makefile" class="md-nav__link">
@@ -1248,6 +1332,13 @@
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">uint8</span><span class="w"> </span><span class="n">dkdk</span><span class="p">;</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">};</span>
 </code></pre></div>
+<p>我们使用 <code>.</code> 操作符访问一个结构体变量的字段，使用 <code>-&gt;</code> 操作符解引用一个结构体指针的字段。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="n">p1</span><span class="p">;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">p1</span><span class="p">.</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1234</span><span class="p">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">pProc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p1</span><span class="p">;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">pProc</span><span class="o">-&gt;</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;proc 1234&quot;</span><span class="p">;</span>
+</code></pre></div>
 <h2 id="_4">编译系统<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>在计算机组成原理课程中，我们简要的介绍了 C 语言的编译系统。通常来说，编译一个程序分为以下几步：</p>
 <p><img alt="image" src="../../assets/lab1/lab1-compilation-system.png" /></p>
@@ -1269,63 +1360,103 @@
 <p>在 Linux 系统上，目标文件及可执行文件通常以 <strong>ELF (Executable and Linkable Format)</strong> 文件格式存储。
    ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。</p>
 <p>通常来说，我们会用"编译器"来指代整个编译与链接过程中用到的所有工具，尽管编译器和链接器是两个不同的程序。特别的，当我们讨论编译器和链接器时，我们会将进行 预处理、汇编、编译 等步骤的工具集合统称为编译器；将最后的链接步骤所用的工具称为链接器。</p>
-<h2 style="color: orange;">实验步骤1：观察C语言编译过程</h2>
-
+<h3 id="1c">实验步骤1：观察C语言编译过程<a class="headerlink" href="#1c" title="Permanent link">&para;</a></h3>
 <p>下面是一个简单的C语言代码示例，适合用于观察GCC编译过程中的 <code>.i</code>、<code>.s</code>、<code>.o</code> 文件：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// main.c</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Sum: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// main.c</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Sum: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
 </code></pre></div>
 <h4 id="_5">观察编译过程<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
 <ol>
 <li>
 <p><strong>预处理（Preprocessing）</strong>：生成 <code>.i</code> 文件
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gcc<span class="w"> </span>-E<span class="w"> </span>main.c<span class="w"> </span>-o<span class="w"> </span>main.i
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gcc<span class="w"> </span>-E<span class="w"> </span>main.c<span class="w"> </span>-o<span class="w"> </span>main.i
 </code></pre></div>
    这会生成 <code>main.i</code> 文件，其中包含了预处理后的代码（宏展开、头文件包含等），可以通过 <code>cat main.i</code> 查看其内容。</p>
 </li>
 <li>
 <p><strong>编译（Compilation）</strong>：生成 <code>.s</code> 文件
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gcc<span class="w"> </span>-S<span class="w"> </span>main.i<span class="w"> </span>-o<span class="w"> </span>main.s
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>gcc<span class="w"> </span>-S<span class="w"> </span>main.i<span class="w"> </span>-o<span class="w"> </span>main.s
 </code></pre></div>
    这会生成 <code>main.s</code> 文件，其中包含了汇编代码，可以通过 <code>cat main.s</code> 查看其内容</p>
 </li>
 <li>
 <p><strong>汇编（Assembly）</strong>：生成 <code>.o</code> 文件
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>gcc<span class="w"> </span>-c<span class="w"> </span>main.s<span class="w"> </span>-o<span class="w"> </span>main.o
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gcc<span class="w"> </span>-c<span class="w"> </span>main.s<span class="w"> </span>-o<span class="w"> </span>main.o
 </code></pre></div>
    这会生成 <code>main.o</code> 文件，其中包含了目标代码（机器代码），可以通过 <code>objdump</code> 工具来分析 <code>main.o</code> 的内容。例如使用 <code>objdump -d hello.o</code> 可以查看机器码及其对应的汇编指令。 </p>
 </li>
 <li>
 <p><strong>链接（Linking）</strong>：生成可执行文件
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gcc<span class="w"> </span>main.o<span class="w"> </span>-o<span class="w"> </span>main
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>gcc<span class="w"> </span>main.o<span class="w"> </span>-o<span class="w"> </span>main
 </code></pre></div>
    这会生成可执行文件 <code>main</code>，可以通过 <code>file main</code> 来查看 <code>main</code> 的文件类型为ELF。可以通过GNU Binutils工具集中的 <code>readelf</code> 工具，你可以查看 ELF 文件的文件头、段信息、符号表、动态段信息等。例如使用 <code>readelf -h main</code> 可以查看 <code>main</code> 的文件头。</p>
 </li>
 </ol>
 <h2 id="definition-declaration">Definition 和 Declaration<a class="headerlink" href="#definition-declaration" title="Permanent link">&para;</a></h2>
-<p>Definition (定义) 和 Declaration (声明) 是 C 语言中非常容易混淆的两个概念。</p>
-<p>Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器 <strong>在编译阶段</strong> 能使用这些类型信息进行代码生成 (Code Generation)。
-而 Definition 实际上会为该符号分配内存地址。链接器会 <strong>在链接阶段为这些符号分配地址</strong>（如函数地址、全局变量地址）。</p>
+<p>Definition （定义） 和 Declaration （声明） 是 C 语言中非常容易混淆的两个概念。</p>
+<p>Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器 <strong>在编译阶段</strong> 能使用这些类型信息进行代码生成 (Code Generation)。</p>
+<p>而 Definition 实际上会为该符号分配内存地址。链接器会 <strong>在链接阶段</strong> 为这些符号 <strong>分配地址</strong>（如函数地址、全局变量地址）。</p>
 <div class="admonition info">
-<p class="admonition-title">Symbol (符号)</p>
+<p class="admonition-title">Symbol （符号）</p>
 <p>在 C 语言中，符号（Symbol）是编译器用来表示程序中各种实体（如变量、函数、宏、类型名等）的名称。每个符号在编译过程中被关联到特定的内存地址或其他资源。当程序被编译时，编译器会为这些符号创建符号表 (Symbol Table)，记录它们的名称、类型、作用域以及对应的内存地址或值。</p>
 <p>简而言之，符号是程序中代表实体的名字，编译器通过符号表来管理和解析这些名字。</p>
+<p>编译器在编译某个 <code>.c</code> 文件时，它会一行一行的处理源代码，并维护一个符号表，表示当前文件中，到 <strong>目前为止</strong> 所有见过的符号。当编译器遇到对一个符号的引用（变量引用、函数调用）时，它会查找这个符号表；当编译器遇到一个符号的声明或定义时，它会向符号表中保存这个符号的信息。</p>
+<p>所以，我们要保证，在引用一个符号时，它起码被声明过，即被编译器看到过。同时，在同一个文件中，定义也是一种声明。</p>
 </div>
-<p>通常，我们会在头文件中 (如 a.h, header file) 中使用 <code>extern int a</code> 来 <strong>声明</strong> 一个变量 <code>a</code>，这使得所有引用该头文件 (<code>#include "a.h"</code>) 的 .c 文件都能找到 <code>a</code> 这个符号。并且在 a.c 中 <strong>定义</strong> 这个变量，这使得链接器为该变量分配内存地址。</p>
-<p>额外的，当编译器遇到了声明 (Declaration) 过但是没有定义 (Definition) 过的符号时 (如 printf)，编译器会假定该符号会在其他 Object 文件中被定义，留下一些信息后交给链接器寻找这个符号。</p>
+<p>对于编译器而言，如果该 <code>.c</code> 文件需要引用其它 <code>.c</code> 文件中的函数或者变量，则需要提前 <strong>声明</strong> 它。当编译器遇到了声明 (Declaration) 过但是没有在当前文件中被定义 (Definition) 过的符号时 (如 printf)，编译器会假定该符号会在其他 object 文件中被定义，留下一些信息后交给链接器在链接阶段寻找这个符号。</p>
+<p>例如，<code>a.c</code> <strong>定义</strong> 了变量 <code>int a</code>。如果 <code>main.c</code> 想要引用它，则需要使用 <code>extern int a</code> 来 <strong>声明</strong> 它。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">// a.c</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1">// main.c</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">extern</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">);</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>编译时，我们先分别编译 <code>a.c</code> 和 <code>main.c</code> 到 <code>a.o</code> 和 <code>main.o</code>：<code>gcc -c a.c -o a.o</code>、<code>gcc -c main.c -o a.o</code>，然后链接两个 .o 文件：<code>gcc main.o a.o</code> 生成可执行文件 a.out。</p>
+<p>编译 <code>a.c</code> 时，编译器生成的 <code>a.o</code> 会表示它有一个全局可见的符号，叫 <code>a</code>。
+编译 <code>main.c</code> 时，编译器是不知道任何关于其他 .c 文件的信息的。但是我们在第一行声明了变量 <code>a</code>，所以它知道最终链接的时候会有一个符号叫 <code>a</code>。编译器产生的 <code>main.o</code> 中会表示它需要一个符号，叫 <code>a</code>。</p>
+<p>链接器会查找所有 <code>.o</code> 文件的符号表，并根据名字和可见性匹配符号。</p>
+<p>为了组织大型项目，我们不会在每个 <code>.c</code> 文件中手动导入其它 <code>.c</code> 文件中的符号，而是会使用头文件来声明这些会在 <code>.c</code> 中共享的符号。</p>
+<h2 id="_6">头文件<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>头文件（Header File）的作用是声明函数、变量、宏定义、常量、类型等信息， <strong>以便在多个源文件中共享</strong>。我们会在 <code>.c</code> 的开头使用 <code>#include</code> 宏导入头文件，它的语义是将文件内容直接复制到当前文件中，这一步是由 preprocessor 完成的。</p>
+<p>如果某个 <code>.c</code> 文件中有些类型、函数、变量需要被其他 <code>.c</code> 文件引用，我们会创建一个对应的头文件。在给头文件取名上，我们一般使用同样的文件名，但是使用 <code>.h</code> 后缀；例如，对于 <code>a.c</code> 里面需要共享的信息，我们会创建一个它的头文件 <code>a.h</code>。</p>
+<p>对于需要共享的函数、变量，我们通常会在 <code>a.h</code> 中 <strong>声明</strong>，在 <code>a.c</code> 中 <strong>定义</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// a.h</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">extern</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">);</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1">// a.c</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1">// or int a = 10;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="kt">int</span><span class="w"> </span><span class="nf">add</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>假如 <code>main.c</code> 需要引用 <code>a.c</code> 中提供的 <code>a</code> 变量或者 <code>add</code> 函数，则可以在其开头引入 <code>a.h</code> 头文件：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// main.c</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;a.h&quot;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">666</span><span class="p">;</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span><span class="p">;</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="p">}</span>
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul>
 <li>
-<p>在一个 <code>.c</code> 文件中声明且定义的全局变量其他.c文件是无法 <strong>直接</strong> 使用的。例如你在一个.c文件中 <code>int a;</code> ，则在另一个文件中需要 <code>extern int a;</code> ，那么两个文件才是共享同一个 <code>a</code> 。</p>
+<p>在一个 <code>.c</code> 文件中声明且定义的全局变量其他 <code>.c</code> 文件是无法 <strong>直接</strong> 使用的。例如你在一个 <code>.c</code> 文件中 <code>int a;</code> ，则在另一个文件中需要 <code>extern int a;</code> ，那么两个文件才是共享同一个 <code>a</code> 。</p>
 </li>
 <li>
 <p>在多个 <code>.c</code> 文件中定义全局变量时，我们要确保变量名是唯一的。否则会导致多重定义。</p>
@@ -1334,47 +1465,48 @@
 <p>如果我们希望定义一些仅当前 <code>.c</code> 可见的全局变量，我们可以使用 <code>static</code> 关键字。</p>
 </li>
 <li>
-<p><code>.h</code> 文件中仅能声明变量，如果 <code>.h</code> 声明了一个变量并且存在两个以上的 <code>.c</code> 文件 <code>include</code> 了这个 <code>.h</code> 文件，则也会出现多重定义，因为两个 <code>.c</code> 都会对这个文件进行定义。</p>
+<p><code>.h</code> 文件中仅能声明变量，如果 <code>.h</code> 定义了一个变量并且存在两个以上的 <code>.c</code> 文件 <code>#include</code> 了这个 <code>.h</code> 文件，则也会出现多重定义，因为预处理器会将被 include 的内容直接复制到当前文件中，这最终会导致两个 <code>.c</code> 都会对这个变量进行定义。</p>
 </li>
 <li>
-<p>如果你希望一个变量由多个 <code>.c</code> 共享使用，可以在 <code>.h</code> 文件中声明这个变量并且使用 <code>extern</code> 关键字进行修饰。</p>
+<p>如果你希望一个变量由多个 <code>.c</code> 共享使用，可以在 <code>.h</code> 文件中声明这个变量并且使用 <code>extern</code> 关键字进行修饰，并在任何一个 <code>.c</code> 中定义它。</p>
 </li>
 </ul>
 </div>
+<h2 id="readelf-symbol-table">readelf 读取 Symbol Table<a class="headerlink" href="#readelf-symbol-table" title="Permanent link">&para;</a></h2>
 <p>我们再次解释一下 Declaration 和 Definition 的区别：</p>
 <ul>
 <li>
 <p>Definition 是向链接器表示，这个 .o 文件里面有一个符号，链接器需要为它分配内存地址。如果其他 .o 需要引用这个符号，则要判断这个符号是否允许被外部访问，即声明时是否使用了 static。</p>
 </li>
 <li>
-<p>Declaration 是向编译器保证，这个符号会在链接时从其他 .o 文件中被找到。编译器只要根据声明的变量类型或函数原型进行代码生成（如变量访存时的宽度 (lb, lw, ld)，函数的参数个数），链接器会负责去找到这些符号。</p>
+<p>Declaration 是向编译器保证，这个符号会在链接时被找到，不论是当前 <code>.c</code> 或其他 <code>.c</code> 文件中定义的。编译器只要根据声明的变量类型或函数原型进行代码生成（如变量访存时的宽度 (lb, lw, ld)，函数的参数个数），链接器会负责去找到这些符号。</p>
 </li>
 </ul>
 <p>我们可以通过 <code>llvm-readelf-19 --symbol &lt;file&gt;</code> 查看一个 ELF 文件的符号表，里面字段的意义可以参照 <a href="https://docs.oracle.com/cd/E19455-01/816-0559/chapter6-79797/index.html">https://docs.oracle.com/cd/E19455-01/816-0559/chapter6-79797/index.html</a></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$ llvm-readelf-19 --symbols build/os/proc.o | grep -E &quot;FUNC|OBJECT|GLOBAL&quot;
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Symbol table &#39;.symtab&#39; contains 1240 entries:
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>   Num:    Value          Size Type    Bind   Vis       Ndx Name
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>     5: 0000000000000000    72 FUNC    LOCAL  DEFAULT     1 curr_proc
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    23: 0000000000000048   304 FUNC    LOCAL  DEFAULT     1 freeproc
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    97: 0000000000000178    92 FUNC    LOCAL  DEFAULT     1 first_sched_ret
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>   128: 0000000000000000     4 OBJECT  LOCAL  DEFAULT     6 proc_inited.1
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>   237: 0000000000000000     4 OBJECT  LOCAL  DEFAULT     7 PID.0
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>   663: 0000000000000000    32 OBJECT  LOCAL  DEFAULT     4 pid_lock
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>   664: 0000000000000020    32 OBJECT  LOCAL  DEFAULT     4 wait_lock
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>   665: 0000000000000040   104 OBJECT  LOCAL  DEFAULT     4 proc_allocator
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>  1201: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND push_off
-<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>  1202: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND mycpu
-<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>  1203: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND pop_off
-<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>  1210: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND usertrapret
-<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>  1211: 00000000000001d4   544 FUNC    GLOBAL DEFAULT     1 proc_init
-<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>  1212: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND spinlock_init
-<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>  1213: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND allocator_init
-<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>  1214: 00000000000000a8  4096 OBJECT  GLOBAL DEFAULT     4 pool
-<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>  1215: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kernel_pagetable
-<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>  1216: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kallocpage
-<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>  1217: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kalloc
-<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>  1218: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND memset
-<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>  1219: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kvmmap
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$ llvm-readelf-19 --symbols build/os/proc.o | grep -E &quot;FUNC|OBJECT|GLOBAL&quot;
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Symbol table &#39;.symtab&#39; contains 1240 entries:
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>   Num:    Value          Size Type    Bind   Vis       Ndx Name
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>     5: 0000000000000000    72 FUNC    LOCAL  DEFAULT     1 curr_proc
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    23: 0000000000000048   304 FUNC    LOCAL  DEFAULT     1 freeproc
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    97: 0000000000000178    92 FUNC    LOCAL  DEFAULT     1 first_sched_ret
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>   128: 0000000000000000     4 OBJECT  LOCAL  DEFAULT     6 proc_inited.1
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>   237: 0000000000000000     4 OBJECT  LOCAL  DEFAULT     7 PID.0
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>   663: 0000000000000000    32 OBJECT  LOCAL  DEFAULT     4 pid_lock
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>   664: 0000000000000020    32 OBJECT  LOCAL  DEFAULT     4 wait_lock
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>   665: 0000000000000040   104 OBJECT  LOCAL  DEFAULT     4 proc_allocator
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>  1201: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND push_off
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>  1202: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND mycpu
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>  1203: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND pop_off
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>  1210: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND usertrapret
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>  1211: 00000000000001d4   544 FUNC    GLOBAL DEFAULT     1 proc_init
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>  1212: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND spinlock_init
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>  1213: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND allocator_init
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>  1214: 00000000000000a8  4096 OBJECT  GLOBAL DEFAULT     4 pool
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>  1215: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kernel_pagetable
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>  1216: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kallocpage
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>  1217: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kalloc
+<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>  1218: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND memset
+<a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>  1219: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT   UND kvmmap
 </code></pre></div>
 <p>Type 列表示该符号是函数 (FUNC) 还是变量 (OBJECT), Bind 表示这个符号是否允许其他 .o 找到 (LOCAL/GLOBAL)。Ndx 表示这个符号是否定义在这个 .o 里面，<code>UND</code> 表示它是外部的 <code>.o</code>，即需要从其他 .o 导入的符号，所以它的 Type 和 Size 都是未知的。</p>
 <p>现在，你是否理解了链接中常出现的两种错误：multiple definition 和 undefined reference 的原因？</p>
@@ -1392,52 +1524,51 @@
 <p>考虑一下，如果我们的工程稍微大一点（比如包含多个C语言文件），每次运行一次我们都要执行很多次gcc命令，是否有一种编译工具可以简化这个过程呢？接下来我们介绍自动化编译工具make。</p>
 <p><code>Makefile</code> 是一个用于自动化构建（编译、链接等）程序的配置文件，通常用于管理包含多个源文件的项目。它定义了如何从源代码生成目标文件（如可执行文件、库文件等），并确保只重新编译那些需要更新的部分，从而提高构建效率。</p>
 <p><code>Makefile</code> 是 <code>make</code> 工具的输入文件，<code>make</code> 是一个经典的构建工具，广泛用于 Unix/Linux 系统。</p>
-<h2 style="color: orange;">实验步骤2：使用makefile进行自动化构建</h2>
-
+<h3 id="2makefile">实验步骤2：使用makefile进行自动化构建<a class="headerlink" href="#2makefile" title="Permanent link">&para;</a></h3>
 <p>首先我们创建三个文件</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">//print.h 头文件</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1">//print.c</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;print.h&quot;</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">(){</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Hello, World!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">}</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="c1">//main.c</span>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;print.h&quot;</span>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="n">print</span><span class="p">();</span>
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">//print.h 头文件</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1">//print.c</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;print.h&quot;</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">(){</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Hello, World!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="p">}</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="c1">//main.c</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;print.h&quot;</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="n">print</span><span class="p">();</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="p">}</span>
 </code></pre></div>
 <p>因为文件中的依赖关系，如果我们想要运行上面的代码，我们需要为每个.c文件生成.o目标文件，然后把两个.o文件生成可执行文件：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>gcc<span class="w"> </span>-c<span class="w"> </span>main.c
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>gcc<span class="w"> </span>-c<span class="w"> </span>print.c
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>gcc<span class="w"> </span>-o<span class="w"> </span>main<span class="w"> </span>main.o<span class="w"> </span>print.o
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>./main
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>gcc<span class="w"> </span>-c<span class="w"> </span>main.c
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>gcc<span class="w"> </span>-c<span class="w"> </span>print.c
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>gcc<span class="w"> </span>-o<span class="w"> </span>main<span class="w"> </span>main.o<span class="w"> </span>print.o
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>./main
 </code></pre></div>
 <p><img alt="image-20220212090901375" src="https://github.com/user-attachments/assets/44cc95f1-6eb4-41d4-9c01-0d6dd8f13b64" /></p>
 <p><img alt="image-20220212090954211" src="https://github.com/user-attachments/assets/99779e00-ce5e-4421-9c1b-2fdbb022beec" /></p>
 <p>由此可见，如果我们的文件数量很多，每次运行就会变得十分的复杂。为了使整个编译过程更加容易，可以使用Makefile。</p>
 <p>接着，我们创建一个文本文件并命名为Makefile。</p>
 <p>Makefile文件内容：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nf">main </span><span class="o">:</span><span class="w"> </span><span class="n">main</span>.<span class="n">o</span> <span class="n">print</span>.<span class="n">o</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span>gcc<span class="w"> </span>-o<span class="w"> </span>main<span class="w"> </span>main.o<span class="w"> </span>print.o
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nf">main.o </span><span class="o">:</span><span class="w"> </span><span class="n">main</span>.<span class="n">c</span> <span class="n">print</span>.<span class="n">h</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span>gcc<span class="w"> </span>-c<span class="w"> </span>main.c
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nf">print.o </span><span class="o">:</span><span class="w"> </span><span class="n">print</span>.<span class="n">c</span> <span class="n">print</span>.<span class="n">h</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span>gcc<span class="w"> </span>-c<span class="w"> </span>print.c
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nf">clean</span><span class="o">:</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span>rm<span class="w"> </span>main<span class="w"> </span>main.o<span class="w"> </span>print.o
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nf">main </span><span class="o">:</span><span class="w"> </span><span class="n">main</span>.<span class="n">o</span> <span class="n">print</span>.<span class="n">o</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span>gcc<span class="w"> </span>-o<span class="w"> </span>main<span class="w"> </span>main.o<span class="w"> </span>print.o
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nf">main.o </span><span class="o">:</span><span class="w"> </span><span class="n">main</span>.<span class="n">c</span> <span class="n">print</span>.<span class="n">h</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span>gcc<span class="w"> </span>-c<span class="w"> </span>main.c
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nf">print.o </span><span class="o">:</span><span class="w"> </span><span class="n">print</span>.<span class="n">c</span> <span class="n">print</span>.<span class="n">h</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span>gcc<span class="w"> </span>-c<span class="w"> </span>print.c
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="nf">clean</span><span class="o">:</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span>rm<span class="w"> </span>main<span class="w"> </span>main.o<span class="w"> </span>print.o
 </code></pre></div>
 <p>最后，我们只需要执行一句make命令，就可以完成整个编译过程：</p>
 <p><img alt="image-20220212091943782" src="https://github.com/user-attachments/assets/5cedda77-c3d2-4b68-a053-b2d00da58a52" /></p>
 <h3 id="makefile">Makefile的基本结构<a class="headerlink" href="#makefile" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nf">target</span><span class="o">:</span><span class="w"> </span><span class="n">dependencies</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="err">[tab]</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">command</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nf">target</span><span class="o">:</span><span class="w"> </span><span class="n">dependencies</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="err">[tab]</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">command</span>
 </code></pre></div>
 <h3 id="makefile_1">Makefile工作原理<a class="headerlink" href="#makefile_1" title="Permanent link">&para;</a></h3>
 <p>在默认的方式下，也就是我们只输入 <code>make</code> 命令。那么，</p>
@@ -1490,8 +1621,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/d11491d1, 2025-02-23 18:00:55+08:00" target="_blank" rel="noopener">
-            d11491d1, 2025-02-23 18:00:55+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/837c5951, 2025-02-23 19:14:29+08:00" target="_blank" rel="noopener">
+            837c5951, 2025-02-23 19:14:29+08:00
         </a>
     </div>
 </div>
