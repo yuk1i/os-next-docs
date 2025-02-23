@@ -216,8 +216,6 @@ target: dependencies
 
 ### Makefile工作原理
 
-参考：（[makefile介绍 — 跟我一起写Makefile 1.0 文档 (seisman.github.io)](https://seisman.github.io/how-to-write-makefile/introduction.html)）
-
 在默认的方式下，也就是我们只输入 `make` 命令。那么，
 
 1. make会在当前目录下找名字叫“Makefile”或“makefile”的文件。
@@ -230,4 +228,4 @@ target: dependencies
 
 通过上述分析，我们知道，像clean这种，没有被第一个目标文件直接或间接关联，那么它后面所定义的命令将不会被自动执行，不过，我们可以显式要make执行。即命令—— `make clean` ，以此来清除所有的目标文件，以便重新编译。
 
-更多关于Makefile的知识请查看：（[跟我一起写Makefile 1.0 文档 ](https://seisman.github.io/how-to-write-makefile/introduction.html)）
+参考及更多关于Makefile的知识请查看：（[跟我一起写Makefile 1.0 文档 ](https://seisman.github.io/how-to-write-makefile/introduction.html)）
