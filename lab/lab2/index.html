@@ -1040,7 +1040,8 @@
 由于我们面向 riscv64 架构进行编程，我们可以确保在我们的 XV6 中，它们是 64 / 32 位的。</p>
 <div class="admonition warning">
 <p class="admonition-title">unsigned</p>
-<p>注意在C语言中值在int类型取值范围内的整数字面量的默认类型是int。当unsigned int与有符号整数（如int）比较时，有符号整数会被提升为unsigned int。如果常数为负数，提升后可能变成一个非常大的无符号值，导致比较结果与预期不符。</p>
+<p>注意在C语言中值在int类型取值范围内的整数字面量的默认类型是int。</p>
+<p>当unsigned int与有符号整数（如int）比较时，有符号整数会被提升为unsigned int。如果常数为负数，提升后可能变成一个非常大的无符号值，导致比较结果与预期不符。</p>
 <p>可以尝试执行以下代码，观察结果：
 <img alt="image" src="https://github.com/user-attachments/assets/7abc8a00-e968-424e-93be-d489d28392c4" /></p>
 </div>
@@ -1049,6 +1050,9 @@
 <p><img alt="image" src="../../assets/lab1/lab1-compilation-system.png" /></p>
 <ul>
 <li>源代码 .c 文件经过 Pre-processor 预处理 cpp 得到 .i 文件</li>
+</ul>
+<p>.i 文件是 GCC 预处理阶段生成的中间文件，包含了展开的头文件、宏定义和条件编译后的代码。使用 gcc -E 可以生成 .i 文件。</p>
+<ul>
 <li>.i 文件通过编译器 cc1 编译器得到汇编文件 .s</li>
 <li>.s 文件通过汇编器 as 得到 Relocatable objects (可重定位文件) .o</li>
 <li>链接器 ld 链接所有 .o 文件得到最终的可执行文件 </li>
@@ -1126,8 +1130,8 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/8b0e7f59, 2025-02-23 11:54:47+08:00" target="_blank" rel="noopener">
-            8b0e7f59, 2025-02-23 11:54:47+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/9302e4c8, 2025-02-23 12:20:46+08:00" target="_blank" rel="noopener">
+            9302e4c8, 2025-02-23 12:20:46+08:00
         </a>
     </div>
 </div>
