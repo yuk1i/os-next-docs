@@ -1158,13 +1158,13 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
 <p><strong>预处理（Preprocessing）</strong>：生成 <code>.i</code> 文件
    <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>gcc<span class="w"> </span>-E<span class="w"> </span>main.c<span class="w"> </span>-o<span class="w"> </span>main.i
 </code></pre></div>
-   这会生成 <code>main.i</code> 文件，其中包含了预处理后的代码（宏展开、头文件包含等），通过 <code>cat main.i</code> 即可查看其内容。</p>
+   这会生成 <code>main.i</code> 文件，其中包含了预处理后的代码（宏展开、头文件包含等），可以通过 <code>cat main.i</code> 查看其内容。</p>
 </li>
 <li>
 <p><strong>编译（Compilation）</strong>：生成 <code>.s</code> 文件
    <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gcc<span class="w"> </span>-S<span class="w"> </span>main.i<span class="w"> </span>-o<span class="w"> </span>main.s
 </code></pre></div>
-   这会生成 <code>main.s</code> 文件，其中包含了汇编代码。</p>
+   这会生成 <code>main.s</code> 文件，其中包含了汇编代码，可以通过 <code>cat main.s</code> 查看其内容</p>
 </li>
 <li>
 <p><strong>汇编（Assembly）</strong>：生成 <code>.o</code> 文件
@@ -1249,8 +1249,8 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/bf36f598, 2025-02-23 13:13:02+08:00" target="_blank" rel="noopener">
-            bf36f598, 2025-02-23 13:13:02+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/d4c2fe4a, 2025-02-23 13:29:51+08:00" target="_blank" rel="noopener">
+            d4c2fe4a, 2025-02-23 13:29:51+08:00
         </a>
     </div>
 </div>
