@@ -686,24 +686,9 @@
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      实验步骤
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="实验步骤">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
       观察编译过程
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1019,24 +1004,9 @@
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      实验步骤
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="实验步骤">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
       观察编译过程
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1123,17 +1093,12 @@
 <ul>
 <li>链接器 ld 链接所有 .o 文件得到最终的可执行文件 </li>
 </ul>
-<p>Object 文件有以下形式：</p>
-<ul>
-<li>Relocatable object file (可重定位文件): 这些文件是由编译器和汇编器生成，包含了二进制的数据和代码。这些文件通常和其他 Relocatable object files 一起被链接器处理，以生成可执行文件</li>
-<li>Executable object file (可执行文件): 这些文件是由链接器生成的。可执行文件可以直接被复制到内存中并执行。</li>
-<li>Shared object file (共享目标文件): 这是一种由链接器生成的特殊的可重定位文件，他们被加载进内存中时需要进行重定位。通常用于动态链接。</li>
-</ul>
-<p>在 Linux 系统上，Object 文件通常以 <strong>ELF (Executable and Linkable Format)</strong> 文件格式存储。
+<p>在 Linux 系统上，目标文件及可执行文件通常以 <strong>ELF (Executable and Linkable Format)</strong> 文件格式存储。
 ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。
 我们可以通过 binutils 中的 readelf 工具来分析 ELF 文件。</p>
 <p>通常来说，我们会用"编译器"来指代整个编译与链接过程中用到的所有工具，尽管编译器和链接器是两个不同的程序。特别的，当我们讨论编译器和链接器时，我们会将进行 预处理、汇编、编译 等步骤的工具集合统称为编译器；将最后的链接步骤所用的工具称为链接器。</p>
-<h3 id="_3">实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h2 style="color: orange;">实验步骤1：观察C语言编译过程</h2>
+
 <p>下面是一个简单的C语言代码示例，适合用于观察GCC编译过程中的 <code>.i</code>、<code>.s</code>、<code>.o</code> 文件：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// main.c</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
@@ -1146,7 +1111,7 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">}</span>
 </code></pre></div>
-<h4 id="_4">观察编译过程<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<h4 id="_3">观察编译过程<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
 <ol>
 <li>
 <p><strong>预处理（Preprocessing）</strong>：生成 <code>.i</code> 文件
@@ -1236,8 +1201,8 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/48edbf26, 2025-02-23 13:42:01+08:00" target="_blank" rel="noopener">
-            48edbf26, 2025-02-23 13:42:01+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/16ddd2f8, 2025-02-23 15:06:34+08:00" target="_blank" rel="noopener">
+            16ddd2f8, 2025-02-23 15:06:34+08:00
         </a>
     </div>
 </div>
