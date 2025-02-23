@@ -1094,8 +1094,7 @@
 <li>链接器 ld 链接所有 .o 文件得到最终的可执行文件 </li>
 </ul>
 <p>在 Linux 系统上，目标文件及可执行文件通常以 <strong>ELF (Executable and Linkable Format)</strong> 文件格式存储。
-ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。
-我们可以通过 binutils 中的 readelf 工具来分析 ELF 文件。</p>
+ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。</p>
 <p>通常来说，我们会用"编译器"来指代整个编译与链接过程中用到的所有工具，尽管编译器和链接器是两个不同的程序。特别的，当我们讨论编译器和链接器时，我们会将进行 预处理、汇编、编译 等步骤的工具集合统称为编译器；将最后的链接步骤所用的工具称为链接器。</p>
 <h2 style="color: orange;">实验步骤1：观察C语言编译过程</h2>
 
@@ -1135,7 +1134,7 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
 <p><strong>链接（Linking）</strong>：生成可执行文件
    <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gcc<span class="w"> </span>main.o<span class="w"> </span>-o<span class="w"> </span>main
 </code></pre></div>
-   这会生成可执行文件 <code>main</code>，可以通过 <code>objdump</code> 工具来分析其内容。</p>
+   这会生成可执行文件 <code>main</code>，可以通过 <code>file main</code> 来查看 <code>main</code> 的文件类型为ELF。可以通过GNU Binutils工具集中的 <code>readelf</code> 工具，你可以查看 ELF 文件的文件头、段信息、符号表、动态段信息等。例如使用 <code>readelf -h main</code> 可以查看 <code>main</code> 的文件头。</p>
 </li>
 </ol>
 <h2 id="definition-declaration">Definition 和 Declaration<a class="headerlink" href="#definition-declaration" title="Permanent link">&para;</a></h2>
@@ -1201,8 +1200,8 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/16ddd2f8, 2025-02-23 15:06:34+08:00" target="_blank" rel="noopener">
-            16ddd2f8, 2025-02-23 15:06:34+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/b4761db7, 2025-02-23 15:14:19+08:00" target="_blank" rel="noopener">
+            b4761db7, 2025-02-23 15:14:19+08:00
         </a>
     </div>
 </div>
