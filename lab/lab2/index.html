@@ -1232,8 +1232,26 @@
 </div>
 <p>通常，我们会在头文件中 (如 a.h, header file) 中使用 <code>extern int a</code> 来 <strong>声明</strong> 一个变量 <code>a</code>，这使得所有引用该头文件 (<code>#include "a.h"</code>) 的 .c 文件都能找到 <code>a</code> 这个符号。并且在 a.c 中 <strong>定义</strong> 这个变量，这使得链接器为该变量分配内存地址。</p>
 <p>额外的，当编译器遇到了声明 (Declaration) 过但是没有定义 (Definition) 过的符号时 (如 printf)，编译器会假定该符号会在其他 Object 文件中被定义，留下一些信息后交给链接器寻找这个符号。</p>
-<p>在定义全局变量时，我们要确保变量名是唯一的。</p>
-<p>如果我们希望定义一些仅局部可见的变量，我们可以在 .c 文件中使用 static 关键字。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>
+<p>在一个.c文件中声明且定义的全局变量其他.c文件是无法 <strong>直接</strong> 使用的。例如你在一个.c文件中int a;，则在另一个文件中需要extern int a;，那么两个文件才是共享同一个变量a。</p>
+</li>
+<li>
+<p>在多个.c文件中定义全局变量时，我们要确保变量名是唯一的。否则会导致多重定义。</p>
+</li>
+<li>
+<p>如果我们希望定义一些仅当前.c可见的全局变量，我们可以使用 static 关键字。</p>
+</li>
+<li>
+<p>.h文件中仅能声明变量，如果.h声明了一个变量并且存在两个以上的.c文件include了这个.h文件，则也会出现多重定义，因为两个.c都会对这个文件进行定义。</p>
+</li>
+<li>
+<p>如果你希望一个变量由多个.c共享使用，可以在.h文件中声明这个变量并且使用 extern 关键字进行修饰。</p>
+</li>
+</ul>
+</div>
 <p>现在，你是否理解了链接中常出现的两种错误：multiple definition 和 undefined reference 的原因？</p>
 <ul>
 <li><code>riscv64-unknown-elf-ld: build/os/proc.o:os/proc.c:14: multiple definition of 'idle'; build/os/main.o:os/main.c:7: first defined here</code><ul>
@@ -1347,8 +1365,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/5b58a857, 2025-02-23 16:11:27+08:00" target="_blank" rel="noopener">
-            5b58a857, 2025-02-23 16:11:27+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/cff825aa, 2025-02-23 16:50:28+08:00" target="_blank" rel="noopener">
+            cff825aa, 2025-02-23 16:50:28+08:00
         </a>
     </div>
 </div>
