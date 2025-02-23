@@ -30,7 +30,15 @@ typedef unsigned long uint64;
 ```
 
 我们定义了 `uint64`, `uint32` 等类型分别为 `unsigned long` 和 `unsigned int`。
-由于我们面向 riscv64 架构进行编程，我们可以确保在我们的 uCore 中，它们是 64 / 32 位的。
+由于我们面向 riscv64 架构进行编程，我们可以确保在我们的 XV6 中，它们是 64 / 32 位的。
+
+!!! warning "unsigned"
+
+    注意在C语言中值在int类型取值范围内的整数字面量的默认类型是int。当unsigned int与有符号整数（如int）比较时，有符号整数会被提升为unsigned int。如果常数为负数，提升后可能变成一个非常大的无符号值，导致比较结果与预期不符。
+
+    可以尝试执行以下代码，观察结果：
+    ![image](https://github.com/user-attachments/assets/7abc8a00-e968-424e-93be-d489d28392c4)
+
 
 ## 编译系统
 
