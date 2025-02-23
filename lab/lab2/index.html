@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#c" class="md-skip">
+        <a href="#c-makefile" class="md-skip">
           跳转至
         </a>
       
@@ -706,6 +706,48 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#make-makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Make 和 Makefile介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Make 和 Makefile介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Makefile的基本结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#makefile_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Makefile工作原理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make-clean" class="md-nav__link">
+    <span class="md-ellipsis">
+      make clean
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1024,6 +1066,48 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#make-makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Make 和 Makefile介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Make 和 Makefile介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#makefile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Makefile的基本结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#makefile_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Makefile工作原理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make-clean" class="md-nav__link">
+    <span class="md-ellipsis">
+      make clean
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1042,7 +1126,7 @@
   
 
 
-<h1 id="c">C 语言基础<a class="headerlink" href="#c" title="Permanent link">&para;</a></h1>
+<h1 id="c-makefile">C 语言基础及Makefile<a class="headerlink" href="#c-makefile" title="Permanent link">&para;</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">C 语言基础</p>
 <p>如果你没有学习过 C 语言，我们 <strong>非常建议</strong> 你提前观看于老师的 C/C++ 课程 <a href="https://www.bilibili.com/video/BV1Vf4y1P7pq">https://www.bilibili.com/video/BV1Vf4y1P7pq</a> ，观看到第 6.5 章节有助于你了解基本的 C 语言语法。</p>
@@ -1078,23 +1162,23 @@
 <h2 id="_2">编译系统<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>在计算机组成原理课程中，我们简要的介绍了 C 语言的编译系统。通常来说，编译一个程序分为以下几步：</p>
 <p><img alt="image" src="../../assets/lab1/lab1-compilation-system.png" /></p>
-<ul>
+<ol>
 <li>源代码 .c 文件经过 Pre-processor 预处理 cpp 得到 .i 文件</li>
-</ul>
+</ol>
 <p>.i 文件是 GCC 预处理阶段生成的中间文件，包含了展开的头文件、宏定义和条件编译后的代码。使用 gcc -E 可以生成 .i 文件。</p>
-<ul>
+<ol>
 <li>.i 文件通过编译器 cc1 编译器得到汇编文件 .s</li>
-</ul>
+</ol>
 <p>编译器对.i文件进行语法检查，检查无误后将.i文件转换成机器可以理解的汇编代码（人类可阅读形式的机器代码），在此过程中优化器可以对代码进行优化。</p>
-<ul>
+<ol>
 <li>.s 文件通过汇编器 as 得到 Relocatable objects (可重定位文件) .o</li>
-</ul>
+</ol>
 <p>在此过程中，汇编器将汇编代码转换为目标代码（机器代码-直接在机器上执行的代码，人类不可读）。</p>
-<ul>
-<li>链接器 ld 链接所有 .o 文件得到最终的可执行文件 </li>
-</ul>
+<ol>
+<li>链接器 ld 链接所有 .o 文件得到最终的可执行文件</li>
+</ol>
 <p>在 Linux 系统上，目标文件及可执行文件通常以 <strong>ELF (Executable and Linkable Format)</strong> 文件格式存储。
-ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。</p>
+   ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。</p>
 <p>通常来说，我们会用"编译器"来指代整个编译与链接过程中用到的所有工具，尽管编译器和链接器是两个不同的程序。特别的，当我们讨论编译器和链接器时，我们会将进行 预处理、汇编、编译 等步骤的工具集合统称为编译器；将最后的链接步骤所用的工具称为链接器。</p>
 <h2 style="color: orange;">实验步骤1：观察C语言编译过程</h2>
 
@@ -1139,8 +1223,8 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
 </ol>
 <h2 id="definition-declaration">Definition 和 Declaration<a class="headerlink" href="#definition-declaration" title="Permanent link">&para;</a></h2>
 <p>Definition (定义) 和 Declaration (声明) 是 C 语言中非常容易混淆的两个概念。</p>
-<p>Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器在编译阶段能找到这些符号。
-而 Definition 实际上会为该符号分配地址。在链接阶段，链接器会为这些符号分配地址（如函数地址、全局变量地址）。</p>
+<p>Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器**在编译阶段能找到这些符号**。
+而 Definition 实际上会为该符号分配地址。链接器会**在链接阶段为这些符号分配地址**（如函数地址、全局变量地址）。</p>
 <div class="admonition info">
 <p class="admonition-title">Symbol (符号)</p>
 <p>在 C 语言中，符号（Symbol）是编译器用来表示程序中各种实体（如变量、函数、宏、类型名等）的名称。每个符号在编译过程中被关联到特定的内存地址或其他资源。当程序被编译时，编译器会为这些符号创建符号表 (Symbol Table)，记录它们的名称、类型、作用域以及对应的内存地址或值。</p>
@@ -1161,6 +1245,70 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
 </ul>
 </li>
 </ul>
+<h2 id="make-makefile">Make 和 Makefile介绍<a class="headerlink" href="#make-makefile" title="Permanent link">&para;</a></h2>
+<p>考虑一下，如果我们的工程稍微大一点（比如包含多个C语言文件），每次运行一次我们都要执行很多次gcc命令，是否有一种编译工具可以简化这个过程呢？接下来我们介绍自动化编译工具make。</p>
+<p><code>Makefile</code> 是一个用于自动化构建（编译、链接等）程序的配置文件，通常用于管理包含多个源文件的项目。它定义了如何从源代码生成目标文件（如可执行文件、库文件等），并确保只重新编译那些需要更新的部分，从而提高构建效率。</p>
+<p><code>Makefile</code> 是 <code>make</code> 工具的输入文件，<code>make</code> 是一个经典的构建工具，广泛用于 Unix/Linux 系统。</p>
+<h2 style="color: orange;">实验步骤2：使用makefile进行自动化构建</h2>
+
+<p>首先我们创建三个文件</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">//print.h 头文件</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1">//print.c</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;print.h&quot;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">(){</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Hello, World!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="p">}</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">//main.c</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;print.h&quot;</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="n">print</span><span class="p">();</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="p">}</span>
+</code></pre></div>
+<p>因为文件中的依赖关系，如果我们想要运行上面的代码，我们需要为每个.c文件生成.o目标文件，然后把两个.o文件生成可执行文件：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gcc<span class="w"> </span>-c<span class="w"> </span>main.c
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>gcc<span class="w"> </span>-c<span class="w"> </span>print.c
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>gcc<span class="w"> </span>-o<span class="w"> </span>main<span class="w"> </span>main.o<span class="w"> </span>print.o
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>./main
+</code></pre></div>
+<p><img alt="image-20220212090901375" src=".\lab2images\image-20220212090901375.png" /></p>
+<p><img alt="image-20220212090954211" src=".\lab2images\image-20220212090954211.png" /></p>
+<p>由此可见，如果我们的文件数量很多，每次运行就会变得十分的复杂。为了使整个编译过程更加容易，可以使用Makefile。</p>
+<p>接着，我们创建一个文本文件并命名为Makefile。</p>
+<p>Makefile文件内容：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nf">main </span><span class="o">:</span><span class="w"> </span><span class="n">main</span>.<span class="n">o</span> <span class="n">print</span>.<span class="n">o</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span>gcc<span class="w"> </span>-o<span class="w"> </span>main<span class="w"> </span>main.o<span class="w"> </span>print.o
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nf">main.o </span><span class="o">:</span><span class="w"> </span><span class="n">main</span>.<span class="n">c</span> <span class="n">print</span>.<span class="n">h</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span>gcc<span class="w"> </span>-c<span class="w"> </span>main.c
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nf">print.o </span><span class="o">:</span><span class="w"> </span><span class="n">print</span>.<span class="n">c</span> <span class="n">print</span>.<span class="n">h</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span>gcc<span class="w"> </span>-c<span class="w"> </span>print.c
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="nf">clean</span><span class="o">:</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span>rm<span class="w"> </span>main<span class="w"> </span>main.o<span class="w"> </span>print.o
+</code></pre></div>
+<p>最后，我们只需要执行一句make命令，就可以完成整个编译过程：</p>
+<p><img alt="image-20220212091943782" src=".\lab2images\image-20220212091943782.png" /></p>
+<h3 id="makefile">Makefile的基本结构<a class="headerlink" href="#makefile" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nf">target</span><span class="o">:</span><span class="w"> </span><span class="n">dependencies</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="err">[tab]</span><span class="w"> </span><span class="err">system</span><span class="w"> </span><span class="err">command</span>
+</code></pre></div>
+<h3 id="makefile_1">Makefile工作原理<a class="headerlink" href="#makefile_1" title="Permanent link">&para;</a></h3>
+<p>参考：（<a href="https://seisman.github.io/how-to-write-makefile/introduction.html">makefile介绍 — 跟我一起写Makefile 1.0 文档 (seisman.github.io)</a>）</p>
+<p>在默认的方式下，也就是我们只输入 <code>make</code> 命令。那么，</p>
+<ol>
+<li>make会在当前目录下找名字叫“Makefile”或“makefile”的文件。</li>
+<li>如果找到，它会找文件中的第一个目标文件（target），在上面的例子中，他会找到“main”这个文件，并把这个文件作为最终的目标文件。</li>
+<li>如果main文件不存在，或是main所依赖的后面的 <code>.o</code> 文件的文件修改时间要比 <code>main</code> 这个文件新，那么，他就会执行后面所定义的命令来生成 <code>main</code> 这个文件。</li>
+<li>如果 <code>main</code> 所依赖的 <code>.o</code> 文件也不存在，那么make会在当前文件中找目标为 <code>.o</code> 文件的依赖性，如果找到则再根据那一个规则生成 <code>.o</code> 文件。（这有点像一个堆栈的过程）</li>
+<li>当然，你的C文件和H文件是存在的啦，于是make会生成 <code>.o</code> 文件，然后再用 <code>.o</code> 文件生成make的终极任务，也就是执行文件 <code>main</code> 了。</li>
+</ol>
+<h3 id="make-clean">make clean<a class="headerlink" href="#make-clean" title="Permanent link">&para;</a></h3>
+<p>通过上述分析，我们知道，像clean这种，没有被第一个目标文件直接或间接关联，那么它后面所定义的命令将不会被自动执行，不过，我们可以显式要make执行。即命令—— <code>make clean</code> ，以此来清除所有的目标文件，以便重新编译。</p>
+<p>更多关于Makefile的知识请查看：（<a href="https://seisman.github.io/how-to-write-makefile/introduction.html">跟我一起写Makefile 1.0 文档 </a>）</p>
 
 
 
@@ -1200,8 +1348,8 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/b4761db7, 2025-02-23 15:14:19+08:00" target="_blank" rel="noopener">
-            b4761db7, 2025-02-23 15:14:19+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/3e46507b, 2025-02-23 15:48:04+08:00" target="_blank" rel="noopener">
+            3e46507b, 2025-02-23 15:48:04+08:00
         </a>
     </div>
 </div>
