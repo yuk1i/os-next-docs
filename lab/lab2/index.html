@@ -680,6 +680,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="编译系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译过程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      观察文件内容
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -983,6 +1016,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="编译系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验步骤
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译过程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      观察文件内容
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1054,7 +1120,13 @@
 <p>.i 文件是 GCC 预处理阶段生成的中间文件，包含了展开的头文件、宏定义和条件编译后的代码。使用 gcc -E 可以生成 .i 文件。</p>
 <ul>
 <li>.i 文件通过编译器 cc1 编译器得到汇编文件 .s</li>
+</ul>
+<p>编译器对.i文件进行语法检查，检查无误后将.i文件转换成机器可以理解的汇编代码（人类可阅读形式的机器代码），在此过程中优化器可以对代码进行优化。</p>
+<ul>
 <li>.s 文件通过汇编器 as 得到 Relocatable objects (可重定位文件) .o</li>
+</ul>
+<p>在此过程中，汇编器将汇编代码转换为目标代码（机器代码-直接在机器上执行的代码，人类不可读）。</p>
+<ul>
 <li>链接器 ld 链接所有 .o 文件得到最终的可执行文件 </li>
 </ul>
 <p>Object 文件有以下形式：</p>
@@ -1067,6 +1139,53 @@
 ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。
 我们可以通过 binutils 中的 readelf 工具来分析 ELF 文件。</p>
 <p>通常来说，我们会用"编译器"来指代整个编译与链接过程中用到的所有工具，尽管编译器和链接器是两个不同的程序。特别的，当我们讨论编译器和链接器时，我们会将进行 预处理、汇编、编译 等步骤的工具集合统称为编译器；将最后的链接步骤所用的工具称为链接器。</p>
+<h3 id="_3">实验步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>下面是一个简单的C语言代码示例，适合用于观察GCC编译过程中的 <code>.i</code>、<code>.s</code>、<code>.o</code> 文件：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// main.c</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Sum: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_4">编译过程<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>预处理（Preprocessing）</strong>：生成 <code>.i</code> 文件
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>gcc<span class="w"> </span>-E<span class="w"> </span>main.c<span class="w"> </span>-o<span class="w"> </span>main.i
+</code></pre></div>
+   这会生成 <code>main.i</code> 文件，其中包含了预处理后的代码（宏展开、头文件包含等），通过 <code>cat main.i</code> 即可查看其内容。</p>
+</li>
+<li>
+<p><strong>编译（Compilation）</strong>：生成 <code>.s</code> 文件
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gcc<span class="w"> </span>-S<span class="w"> </span>main.i<span class="w"> </span>-o<span class="w"> </span>main.s
+</code></pre></div>
+   这会生成 <code>main.s</code> 文件，其中包含了汇编代码。</p>
+</li>
+<li>
+<p><strong>汇编（Assembly）</strong>：生成 <code>.o</code> 文件
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>gcc<span class="w"> </span>-c<span class="w"> </span>main.s<span class="w"> </span>-o<span class="w"> </span>main.o
+</code></pre></div>
+   这会生成 <code>main.o</code> 文件，其中包含了目标代码（机器代码）。</p>
+</li>
+<li>
+<p><strong>链接（Linking）</strong>：生成可执行文件
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>gcc<span class="w"> </span>main.o<span class="w"> </span>-o<span class="w"> </span>main
+</code></pre></div>
+   这会生成可执行文件 <code>main</code>。</p>
+</li>
+</ol>
+<h3 id="_5">观察文件内容<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>main.i</code>：查看预处理后的代码，可以看到 <code>#include</code> 被替换为实际的 <code>stdio.h</code> 内容。</li>
+<li><code>main.s</code>：查看汇编代码，了解C代码是如何被转换为汇编指令的。</li>
+<li><code>main.o</code>：查看目标文件，可以使用 <code>objdump</code> 或 <code>nm</code> 等工具来分析目标文件的内容。</li>
+</ul>
+<p>通过这些步骤，你可以更好地理解GCC的编译过程。</p>
 <h2 id="definition-declaration">Definition 和 Declaration<a class="headerlink" href="#definition-declaration" title="Permanent link">&para;</a></h2>
 <p>Definition (定义) 和 Declaration (声明) 是 C 语言中非常容易混淆的两个概念。</p>
 <p>Declaration 声明了一个符号（变量、函数等），和它的的一些基础信息（如变量类型、函数参数类型、函数返回类型等）。这使得编译器在编译阶段能找到这些符号。
@@ -1130,8 +1249,8 @@ ELF 文件分为不同的段 <strong>Section</strong>，用于存储特定类型
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/9302e4c8, 2025-02-23 12:20:46+08:00" target="_blank" rel="noopener">
-            9302e4c8, 2025-02-23 12:20:46+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/bf36f598, 2025-02-23 13:13:02+08:00" target="_blank" rel="noopener">
+            bf36f598, 2025-02-23 13:13:02+08:00
         </a>
     </div>
 </div>
