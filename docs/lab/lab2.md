@@ -109,21 +109,13 @@ int main() {
    ```bash
    gcc -c main.s -o main.o
    ```
-   这会生成 `main.o` 文件，其中包含了目标代码（机器代码）。
+   这会生成 `main.o` 文件，其中包含了目标代码（机器代码），可以通过 `objdump` 工具来分析 `main.o` 的内容。例如使用 `objdump -d hello.o` 可以查看机器码及其对应的汇编指令。 
 
 5. **链接（Linking）**：生成可执行文件
    ```bash
    gcc main.o -o main
    ```
-   这会生成可执行文件 `main`。
-
-### 观察文件内容
-
-- `main.i`：查看预处理后的代码，可以看到 `#include` 被替换为实际的 `stdio.h` 内容。
-- `main.s`：查看汇编代码，了解C代码是如何被转换为汇编指令的。
-- `main.o`：查看目标文件，可以使用 `objdump` 或 `nm` 等工具来分析目标文件的内容。
-
-通过这些步骤，你可以更好地理解GCC的编译过程。
+   这会生成可执行文件 `main`，可以通过 `objdump` 工具来分析其内容。
 
 ## Definition 和 Declaration
 
