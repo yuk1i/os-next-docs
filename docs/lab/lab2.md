@@ -62,19 +62,13 @@ typedef unsigned long uint64;
   
 - 链接器 ld 链接所有 .o 文件得到最终的可执行文件 
 
-Object 文件有以下形式：
-
-- Relocatable object file (可重定位文件): 这些文件是由编译器和汇编器生成，包含了二进制的数据和代码。这些文件通常和其他 Relocatable object files 一起被链接器处理，以生成可执行文件
-- Executable object file (可执行文件): 这些文件是由链接器生成的。可执行文件可以直接被复制到内存中并执行。
-- Shared object file (共享目标文件): 这是一种由链接器生成的特殊的可重定位文件，他们被加载进内存中时需要进行重定位。通常用于动态链接。
-
-在 Linux 系统上，Object 文件通常以 **ELF (Executable and Linkable Format)** 文件格式存储。
+在 Linux 系统上，目标文件及可执行文件通常以 **ELF (Executable and Linkable Format)** 文件格式存储。
 ELF 文件分为不同的段 **Section**，用于存储特定类型的数据，如代码（.text）、数据（.data）和符号表（.symtab），每个段都有其专门的用途和属性。
 我们可以通过 binutils 中的 readelf 工具来分析 ELF 文件。
 
 通常来说，我们会用"编译器"来指代整个编译与链接过程中用到的所有工具，尽管编译器和链接器是两个不同的程序。特别的，当我们讨论编译器和链接器时，我们会将进行 预处理、汇编、编译 等步骤的工具集合统称为编译器；将最后的链接步骤所用的工具称为链接器。
 
-### 实验步骤
+<h2 style="color: orange;">实验步骤1：观察C语言编译过程</h2>
 
 下面是一个简单的C语言代码示例，适合用于观察GCC编译过程中的 `.i`、`.s`、`.o` 文件：
 
