@@ -31,7 +31,7 @@ nav:
     - 验证环境: env/helloworld.md
   - 每周实验: 
     - Week 1 - Linux基础: lab/lab1.md
-    - Week 2 - C 语言基础: lab/lab2.md
+    - Week 2 - C 语言基础及Makefile: lab/lab2.md
     - Week 3 - 裸机程序 Bare Metal: lab/xv6lab-baremetal.md
     - Week 4 - 陷入与中断 Trap & Interrupts: lab/xv6lab-interrupts.md
     - Week 5 - 上下文切换 Context Switch: lab/xv6lab-contextswitch.md
@@ -66,6 +66,10 @@ plugins:
           include: 
           - env
           - lab/lab1
+        - pdf: pdf/lab2.pdf
+          subtitle: Lab 2 - C 语言基础及Makefile
+          include:
+          - lab/lab2
 
         # - pdf: pdf/oslab-quick-reference-handbook.pdf
         #   include: qrh
