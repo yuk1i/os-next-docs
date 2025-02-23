@@ -34,7 +34,9 @@ typedef unsigned long uint64;
 
 !!! warning "unsigned"
 
-    注意在C语言中值在int类型取值范围内的整数字面量的默认类型是int。当unsigned int与有符号整数（如int）比较时，有符号整数会被提升为unsigned int。如果常数为负数，提升后可能变成一个非常大的无符号值，导致比较结果与预期不符。
+    注意在C语言中值在int类型取值范围内的整数字面量的默认类型是int。
+    
+    当unsigned int与有符号整数（如int）比较时，有符号整数会被提升为unsigned int。如果常数为负数，提升后可能变成一个非常大的无符号值，导致比较结果与预期不符。
 
     可以尝试执行以下代码，观察结果：
     ![image](https://github.com/user-attachments/assets/7abc8a00-e968-424e-93be-d489d28392c4)
@@ -47,6 +49,9 @@ typedef unsigned long uint64;
 ![image](../assets/lab1/lab1-compilation-system.png)
 
 - 源代码 .c 文件经过 Pre-processor 预处理 cpp 得到 .i 文件
+
+  .i 文件是 GCC 预处理阶段生成的中间文件，包含了展开的头文件、宏定义和条件编译后的代码。使用 gcc -E 可以生成 .i 文件。
+  
 - .i 文件通过编译器 cc1 编译器得到汇编文件 .s
 - .s 文件通过汇编器 as 得到 Relocatable objects (可重定位文件) .o
 - 链接器 ld 链接所有 .o 文件得到最终的可执行文件 
