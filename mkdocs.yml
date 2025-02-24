@@ -39,16 +39,12 @@ nav:
     - Week 7 - 用户空间 Userspace: lab/xv6lab-userspace.md
   - Weekly Lab Material:
     - Week 2 - C language basic & Makefile: laben/lab2.md
-    # - Week 8 - 用户进程 User Process: zh/lab/xv6lab-userprocess.md
-    # - Week ? - 缺页异常 Page Fault: zh/lab/xv6lab-pagefault.md
-    # - Week ? - 同步与多处理器编程 Sync (1): zh/lab/xv6lab-sync1.md
-    # - Week ? - 输入输出 I/O: zh/lab/xv6lab-io.md
-    # - Week ? - 同步与多处理器编程 Sync (2): zh/lab/xv6lab-sync2.md
   - 快速参考手册:
     - 目录: qrh/nav.md
-    - GDB: qrh/gdb.md
-    - Git: qrh/git.md
-    - 静态链接: qrh/c-static-linking.md
+    - VisionFive2 板子教程: qrh/vf2.md
+    - SSH & VSCode 远程配置: qrh/ssh-vscode.md
+    # - GDB: qrh/gdb.md
+    # - Git: qrh/git.md
 
 hooks:
   - scripts/hook.py
