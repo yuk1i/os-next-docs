@@ -50,7 +50,7 @@ A pointer is a variable type in programming languages that stores the memory add
 
 2. Pointer type: A pointer has a type, indicating the type of variable it points to. For example, `int* p` means p is a pointer to an int.
 
-3. Dereferencing: The process of accessing the variable a pointer points to is called dereferencing. In C, you can dereference a pointer using the * operator to get the value it points to.
+3. Dereferencing: The process of accessing the variable a pointer points via the pointer to is called dereferencing. In C, you can dereference a pointer using the * operator to get the value it points to.
 
 4. Address-of: All variables stored in memory can have their addresses taken. We use `&` to denote taking the address of a variable.
 
@@ -124,7 +124,7 @@ In the "Computer Organization" course, we briefly introduced the compilation sys
 
 Typically, we use "compiler" to refer to all the tools used in the compilation and linking process, even though the compiler and linker are two different programs. Specifically, when discussing the compiler and linker, we collectively refer to the tools that perform preprocessing, assembly, and compilation as the compiler; the tool used in the final linking step is called the linker.
 
-### Experiment Step 1: Observing the C Compilation Process
+<h3 style="color: orange;">Experiment Step 1: Observing the C Compilation Process</h3>
 
 Below is a simple C code example suitable for observing the `.i`, `.s`, and `.o` files during the GCC compilation process:
 
@@ -309,7 +309,7 @@ Consider a scenario where our project is slightly larger (e.g., containing multi
 
 `Makefile` is the input file for the `make` tool, a classic build tool widely used in Unix/Linux systems.
 
-### Experiment Step 2: Using Makefile for Automated Build
+<h3 style="color: orange;">Experiment Step 2: Using Makefile for Automated Build</h3>
 
 First, we create three files:
 
@@ -362,6 +362,10 @@ print.o : print.c print.h
 clean:
 	rm main main.o print.o
 ```
+
+!!! warning
+
+    In Makefile, indentation must be done with tabs, not spaces; otherwise, it will not execute properly.
 
 Finally, we only need to execute the `make` command to complete the entire compilation process:
 
