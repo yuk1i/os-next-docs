@@ -897,26 +897,11 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#experiment-step-1-observing-the-c-compilation-process" class="md-nav__link">
-    <span class="md-ellipsis">
-      Experiment Step 1: Observing the C Compilation Process
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Experiment Step 1: Observing the C Compilation Process">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#observing-the-compilation-process" class="md-nav__link">
     <span class="md-ellipsis">
       Observing the Compilation Process
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -961,15 +946,6 @@
   
     <nav class="md-nav" aria-label="Make and Makefile Introduction">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#experiment-step-2-using-makefile-for-automated-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      Experiment Step 2: Using Makefile for Automated Build
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#basic-structure-of-makefile" class="md-nav__link">
@@ -1197,26 +1173,11 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#experiment-step-1-observing-the-c-compilation-process" class="md-nav__link">
-    <span class="md-ellipsis">
-      Experiment Step 1: Observing the C Compilation Process
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Experiment Step 1: Observing the C Compilation Process">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#observing-the-compilation-process" class="md-nav__link">
     <span class="md-ellipsis">
       Observing the Compilation Process
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1261,15 +1222,6 @@
   
     <nav class="md-nav" aria-label="Make and Makefile Introduction">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#experiment-step-2-using-makefile-for-automated-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      Experiment Step 2: Using Makefile for Automated Build
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#basic-structure-of-makefile" class="md-nav__link">
@@ -1364,7 +1316,7 @@ Since we are programming for the riscv64 architecture, we can ensure that in our
 <p>Pointer type: A pointer has a type, indicating the type of variable it points to. For example, <code>int* p</code> means p is a pointer to an int.</p>
 </li>
 <li>
-<p>Dereferencing: The process of accessing the variable a pointer points to is called dereferencing. In C, you can dereference a pointer using the * operator to get the value it points to.</p>
+<p>Dereferencing: The process of accessing the variable a pointer points via the pointer to is called dereferencing. In C, you can dereference a pointer using the * operator to get the value it points to.</p>
 </li>
 <li>
 <p>Address-of: All variables stored in memory can have their addresses taken. We use <code>&amp;</code> to denote taking the address of a variable.</p>
@@ -1423,7 +1375,8 @@ Since we are programming for the riscv64 architecture, we can ensure that in our
 <p>On Linux systems, object files and executables are typically stored in the <strong>ELF (Executable and Linkable Format)</strong> file format.
    ELF files are divided into different <strong>sections</strong>, which store specific types of data, such as code (.text), data (.data), and the symbol table (.symtab). Each section has its specific purpose and attributes.</p>
 <p>Typically, we use "compiler" to refer to all the tools used in the compilation and linking process, even though the compiler and linker are two different programs. Specifically, when discussing the compiler and linker, we collectively refer to the tools that perform preprocessing, assembly, and compilation as the compiler; the tool used in the final linking step is called the linker.</p>
-<h3 id="experiment-step-1-observing-the-c-compilation-process">Experiment Step 1: Observing the C Compilation Process<a class="headerlink" href="#experiment-step-1-observing-the-c-compilation-process" title="Permanent link">&para;</a></h3>
+<h3 style="color: orange;">Experiment Step 1: Observing the C Compilation Process</h3>
+
 <p>Below is a simple C code example suitable for observing the <code>.i</code>, <code>.s</code>, and <code>.o</code> files during the GCC compilation process:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// main.c</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
@@ -1587,7 +1540,8 @@ When compiling <code>main.c</code>, the compiler does not know anything about ot
 <p>Consider a scenario where our project is slightly larger (e.g., containing multiple C files). Every time we run it, we have to execute many gcc commands. Is there a compilation tool that can simplify this process? Next, we introduce the automated build tool, make.</p>
 <p><code>Makefile</code> is a configuration file used for automating the build process (compilation, linking, etc.) of programs, typically used to manage projects with multiple source files. It defines how to generate target files (e.g., executables, library files) from source code and ensures that only the parts that need updating are recompiled, improving build efficiency.</p>
 <p><code>Makefile</code> is the input file for the <code>make</code> tool, a classic build tool widely used in Unix/Linux systems.</p>
-<h3 id="experiment-step-2-using-makefile-for-automated-build">Experiment Step 2: Using Makefile for Automated Build<a class="headerlink" href="#experiment-step-2-using-makefile-for-automated-build" title="Permanent link">&para;</a></h3>
+<h3 style="color: orange;">Experiment Step 2: Using Makefile for Automated Build</h3>
+
 <p>First, we create three files:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">//print.h header file</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
@@ -1627,6 +1581,10 @@ When compiling <code>main.c</code>, the compiler does not know anything about ot
 <a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="nf">clean</span><span class="o">:</span>
 <a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span>rm<span class="w"> </span>main<span class="w"> </span>main.o<span class="w"> </span>print.o
 </code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In Makefile, indentation must be done with tabs, not spaces; otherwise, it will not execute properly.</p>
+</div>
 <p>Finally, we only need to execute the <code>make</code> command to complete the entire compilation process:</p>
 <p><img alt="image-20220212091943782" src="https://github.com/user-attachments/assets/5cedda77-c3d2-4b68-a053-b2d00da58a52" /></p>
 <h3 id="basic-structure-of-makefile">Basic Structure of Makefile<a class="headerlink" href="#basic-structure-of-makefile" title="Permanent link">&para;</a></h3>
@@ -1684,8 +1642,8 @@ When compiling <code>main.c</code>, the compiler does not know anything about ot
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/beb09a58, 2025-02-25 10:29:44+08:00" target="_blank" rel="noopener">
-            beb09a58, 2025-02-25 10:29:44+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/19386d8a, 2025-02-25 14:19:52+08:00" target="_blank" rel="noopener">
+            19386d8a, 2025-02-25 14:19:52+08:00
         </a>
     </div>
 </div>
