@@ -368,6 +368,10 @@ clean:
 	rm main main.o print.o
 ```
 
+!!! warning
+
+    Makefile中的缩进只能是tab，不能是若干空格，否则无法执行。
+
 最后，我们只需要执行一句make命令，就可以完成整个编译过程：
 
 ![image-20220212091943782](https://github.com/user-attachments/assets/5cedda77-c3d2-4b68-a053-b2d00da58a52)
