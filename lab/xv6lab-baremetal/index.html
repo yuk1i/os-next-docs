@@ -1762,7 +1762,7 @@
 <a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>80200008: 00000097      auipc   ra, 0x0
 <a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>8020000c: 174080e7      jalr    0x174(ra) &lt;main&gt;
 </code></pre></div>
-<p>然后，将当前地址对齐到 4K 边界，导出 <code>e_text</code> 和 <code>s_trampolime</code> 符号。</p>
+<p>然后，将当前地址对齐到 4K 边界，导出 <code>e_text</code> 符号。</p>
 <p>剩余的 <code>.rodata</code>, <code>.data</code> 和 <code>.bss</code> 则表示数据段，但是略有不同：</p>
 <ul>
 <li><code>.rodata</code> 表示只读的数据段</li>
@@ -1770,6 +1770,8 @@
 <li><code>.bss</code> 表示应该在程序启动时被清零的数据段</li>
 </ul>
 <p>当然，所有数据段均是不可执行的。</p>
+<p>我们可以用以下图片来表示 Kernel 镜像的内存布局结构。</p>
+<p><img alt="image" src="../../assets/xv6lab-baremetal/kernel-layout.png" /></p>
 <p>最后，我们可以使用 <code>readelf</code> 工具观察最后产出的 kernel ELF 文件：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>$<span class="w"> </span>/d/o/SUSTech-OS-2025<span class="w"> </span><span class="o">(</span>xv6-lab1<span class="o">)</span>&gt;<span class="w"> </span>llvm-readelf-19<span class="w"> </span>-a<span class="w"> </span>build/kernel
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>ELF<span class="w"> </span>Header:
@@ -1905,8 +1907,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/2bb088e7, 2025-03-02 17:49:26+08:00" target="_blank" rel="noopener">
-            2bb088e7, 2025-03-02 17:49:26+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/4375fe61, 2025-03-02 21:10:45+08:00" target="_blank" rel="noopener">
+            4375fe61, 2025-03-02 21:10:45+08:00
         </a>
     </div>
 </div>
