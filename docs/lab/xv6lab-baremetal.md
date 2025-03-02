@@ -582,7 +582,7 @@ Disassembly of section .text:
 8020000c: 174080e7      jalr    0x174(ra) <main>
 ```
 
-然后，将当前地址对齐到 4K 边界，导出 `e_text` 和 `s_trampolime` 符号。
+然后，将当前地址对齐到 4K 边界，导出 `e_text` 符号。
 
 剩余的 `.rodata`, `.data` 和 `.bss` 则表示数据段，但是略有不同：
 
@@ -591,6 +591,10 @@ Disassembly of section .text:
 - `.bss` 表示应该在程序启动时被清零的数据段
 
 当然，所有数据段均是不可执行的。
+
+我们可以用以下图片来表示 Kernel 镜像的内存布局结构。
+
+![image](../assets/xv6lab-baremetal/kernel-layout.png)
 
 最后，我们可以使用 `readelf` 工具观察最后产出的 kernel ELF 文件：
 
