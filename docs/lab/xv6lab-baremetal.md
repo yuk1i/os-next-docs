@@ -119,9 +119,9 @@ kernel ends, parking...
 
 !!!info "如何退出qemu"
 
-    同时按下ctrl和x按钮，然后松开，再点击a按钮。
+    同时按下 Ctrl 和 A 按钮，然后松开，再点击 X 按钮。
 
-    如果你已经按过一些按钮导致上述方法不生效，可以直接关掉terminal。
+    如果你已经按过一些按钮导致上述方法不生效，可以直接关掉 Terminal。
 
 <p style="color: orange;">实验步骤 1 结束</p>
 
