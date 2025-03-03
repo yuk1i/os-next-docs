@@ -1301,8 +1301,9 @@
 <p>在我们的 xv6 实验中，我们在 RISC-V 体系架构上编写操作系统程序。</p>
 <h2 id="_1">运行第一个裸机程序<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
-<p class="admonition-title">xv6-lab1 代码</p>
+<p class="admonition-title">xv6-lab1 代码分支</p>
 <p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab1">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab1</a></p>
+<p>使用命令 <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab1 xv6lab1</code> 下载 xv6-lab1 代码。</p>
 </div>
 <p>在 git clone 上述代码仓库后，我们可以在本地运行 <code>make</code> 来编译 xv6 内核：</p>
 <p>在 <code>make</code> 编译内核成功后，我们可以使用 <code>make run</code> 调用 qemu 来运行我们的第一个 xv6 操作系统。</p>
@@ -1458,7 +1459,7 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <p>如果一切正常，gdb 会停留在地址 <code>0x1000</code> 上。</p>
 <p><img alt="alt text" src="../../assets/xv6lab-baremetal/report1-instruction.png" /></p>
 <p>使用 <code>x/10i $pc</code> 指令打印当前 PC 指针所指向的 10 条指令。</p>
-<p><img alt="alt text" src="../../assets/xv6lab-baremetal/report1-instruction2.png" /></p>
+<p>使用 <code>si</code> 执行下一条指令，当你执行到 <code>jr t0</code> 时，使用 <code>print $t0</code> 打印 t0 寄存器的值。</p>
 <p>Note: 如果你收到了以下提示，则表明你的 gdb 没有设置允许自动加载当前目录下面的 <code>.gdbinit</code> 文件。将 <code>set auto-load safe-path /</code> 这一行加入到 <code>~/.gdbinit</code> 下面，并重新开始 <code>make debug</code>。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>warning: File &quot;/data/os-riscv/SUSTech-OS-2025/.gdbinit&quot; auto-loading has been declined by your `auto-load safe-path&#39; set to &quot;$debugdir:$datadir/auto-load&quot;.
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>To enable execution of this file add
@@ -1915,8 +1916,8 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/855d0112, 2025-03-03 11:00:41+08:00" target="_blank" rel="noopener">
-            855d0112, 2025-03-03 11:00:41+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/59f6bbf1, 2025-03-03 11:07:05+08:00" target="_blank" rel="noopener">
+            59f6bbf1, 2025-03-03 11:07:05+08:00
         </a>
     </div>
 </div>
