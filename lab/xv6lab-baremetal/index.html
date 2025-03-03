@@ -1441,10 +1441,19 @@
 <h2 id="_3">启动流程<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>操作系统的启动流程即是对每一级运行环境的初始化。通常，我们会从高特权级开始初始化，并一级一级地降级到低特权级上继续进行初始化。</p>
 <h3 id="cpu">从 CPU 上电开始<a class="headerlink" href="#cpu" title="Permanent link">&para;</a></h3>
-<p>在 CPU 上电后，它会进行复位。复位会将 PC 设置到一个固定值，它被称为 Reset Vector（复位向量），这是 CPU 即将执行的第一个代码的地址。这个值是由具体的 RISC-V 实现所规定的，我们将这种值称为 Implementation-Specific。</p>
+<p>在 CPU 上电后，它会进行硬件级别的复位，可以回想一下我们在数字逻辑课程中如何对 reg 变量在 rst_n 时进行复位。</p>
+<p>复位会将 PC 设置到一个固定值，它被称为 Reset Vector（复位向量），这是 CPU 上电后执行的第一个代码的地址。
+Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供的，这一片代码区域是不可写入的。在 Reset Vector 执行完毕后，它会将控制流跳转到下一阶段.
+在 QEMU 中，下一阶段即是 M mode 的 OpenSBI。</p>
+<!-- Reset Vector 的代码会跳转到 OpenSBI 的加载地址 `0x8000_0000` 继续执行，这是运行在 M mode 的固件。 -->
+
+<div class="admonition info">
+<p class="admonition-title">什么是实现定义行为</p>
+<p>每个 RISC-V 硬件的 Reset Vector 值是由它实现所设置的，而 RISC-V 手册并没有规定 RISC-V 硬件的 Reset Vector 该是多少，我们将这种值称为 <strong>Implementation-Defined</strong> 。</p>
+</div>
 <div class="admonition question">
 <p class="admonition-title">Lab 实验报告 1</p>
-<p>请你找出 QEMU 的 Reset Vector 的内容。</p>
+<p>请你找出 QEMU 的 Reset Vector 执行完毕后下一阶段的跳转地址。</p>
 <p>在一个终端中执行 <code>make debug</code>，它会启动 <code>qemu-system-riscv64</code>，但是会加上参数 <code>-S -gdb tcp::3333</code>，这表示我们期望一个调试器来附加。在另一个终端（确保它的 PWD 和上一个终端一致）运行 <code>gdb-multiarch</code>，它会启动 GDB 调试器并自动加载当前目录下面的 <code>.gdbinit</code> 文件。</p>
 <p>如果一切正常，gdb 会停留在地址 <code>0x1000</code> 上。</p>
 <p><img alt="alt text" src="../../assets/xv6lab-baremetal/report1-instruction.png" /></p>
@@ -1469,7 +1478,6 @@
 <p>参照 实验报告 1，打开一个 GDB 终端，执行命令 <code>monitor info roms</code>，将输出信息填入报告纸上面的表格中。</p>
 <p>每条输出信息中，addr 表示加载的起始地址，size 表示加载的内容长度，mem=rom/ram 表示这一段内容是不可修改的 ROM 还是可修改的内存 RAM。</p>
 </div>
-<p>Reset Vector 的代码会跳转到 OpenSBI 的加载地址 <code>0x8020_0000</code> 继续执行，这是运行在 M mode 的固件。</p>
 <h3 id="opensbi">OpenSBI<a class="headerlink" href="#opensbi" title="Permanent link">&para;</a></h3>
 <p>OpenSBI 会对重要的系统设备进行初始化，我们将其称为 Platform-level 的设备。它们是整个系统共享的，即多个 CPU （也被称为 Hart）所看到的设备是同一个。</p>
 <p><img alt="alt text" src="../../assets/xv6lab-baremetal/xv6lab-baremetal-system-hierarchy.png" /></p>
@@ -1907,8 +1915,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/4375fe61, 2025-03-02 21:10:45+08:00" target="_blank" rel="noopener">
-            4375fe61, 2025-03-02 21:10:45+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/855d0112, 2025-03-03 11:00:41+08:00" target="_blank" rel="noopener">
+            855d0112, 2025-03-03 11:00:41+08:00
         </a>
     </div>
 </div>
