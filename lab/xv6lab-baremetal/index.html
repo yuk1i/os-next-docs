@@ -1441,6 +1441,9 @@
 <p>固件 (OpenSBI) 提供了对一些基本硬件的访问接口，并通过类似 syscall 的方式为 S Mode 提供服务，它们被称为 SBI Call。其中就包含了基本的串口输入输出函数，<code>sbi_console_putchar</code> 和 <code>sbi_console_getchar</code>。</p>
 <h2 id="_3">启动流程<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>操作系统的启动流程即是对每一级运行环境的初始化。通常，我们会从高特权级开始初始化，并一级一级地降级到低特权级上继续进行初始化。</p>
+<p>从 CPU 上电复位的那一刻起，便开始执行第一条指令。此时，CPU 运行的代码通常来自芯片内部或外部的一块小型 ROM 区域，我们称之为 Bootloader。Bootloader 的主要任务是定位并跳转至启动流程的下一阶段，它可以被视为启动的第 0 阶段。</p>
+<p>在 RISC-V 平台上，下一阶段通常涉及 SBI（Supervisor Binary Interface） 的初始化。此时，OpenSBI 镜像和我们的内核镜像会被加载到内存中。Bootloader 负责将 CPU 跳转到 OpenSBI 的加载地址，并启动其代码执行。</p>
+<p>当 OpenSBI 完成 M 模式（M mode） 的初始化后，它会将 CPU 权限降级至 S 模式（S mode），并进入内核的入口点，正式开始执行内核代码。</p>
 <h3 id="cpu">从 CPU 上电开始<a class="headerlink" href="#cpu" title="Permanent link">&para;</a></h3>
 <p>在 CPU 上电后，它会进行硬件级别的复位，可以回想一下我们在数字逻辑课程中如何对 reg 变量在 rst_n 时进行复位。</p>
 <p>复位会将 PC 设置到一个固定值，它被称为 Reset Vector（复位向量），这是 CPU 上电后执行的第一个代码的地址。
@@ -1916,8 +1919,8 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/59f6bbf1, 2025-03-03 11:07:05+08:00" target="_blank" rel="noopener">
-            59f6bbf1, 2025-03-03 11:07:05+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/96812674, 2025-03-03 11:21:06+08:00" target="_blank" rel="noopener">
+            96812674, 2025-03-03 11:21:06+08:00
         </a>
     </div>
 </div>
