@@ -182,9 +182,11 @@ CSR（Control and Status Registers，控制与状态寄存器）是用于控制 
 
 操作系统的启动流程即是对每一级运行环境的初始化。通常，我们会从高特权级开始初始化，并一级一级地降级到低特权级上继续进行初始化。
 
-从 CPU 上电复位的那一刻起，便开始执行第一条指令。此时，CPU 运行的代码通常来自芯片内部或外部的一块小型 ROM 区域，我们称之为 Bootloader。Bootloader 的主要任务是定位并跳转至启动流程的下一阶段，它可以被视为启动的第 0 阶段。
+![image](../assets/xv6lab-baremetal/risc-v-boot-process.png)
 
-在 RISC-V 平台上，下一阶段通常涉及 SBI（Supervisor Binary Interface） 的初始化。此时，OpenSBI 镜像和我们的内核镜像会被加载到内存中。Bootloader 负责将 CPU 跳转到 OpenSBI 的加载地址，并启动其代码执行。
+从 CPU 上电复位的那一刻起，便开始执行第一条指令。此时，CPU 运行的代码通常来自芯片内部或外部的一块小型 ROM 区域，我们称之为 Bootloader。Bootloader 可以被视为启动的第 0 阶段，它的主要任务是找到下一阶段的镜像、复制到内存中、并跳转。
+
+在 RISC-V 平台上，下一阶段是 SBI（Supervisor Binary Interface） 的初始化，我们使用 OpenSBI 实现。OpenSBI 镜像和我们的内核镜像会被加载到内存中。Bootloader 负责将 CPU 跳转到 OpenSBI 的加载地址，并启动其代码执行。
 
 当 OpenSBI 完成 M 模式（M mode） 的初始化后，它会将 CPU 权限降级至 S 模式（S mode），并进入内核的入口点，正式开始执行内核代码。
 
@@ -202,11 +204,11 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
     每个 RISC-V 硬件的 Reset Vector 值是由它实现所设置的，而 RISC-V 手册并没有规定 RISC-V 硬件的 Reset Vector 该是多少，我们将这种值称为 **Implementation-Defined** 。
 
 !!!question "Lab 实验报告 1"
-    请你找出 QEMU 的 Reset Vector 执行完毕后下一阶段的跳转地址。
+    请你找出 QEMU 的 Bootloader 执行完毕后下一阶段的跳转地址。
 
     在一个终端中执行 `make debug`，它会启动 `qemu-system-riscv64`，但是会加上参数 `-S -gdb tcp::3333`，这表示我们期望一个调试器来附加。在另一个终端（确保它的 PWD 和上一个终端一致）运行 `gdb-multiarch`，它会启动 GDB 调试器并自动加载当前目录下面的 `.gdbinit` 文件。
     
-    如果一切正常，gdb 会停留在地址 `0x1000` 上。
+    如果一切正常，gdb 会停留在地址 `0x1000` 上，这既是 QEMU 平台的 Reset Vector 地址。
 
     ![alt text](../assets/xv6lab-baremetal/report1-instruction.png)
 
