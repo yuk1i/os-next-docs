@@ -1367,8 +1367,8 @@
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">如何退出qemu</p>
-<p>同时按下ctrl和x按钮，然后松开，再点击a按钮。</p>
-<p>如果你已经按过一些按钮导致上述方法不生效，可以直接关掉terminal。</p>
+<p>同时按下 Ctrl 和 A 按钮，然后松开，再点击 X 按钮。</p>
+<p>如果你已经按过一些按钮导致上述方法不生效，可以直接关掉 Terminal。</p>
 </div>
 <p style="color: orange;">实验步骤 1 结束</p>
 
@@ -1509,10 +1509,9 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>riscv64-unknown-elf-gcc<span class="w"> </span>-fPIE<span class="w"> </span>-fno-pic<span class="w"> </span>-fno-plt<span class="w"> </span>-Wall<span class="w"> </span>-Wno-unused-variable<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-MD<span class="w"> </span>-mcmodel<span class="o">=</span>medany<span class="w"> </span>-ffreestanding<span class="w"> </span>-fno-common<span class="w"> </span>-nostdlib<span class="w"> </span>-mno-relax<span class="w"> </span>-Ios<span class="w"> </span>-std<span class="o">=</span>gnu17<span class="w"> </span>-fno-stack-protector<span class="w"> </span>-D<span class="w"> </span>LOG_LEVEL_ERROR<span class="w"> </span>-c<span class="w"> </span>os/string.c<span class="w"> </span>-o<span class="w"> </span>build/os/string.o
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>riscv64-unknown-elf-gcc<span class="w"> </span>-fPIE<span class="w"> </span>-fno-pic<span class="w"> </span>-fno-plt<span class="w"> </span>-Wall<span class="w"> </span>-Wno-unused-variable<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-MD<span class="w"> </span>-mcmodel<span class="o">=</span>medany<span class="w"> </span>-ffreestanding<span class="w"> </span>-fno-common<span class="w"> </span>-nostdlib<span class="w"> </span>-mno-relax<span class="w"> </span>-Ios<span class="w"> </span>-std<span class="o">=</span>gnu17<span class="w"> </span>-fno-stack-protector<span class="w"> </span>-D<span class="w"> </span>LOG_LEVEL_ERROR<span class="w"> </span>-c<span class="w"> </span>os/entry.S<span class="w"> </span>-o<span class="w"> </span>build/os/entry.o
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>riscv64-unknown-elf-ld<span class="w"> </span>-z<span class="w"> </span>max-page-size<span class="o">=</span><span class="m">4096</span><span class="w"> </span>-T<span class="w"> </span>os/kernel.ld<span class="w"> </span>-o<span class="w"> </span>build/kernel<span class="w"> </span>build/os/console.o<span class="w"> </span>build/os/main.o<span class="w"> </span>build/os/printf.o<span class="w"> </span>build/os/sbi.o<span class="w"> </span>build/os/string.o<span class="w"> </span>build/os/entry.o
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>riscv64-unknown-elf-objcopy<span class="w"> </span>-O<span class="w"> </span>binary<span class="w"> </span>build/kernel<span class="w"> </span>build/kernel.bin
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>riscv64-unknown-elf-objdump<span class="w"> </span>-S<span class="w"> </span>build/kernel<span class="w"> </span>&gt;<span class="w"> </span>build/kernel.asm
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>riscv64-unknown-elf-objdump<span class="w"> </span>-t<span class="w"> </span>build/kernel<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;1,/SYMBOL TABLE/d; s/ .* / /; /^$/d&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>build/kernel.sym
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>Build<span class="w"> </span>kernel<span class="w"> </span><span class="k">done</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>riscv64-unknown-elf-objdump<span class="w"> </span>-S<span class="w"> </span>build/kernel<span class="w"> </span>&gt;<span class="w"> </span>build/kernel.asm
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>riscv64-unknown-elf-objdump<span class="w"> </span>-t<span class="w"> </span>build/kernel<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;1,/SYMBOL TABLE/d; s/ .* / /; /^$/d&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>build/kernel.sym
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>Build<span class="w"> </span>kernel<span class="w"> </span><span class="k">done</span>
 </code></pre></div>
 <p>尝试理解上述编译参数：</p>
 <p>gcc 是我们常用的 C 语言编译器，而 <code>riscv64-unknown-elf-gcc</code> 则表示使用 RISC-V 64 位、面向未知平台、产出 ELF 格式的 gcc 套件。</p>
@@ -1917,8 +1916,8 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/05dab14e, 2025-03-03 17:43:33+08:00" target="_blank" rel="noopener">
-            05dab14e, 2025-03-03 17:43:33+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/4804c910, 2025-03-03 17:52:57+08:00" target="_blank" rel="noopener">
+            4804c910, 2025-03-03 17:52:57+08:00
         </a>
     </div>
 </div>
