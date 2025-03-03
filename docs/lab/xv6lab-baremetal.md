@@ -182,10 +182,19 @@ CSR（Control and Status Registers，控制与状态寄存器）是用于控制 
 
 ### 从 CPU 上电开始
 
-在 CPU 上电后，它会进行复位。复位会将 PC 设置到一个固定值，它被称为 Reset Vector（复位向量），这是 CPU 即将执行的第一个代码的地址。这个值是由具体的 RISC-V 实现所规定的，我们将这种值称为 Implementation-Specific。
+在 CPU 上电后，它会进行硬件级别的复位，可以回想一下我们在数字逻辑课程中如何对 reg 变量在 rst_n 时进行复位。
+
+复位会将 PC 设置到一个固定值，它被称为 Reset Vector（复位向量），这是 CPU 上电后执行的第一个代码的地址。
+Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供的，这一片代码区域是不可写入的。在 Reset Vector 执行完毕后，它会将控制流跳转到下一阶段.
+在 QEMU 中，下一阶段即是 M mode 的 OpenSBI。
+
+<!-- Reset Vector 的代码会跳转到 OpenSBI 的加载地址 `0x8000_0000` 继续执行，这是运行在 M mode 的固件。 -->
+
+!!!info "什么是实现定义行为"
+    每个 RISC-V 硬件的 Reset Vector 值是由它实现所设置的，而 RISC-V 手册并没有规定 RISC-V 硬件的 Reset Vector 该是多少，我们将这种值称为 **Implementation-Defined** 。
 
 !!!question "Lab 实验报告 1"
-    请你找出 QEMU 的 Reset Vector 的内容。
+    请你找出 QEMU 的 Reset Vector 执行完毕后下一阶段的跳转地址。
 
     在一个终端中执行 `make debug`，它会启动 `qemu-system-riscv64`，但是会加上参数 `-S -gdb tcp::3333`，这表示我们期望一个调试器来附加。在另一个终端（确保它的 PWD 和上一个终端一致）运行 `gdb-multiarch`，它会启动 GDB 调试器并自动加载当前目录下面的 `.gdbinit` 文件。
     
@@ -218,8 +227,6 @@ CSR（Control and Status Registers，控制与状态寄存器）是用于控制 
     参照 实验报告 1，打开一个 GDB 终端，执行命令 `monitor info roms`，将输出信息填入报告纸上面的表格中。
 
     每条输出信息中，addr 表示加载的起始地址，size 表示加载的内容长度，mem=rom/ram 表示这一段内容是不可修改的 ROM 还是可修改的内存 RAM。
-
-Reset Vector 的代码会跳转到 OpenSBI 的加载地址 `0x8020_0000` 继续执行，这是运行在 M mode 的固件。
 
 ### OpenSBI
 
