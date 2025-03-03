@@ -11,8 +11,10 @@
 
 ## 运行第一个裸机程序
 
-!!!info "xv6-lab1 代码"
+!!!info "xv6-lab1 代码分支"
     https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab1
+
+    使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab1 xv6lab1` 下载 xv6-lab1 代码。
 
 在 git clone 上述代码仓库后，我们可以在本地运行 `make` 来编译 xv6 内核：
 
@@ -204,7 +206,7 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 
     使用 `x/10i $pc` 指令打印当前 PC 指针所指向的 10 条指令。
 
-    ![alt text](../assets/xv6lab-baremetal/report1-instruction2.png)
+    使用 `si` 执行下一条指令，当你执行到 `jr t0` 时，使用 `print $t0` 打印 t0 寄存器的值。
 
     Note: 如果你收到了以下提示，则表明你的 gdb 没有设置允许自动加载当前目录下面的 `.gdbinit` 文件。将 `set auto-load safe-path /` 这一行加入到 `~/.gdbinit` 下面，并重新开始 `make debug`。
 
