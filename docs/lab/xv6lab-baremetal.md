@@ -2,7 +2,7 @@
 
 当我们在为 Linux 环境编程时，由于Linux环境已经提供了libc函数和对应的封装好的系统调用，我们通常只需要考虑程序的逻辑就可以完成与操作系统的交互。例如当我们使用 printf 和 scanf 在标准输入输出流上进行操作时，用户态的运行环境是由 libc 提供的，而内核环境是由 Linux Kernel 提供的。
 
-但是，当我们在写自己的操作系统时，我们并没有 Linux 或其他操作系统提供的运行环境，而是直接与 CPU 和硬件交互。这种直接与CPU和硬件直接进行交互的程序被称为裸机程序 (**bare-metal program**)。
+但是，当我们在写自己的操作系统时，我们并没有 Linux 或其他操作系统提供的运行环境，而是直接与 CPU 和硬件交互。这种直接与CPU和硬件直接进行交互的程序被称为裸机程序 ( **bare-metal program** )。
 
 !!!info "什么是裸机程序"
     A **bare-metal program** is a type of software that runs directly on the hardware of a device without relying on an underlying operating system (OS). Essentially, it's code that interacts with the hardware at the most fundamental level, controlling the processor, memory, input/output (I/O) devices, and other components directly.
@@ -125,7 +125,7 @@ kernel ends, parking...
 
 <p style="color: orange;">实验步骤 1 结束</p>
 
-上述实验过程演示了一个最小化内核的启动过程。接下来，我们将从**特权级**的角度解释操作系统如何启动运行的。首先，了解一下什么是特权级。
+上述实验过程演示了一个最小化内核的启动过程。接下来，我们将从 **特权级** 的角度解释操作系统如何启动运行的。首先，了解一下什么是特权级。
 
 ## 特权级 (Privilege Level)
 
@@ -150,7 +150,7 @@ kernel ends, parking...
     
     如果我们不使用特权级来强制实现这一点，而是期望应用程序主动地让出 CPU 时间，那么恶意的应用程序可以一直占用 CPU 时间而不释放，导致系统上所有应用程序均无响应。
 
-特权级的区分是**在 CPU 硬件电路上实现**的，而不是通过软件模拟的。在 RISC-V 上，特权级使用 2bit 进行区分，分为 M mode，S mode，和 U mode。
+特权级的区分是 **在 CPU 硬件电路上实现** 的，而不是通过软件模拟的。在 RISC-V 上，特权级使用 2bit 进行区分，分为 M mode，S mode，和 U mode。
 
 ![image](../assets/xv6lab-baremetal/riscv-priviledge-levels.png)
 
@@ -190,13 +190,13 @@ CSR（Control and Status Registers，控制与状态寄存器）是用于控制 
 
 ## 运行环境
 
-在 RISC-V 的三个特权级上，RISC-V 架构定义了三种运行状态：分别是**固件 (Machine mode)**、**操作系统 (Supervisor mode)** 和**用户态 (User mode)**。
+在 RISC-V 的三个特权级上，RISC-V 架构定义了三种运行状态：分别是 **固件 (Machine mode)** 、 **操作系统 (Supervisor mode)** 和 **用户态 (User mode)** 。
 
 在 RISC-V 架构中，操作系统 (Supervisor) 向应用程序 (Application) 提供的运行环境被称为 ABI (Application Binary Interface)，而固件 (Machine, SEE) 为操作系统 (Supervisor, OS) 提供的运行环境则被称为 Supervisor Binary Interface (SBI)。
 
 ![image](../assets/xv6lab-baremetal/riscv-priviledge-arch.png)
 
-固件 (OpenSBI) 提供了对一些**基本硬件的访问接口**，并通过类似 syscall 的方式为 S Mode 提供服务，它们被称为 SBI Call。其中就包含了基本的串口输入输出函数，`sbi_console_putchar` 和 `sbi_console_getchar`。
+固件 (OpenSBI) 提供了对一些 **基本硬件的访问接口** ，并通过类似 syscall 的方式为 S Mode 提供服务，它们被称为 SBI Call。其中就包含了基本的串口输入输出函数，`sbi_console_putchar` 和 `sbi_console_getchar`。
 
 ## 启动流程概述
 
@@ -305,7 +305,7 @@ Boot HART Base ISA        : rv64imafdch
 
 在 OpenSBI 初始化完成后，OpenSBI 会降级到 S-mode 并将 PC 指针指向我们的内核起始地址 0x80200000。该地址上保存着内核的第一个入口 _entry 的代码，这也是我们操作系统的第一条指令，至此，CPU 控制权来到我们的 xv6 内核。
 
-_entry 的代码在 `entry.S` 文件中。但是，**这个代码是如何放到内核起始地址 0x80200000 处的呢？**
+_entry 的代码在 `entry.S` 文件中。但是， **这个代码是如何放到内核起始地址 0x80200000 处的呢？**
 
 #### 编译过程
 
@@ -451,7 +451,7 @@ SECTIONS
 _entry:
 ```
 
-我们在 `entry.S` 文件中指定 `_entry` 符号应该被放置到 `.text.entry` 段，并在链接脚本中指定这个段为内核的开始地址。**这样我们即可确保 _entry 会被放置到内核起始地址。当我们启动内核时，我们会从这个起始地址开始执行，也就是执行了内核的第一条指令。**
+我们在 `entry.S` 文件中指定 `_entry` 符号应该被放置到 `.text.entry` 段，并在链接脚本中指定这个段为内核的开始地址。 **这样我们即可确保 _entry 会被放置到内核起始地址。当我们启动内核时，我们会从这个起始地址开始执行，也就是执行了内核的第一条指令。** 
 
 我们可以通过反汇编 `build/kernel` 来观察这一点：
 
@@ -565,7 +565,7 @@ Program Headers:
         - 从该 ELF 文件的 (Offset) 0x001000 处复制 0x0011d0 字节 (FileSiz) 到上述内存空间。
     - 第二个 LOAD 表示：
         - 在虚拟地址 0x80202000 处，映射物理地址 0x80202000，分配 0x005000 的内存空间，该内存段权限为 RW (Read & Write)。
-        - 从该 ELF 文件的 0x3000 处，复制 0x0008 字节到该内存段。但是，该内存段分配了 0x5000 的空间，**这表示剩下未被填充的空间全都是零，这即是 bss 段**。
+        - 从该 ELF 文件的 0x3000 处，复制 0x0008 字节到该内存段。但是，该内存段分配了 0x5000 的空间， **这表示剩下未被填充的空间全都是零，这即是 bss 段** 。
 - 在 `Section to Segment mapping:` 处我们可以看到：
     - 第一个 Program Headers 包含 .text, .rodata 三个 Sections。
     - 第二个 Program Headers 包含 .data 和 .bss 段。
@@ -658,7 +658,7 @@ Hello World!
 在我们的操作系统中，如果需要访问硬件提供的功能（包括对串口输入输出的访问函数`sbi_console_putchar` 和 `sbi_console_getchar`），我们首先需要设置 a0、a1 等寄存器，然后通过 `ecall` 指令向 M Mode 的程序，即 OpenSBI，发起请求。OpenSBI 在完成请求后会返回。
 
 !!!info "内联汇编"
-    **ecall**(environment call)，当我们在 S 态执行这条指令时，会触发一个 ecall-from-s-mode-exception，从而进入 M 模式中的中断处理流程（如设置定时器等）；当我们在 U 态执行这条指令时，会触发一个 ecall-from-u-mode-exception，从而进入 S 模式中的中断处理流程（常用来进行系统调用）。
+    **ecall** (environment call)，当我们在 S 态执行这条指令时，会触发一个 ecall-from-s-mode-exception，从而进入 M 模式中的中断处理流程（如设置定时器等）；当我们在 U 态执行这条指令时，会触发一个 ecall-from-u-mode-exception，从而进入 S 模式中的中断处理流程（常用来进行系统调用）。
 
     注意，C语言并不能直接调用 `ecall` , 需要通过内联汇编来实现。
 
