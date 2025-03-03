@@ -9,7 +9,17 @@
 
 RISC-V CPU 运行时会处于某个特权级状态。操作系统运行在 S mode，而用户模式处于 U mode。
 
+我们将分别讲解如何从 S mode 降级到 U mode，以及如何从 U mode 回到 S mode。
+
 ### Kernel -> User
+
+在 Interrupts 一章中，我们学习了 sret 指令完成的三件事情：
+
+1. sstauts.SIE <= sstatus.SPIE
+2. Current_Privilege_Level <= sstauts.SPP
+3. pc <= epc
+
+用中文：还原 `sstatus.SIE` 为 `sstatus.SPIE`，将特权级(U/S)设置为 `sstauts.SPP`，将 PC 设置为 `sepc`。
 
 在 CSR `sstatus` 中，`SPP` 的描述如下：
 
@@ -17,7 +27,7 @@ The SPP bit indicates the privilege level at which a hart was executing before e
 When a trap is taken, SPP is set to 0 if the trap originated from user mode, or 1 otherwise.
 When an SRET instruction (see Section 3.3.2) is executed to return from the trap handler, the privilege level is set to user mode if the SPP bit is 0, or supervisor mode if the SPP bit is 1; SPP is then set to 0.
 
-只要在 `sret` 执行时，`sstatus.SPP` 为 0，我们即可去到 U mode 下。（这并不要求我们一定处于 Trap Handler 中）
+所以说，只要在 `sret` 执行时，`sstatus.SPP` 为 0，我们即可降级到 U mode 下。（这并不要求我们一定处于 Trap Handler 中）
 
 ### User -> Kernel
 
@@ -30,78 +40,39 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
     - (Load, Store, Fetch) Page Fault
     - Environment call (**这是 RISC-V 的 syscall 方式**)
 
-当需要进行系统调用时，用户程序可以使用 `ecall` 指令触发一次异常，而这将使内核 Trap 回到 S mode.
+当需要进行系统调用时，用户程序可以使用 `ecall` 指令主动触发一次 Trap，而这将使 CPU 通过 Trap 回到 S mode.
 
 ### 用户页表 / 内核页表
 
 在上一节 Lab 中，我们介绍了 RISC-V 的页表模型，并且为内核设置了页表。在 PTE 中的第 4 个 bit U 表示该映射关系是否允许在用户模式下访问。
 
-我们将 512 GiB 的地址切分为用户地址(低地址)和内核地址(高地址)，用户地址为 0x0000_00 开头，而内核地址以 0xffff_ff 开头。
+我们将 512 GiB 的地址切分为用户地址(低地址)和内核地址(高地址)，用户地址为 `0x0000_00` 开头，而内核地址以 `0xffff_ff` 开头。
 
-每一个用户进程都有自己独立的地址空间，所以，对于每一个用户程序，我们都为它创建一个单独的页表。我们将其称为用户页表。
+每一个用户进程都有自己独立的地址空间，所以，对于每一个用户程序，我们都为它创建一个单独的页表。我们将其称为 **用户页表** 。
 
 在 xv6 中，用户页表并不包含内核页表项目，也就是说不包含内核镜像的代码、数据和 Direct Mapping 等。
 
-由于我们从 U mode 进入 S mode 的方式是 Trap，而在进入 Trap Handler 时，CPU 会将 pc 跳转为 `stvec`，但是此时 CPU 仍然还使用着原来的 satp，即 U mode 时所用的页表，并不包含内核空间的地址映射。所以说，我们不能直接在 U mode 下使用内核所用的 `stvec` (`0xffff_ffff_8020_xxxx`)。这个问题与我们在实现 Relocation 时所遇到的问题类似。
+由于我们从 U mode 进入 S mode 的方式是 Trap，而在进入 Trap Handler 时，CPU 会将 pc 跳转为 `stvec`，但是此时 CPU 仍然还使用着原来的 `satp`，即 U mode 时所用的页表，并不包含内核空间的地址映射，即内核的 `stvec` 在用户空间下是不可用的。所以说，我们不能直接在 U mode 下使用内核所用的 `stvec` (`0xffff_ffff_8020_xxxx`)。这个问题与我们在实现 Relocation 时所遇到的问题类似。
 
-所以，我们设置一个专门的代码页面，让它在内核页表和用户页表中都映射到相同的虚拟地址。
+所以，我们为 U mode 设置一个专门的 Trap Handler，并且，我们使其在内核页表和用户页表中都具有相同的虚拟地址。这样，我们在从 U mode 通过 Trap 回到 S mode 时，能在内核态 + 用户页表的环境下执行代码。
 
-在我们需要 S mode -> U mode 时，我们切换到用户页表，并设置用户的 `stvec` 为该代码页面中的一个简易 Trap Handler。而在进入该 Trap Handler 时，即 U mode -> S mode 时，我们切换回内核的页表和内核的 `stvec`，保存用户的执行环境，并恢复内核的运行环境。
+<!-- 在我们需要 S mode -> U mode 时，我们切换到用户页表，并设置用户的 `stvec` 为该代码页面中的一个简易 Trap Handler。而在进入该 Trap Handler 时，即 U mode -> S mode 时，我们切换回内核的页表和内核的 `stvec`，保存用户的执行环境，并恢复内核的运行环境。 -->
 
-我们将该特殊页面称为 Trampoline，并将其映射到 `0x0000_003f_ffff_f000`。
+我们将包含这段代码的特殊页面称为 Trampoline，并将其映射到 `0x0000_003f_ffff_f000`。
 
 ### Trampoline
 
 > Trampoline n. 蹦床
 
-在 xv6 中，Trampoline 是两段特殊的代码 `uservec` 和 `userret`，用于切换到用户态和切换回内核态。
+在 xv6 中，Trampoline 是两段特殊的代码 `uservec` 和 `userret`，用于从内核切换到用户态，和从用户态切换回内核态。
 
-```asm
-	.section trampsec
-.globl trampoline
-trampoline:
+Trampoline 的映射 `0x3f_ffff_f000` 在内核页表和每个用户页表中都是存在的，所以我们可以放心的切换 satp 而不用担心当前 pc 会变得非法了。
 
-.globl uservec
-uservec:
-        # trap.c sets stvec to point here, so
-        # traps from user space start here,
-        # in supervisor mode, but with a user page table.
-        #
-        # sscratch points to where the process's p->trapframe is
-        # mapped into user space, at TRAPFRAME.
+#### userret
 
-	# swap a0 and sscratch, so that a0 is TRAPFRAME
-        csrrw a0, sscratch, a0
+userret 
 
-        # save the user registers (x1 - x31) in TRAPFRAME
-        sd ra, 40(a0)
-        sd sp, 48(a0)
-        # ...
-        sd t5, 272(a0)
-        sd t6, 280(a0)
-
-        # we have saved t0, so we can smash it
-        # resotre a0 from sscratch, and save it
-        csrr t0, sscratch
-        sd t0, 112(a0)
-
-        # save epc
-        csrr t1, sepc
-        sd t1, 24(a0)
-
-        # load kernel's satp, sp, usertrap handler, tp(hartid)
-        ld t1, 0(a0)
-        ld sp, 8(a0)
-        ld t0, 16(a0)
-        ld tp, 32(a0)
-
-        csrw satp, t1
-        sfence.vma zero, zero
-
-        jr t0
-```
-
-在 Trampoline 中，所有 GPR (x1-x31) 均为用户程序所使用的，我们需要在进入 trap / 退出 trap 时保持所有 GPR 一致。
+在 Trampoline 中，所有 GPR (x1-x31) 均为用户程序正在使用的，我们需要在进入 trap / 退出 trap 时保持所有 GPR 一致。
 
 我们将保存用户寄存器的地方称为 Trapframe，大小小于一个页面。
 
@@ -134,7 +105,11 @@ struct trapframe {
 
 在切换回内核的页表后，我们即可跳转 `tf->kernel_trap` 进入C语言环境处理 User Trap。此时，我们回到了内核的页表。
 
-在 `usertrap` 中，我们先将 stvec 设置为 `kerneltrap`，以此捕捉可能出现的中断和异常。随后读取 scause 处理异常。最后，使用 `usertrapret` 返回用户空间。
+#### userret
+
+userret 是 Trampoline 中用于切换到用户态的一个函数。
+
+在 `usertrap` 中，我们先将 stvec 设置为 `kerneltrap`，以此捕捉之后在内核态可能出现的中断和异常。随后读取 scause 处理异常。最后，使用 `usertrapret` 返回用户空间。
 
 ```c
 void usertrap() {
@@ -230,6 +205,53 @@ userret:
         # usertrapret() set up sstatus and sepc.
         sret
 ```
+
+
+```asm
+	.section trampsec
+.globl trampoline
+trampoline:
+
+.globl uservec
+uservec:
+        # trap.c sets stvec to point here, so
+        # traps from user space start here,
+        # in supervisor mode, but with a user page table.
+        #
+        # sscratch points to where the process's p->trapframe is
+        # mapped into user space, at TRAPFRAME.
+
+	# swap a0 and sscratch, so that a0 is TRAPFRAME
+        csrrw a0, sscratch, a0
+
+        # save the user registers (x1 - x31) in TRAPFRAME
+        sd ra, 40(a0)
+        sd sp, 48(a0)
+        # ...
+        sd t5, 272(a0)
+        sd t6, 280(a0)
+
+        # we have saved t0, so we can smash it
+        # resotre a0 from sscratch, and save it
+        csrr t0, sscratch
+        sd t0, 112(a0)
+
+        # save epc
+        csrr t1, sepc
+        sd t1, 24(a0)
+
+        # load kernel's satp, sp, usertrap handler, tp(hartid)
+        ld t1, 0(a0)
+        ld sp, 8(a0)
+        ld t0, 16(a0)
+        ld tp, 32(a0)
+
+        csrw satp, t1
+        sfence.vma zero, zero
+
+        jr t0
+```
+
 
 ## 用户页表的设置
 
