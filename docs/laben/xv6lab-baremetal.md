@@ -262,7 +262,7 @@ Use the command `x/10i $pc` to print the next 10 instructions pointed to by the 
 
 ### Next Stage: OpenSBI
 
-In computing, **firmware** is a specific type of software that provides low-level control for a device’s hardware and can load additional software. For complex software (like an operating system), firmware provides a standardized operating environment.
+In computers, **firmware** is a specific type of software that provides low-level control for a device’s hardware and can load further software. For complex software (like an operating system), firmware provides a standardized operating environment.
 For simpler devices, firmware may act as the complete operating system, handling all control, monitoring, and data manipulation functions.  
 In x86-based systems, the firmware is **BIOS** or **UEFI**; in RISC-V-based systems, it is **OpenSBI**. OpenSBI runs in **M mode** because firmware requires direct hardware access.
 
