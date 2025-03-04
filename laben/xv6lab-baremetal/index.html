@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../lab2/">
+      
+      
+        <link rel="next" href="../../qrh/nav/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -16,7 +20,7 @@
     
     
       
-        <title>Bare Metal Programming - 操作系统实验文档</title>
+        <title>Week 3 - Bare Metal - 操作系统实验文档</title>
       
     
     
@@ -93,7 +97,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Bare Metal Programming
+              Week 3 - Bare Metal
             
           </span>
         </div>
@@ -219,10 +223,12 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../lab2/" class="md-tabs__link">
           
   
@@ -756,23 +762,28 @@
       
   
   
+    
   
   
+  
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -783,7 +794,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Weekly Lab Material
@@ -806,6 +817,184 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Week 3 - Bare Metal
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Week 3 - Bare Metal
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#privilege-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Privilege Levels
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Privilege Levels">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aarch64-x86" class="md-nav__link">
+    <span class="md-ellipsis">
+      AArch64 &amp; x86
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csr-control-and-status-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR (Control and Status Registers)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime Environment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boot-process-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boot Process Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Boot Process Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stage-0-from-cpu-power-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stage 0: From CPU Power-On
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-stage-opensbi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Stage: OpenSBI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#following-stage-kernel-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Following Stage: Kernel Boot
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Following Stage: Kernel Boot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compilation-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compilation Process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linker-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linker Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sbi-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      SBI Call
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1751,8 +1940,8 @@ In x86-based systems, the firmware is <strong>BIOS</strong> or <strong>UEFI</str
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/9c868489, 2025-03-04 12:58:21+08:00" target="_blank" rel="noopener">
-            9c868489, 2025-03-04 12:58:21+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/11ef1e1e, 2025-03-04 13:05:39+08:00" target="_blank" rel="noopener">
+            11ef1e1e, 2025-03-04 13:05:39+08:00
         </a>
     </div>
 </div>
