@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../lab2/">
-      
-      
-        <link rel="next" href="../xv6lab-interrupts/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +16,7 @@
     
     
       
-        <title>Week 3 - 裸机程序 Bare Metal - 操作系统实验文档</title>
+        <title>Bare Metal Programming - 操作系统实验文档</title>
       
     
     
@@ -62,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#-bare-metal" class="md-skip">
+        <a href="#bare-metal-programming" class="md-skip">
           跳转至
         </a>
       
@@ -97,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Week 3 - 裸机程序 Bare Metal
+              Bare Metal Programming
             
           </span>
         </div>
@@ -205,13 +201,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../lab1/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../lab/lab1/" class="md-tabs__link">
           
   
   每周实验
@@ -229,7 +223,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../laben/lab2/" class="md-tabs__link">
+        <a href="../lab2/" class="md-tabs__link">
           
   
   Weekly Lab Material
@@ -570,28 +564,23 @@
       
   
   
-    
   
   
-  
     
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -602,7 +591,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             每周实验
@@ -616,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lab1/" class="md-nav__link">
+      <a href="../../lab/lab1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -637,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lab2/" class="md-nav__link">
+      <a href="../../lab/lab2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -655,30 +644,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Week 3 - 裸机程序 Bare Metal
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../lab/xv6lab-baremetal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -687,143 +656,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#privilege-level" class="md-nav__link">
-    <span class="md-ellipsis">
-      特权级 (Privilege Level)
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="特权级 (Privilege Level)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#aarch64-x86" class="md-nav__link">
-    <span class="md-ellipsis">
-      AArch64 &amp; x86
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#csr" class="md-nav__link">
-    <span class="md-ellipsis">
-      CSR
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      运行环境
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      启动流程概述
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="启动流程概述">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#0-cpu" class="md-nav__link">
-    <span class="md-ellipsis">
-      第0阶段：从 CPU 上电开始
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#opensbi" class="md-nav__link">
-    <span class="md-ellipsis">
-      下一阶段：OpenSBI
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#kernel" class="md-nav__link">
-    <span class="md-ellipsis">
-      下下阶段：Kernel 启动
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="下下阶段：Kernel 启动">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      编译过程
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#linker-script" class="md-nav__link">
-    <span class="md-ellipsis">
-      Linker Script
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sbi-call" class="md-nav__link">
-    <span class="md-ellipsis">
-      SBI Call
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -836,7 +668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../xv6lab-interrupts/" class="md-nav__link">
+      <a href="../../lab/xv6lab-interrupts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -857,7 +689,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../xv6lab-contextswitch/" class="md-nav__link">
+      <a href="../../lab/xv6lab-contextswitch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -878,7 +710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../xv6lab-paging/" class="md-nav__link">
+      <a href="../../lab/xv6lab-paging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -899,7 +731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../xv6lab-userspace/" class="md-nav__link">
+      <a href="../../lab/xv6lab-userspace/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -965,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laben/lab2/" class="md-nav__link">
+      <a href="../lab2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1121,13 +953,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#privilege-level" class="md-nav__link">
+  <a href="#privilege-levels" class="md-nav__link">
     <span class="md-ellipsis">
-      特权级 (Privilege Level)
+      Privilege Levels
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="特权级 (Privilege Level)">
+    <nav class="md-nav" aria-label="Privilege Levels">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1145,65 +977,65 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#csr" class="md-nav__link">
+  <a href="#csr-control-and-status-registers" class="md-nav__link">
     <span class="md-ellipsis">
-      CSR
+      CSR (Control and Status Registers)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#runtime-environment" class="md-nav__link">
     <span class="md-ellipsis">
-      运行环境
+      Runtime Environment
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#boot-process-overview" class="md-nav__link">
     <span class="md-ellipsis">
-      启动流程概述
+      Boot Process Overview
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="启动流程概述">
+    <nav class="md-nav" aria-label="Boot Process Overview">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#0-cpu" class="md-nav__link">
+  <a href="#stage-0-from-cpu-power-on" class="md-nav__link">
     <span class="md-ellipsis">
-      第0阶段：从 CPU 上电开始
+      Stage 0: From CPU Power-On
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#opensbi" class="md-nav__link">
+  <a href="#next-stage-opensbi" class="md-nav__link">
     <span class="md-ellipsis">
-      下一阶段：OpenSBI
+      Next Stage: OpenSBI
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#kernel" class="md-nav__link">
+  <a href="#following-stage-kernel-boot" class="md-nav__link">
     <span class="md-ellipsis">
-      下下阶段：Kernel 启动
+      Following Stage: Kernel Boot
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="下下阶段：Kernel 启动">
+    <nav class="md-nav" aria-label="Following Stage: Kernel Boot">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#compilation-process" class="md-nav__link">
     <span class="md-ellipsis">
-      编译过程
+      Compilation Process
     </span>
   </a>
   
@@ -1255,38 +1087,39 @@
   
 
 
-<h1 id="-bare-metal">裸机程序 - Bare Metal<a class="headerlink" href="#-bare-metal" title="Permanent link">&para;</a></h1>
-<p>当我们在为 Linux 环境编程时，由于Linux环境已经提供了libc函数和对应的封装好的系统调用，我们通常只需要考虑程序的逻辑就可以完成与操作系统的交互。例如当我们使用 printf 和 scanf 在标准输入输出流上进行操作时，用户态的运行环境是由 libc 提供的，而内核环境是由 Linux Kernel 提供的。</p>
-<p>但是，当我们在写自己的操作系统时，我们并没有 Linux 或其他操作系统提供的运行环境，而是直接与 CPU 和硬件交互。这种直接与CPU和硬件直接进行交互的程序被称为裸机程序 ( <strong>bare-metal program</strong> )。</p>
+<h1 id="bare-metal-programming">Bare Metal Programming<a class="headerlink" href="#bare-metal-programming" title="Permanent link">&para;</a></h1>
+<p>When programming in a Linux environment, the <code>libc</code> functions and well-encapsulated system calls provided by the Linux environment allow us to focus primarily on the logic of our program to interact with the operating system. For instance, when we use <code>printf</code> and <code>scanf</code> to operate on standard input/output streams, the user-space runtime environment is provided by <code>libc</code>, while the kernel environment is supplied by the Linux Kernel.</p>
+<p>However, when writing our own operating system, we lack the runtime environment provided by Linux or any other operating system. Instead, we interact directly with the CPU and hardware. Such programs, which directly interface with the CPU and hardware, are called <strong>bare-metal programs</strong>.</p>
 <div class="admonition info">
-<p class="admonition-title">什么是裸机程序</p>
+<p class="admonition-title">What is a Bare-Metal Program</p>
 <p>A <strong>bare-metal program</strong> is a type of software that runs directly on the hardware of a device without relying on an underlying operating system (OS). Essentially, it's code that interacts with the hardware at the most fundamental level, controlling the processor, memory, input/output (I/O) devices, and other components directly.</p>
 </div>
-<p>在我们的 xv6 实验中，我们将在 RISC-V 体系架构上编写操作系统程序。</p>
-<h3 style="color: orange;">实验步骤 1 ：运行第一个裸机程序</h3>
+<p>In our xv6 experiments, we will write operating system programs on the RISC-V architecture.</p>
+<h3 style="color: orange;">Lab Step 1: Running the First Bare-Metal Program</h3>
 
 <div class="admonition info">
-<p class="admonition-title">xv6-lab1 代码分支</p>
+<p class="admonition-title">xv6-lab1 Code Branch</p>
 <p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab1">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab1</a></p>
-<p>使用命令 <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab1 xv6lab1</code> 下载 xv6-lab1 代码。</p>
-<p>建议每次实验的代码下载在不同位置。</p>
+<p>Use the command <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab1 xv6lab1</code> to download the xv6-lab1 code.</p>
+<p>It is recommended to download the code for each lab in a separate location.</p>
 </div>
-<p>在 git clone 上述代码仓库后，我们可以在本地运行 <code>make</code> 来编译 xv6 内核。在 <code>make</code> 编译内核成功后，我们可以使用 <code>make run</code> 调用 qemu 来运行我们的第一个 xv6 操作系统。</p>
-<p><code>make run</code> 会调用以下命令：<code>qemu-system-riscv64 -nographic -machine virt -cpu rv64 -m 512 -kernel build/kernel</code>，这表示：</p>
+<p>After cloning the repository, you can run <code>make</code> locally to compile the xv6 kernel. Once the kernel is successfully compiled with <code>make</code>, you can use <code>make run</code> to invoke QEMU and run our first xv6 operating system.</p>
+<p>The <code>make run</code> command executes the following:<br />
+<code>qemu-system-riscv64 -nographic -machine virt -cpu rv64 -m 512 -kernel build/kernel</code>, which means:</p>
 <ul>
-<li>使用 <code>qemu-system-riscv64</code> 模拟一个 RISC-V 64位 CPU</li>
-<li><code>-nographic</code>：禁用图形输出</li>
-<li><code>-machine virt</code>：使用 <code>virt</code> 机器模型</li>
-<li><code>-cpu rv64</code>：使用 riscv64 位 CPU</li>
-<li><code>-m 512</code>：指定内存大小 512MiB</li>
-<li><code>-kernel build/kernel</code>：指定加载的内核文件为 build/kernel</li>
+<li>Use <code>qemu-system-riscv64</code> to emulate a RISC-V 64-bit CPU.</li>
+<li><code>-nographic</code>: Disable graphical output.</li>
+<li><code>-machine virt</code>: Use the <code>virt</code> machine model.</li>
+<li><code>-cpu rv64</code>: Use a RISC-V 64-bit CPU.</li>
+<li><code>-m 512</code>: Specify 512 MiB of memory.</li>
+<li><code>-kernel build/kernel</code>: Load the kernel file from <code>build/kernel</code>.</li>
 </ul>
 <div class="admonition info">
-<p class="admonition-title">什么是QEMU?</p>
-<p>QEMU是一款开源的虚拟机软件，它可以模拟多种不同的硬件平台，包括x86、ARM、MIPS、SPARC等，支持多种操作系统的运行，如Linux、Windows、Mac OS X、FreeBSD等。QEMU可用于虚拟化、仿真、调试和测试等多种应用场景。它支持全系统仿真和用户模式仿真，允许用户在一种架构上运行另一种架构的操作系统和程序。</p>
-<p>在我们的操作系统课程中，其实是在现有操作系统中通过虚拟机软件安装了linux系统，再在虚拟机的linux系统中使用QEMU模拟一个RISCV64架构的虚拟机，最后在这台虚拟机上运行我们编写的操作系统。 </p>
+<p class="admonition-title">What is QEMU?</p>
+<p>QEMU is an open-source virtual machine software that can emulate various hardware platforms, including x86, ARM, MIPS, SPARC, and more. It supports running multiple operating systems such as Linux, Windows, macOS, FreeBSD, etc. QEMU is widely used for virtualization, emulation, debugging, and testing in various scenarios. It supports full-system emulation and user-mode emulation, allowing users to run operating systems and programs designed for one architecture on a different architecture.</p>
+<p>In our operating system course, we use a virtual machine running a Linux system on an existing OS. Within this Linux system, we use QEMU to emulate a RISC-V 64-bit architecture virtual machine, on which we run the operating system we develop.</p>
 </div>
-<p>运行效果如下：</p>
+<p>The output of running the program is as follows:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$ make run
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>qemu-system-riscv64 -nographic -machine virt -cpu rv64 -m 512 -kernel build/kernel 
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
@@ -1366,112 +1199,112 @@
 <a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a>kernel ends, parking...
 </code></pre></div>
 <div class="admonition info">
-<p class="admonition-title">如何退出qemu</p>
-<p>同时按下 Ctrl 和 A 按钮，然后松开，再点击 X 按钮。</p>
-<p>如果你已经按过一些按钮导致上述方法不生效，可以直接关掉 Terminal。</p>
+<p class="admonition-title">How to Exit QEMU</p>
+<p>Press <code>Ctrl</code> and <code>A</code> simultaneously, release them, then press <code>X</code>.</p>
+<p>If this method doesn’t work due to prior key presses, you can directly close the terminal.</p>
 </div>
-<p style="color: orange;">实验步骤 1 结束</p>
+<p style="color: orange;">Lab Step 1 Completed</p>
 
-<p>上述实验过程演示了一个最小化内核的启动过程。接下来，我们将从 <strong>特权级</strong> 的角度解释操作系统如何启动运行的。首先，了解一下什么是特权级。</p>
-<h2 id="privilege-level">特权级 (Privilege Level)<a class="headerlink" href="#privilege-level" title="Permanent link">&para;</a></h2>
+<p>The above lab process demonstrates the boot process of a minimal kernel. Next, we will explain how an operating system starts running from the perspective of <strong>privilege levels</strong>. First, let’s understand what privilege levels are.</p>
+<h2 id="privilege-levels">Privilege Levels<a class="headerlink" href="#privilege-levels" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
 <p class="admonition-title">Privilege Levels (riscv-privileged.pdf)</p>
-<p>特权级（Privilege Level）是计算机系统中用于定义不同进程或用户在系统中所拥有的访问控制和权限的概念。
-特权级的存在是为了保护系统资源、确保安全性，并根据可信度和功能对进程进行隔离。</p>
+<p>Privilege levels is a concept in computer systems used to define the access control and permissions that different processes or users have within the system.<br />
+The existence of privilege levels aims to protect system resources, ensure security, and isolate processes based on trust and functionality.</p>
 <p>At any time, a RISC-V hardware thread (hart) is running at some privilege level encoded as a mode in one or more CSRs (control and status registers). </p>
 <p>Three RISC-V privilege levels are currently defined as shown in Table 1.1. </p>
 <p>Privilege levels are used to provide protection between different components of the software stack, and attempts to perform operations not permitted by the current privilege mode will cause an exception to be raised. </p>
 <p>These exceptions will normally cause traps into an underlying execution environment.</p>
 </div>
-<p>特权级是 CPU 运行时的一个重要的状态，它表示了当前运行的代码具有有多高的特权。最高特权的代码允许无限制的访问所有资源，例如所有物理内存和所有外设；而高特权可以限制低特权的代码所能访问的内容。例如，低特权状态不允许访问高特权所拥有的内存和 CSR 寄存器；但是 CPU 运行在低特权级时，程序可以主动或被动地切换至高特权级并执行预定的代码。</p>
+<p>Privilege levels are a critical state of the CPU during execution, indicating the level of privilege the currently running code possesses. Code with the highest privilege level has unrestricted access to all resources, such as all physical memory and peripherals. Higher privilege levels can restrict the resources accessible to lower privilege levels. For example, a lower privilege level cannot access memory or CSR registers owned by a higher privilege level. However, when the CPU is running at a lower privilege level, the program can actively or passively switch to a higher privilege level and execute predefined code.</p>
 <div class="admonition info">
-<p class="admonition-title">为什么需要特权级</p>
-<p>CPU设计中引入特权级（Privilege Levels）的主要目的是为了确保系统的安全性和稳定性，特别是在现代计算机系统中，操作系统需要对硬件资源进行严格的管理和控制。特权级的引入可以帮助操作系统保护内核（Kernel）和用户程序之间的隔离，防止不受信任的代码或应用程序对系统的关键部分进行不当操作。</p>
-<p>例如，CPU 时间是一种重要的“硬件资源”。现代操作系统通过让多个用户程序轮流执行的方式，实现所有程序“看起来”在同时执行的假象。我们通过操作系统（高特权级）来实现对 CPU 时间的管理，即强制让应用程序在执行一段时间后暂停执行，并切换到下一个应用程序继续执行。</p>
-<p>如果我们不使用特权级来强制实现这一点，而是期望应用程序主动地让出 CPU 时间，那么恶意的应用程序可以一直占用 CPU 时间而不释放，导致系统上所有应用程序均无响应。</p>
+<p class="admonition-title">Why Privilege Levels Are Needed</p>
+<p>The primary purpose of introducing privilege levels in CPU design is to ensure system security and stability. In modern computer systems, the operating system needs to strictly manage and control hardware resources. Privilege levels help the operating system isolate the kernel from user programs, preventing untrusted code or applications from improperly manipulating critical system components.</p>
+<p>For example, CPU time is an important "hardware resource." Modern operating systems achieve the illusion that multiple user programs are running simultaneously by scheduling them to execute in turns. The operating system (running at a high privilege level) manages CPU time by forcing an application to pause after executing for a certain period, switching to the next application.  </p>
+<p>Without privilege levels to enforce this, relying on applications to voluntarily yield CPU time would allow a malicious program to monopolize the CPU, causing all other applications on the system to become unresponsive.</p>
 </div>
-<p>特权级的区分是 <strong>在 CPU 硬件电路上实现</strong> 的，而不是通过软件模拟的。在 RISC-V 上，特权级使用 2bit 进行区分，分为 M mode，S mode，和 U mode。</p>
+<p>Privilege levels are <strong>implemented in the CPU hardware circuitry</strong>, not simulated through software. In RISC-V, privilege levels are distinguished using 2 bits, defining three modes: <strong>M mode</strong>, <strong>S mode</strong>, and <strong>U mode</strong>.</p>
 <p><img alt="image" src="../../assets/xv6lab-baremetal/riscv-priviledge-levels.png" /></p>
 <blockquote>
 <p>The machine level has the highest privileges and is the only mandatory privilege level for a RISC-V hardware platform. Code run in machine-mode (M-mode) is usually inherently trusted, as it has low-level access to the machine implementation. M-mode can be used to manage secure execution environments on RISC-V. User-mode (U-mode) and supervisor-mode (S-mode) are intended for conventional application and operating system usage respectively.</p>
 </blockquote>
 <ul>
-<li>M mode 为 RISC-V 架构中的最高特权，一般运行 OpenSBI 固件程序，拥有对物理内存的直接访问权限；</li>
-<li>S mode 是为操作系统设计的特选等级，可以设置虚拟内存；</li>
-<li>U mode 是为用户程序设计的特权等级，拥有最小的特权，也适用于虚拟内存。</li>
+<li><strong>M mode</strong>: The highest privilege level in the RISC-V architecture, typically running firmware like OpenSBI, with direct access to physical memory.</li>
+<li><strong>S mode</strong>: Designed for operating systems, capable of setting up virtual memory.</li>
+<li><strong>U mode</strong>: Designed for user programs, with the least privileges, also supporting virtual memory.</li>
 </ul>
-<p>在裸机程序中，我们需要完成对 CPU 状态的初始化，包括了页表、中断等基本功能。
-这些 CPU 的状态是通过 CSR (Control and Status Registers) 控制的，这些寄存器一般只允许高特权级的用户进行访问和修改。</p>
+<p>In bare-metal programming, we need to initialize the CPU state, including basic functionalities like page tables and interrupts. 
+These CPU states are controlled via <strong>CSRs (Control and Status Registers)</strong>, which are generally only accessible and modifiable by higher privilege levels.</p>
 <h3 id="aarch64-x86">AArch64 &amp; x86<a class="headerlink" href="#aarch64-x86" title="Permanent link">&para;</a></h3>
-<p>现代的指令集架构均有设置不同的特权级。</p>
-<p>移动设备上最常使用的 arm64 (AArch64) CPU 架构定义了四种特权级(Exception Levels)，从低到高： EL0、EL1、EL2和EL3。
-与 RISC-V 架构类似，最高特权级 EL3 运行最底层的固件(Secure Monitor)，EL1 特权级运行操作系统(OS)，EL0 特权级运行用户程序，而EL2特权级运行虚拟机程序(Hypervisor)。</p>
-<p>而 x86 (IA32 &amp; AMD64) 架构定义特权级为四个 Ring ：Ring 0 代表最高特权级，运行操作系统；而 Ring 3 代表最低特权级，运行用户程序。通常来说，x86架构上只会使用到 Ring 0 和 Ring 3 两种特权级。</p>
-<p><img alt="alt text" src="../../assets/xv6lab-baremetal/x86-privilege-levels.png" /> &rarr;</p>
-<!-- !!!info "为什么要定义特权级"
-    通过对比上述三种体系结构定义的特权级，我们可以发现用户程序和操作系统的运行环境被严格切分，这使得操作系统能正确隔离用户程序与操作系统，用户程序之间的访问。 -->
-<!-- **Operating Systems: Three Easy Pieces** 教材总结操作系统的三大基本组成部分：虚拟化 (Virtualization)、并行 (Concurrency)、持久化 (Persistence)。 -->
+<p>Modern instruction set architectures all define different privilege levels.</p>
+<p>The <strong>AArch64</strong> (ARM64) architecture, commonly used in mobile devices, defines four privilege levels (Exception Levels) from lowest to highest: <strong>EL0</strong>, <strong>EL1</strong>, <strong>EL2</strong>, and <strong>EL3</strong>. 
+Similar to RISC-V, the highest privilege level, <strong>EL3</strong>, runs low-level firmware (Secure Monitor), <strong>EL1</strong> runs the operating system (OS), <strong>EL0</strong> runs user programs, and <strong>EL2</strong> runs virtual machine programs (Hypervisor).</p>
+<p>The <strong>x86</strong> (IA32 &amp; AMD64) architecture defines privilege levels as four <strong>Rings</strong>: <strong>Ring 0</strong> is the highest privilege level, running the operating system, while <strong>Ring 3</strong> is the lowest, running user programs. Typically, x86 systems only use <strong>Ring 0</strong> and <strong>Ring 3</strong>.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-baremetal/x86-privilege-levels.png" /></p>
+<!-- !!!info "Why Define Privilege Levels Needed"
+    By comparing the privilege levels defined in the three architectures mentioned above, we can see that the execution environments of user programs and the operating system are strictly separated. This allows the operating system to effectively isolate access between user programs and the operating system, as well as between different user programs. -->
+<!-- **Operating Systems: Three Easy Pieces** three fundamental components of an operating system：Virtualization、Concurrency、Persistence. -->
 
-<h2 id="csr">CSR<a class="headerlink" href="#csr" title="Permanent link">&para;</a></h2>
-<p>不同于32个通用寄存器 (General Purpose Registers)，CSR 是一些特殊的寄存器。(如果你不知道寄存器是什么，你需要学习下计组相关知识)</p>
-<p>CSR（Control and Status Registers，控制与状态寄存器）是用于控制 CPU 行为、存储系统状态、管理异常和中断的重要寄存器集。CSR 寄存器需要用特殊的指令来访问。</p>
-<p>每个 CSR 均有特权级限制。例如，<code>time</code> 和 <code>cycle</code> 寄存器可以被 U mode 读取但不能修改。<code>sstatus</code> 等 S mode CSR 可以被 S/M mode 读写。<code>mstatus</code> 等 M mode CSR 只能被 M mode 读写。在低特权级访问高特权级的 CSR 会触发程序异常。</p>
-<p>每个 CSR 中会定义一些字段（Field），它们占据一些比特，表示一些特殊的含义。我们会在后续的课程中更多的接触 CSR。</p>
-<h2 id="_1">运行环境<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>在 RISC-V 的三个特权级上，RISC-V 架构定义了三种运行状态：分别是 <strong>固件 (Machine mode)</strong> 、 <strong>操作系统 (Supervisor mode)</strong> 和 <strong>用户态 (User mode)</strong> 。</p>
-<p>在 RISC-V 架构中，操作系统 (Supervisor) 向应用程序 (Application) 提供的运行环境被称为 ABI (Application Binary Interface)，而固件 (Machine, SEE) 为操作系统 (Supervisor, OS) 提供的运行环境则被称为 Supervisor Binary Interface (SBI)。</p>
+<h2 id="csr-control-and-status-registers">CSR (Control and Status Registers)<a class="headerlink" href="#csr-control-and-status-registers" title="Permanent link">&para;</a></h2>
+<p>Unlike the 32 general-purpose registers, CSRs are special registers.</p>
+<p><strong>CSR (Control and Status Registers)</strong> are critical register sets used to control CPU behavior, store system state, and manage exceptions and interrupts. CSRs require special instructions to access.</p>
+<p>Each CSR has privilege-level restrictions. For example:The <code>time</code> and <code>cycle</code> registers can be read by <strong>U mode</strong> but cannot be modified.S-mode CSRs like <code>sstatus</code> can be read and written by <strong>S mode</strong> and <strong>M mode</strong>.M-mode CSRs like <code>mstatus</code> can only be read and written by <strong>M mode</strong>.  Attempting to access a higher-privilege CSR from a lower privilege level will trigger an exception.</p>
+<p>Each CSR contains defined fields that occupy specific bits, representing particular meanings. We’ll explore CSRs further in subsequent lessons.</p>
+<h2 id="runtime-environment">Runtime Environment<a class="headerlink" href="#runtime-environment" title="Permanent link">&para;</a></h2>
+<p>Across the three privilege levels in RISC-V, the architecture defines three runtime states: <strong>Firmware (Machine mode)</strong>, <strong>Operating System (Supervisor mode)</strong>, and <strong>User Mode (User mode)</strong>.</p>
+<p>In RISC-V, the runtime environment provided by the operating system (Supervisor) to applications is called the <strong>ABI (Application Binary Interface)</strong>, while the runtime environment provided by the firmware (Machine mode, SEE) to the operating system (Supervisor, OS) is called the <strong>SBI (Supervisor Binary Interface)</strong>.</p>
 <p><img alt="image" src="../../assets/xv6lab-baremetal/riscv-priviledge-arch.png" /></p>
-<p>固件 (OpenSBI) 提供了对一些 <strong>基本硬件的访问接口</strong> ，并通过类似 syscall 的方式为 S Mode 提供服务，它们被称为 SBI Call。其中就包含了基本的串口输入输出函数，<code>sbi_console_putchar</code> 和 <code>sbi_console_getchar</code>。</p>
-<h2 id="_2">启动流程概述<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>操作系统的启动流程即是对每一级运行环境的初始化。通常，我们会从高特权级开始初始化，并一级一级地降级到低特权级上继续进行初始化。</p>
-<p>从 CPU 上电复位的那一刻起，便开始执行第一条指令。此时，CPU 运行的代码通常来自芯片内部或外部的一块小型 ROM 区域，我们称之为 Bootloader。Bootloader 可以被视为启动的第 0 阶段，它的主要任务是找到下一阶段的镜像、复制到内存中、并跳转。</p>
-<p>在 RISC-V 平台上，下一阶段是 SBI（Supervisor Binary Interface） 的初始化，我们将使用 OpenSBI 实现这个初始化过程。因此，在第0阶段，OpenSBI 镜像和我们的内核镜像会被加载到内存中。Bootloader 负责将 CPU 跳转到 OpenSBI 的加载地址，并启动其代码执行。此时，我们进入了下一阶段。</p>
+<p>OpenSBI provides access interfaces to basic hardware and offers services to <strong>S mode</strong> through a syscall-like mechanism known as <strong>SBI Calls</strong>. These include basic serial I/O functions like <code>sbi_console_putchar</code> and <code>sbi_console_getchar</code>.</p>
+<h2 id="boot-process-overview">Boot Process Overview<a class="headerlink" href="#boot-process-overview" title="Permanent link">&para;</a></h2>
+<p>The boot process of an operating system involves initializing each level of the runtime environment. Typically, we start initializing from the highest privilege level and progressively descend to lower privilege levels.</p>
+<p>From the moment the CPU powers on and resets, it begins executing the first instruction. At this point, the CPU typically executes code from a small ROM area, either internal or external to the chip, known as the <strong>Bootloader</strong>. The bootloader can be considered "Stage 0" of the boot process, with its primary tasks being to locate the next stage’s image, copy it into memory, and jump to it.</p>
+<p>On the RISC-V platform, the next stage is the initialization of the <strong>SBI (Supervisor Binary Interface)</strong>, which we implement using <strong>OpenSBI</strong>. Thus, in Stage 0, the OpenSBI image and our kernel image are loaded into memory. The bootloader then jumps the CPU to the OpenSBI load address, starting its execution and entering the next stage.</p>
 <p><img alt="image" src="../../assets/xv6lab-baremetal/risc-v-boot-process.png" /></p>
-<p>在这一阶段中， OpenSBI 会对重要的系统设备进行初始化。当 OpenSBI 完成 M 模式（M mode） 的初始化后，它会将 CPU 权限降级至 S 模式（S mode），并进入内核的入口点，正式开始执行内核代码。</p>
-<p>下面我们将具体解释每一阶段的工作：</p>
-<h3 id="0-cpu">第0阶段：从 CPU 上电开始<a class="headerlink" href="#0-cpu" title="Permanent link">&para;</a></h3>
-<p>在 CPU 上电后，它会进行硬件级别的复位，可以回想一下我们在数字逻辑课程中如何对 reg 变量在 rst_n 时进行复位。</p>
-<p>复位会将 PC 设置到一个固定值，它被称为 Reset Vector（复位向量），这是 CPU 上电后执行的第一个代码的地址。
-Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供的，这一片代码区域是不可写入的。在 Reset Vector 执行完毕后，它会将控制流跳转到下一阶段.
-在 QEMU 中，下一阶段即是 M mode 的 OpenSBI。</p>
-<!-- Reset Vector 的代码会跳转到 OpenSBI 的加载地址 `0x8000_0000` 继续执行，这是运行在 M mode 的固件。 -->
+<p>In this stage, OpenSBI initializes critical system devices. Once OpenSBI completes the <strong>M mode</strong> initialization, it downgrades the CPU privilege to <strong>S mode</strong> and jumps to the kernel’s entry point, officially starting kernel code execution.</p>
+<p>Below, we’ll explain the tasks of each stage in detail:</p>
+<h3 id="stage-0-from-cpu-power-on">Stage 0: From CPU Power-On<a class="headerlink" href="#stage-0-from-cpu-power-on" title="Permanent link">&para;</a></h3>
+<p>Upon powering on, the CPU undergoes a hardware-level reset. Recall how, in digital logic courses, we reset a <code>reg</code> variable when <code>rst_n</code> is triggered.</p>
+<p>The reset sets the <strong>Program Counter (PC)</strong> to a fixed value called the <strong>Reset Vector</strong>, the address of the first instruction executed after power-on.
+This address typically points to a <strong>Block ROM</strong> on the RISC-V chip, a read-only code region. After executing the Reset Vector code, control flow jumps to the next stage.
+In QEMU, this next stage is the <strong>M mode</strong> OpenSBI.</p>
+<!-- The code of the Reset Vector will jump to the loading address of OpenSBI at `0x8000_0000` to continue execution. This is the firmware running in M mode. -->
 
 <div class="admonition info">
-<p class="admonition-title">什么是实现定义行为</p>
-<p>每个 RISC-V 硬件的 Reset Vector 值是由它实现所设置的，而 RISC-V 手册并没有规定 RISC-V 硬件的 Reset Vector 该是多少，我们将这种值称为 <strong>Implementation-Defined</strong> 。</p>
+<p class="admonition-title">What is Implementation-Defined Behavior?</p>
+<p>The Reset Vector value for each RISC-V hardware is determined by its implementation. The RISC-V manual does not mandate a specific Reset Vector value, making it <strong>Implementation-Defined</strong>.</p>
 </div>
-<h3 style="color: orange;">实验步骤 2 ：GDB调试，观察启动过程</h3>
+<h3 style="color: orange;">Lab Step 2: GDB Debugging to Observe the Boot Process</h3>
 
 <div class="admonition info">
-<p class="admonition-title">GDB 调试</p>
-<p>GDB（GNU Debugger）是一个功能强大的开源调试工具，主要用于调试用C、C++等编程语言编写的程序。它可以帮助开发者查找和修复程序中的错误，支持多种调试功能，如设置断点、单步执行、查看变量值、检查内存状态等。</p>
-<p>通过GDB调试工具，我们可以在QEMU运行操作系统时打断点，观察操作系统的运行过程。</p>
+<p class="admonition-title">GDB Debugging</p>
+<p>GDB (GNU Debugger) is a powerful open-source debugging tool, primarily used for debugging programs written in languages like C and C++. It helps developers identify and fix errors by supporting features such as setting breakpoints, stepping through code, inspecting variable values, and checking memory states.</p>
+<p>Using GDB, we can set breakpoints and observe the operating system’s execution process while running it in QEMU.</p>
 </div>
-<p>首先，将 <code>set auto-load safe-path /</code> 这一行加入到 <code>~/.gdbinit</code> 下面，以允许 gdb 自动加载当前目录下的<code>.gdbinit</code> 文件。</p>
-<p>在一个终端中执行 <code>make debug</code>，它会启动 <code>qemu-system-riscv64</code>，但是会加上参数 <code>-S -gdb tcp::3333</code>，这表示它会等待调试器附加。
-接着，在另一个终端（确保它的 PWD 和上一个终端一致）运行 <code>gdb-multiarch</code>，它会启动 GDB 调试器并自动加载当前目录下面的 <code>.gdbinit</code> 文件。</p>
-<p>如果一切正常，gdb 会停留在地址 <code>0x1000</code> 上，这即是 QEMU 平台的 Reset Vector 地址。</p>
+<p>First, add the line <code>set auto-load safe-path /</code> to your <code>~/.gdbinit</code> file to allow GDB to automatically load the <code>.gdbinit</code> file in the current directory.</p>
+<p>In one terminal, run <code>make debug</code>. This launches <code>qemu-system-riscv64</code> with the parameters <code>-S -gdb tcp::3333</code>, indicating that it will wait for a debugger to attach.<br />
+Then, in another terminal (ensuring the working directory matches the first terminal), run <code>gdb-multiarch</code>. This starts the GDB debugger and automatically loads the <code>.gdbinit</code> file in the current directory.</p>
+<p>If everything works correctly, GDB will pause at address <code>0x1000</code>, the Reset Vector address for the QEMU platform.</p>
 <p><img alt="alt text" src="../../assets/xv6lab-baremetal/report1-instruction.png" /></p>
-<p>使用 <code>x/10i $pc</code> 指令可以打印当前 PC 指针所指向的 10 条指令。</p>
+<p>Use the command <code>x/10i $pc</code> to print the next 10 instructions pointed to by the current PC.</p>
 <div class="admonition question">
-<p class="admonition-title">Lab 实验报告 1</p>
-<p>请你找出 QEMU 的 Bootloader 执行完毕后将跳转的下一阶段的指令地址。</p>
-<p>使用 <code>si</code> 可以执行下一条指令，当你执行到 <code>jr t0</code> 时，使用 <code>print $t0</code> 打印 t0 寄存器的值。</p>
-<p>然后，将t0寄存器的值写在实验报告中。</p>
+<p class="admonition-title">Lab Report 1</p>
+<p>Find the instruction address that QEMU’s bootloader jumps to after completing execution.  </p>
+<p>Use <code>si</code> to step to the next instruction. When you reach <code>jr t0</code>, use <code>print $t0</code> to print the value of the <code>t0</code> register.  </p>
+<p>Record the value of the <code>t0</code> register in your lab report.</p>
 </div>
 <div class="admonition question">
-<p class="admonition-title">Lab 实验报告 2</p>
-<p>请你找出 QEMU 在启动时往内存中加载了哪些内容。</p>
-<p>参照 实验报告 1，打开一个 GDB 终端，执行命令 <code>monitor info roms</code>，将输出信息填入报告纸上面的表格中。</p>
-<p>每条输出信息中，addr 表示加载的起始地址，size 表示加载的内容长度，mem=rom/ram 表示这一段内容是不可修改的 ROM 还是可修改的内存 RAM。</p>
+<p class="admonition-title">Lab Report 2</p>
+<p>Determine what content QEMU loads into memory during startup.  </p>
+<p>Referring to Lab Report 1, open a GDB terminal and run the command <code>monitor info roms</code>. Fill the output information into the table in your lab report.  </p>
+<p>In each output line, <code>addr</code> indicates the starting address of the loaded content, <code>size</code> indicates the length of the content, and <code>mem=rom/ram</code> indicates whether the segment is read-only ROM or writable RAM.</p>
 </div>
-<p style="color: orange;">实验步骤 2 结束</p>
+<p style="color: orange;">Lab Step 2 Completed</p>
 
-<h3 id="opensbi">下一阶段：OpenSBI<a class="headerlink" href="#opensbi" title="Permanent link">&para;</a></h3>
-<p>在计算机中，固件(firmware)是一种特定的计算机软件，它为设备的特定硬件提供低级控制，也可以进一步加载其他软件。固件可以为设备更复杂的软件（如操作系统）提供标准化的操作环境。
-对于不太复杂的设备，固件可以直接充当设备的完整操作系统，执行所有控制、监视和数据操作功能。 
-在基于 x86 的计算机系统中, BIOS 或 UEFI 是固件；在基于 riscv 的计算机系统中，OpenSBI 是固件。OpenSBI运行在M态（M-mode），因为固件需要直接访问硬件。</p>
-<p>在这个阶段，OpenSBI 会对重要的系统设备进行初始化，我们将其称为 Platform-level 的设备。它们是整个系统共享的，即多个 CPU （也被称为 Hart）所看到的设备是同一个。</p>
+<h3 id="next-stage-opensbi">Next Stage: OpenSBI<a class="headerlink" href="#next-stage-opensbi" title="Permanent link">&para;</a></h3>
+<p>In computing, <strong>firmware</strong> is a specific type of software that provides low-level control for a device’s hardware and can load additional software. For complex software (like an operating system), firmware provides a standardized operating environment.
+For simpler devices, firmware may act as the complete operating system, handling all control, monitoring, and data manipulation functions.<br />
+In x86-based systems, the firmware is <strong>BIOS</strong> or <strong>UEFI</strong>; in RISC-V-based systems, it is <strong>OpenSBI</strong>. OpenSBI runs in <strong>M mode</strong> because firmware requires direct hardware access.</p>
+<p>At this stage, OpenSBI initializes critical system devices, referred to as <strong>platform-level devices</strong>. These are shared across the system, meaning multiple CPUs (or HARTs) see the same device.</p>
 <p><img alt="alt text" src="../../assets/xv6lab-baremetal/xv6lab-baremetal-system-hierarchy.png" /></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Platform Name             : riscv-virtio,qemu
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Platform Features         : medeleg
@@ -1485,22 +1318,22 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>Platform Shutdown Device  : syscon-poweroff
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>Platform Suspend Device   : ---
 </code></pre></div>
-<p>随后，OpenSBI 指定下一阶段的启动是我们的内核：</p>
+<p>Next, OpenSBI designates the next stage as our kernel:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Domain0 Next Address      : 0x0000000080200000
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Domain0 Next Arg1         : 0x000000009fe00000
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Domain0 Next Mode         : S-mode
 </code></pre></div>
-<p>并初始化 Hart 相关的配置：</p>
+<p>It also initializes HART-related configurations:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Boot HART ID              : 0
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Boot HART Domain          : root
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Boot HART Priv Version    : v1.12
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Boot HART Base ISA        : rv64imafdch
 </code></pre></div>
-<h3 id="kernel">下下阶段：Kernel 启动<a class="headerlink" href="#kernel" title="Permanent link">&para;</a></h3>
-<p>在 OpenSBI 初始化完成后，OpenSBI 会降级到 S-mode 并将 PC 指针指向我们的内核起始地址 0x80200000。该地址上保存着内核的第一个入口 _entry 的代码，这也是我们操作系统的第一条指令，至此，CPU 控制权来到我们的 xv6 内核。</p>
-<p>_entry 的代码在 <code>entry.S</code> 文件中。但是， <strong>这个代码是如何放到内核起始地址 0x80200000 处的呢？</strong></p>
-<h4 id="_3">编译过程<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
-<p>首先观察内核代码的编译过程：</p>
+<h3 id="following-stage-kernel-boot">Following Stage: Kernel Boot<a class="headerlink" href="#following-stage-kernel-boot" title="Permanent link">&para;</a></h3>
+<p>After OpenSBI completes initialization, it downgrades to <strong>S mode</strong> and sets the PC to our kernel’s starting address, <code>0x80200000</code>. This address holds the first instruction of the kernel’s entry point, <code>_entry</code>, marking the point where CPU control is handed over to our xv6 kernel.</p>
+<p>The <code>_entry</code> code is located in the <code>entry.S</code> file. But <strong>how does this code end up at the kernel’s starting address, <code>0x80200000</code>?</strong></p>
+<h4 id="compilation-process">Compilation Process<a class="headerlink" href="#compilation-process" title="Permanent link">&para;</a></h4>
+<p>Let’s examine the kernel compilation process:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>/d/o/SUSTech-OS-2025<span class="w"> </span><span class="o">(</span>xv6-lab1<span class="o">)</span>&gt;<span class="w"> </span>make
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>riscv64-unknown-elf-gcc<span class="w"> </span>-fPIE<span class="w"> </span>-fno-pic<span class="w"> </span>-fno-plt<span class="w"> </span>-Wall<span class="w"> </span>-Wno-unused-variable<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-MD<span class="w"> </span>-mcmodel<span class="o">=</span>medany<span class="w"> </span>-ffreestanding<span class="w"> </span>-fno-common<span class="w"> </span>-nostdlib<span class="w"> </span>-mno-relax<span class="w"> </span>-Ios<span class="w"> </span>-std<span class="o">=</span>gnu17<span class="w"> </span>-fno-stack-protector<span class="w"> </span>-D<span class="w"> </span>LOG_LEVEL_ERROR<span class="w"> </span>-c<span class="w"> </span>os/console.c<span class="w"> </span>-o<span class="w"> </span>build/os/console.o
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>riscv64-unknown-elf-gcc<span class="w"> </span>-fPIE<span class="w"> </span>-fno-pic<span class="w"> </span>-fno-plt<span class="w"> </span>-Wall<span class="w"> </span>-Wno-unused-variable<span class="w"> </span>-Werror<span class="w"> </span>-O<span class="w"> </span>-fno-omit-frame-pointer<span class="w"> </span>-ggdb<span class="w"> </span>-march<span class="o">=</span>rv64g<span class="w"> </span>-MD<span class="w"> </span>-mcmodel<span class="o">=</span>medany<span class="w"> </span>-ffreestanding<span class="w"> </span>-fno-common<span class="w"> </span>-nostdlib<span class="w"> </span>-mno-relax<span class="w"> </span>-Ios<span class="w"> </span>-std<span class="o">=</span>gnu17<span class="w"> </span>-fno-stack-protector<span class="w"> </span>-D<span class="w"> </span>LOG_LEVEL_ERROR<span class="w"> </span>-c<span class="w"> </span>os/main.c<span class="w"> </span>-o<span class="w"> </span>build/os/main.o
@@ -1513,49 +1346,49 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>riscv64-unknown-elf-objdump<span class="w"> </span>-t<span class="w"> </span>build/kernel<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;1,/SYMBOL TABLE/d; s/ .* / /; /^$/d&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>build/kernel.sym
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>Build<span class="w"> </span>kernel<span class="w"> </span><span class="k">done</span>
 </code></pre></div>
-<p>尝试理解上述编译参数：</p>
-<p>gcc 是我们常用的 C 语言编译器，而 <code>riscv64-unknown-elf-gcc</code> 则表示使用 RISC-V 64 位、面向未知平台、产出 ELF 格式的 gcc 套件。</p>
-<p>其余的编译参数我们可以分开理解：</p>
+<p>Let’s break down the compilation parameters:</p>
+<p><code>gcc</code> is the familiar C compiler, while <code>riscv64-unknown-elf-gcc</code> specifies a GCC suite for RISC-V 64-bit, targeting an unknown platform and producing ELF-format output.</p>
+<p>Key compilation flags:</p>
+<ul>
+<li><code>-march=rv64g -mcmodel=medany -mno-relax</code>:  </li>
+</ul>
+<p>Targets the <code>rv64g</code> architecture, uses the <code>medany</code> addressing model, and disables linker relaxation.  </p>
+<p>See: <a href="https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Options.html">https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Options.html</a></p>
+<ul>
+<li><code>-ffreestanding -fno-common -nostdlib</code>:  </li>
+</ul>
+<p>Indicates no reliance on standard library functions and avoids assuming standard definitions for common functions (e.g., <code>memset</code>).</p>
 <ul>
 <li>
-<p><code>-march=rv64g -mcmodel=medany -mno-relax</code></p>
-<p>这表示我们的目标架构是 rv64g，寻址模型是 <code>medany</code>，并且链接器不要进行 Relax。</p>
-<p>See also: <a href="https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Options.html">https://gcc.gnu.org/onlinedocs/gcc/RISC-V-Options.html</a></p>
+<p><code>-fno-pie -no-pie -fno-plt -fno-omit-frame-pointer -fno-stack-protector</code>:  </p>
+<p>This indicates that the generated ELF file should not use Position-Independent Executable (PIE) code, as it would result in the creation of the Global Offset Table (GOT) and Procedure Linkage Table (PLT) sections. Our kernel is currently unable to handle such complex structures.<br />
+<code>-fno-omit-frame-pointer -fno-stack-protector</code> means retaining the frame-pointer and disabling stack protection.</p>
 </li>
 <li>
-<p><code>-ffreestanding -fno-common -nostdlib</code></p>
-<p>这表示我们不使用标准库函数，也不假设一些通用函数（如 memset）的定义与标准函数库定义一致。</p>
-</li>
-<li>
-<p><code>-fno-pie -no-pie -fno-plt -fno-omit-frame-pointer -fno-stack-protector</code></p>
-<p>这表示生成的 ELF 文件不要使用位置无关代码 (Position-Independent Executable)，因为这会导致生成 got 和 plt 段，我们的内核还暂时无法处理如此复杂的结构。
-<code>-fno-omit-frame-pointer -fno-stack-protector</code> 表示保留 frame-pointer，禁用栈保护。</p>
-</li>
-<li>
-<p><code>-Wall -Wno-unused-variable -Werror -ggdb</code></p>
-<p>这表示显示所有警告、但是不提示未使用的变量警告、并将所有 warning 当作 error。最后 <code>-ggdb</code> 表示使用 gdb 调试。</p>
-</li>
-<li>
-<p><code>-Ios -std=gnu17 -O2 -c os/entry.S -o build/os/entry.o</code></p>
-<p>表示使用 os 目录作为 include 目录，使用 gnu17 C标准，启用 O2 优化。</p>
-<p>编译 (<code>-c</code>) 原文件 <code>os/entry.S</code>，输出到 <code>build/os/entry.o</code> 中。</p>
+<p><code>-Wall -Wno-unused-variable -Werror -ggdb</code>: </p>
 </li>
 </ul>
-<p>ld 表示链接器，我们使用 ld 将所有编译器产生的 .o 文件链接为最终的 kernel ELF 文件。</p>
-<p><code>riscv64-unknown-elf-ld -z max-page-size=4096 -T os/kernel.ld -o build/kernel build/os/console.o build/os/main.o build/os/printf.o build/os/sbi.o build/os/string.o build/os/entry.o</code></p>
-<p>这一串命令表示：</p>
+<p>Enables all warnings except for unused variables, treats warnings as errors, and includes GDB debugging info.</p>
 <ul>
-<li>使用 os/kernel.ld 作为链接脚本</li>
-<li>输出为 <code>build/kernel</code></li>
-<li>输入为所有 .o 文件</li>
+<li><code>-Ios -std=gnu17 -O2 -c os/entry.S -o build/os/entry.o</code>:  </li>
+</ul>
+<p>Uses the <code>os</code> directory for includes, adheres to the GNU17 C standard, enables O2 optimization</p>
+<p>compiles (<code>-c</code>) <code>os/entry.S</code> into <code>build/os/entry.o</code>.</p>
+<p>The linker (<code>ld</code>) combines all <code>.o</code> files into the final kernel ELF file. </p>
+<p><code>riscv64-unknown-elf-ld -z max-page-size=4096 -T os/kernel.ld -o build/kernel build/os/console.o build/os/main.o build/os/printf.o build/os/sbi.o build/os/string.o build/os/entry.o</code></p>
+<p>following series of commands indicates:</p>
+<ul>
+<li><code>-T os/kernel.ld</code>: Specifies <code>os/kernel.ld</code> as the linker script.</li>
+<li><code>-o build/kernel</code>: Outputs to <code>build/kernel</code>.</li>
+<li>Inputs are all <code>.o</code> files.</li>
 </ul>
 <h4 id="linker-script">Linker Script<a class="headerlink" href="#linker-script" title="Permanent link">&para;</a></h4>
-<p>kernel.ld 是链接脚本，链接脚本将告知链接器应该如何排列所有 .o 文件中的段（Section），即内存布局 (Memory Layout)，并指明产生的 ELF 文件应该如何加载到内存中 (Program Header)。</p>
+<p>The <code>kernel.ld</code> linker script dictates how the linker arranges sections from the <code>.o</code> files (Memory Layout) and how the resulting ELF file is loaded into memory (Program Headers).</p>
 <div class="admonition info">
-<p class="admonition-title">内存布局</p>
-<p>内存布局（Memory Layout）是指程序在运行时，其数据和代码在内存中的组织方式和存储结构。</p>
+<p class="admonition-title">Memory Layout</p>
+<p><strong>Memory Layout</strong> refers to the organization and structure of a program’s data and code in memory during execution.</p>
 </div>
-<p>通过阅读 <code>kernel.ld</code> 我们可以获得xv6的内存布局：</p>
+<p>Here’s the content of <code>kernel.ld</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>OUTPUT_ARCH(riscv)
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>ENTRY(_entry)
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>BASE_ADDRESS = 0x80200000;
@@ -1604,9 +1437,9 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a>    }
 <a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a>}
 </code></pre></div>
-<p>开头的 <code>OUTPUT_ARCH</code> 表示生成的 ELF 文件适用与 RISC-V 架构，<code>ENTRY</code> 表示 ELF 的入口点为符号 <code>_entry</code>。然后，我们定义一个常量为 <code>BASE_ADDRESS</code> 使它等于 0x80200000，这也是我们内核的起始地址。</p>
-<p>在 <code>SECTIONS</code> 中，我们首先定义当前地址 (<code>.</code> 符号) (想象链接器正在从某个地址开始给所有 section 安排位置) 为 0x80200000，并导出 <code>skernel</code> 和 <code>s_text</code> 符号的值为当前地址。</p>
-<p>随后，我们定义 (.text) 段，这通常表示代码段：</p>
+<p>The <code>OUTPUT_ARCH</code> at the beginning specifies that the generated ELF file is compatible with the RISC-V architecture, and <code>ENTRY</code> indicates that the entry point of the ELF file is the symbol <code>_entry</code>. Then, we define a constant <code>BASE_ADDRESS</code> and set it equal to <code>0x80200000</code>, which is also the starting address of our kernel.</p>
+<p>In the <code>SECTIONS</code> block, we first define the current address (represented by the <code>.</code> symbol) (imagine the linker is assigning locations to all sections starting from a certain address) as <code>0x80200000</code>, and export the values of the symbols <code>skernel</code> and <code>s_text</code> as the current address.</p>
+<p>Subsequently, we define the <code>.text</code> section, which typically represents the code segment:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>.text : {
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    *(.text.entry)
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    *(.text .text.*)
@@ -1614,14 +1447,14 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    e_text = .;
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>}
 </code></pre></div>
-<p>首先排列所有位于 <code>.text.entry</code> 的符号，随后排列所有位于 <code>.text</code> 的符号。</p>
-<p>我们在 <code>.text</code> 段中首先包含了一个特殊的 Section <code>.text.entry</code>，这个 section 是在 <code>entry.S</code> 文件中定义的：</p>
+<p>Places <code>.text.entry</code> first (defined in <code>entry.S</code>), followed by other <code>.text</code> sections.</p>
+<p>The <code>.text.entry</code> section is defined in <code>entry.S</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>    .section .text.entry
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    .globl _entry
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>_entry:
 </code></pre></div>
-<p>我们在 <code>entry.S</code> 文件中指定 <code>_entry</code> 符号应该被放置到 <code>.text.entry</code> 段，并在链接脚本中指定这个段为内核的开始地址。 <strong>这样我们即可确保 _entry 会被放置到内核起始地址。当我们启动内核时，我们会从这个起始地址开始执行，也就是执行了内核的第一条指令。</strong> </p>
-<p>我们可以通过反汇编 <code>build/kernel</code> 来观察这一点：</p>
+<p>By placing <code>_entry</code> in <code>.text.entry</code> and prioritizing it in the linker script, <strong>we ensure <code>_entry</code> is at the kernel’s starting address, <code>0x80200000</code>, where execution begins</strong>.</p>
+<p>Verify this via disassembly:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$ llvm-objdump-19 -d build/kernel | less
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>build/kernel:   file format elf64-littleriscv
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
@@ -1633,17 +1466,17 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>80200008: 00000097      auipc   ra, 0x0
 <a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>8020000c: 174080e7      jalr    0x174(ra) &lt;main&gt;
 </code></pre></div>
-<p>然后，将当前地址对齐到 4K 边界，导出 <code>e_text</code> 符号。</p>
-<p>剩余的 <code>.rodata</code>, <code>.data</code> 和 <code>.bss</code> 则表示数据段，但是略有不同：</p>
+<p>Then, we align the current address to a 4K boundary and export the <code>e_text</code> symbol.</p>
+<p>Remaining sections:</p>
 <ul>
-<li><code>.rodata</code> 表示只读的数据段</li>
-<li><code>.data</code> 表示可读可写的数据段</li>
-<li><code>.bss</code> 表示应该在程序启动时被清零的数据段</li>
+<li><code>.rodata</code>: Read-only data.</li>
+<li><code>.data</code>: Read-write data.</li>
+<li><code>.bss</code>: Data initialized to zero at startup.</li>
 </ul>
-<p>当然，所有数据段均是不可执行的。</p>
-<p>我们可以用以下图片来表示 Kernel 镜像的内存布局结构。</p>
+<p>All data sections are non-executable. </p>
+<p>Here’s a diagram of the kernel image’s memory layout:</p>
 <p><img alt="image" src="../../assets/xv6lab-baremetal/kernel-layout.png" /></p>
-<p>最后，我们可以使用 <code>readelf</code> 工具观察最后产出的 kernel ELF 文件：</p>
+<p>Finally, inspect the ELF file with <code>readelf</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>/d/o/SUSTech-OS-2025<span class="w"> </span><span class="o">(</span>xv6-lab1<span class="o">)</span>&gt;<span class="w"> </span>llvm-readelf-19<span class="w"> </span>-a<span class="w"> </span>build/kernel
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>ELF<span class="w"> </span>Header:
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>Magic:<span class="w">   </span>7f<span class="w"> </span><span class="m">45</span><span class="w"> </span>4c<span class="w"> </span><span class="m">46</span><span class="w"> </span><span class="m">02</span><span class="w"> </span><span class="m">01</span><span class="w"> </span><span class="m">01</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span>
@@ -1714,39 +1547,39 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <a id="__codelineno-9-68" name="__codelineno-9-68" href="#__codelineno-9-68"></a><span class="w">   </span>None<span class="w">   </span>.debug_info<span class="w"> </span>.debug_abbrev<span class="w"> </span>.debug_loclists<span class="w"> </span>.debug_aranges<span class="w"> </span>.debug_line<span class="w"> </span>.debug_str<span class="w"> </span>.debug_line_str<span class="w"> </span>.comment<span class="w"> </span>.debug_frame<span class="w"> </span>.debug_rnglists<span class="w"> </span>.symtab<span class="w"> </span>.strtab<span class="w"> </span>.shstrtab
 </code></pre></div>
 <ul>
-<li>最终的文件类型为：<code>Type: EXEC (Executable file)</code></li>
-<li>入口地址为： <code>Entry point address: 0x80200000</code></li>
-<li>一共有 19 个 Sections：<ul>
-<li>Sections有自己的 Flags,其中 A 表示这一个 Section 在加载时应该被分配内存空间，W 表示可以写入，X 表示可以执行。</li>
+<li>The final file type is: <code>Type: EXEC (Executable file)</code>  </li>
+<li>The entry point address is: <code>Entry point address: 0x80200000</code>  </li>
+<li>There are a total of 19 Sections:  <ul>
+<li>Each Section has its own Flags, where <code>A</code> indicates that this Section should be allocated memory space during loading, <code>W</code> indicates it is writable, and <code>X</code> indicates it is executable.  </li>
 </ul>
 </li>
-<li>一共有 4 个 Program Headers，其中有两个 LOAD:<ul>
-<li>第一个 LOAD 表示：<ul>
-<li>在虚拟地址 (VirtAddr) 0x80200000 处，映射物理地址 (PhysAddr) 0x80200000，分配 0x0011d0 字节的内存空间 (MemSiz)，该内存段的权限为 RE (Read &amp; Executable)。</li>
-<li>从该 ELF 文件的 (Offset) 0x001000 处复制 0x0011d0 字节 (FileSiz) 到上述内存空间。</li>
+<li>There are a total of 4 Program Headers, two of which are LOAD:  <ul>
+<li>The first LOAD indicates:  <ul>
+<li>At virtual address (VirtAddr) <code>0x80200000</code>, it maps to physical address (PhysAddr) <code>0x80200000</code>, allocating a memory space of <code>0x0011d0</code> bytes (MemSiz). This memory segment has the permission <code>RE</code> (Read &amp; Executable).  </li>
+<li>It copies <code>0x0011d0</code> bytes (FileSiz) from the ELF file's offset <code>0x001000</code> to the above memory space.  </li>
 </ul>
 </li>
-<li>第二个 LOAD 表示：<ul>
-<li>在虚拟地址 0x80202000 处，映射物理地址 0x80202000，分配 0x005000 的内存空间，该内存段权限为 RW (Read &amp; Write)。</li>
-<li>从该 ELF 文件的 0x3000 处，复制 0x0008 字节到该内存段。但是，该内存段分配了 0x5000 的空间， <strong>这表示剩下未被填充的空间全都是零，这即是 bss 段</strong> 。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>在 <code>Section to Segment mapping:</code> 处我们可以看到：<ul>
-<li>第一个 Program Headers 包含 .text, .rodata 三个 Sections。</li>
-<li>第二个 Program Headers 包含 .data 和 .bss 段。</li>
+<li>The second LOAD indicates:  <ul>
+<li>At virtual address <code>0x80202000</code>, it maps to physical address <code>0x80202000</code>, allocating a memory space of <code>0x005000</code> bytes. This memory segment has the permission <code>RW</code> (Read &amp; Write).  </li>
+<li>It copies <code>0x0008</code> bytes from the ELF file's offset <code>0x3000</code> to this memory segment. However, the memory segment allocates <code>0x5000</code> bytes of space, <strong>indicating that the remaining unfilled space is entirely zero, which is the bss segment</strong>.  </li>
 </ul>
 </li>
 </ul>
-<p>接下来，我们继续运行内核。</p>
-<p>观察内核运行的首几行代码：</p>
+</li>
+<li>In the <code>Section to Segment mapping:</code> section, we can see:  <ul>
+<li>The first Program Header includes the <code>.text</code> and <code>.rodata</code> Sections.  </li>
+<li>The second Program Header includes the <code>.data</code> and <code>.bss</code> segments.</li>
+</ul>
+</li>
+</ul>
+<p>Continue Kernel Execution</p>
+<p>The first few instructions executed:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>80200000: 00007117      auipc   sp, 0x7
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>80200004: 00010113      mv      sp, sp
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>80200008: 00000097      auipc   ra, 0x0
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>8020000c: 174080e7      jalr    0x174(ra) &lt;main&gt;
 </code></pre></div>
-<p>源代码（<code>entry.S</code>）：</p>
+<p>Source code (<code>entry.S</code>):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="w">    </span><span class="na">.section</span><span class="w"> </span><span class="no">.text.entry</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">_entry</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nl">_entry:</span>
@@ -1760,17 +1593,17 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">boot_stack_top</span>
 <a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="nl">boot_stack_top:</span>
 </code></pre></div>
-<p>在这段代码中：</p>
+<p>In this segment of code:</p>
 <ul>
-<li>我们使用 <code>auipc</code> 和 <code>addi</code> 指令，将栈指针指向 <code>boot_stack_top</code>，这是我们提前为第一个内核入口开辟的栈。</li>
-<li>我们通过 <code>auipc</code> 和 <code>jalr</code> 指令，跳转到 main 函数继续执行。</li>
+<li>We utilize the <code>auipc</code> and <code>addi</code> instructions to direct the stack pointer towards <code>boot_stack_top</code>, a stack we have pre-allocated for the initial kernel entry.</li>
+<li>Through the <code>auipc</code> and <code>jalr</code> instructions, we execute a jump to the main function to continue the program's execution.</li>
 </ul>
 <div class="admonition info">
-<p class="admonition-title">为什么需要使用汇编作为内核入口</p>
-<p>因为在内核入口处，OpenSBI 没有为我们设置 sp 栈指针，而 C 语言的运行环境要求有栈作为保存栈上变量和函数调用保存寄存器的地点，所以我们首先需要使用汇编初始化 sp 寄存器。</p>
+<p class="admonition-title">Why Use Assembly for Kernel Entry?</p>
+<p>At the kernel entry, OpenSBI does not set the stack pointer (<code>sp</code>). Since C requires a stack for local variables and function calls, we use assembly to initialize <code>sp</code>.</p>
 </div>
-<p>运行完上述汇编代码后，内核跳转到 main 函数：</p>
-<p>观察 main.c 中的 main 函数：</p>
+<p>The kernel then jumps to <code>main</code> in <code>main.c</code>:</p>
+<p>observe main function in file main.c</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;clean bss: %p - %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s_bss</span><span class="p">,</span><span class="w"> </span><span class="n">e_bss</span><span class="p">);</span>
@@ -1787,42 +1620,42 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="p">}</span>
 </code></pre></div>
 <ul>
-<li>首先清空 .bss 段（在 Linux 操作系统上，这一步是 Linux Kernel 实现的，但是现在我们就是 Kernel，所以这件事情得自己干）</li>
-<li>然后用 printf 打印一些信息，随后开始死循环。</li>
+<li>Clears the <code>.bss</code> section (normally done by the Linux kernel, but we’re the kernel now).</li>
+<li>Prints messages and enters an infinite loop.</li>
 </ul>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>clean bss: 0x0000000080207000 - 0x0000000080207000
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>Kernel booted.
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>Hello World!
 </code></pre></div>
 <div class="admonition question">
-<p class="admonition-title">Lab 实验报告 3</p>
-<p>尝试读取 CSR <code>mvendorid</code>。</p>
-<p>在 <code>main.c</code> 中，在 <code>while(1);</code> 死循环前加入以下代码：</p>
+<p class="admonition-title">Lab Report 3</p>
+<p>Attempt to read the <code>mvendorid</code> CSR.  </p>
+<p>In <code>main.c</code>, add before the <code>while(1);</code> loop:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">uint64</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">asm</span><span class="w"> </span><span class="k">volatile</span><span class="p">(</span><span class="s">&quot;csrr %0, mvendorid&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;=r&quot;</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">printf</span><span class="p">(</span><span class="s">&quot;csr: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
 </code></pre></div>
-<p><code>make run</code> 编译并运行，你的程序能正常读取到 CSR mvendorid 的值吗？</p>
-<p>阅读 RISC-V Privilege 手册 (riscv-privilege.pdf) 章节 2.1  CSR Address Mapping Conventions 以及 2.2 CSR Listing，猜测为什么你的程序会无限重启。</p>
+<p>Compile and run with <code>make run</code>. Can your program read the <code>mvendorid</code> CSR value?  </p>
+<p>Refer to the RISC-V Privileged Manual (riscv-privileged.pdf), Sections 2.1 (CSR Address Mapping Conventions) and 2.2 (CSR Listing), and explain why your program might restart infinitely.</p>
 </div>
 <h4 id="sbi-call">SBI Call<a class="headerlink" href="#sbi-call" title="Permanent link">&para;</a></h4>
-<p>在这个 lab 的内核中，<code>printf</code> 会调用 <code>consputc</code> 来向控制台打印一个字符，而这个函数最终会调用 <code>sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0)</code>。</p>
-<p>在我们的操作系统中，如果需要访问硬件提供的功能（包括对串口输入输出的访问函数<code>sbi_console_putchar</code> 和 <code>sbi_console_getchar</code>），我们首先需要设置 a0、a1 等寄存器，然后通过 <code>ecall</code> 指令向 M Mode 的程序，即 OpenSBI，发起请求。OpenSBI 在完成请求后会返回。</p>
+<p>In this lab’s kernel, <code>printf</code> calls <code>consputc</code> to print characters to the console, which ultimately invokes <code>sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0)</code>.</p>
+<p>To access hardware functions (e.g., <code>sbi_console_putchar</code> and <code>sbi_console_getchar</code>), we set registers like <code>a0</code> and <code>a1</code>, then use the <code>ecall</code> instruction to request service from OpenSBI in <strong>M mode</strong>. OpenSBI processes the request and returns.</p>
 <div class="admonition info">
-<p class="admonition-title">内联汇编</p>
-<p><strong>ecall</strong> (environment call)，当我们在 S 态执行这条指令时，会触发一个 ecall-from-s-mode-exception，从而进入 M 模式中的中断处理流程（如设置定时器等）；当我们在 U 态执行这条指令时，会触发一个 ecall-from-u-mode-exception，从而进入 S 模式中的中断处理流程（常用来进行系统调用）。</p>
-<p>注意，C语言并不能直接调用 <code>ecall</code> , 需要通过内联汇编来实现。</p>
+<p class="admonition-title">Inline Assembly</p>
+<p><strong>ecall</strong> (environment call): When we execute this instruction in S-mode, it triggers an <code>ecall-from-s-mode-exception</code>, entering the interrupt handling process in M-mode (e.g., setting a timer, etc.); when we execute this instruction in U-mode, it triggers an <code>ecall-from-u-mode-exception</code>, entering the interrupt handling process in S-mode (commonly used for system calls).</p>
+<p>Note that C language cannot directly invoke <code>ecall</code>; it needs to be implemented using inline assembly.</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Calling Convention</p>
-<p>Calling Convention 表示在进行函数调用时，调用者 (Caller) 和 被调用者 (Callee) 所遵循的规范。</p>
-<p>这通常包含了：</p>
+<p>A <strong>Calling Convention</strong> defines the rules for function calls between the caller and callee.</p>
+<p>including:  </p>
 <ol>
-<li>参数与返回值是如何传递</li>
-<li>Caller 和 Callee 需要保存哪些寄存器</li>
+<li>How parameters and return values are passed.  </li>
+<li>Which registers the caller and callee must preserve.</li>
 </ol>
 </div>
-<p>SBI 的 Calling Convention 定义如下 (riscv-sbi.pdf)：</p>
+<p>SBI’s calling convention (riscv-sbi.pdf):  </p>
 <p>All SBI functions share a single binary encoding, which facilitates the mixing of SBI extensions. The SBI specification follows the below calling convention.</p>
 <ul>
 <li>An ECALL is used as the control transfer instruction between the supervisor and the SEE.</li>
@@ -1831,17 +1664,17 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <li>All registers except a0 &amp; a1 must be preserved across an SBI call by the callee.</li>
 <li>SBI functions must return a pair of values in a0 and a1, with a0 returning an error code. </li>
 </ul>
-<p>而我们要使用的 putchar 和 getchar 是来自 Legacy Extensions：</p>
+<p>For legacy extensions (e.g., <code>putchar</code>/<code>getchar</code>):  </p>
 <ul>
 <li>Nothing is returned in a1 register.</li>
 <li>All registers except a0 must be preserved across an SBI call by the callee.</li>
 <li>The value returned in a0 register is SBI legacy extension specific.</li>
 </ul>
-<p>按照 RISC-V 的 Calling Convention，参数是通过 a 系列寄存器传递，从 a0 开始。</p>
-<p>在 <code>sbi_call_legacy</code> 函数中，我们首先声明了4个变量，并且注明他们应该直接被分配到相应的寄存器上 (<code>register</code>, <code>asm("a0")</code>)。</p>
-<p>随后，我们将 a7 赋值为我们要调用哪个 SBI 函数，三个参数分别赋值给 a0, a1 和 a2。</p>
-<p>然后，我们使用 asm volatile 进行 ecall 调用。</p>
-<p>最后，返回 a0 寄存器的值。</p>
+<p>According to the RISC-V Calling Convention, parameters are passed through the <code>a</code> series of registers, starting from <code>a0</code>.  </p>
+<p>In the <code>sbi_call_legacy</code> function, we first declare four variables and specify that they should be directly assigned to the corresponding registers (<code>register</code>, <code>asm("a0")</code>).  </p>
+<p>Next, we assign the value of <code>a7</code> to indicate which SBI function we want to call, and assign the three parameters to <code>a0</code>, <code>a1</code>, and <code>a2</code> respectively.  </p>
+<p>Then, we use <code>asm volatile</code> to perform the <code>ecall</code> instruction.  </p>
+<p>Finally, we return the value of the <code>a0</code> register.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">const</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">SBI_CONSOLE_PUTCHAR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">const</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">SBI_CONSOLE_GETCHAR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
@@ -1859,23 +1692,25 @@ Reset Vector 指向的地址空间一般是由 RISC-V 片上的 Block ROM 提供
 <a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">    </span><span class="n">sbi_call_legacy</span><span class="p">(</span><span class="n">SBI_CONSOLE_PUTCHAR</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 <a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>asm volatile</code> 表示在 C 代码中直接插入汇编代码（内联汇编），它分为四部分：</p>
+<p><code>asm volatile</code> is used to directly insert assembly code (inline assembly) into C code. It consists of four parts:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>asm asm-qualifiers ( AssemblerTemplate 
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>                 : OutputOperands 
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>                 [ : InputOperands
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>                 [ : Clobbers ] ])
 </code></pre></div>
-<p>我们使用 <code>volatile</code> 作为 asm-qualifiers 表示禁止编译器对这一段代码进行可能的优化。</p>
-<p>AssemblerTemplate 表示汇编的模板，OutputOperands 表示哪些 C 变量应该被是为这一段汇编的输出，InputOperands 表示哪些 C 变量应该被视为这一段汇编的输入，Clobbers 表示哪一些寄存器或系统状态会被这一段汇编代码修改。</p>
-<p>See also: <a href="https://gcc.gnu.org/onlinedocs/gcc-12.1.0/gcc/Extended-Asm.html">https://gcc.gnu.org/onlinedocs/gcc-12.1.0/gcc/Extended-Asm.html</a></p>
+<p>We use <code>volatile</code> as an asm-qualifier to indicate that the compiler should not perform any potential optimizations on this segment of code.  </p>
+<p><code>AssemblerTemplate</code> represents the template of the assembly code.  <code>OutputOperands</code> specifies which C variables should be treated as the output of this assembly segment.  <code>InputOperands</code> specifies which C variables should be treated as the input of this assembly segment.  <code>Clobbers</code> indicates which registers or system states will be modified by this assembly code.</p>
+<ul>
+<li>See: <a href="https://gcc.gnu.org/onlinedocs/gcc-12.1.0/gcc/Extended-Asm.html">https://gcc.gnu.org/onlinedocs/gcc-12.1.0/gcc/Extended-Asm.html</a></li>
+</ul>
 <div class="admonition question">
-<p class="admonition-title">Lab 实验报告 4</p>
-<p>尝试调用新版本 SBI 的 <code>sbi_get_spec_version()</code> 方法。</p>
-<p>在 <code>main.c</code> 中，在 <code>while(1);</code> 死循环前加入以下代码：</p>
+<p class="admonition-title">Lab Report 4</p>
+<p>Call the newer SBI function <code>sbi_get_spec_version()</code>.  </p>
+<p>In <code>main.c</code>, add before the <code>while(1);</code> loop:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sbiret</span><span class="w"> </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sbi_call</span><span class="p">(</span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="o">?</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sbicall: err: %d, ret: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ret</span><span class="p">.</span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">ret</span><span class="p">.</span><span class="n">value</span><span class="p">);</span>
 </code></pre></div>
-<p>参照 SBI 手册 riscv-sbi.pdf，填入 ? 应该的值。<code>make run</code> 编译并运行，解释输出的值。</p>
+<p>Refer to the SBI manual (riscv-sbi.pdf) to fill in the <code>?</code> values. Compile and run with <code>make run</code>, then explain the output values.</p>
 </div>
 
 
