@@ -1583,6 +1583,11 @@
 
 
 <h1 id="trap-exception-and-interrupt">Trap, Exception and Interrupt<a class="headerlink" href="#trap-exception-and-interrupt" title="Permanent link">&para;</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">xv6-lab2 代码分支</p>
+<p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab2">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab2</a></p>
+<p>使用命令 <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab2 xv6lab2</code> 下载 xv6-lab2 代码。</p>
+</div>
 <div class="admonition info">
 <p class="admonition-title">推荐阅读</p>
 <p>CSAPP, Chapter 8, Exceptional Control Flow.</p>
@@ -1612,11 +1617,11 @@ When an interrupt that must be serviced occurs, some instruction is selected to 
 <p>Source: riscv-spec-v2.1.pdf, Section 1.3 "Exceptions, Traps, and Interrupts".</p>
 <div class="admonition info">
 <p class="admonition-title">RISC-V 与 x86 的不同：</p>
-<p>在不同的教材中，我们对 Exception (异常)、Trap (陷阱) 和 Interrupt (中断) 有着类似的定义，例如 CSAPP 参照 x86 模型描述了如下四种类型的控制流中断：主要区别在于异常控制流产生是否同步与指令流、以及跳转至异常控制流后时候会返回到原来程序的控制流。</p>
+<p>在不同的教材中，我们对 Exception (异常)、Trap (陷阱) 和 Interrupt (中断) 有着类似的定义，例如 CSAPP 参照 x86 模型描述了如下四种类型的控制流中断：主要区别在于异常控制流产生是否与指令流同步、以及跳转至异常控制流后是否会返回到原来程序的控制流。</p>
 <p><img alt="alt text" src="../../assets/xv6lab-interrupts/csapp-definition.png" /></p>
 <p>例如，x86 中的异常类型： Page Fault (缺页异常)，Machine Check (Abort) (内存或硬件错误)。</p>
-<p>但是，在 RISC-V 模型下，上述的返回行为均是可以通过软件模拟的，所以在 RISC-V 硬件模型上，导致控制流改变的原因只有两种：异常 (Exception) 和中断 (Interrupt)。</p>
-<p>Note: RISC-V 硬件层面有一种极其精简的设计语言：只要软件能处理的事情，硬件一概不处理。</p>
+<p>但是，在 RISC-V 模型下，上述的返回行为均是可以通过软件模拟的，所以在 RISC-V 硬件模型上，导致控制流改变的原因只有两种：异常 (Exception) 和中断 (Interrupt)。而导致控制流改变的结果就是进入 Trap。</p>
+<p>Note: RISC-V 硬件层面有一种极其精简的设计语言：只要软件能处理的事情，硬件一概不管。</p>
 </div>
 <h2 id="csr-mstatussstatus">CSR: mstatus/sstatus<a class="headerlink" href="#csr-mstatussstatus" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
@@ -1843,7 +1848,7 @@ while sie is the corresponding 64-bit read/write register containing interrupt e
 <a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w">    </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;kernel panic&quot;</span><span class="p">);</span>
 <a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="p">}</span>
 </code></pre></div>
-<p>在进入 <code>kernel_trap</code> 时，CPU 的中断位 <code>sstatus.SIE</code> 应该是保持关闭的，并且 Previous Privilege 应该是 Supervisor 模式，我们使用 assert（断言）来确保代码是按照预期执行的</p>
+<p>在进入 <code>kernel_trap</code> 时，CPU 的中断位 <code>sstatus.SIE</code> 应该是保持关闭的，并且 Previous Privilege 应该是 Supervisor 模式，我们使用 assert（断言）来确保代码是按照预期执行的。</p>
 <div class="admonition info">
 <p class="admonition-title">为什么我们要写 assert</p>
 <p>断言（Assertions）在操作系统开发中是一个非常重要的调试和错误检测工具。断言可以帮助开发者在程序执行的早期阶段捕获可能的逻辑错误。通过在代码中插入断言，我们可以立即检测到不符合预期的状态或条件，而不是等到程序崩溃或产生不可预测的行为后，再来猜测问题可能出在哪里。</p>
@@ -1998,8 +2003,8 @@ increment the minstret CSR.</p>
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/ecfe69dd, 2025-03-05 18:45:29+08:00" target="_blank" rel="noopener">
-            ecfe69dd, 2025-03-05 18:45:29+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/d89f8fcb, 2025-03-05 18:51:22+08:00" target="_blank" rel="noopener">
+            d89f8fcb, 2025-03-05 18:51:22+08:00
         </a>
     </div>
 </div>
