@@ -1,5 +1,10 @@
 # Trap, Exception and Interrupt
 
+!!!warning "xv6-lab2 代码分支"
+    https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab2
+
+    使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab2 xv6lab2` 下载 xv6-lab2 代码。
+
 !!!info "推荐阅读"
     CSAPP, Chapter 8, Exceptional Control Flow.
 
@@ -36,15 +41,15 @@ When an interrupt that must be serviced occurs, some instruction is selected to 
 Source: riscv-spec-v2.1.pdf, Section 1.3 "Exceptions, Traps, and Interrupts".
 
 !!!info "RISC-V 与 x86 的不同："
-    在不同的教材中，我们对 Exception (异常)、Trap (陷阱) 和 Interrupt (中断) 有着类似的定义，例如 CSAPP 参照 x86 模型描述了如下四种类型的控制流中断：主要区别在于异常控制流产生是否同步与指令流、以及跳转至异常控制流后时候会返回到原来程序的控制流。
+    在不同的教材中，我们对 Exception (异常)、Trap (陷阱) 和 Interrupt (中断) 有着类似的定义，例如 CSAPP 参照 x86 模型描述了如下四种类型的控制流中断：主要区别在于异常控制流产生是否与指令流同步、以及跳转至异常控制流后是否会返回到原来程序的控制流。
 
     ![alt text](../assets/xv6lab-interrupts/csapp-definition.png)
 
     例如，x86 中的异常类型： Page Fault (缺页异常)，Machine Check (Abort) (内存或硬件错误)。
 
-    但是，在 RISC-V 模型下，上述的返回行为均是可以通过软件模拟的，所以在 RISC-V 硬件模型上，导致控制流改变的原因只有两种：异常 (Exception) 和中断 (Interrupt)。
+    但是，在 RISC-V 模型下，上述的返回行为均是可以通过软件模拟的，所以在 RISC-V 硬件模型上，导致控制流改变的原因只有两种：异常 (Exception) 和中断 (Interrupt)。而导致控制流改变的结果就是进入 Trap。
 
-    Note: RISC-V 硬件层面有一种极其精简的设计语言：只要软件能处理的事情，硬件一概不处理。
+    Note: RISC-V 硬件层面有一种极其精简的设计语言：只要软件能处理的事情，硬件一概不管。
 
 ## CSR: mstatus/sstatus
 
@@ -257,7 +262,7 @@ kernel_panic:
 }
 ```
 
-在进入 `kernel_trap` 时，CPU 的中断位 `sstatus.SIE` 应该是保持关闭的，并且 Previous Privilege 应该是 Supervisor 模式，我们使用 assert（断言）来确保代码是按照预期执行的
+在进入 `kernel_trap` 时，CPU 的中断位 `sstatus.SIE` 应该是保持关闭的，并且 Previous Privilege 应该是 Supervisor 模式，我们使用 assert（断言）来确保代码是按照预期执行的。
 
 !!!info "为什么我们要写 assert"
     断言（Assertions）在操作系统开发中是一个非常重要的调试和错误检测工具。断言可以帮助开发者在程序执行的早期阶段捕获可能的逻辑错误。通过在代码中插入断言，我们可以立即检测到不符合预期的状态或条件，而不是等到程序崩溃或产生不可预测的行为后，再来猜测问题可能出在哪里。
