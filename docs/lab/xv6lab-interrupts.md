@@ -5,6 +5,8 @@
 
     使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab2 xv6lab2` 下载 xv6-lab2 代码。
 
+    使用 `make run` 运行本次 Lab 的内核，你将会看到一次 Kernel Panic。
+
 !!!info "推荐阅读"
     CSAPP, Chapter 8, Exceptional Control Flow.
 
@@ -89,18 +91,18 @@ mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-
 我们首先列举一下在 Trap 处理流程中用到的寄存器：
 
 - stvec : Supervisor Trap Vector Base Address Register
-  - 存储 Trap 处理函数地址。一般称之“中断向量”，我们会在后续讲解。
+    - 存储 Trap 处理函数地址。一般称之“中断向量”，我们会在后续讲解。
 - sip : Supervisor Interrupt Pending
-  - 表示有哪些中断等待处理
+    - 表示有哪些中断等待处理
 - sie : Supervisor Interrupt Enabled
-  - 表示可以处理那些中断
-  - 注意不要与 sstatus.SIE 搞混。
+    - 表示可以处理那些中断
+    - 注意不要与 sstatus.SIE 搞混。
 - sepc: Supervisor Exception Program Counter
-  - 发生中断时的 PC 指针
+    - 发生中断时的 PC 指针
 - scause: Supervisor Cause
-  - 发生中断的原因
+    - 发生中断的原因
 - stval: Supervisor Trap Value
-  - 发生中断的额外信息
+    - 发生中断的额外信息
 
 ### stvec
 
@@ -167,9 +169,9 @@ RISC-V 使用 `sret` 指令从 Supervisor 的 Trap 中退出，该指令会执�
 
 在 Trap 发生时，pc 会被设置为 stvec 中保存的 Trap 处理函数地址。同时，原来的 PC 指针会被保存到 `sepc`，产生中断的原因会被写入 `scause`，一些辅助值会被写入 `stval`，特权级状态会被保存到 `sstatus.SPP`，中断会被保存到 `sstatus.SPIE`，以及 `sstatus.SIE` 会被关闭，防止在 Trap 处理函数中遇到中断。
 
-在 Trap Handler 执行完毕后，我们仍然要回到原来的程序中继续执行。而在刚刚进入 Trap 处理函数时，31 个 GPR x1-x31 均是原来的程序正在使用中的寄存器。Trap Handler 需要保证在控制流回到原先的程序后， GPR 应该与产生 Trap 前一致。所以，我们需要一些内存空间来保存这些寄存器，并在从 Trap 中返回时恢复它们原来的值。
+在 Trap Handler 执行完毕后，我们仍然要回到原来的程序中继续执行。而在刚刚进入 Trap 处理函数时，31 个 GPR x1-x31 均是原来的程序正在使用中的寄存器。Trap Handler 需要保证在控制流回到原先的程序后， GPR 应该与产生 Trap 前一致。所以，我们需要一些内存空间来保存这些寄存器，并在从 Trap 中返回时恢复它们原来的值。我们可以将这些寄存器称为原先程序的 Context (上下文)。
 
-在一进入 Trap Handler 时，我们可以假定之前的程序是在执行 C 代码，以及它拥有一个合法的栈。**所以，我们可以在栈上借用一些空间！** 额外的，我们当然希望 Trap 处理函数能是 C 语言写的，而这也需要一个合法的栈空间，所以，我们可以直接借用原来正在执行的程序所用的栈空间，只要我们确保 sp 指针能被复原即可。并且， C 语言编译器在使用栈时，借多少空间就会还多少空间；所以我们只需要保证我们在汇编层面对栈的操作是平衡的，剩下的就可以放心地交给编译器了。
+在一进入 Trap Handler 时，我们可以假定之前的程序是在执行 C 代码，以及它拥有一个合法的栈。并且，我们当然希望 Trap 处理函数能是 C 语言写的，而这也需要一个合法的栈空间。**所以，我们可以直接借用原来正在执行的程序所用的栈空间** ，只要我们确保 sp 指针能被复原即可。并且， C 语言编译器在使用栈时，借多少空间就会还多少空间；所以我们只需要保证我们在汇编层面对栈的操作是平衡的，剩下的就可以放心地交给编译器了。
 
 ### 代码解读
 
@@ -180,7 +182,7 @@ stvec 规定 Trap 处理函数入口一定是对齐到 4 bytes (即最后两 bit
 
 在我们的代码中，我们使用 Direct 模式。
 
-我们在 `entry.S` 中定义了适用于 S mode 的中断向量入口点 `kernel_trap_entry` ：
+我们在 `trapentry.S` 中定义了适用于 S mode 的中断向量入口点 `kernel_trap_entry` ：
 
 ```asm
     .globl kernel_trap_entry
@@ -213,7 +215,7 @@ kernel_trap_entry:
     sret
 ```
 
-入口点在栈上申请 0x100 bytes 的空间，并保存所有通用寄存器到栈上。此时，栈上保存了 32 个寄存器，每个占用空间 8 bytes，总共占用 0x100 bytes，从低地址到高地址分别是从 x0 到 x31。我们定义一个结构体 `struct ktrapframe`，并使它的内存布局和此时栈上的寄存器布局一致。这样的话，我们在 C 语言中就可以直接对一个 `struct ktrapframe*` 的指针进行解引用，来访问到此时在栈上保存的所有 GPR。
+入口点会在栈上申请 0x100 bytes 的空间，并保存所有通用寄存器到栈上。此时，栈上保存了 32 个寄存器，每个占用空间 8 bytes，总共占用 0x100 bytes，从低地址到高地址分别是从 x0 到 x31。我们定义一个结构体 `struct ktrapframe`，并使它的内存布局和此时栈上的寄存器布局一致。这样的话，我们在 C 语言中就可以直接对一个 `struct ktrapframe*` 的指针进行解引用，来访问到此时在栈上保存的所有 GPR。
 
 然后，将 `a0` 设置为 `sp`，调用 `kernel_trap` ，进入 C 代码继续处理 Trap。
 由于 RISC-V 使用 a0 作为传递第一个参数的寄存器，a0 此时指向栈上的 `struct ktrapframe` 结构体，所以 `kernel_trap` 函数可以直接将第一个参数设为 `struct ktrapframe* ktf`。
@@ -233,7 +235,6 @@ void kernel_trap(struct ktrapframe *ktf) {
             case SupervisorTimer:
                 debugf("s-timer interrupt, cycle: %d", r_time());
                 set_next_timer();
-                // we never preempt kernel threads.
                 break;
             case SupervisorExternal:
                 debugf("s-external interrupt.");
@@ -281,8 +282,7 @@ kernel_panic:
 
 ## Lab 实验报告
 
-在 `main.c` 中，将 `int labreport = 0;` 改为 `int labreport = 1;`，它会启用下面的一段代码。
-这一段代码会使用 `ebreak` 指令主动触发一次异常。请你修改 `trap.c` 里面的 `kernel_trap` 使其：
+在 `main.c` 中， `ebreak` 指令主动触发一次异常。请你修改 `trap.c` 里面的 `kernel_trap` 使其：
 
 1. 能够从 ebreak 产生的 Exception 中恢复，而不是 Kernel Panic
 
@@ -332,24 +332,17 @@ RISC-V 特权级手册，Section `3.3.1 Environment Call and Breakpoint` 解释 
 
 Note: 你可以在 `build/kernel.asm` 里面查阅整个内核镜像的反汇编结果，即每个地址上是什么指令。
 
-### Question 4
-
-请你在 `debugf("breakpoint");` 后面加一条代码，实现在退出 Trap 后，s11 寄存器会被更改为 `0x12345678`。你应该能在 printf 中看到该值。
-
-
 ## Interrupt
 
-RISC-V 规范定义了每个 Hart 有三个标准的中断：时钟中断 (Timer)、软件中断 (Software) 和外部中断 (External)。
-
-RISC-V 
+RISC-V 规范定义了每个 Hart 的 M/S mode 各有三种标准的中断：时钟中断 (Timer)、软件中断 (Software) 和外部中断 (External)。
 
 ### 什么时候能处理 Interrupt
 
-RISC-V 定义了三种标准的中断：Software Interrupt, Timer Interrupt 和 External Interrupt，对应 scause 中的 Exception Code 1, 5, 9, 对应 sip/sie 中的第 1, 5, 9 bit.
+RISC-V 定义了三种标准的中断：Software Interrupt, Timer Interrupt 和 External Interrupt，对应 scause 中的 Exception Code 1, 5, 9， 对应 sip/sie 中的第 1, 5, 9 bit。
 
 <!-- 中断源会拉高 Hart 的 sip 中的 bit，Hart 会判断当前能否进入中断。 -->
 
-进入中断的条件：
+当 Interrupt 到来时，RISC-V 核心会检测当前是否能够处理中断，即是否能进入 Trap：
 
 - (当前运行在 S 模式，且 `sstatus.SIE` == 1) 或者 当前运行在 U 模式。
 - 中断类型 bit i 在 `sie` 和 `sip` 中均为 1.
@@ -362,38 +355,61 @@ RISC-V 定义了三种标准的中断：Software Interrupt, Timer Interrupt 和 
 
 当 Software/Timer/External Interrupt 到达 CPU 时，`sip` 中对应的 bit 会被拉高，然后 CPU 会按照如上条件进行检查，如果符合条件，则会进入 Trap。
 
-
 ### 时钟中断
 
 时钟中断可以理解为每隔一段时间执行一次的程序。即每隔一段时间，会固定触发一次的中断。在时钟中断的处理时，我们可以完成进程调度等操作。
 
-RISC-V 平台提供了一个实时的时间计数器: `mtime` 寄存器，该寄存器以恒定的频率增长，并且在所有核心之间共享。另外，RISC-V 对每个核心提供了一个 `mtimecmp` 寄存器，每当 `mtime >= mtimecmp` 时，该核心就会拉高时钟中断的 `sip.STIP` bit，如果核心满足进入中断 Trap 的条件，则会进入时钟中断。
+RISC-V 平台提供了一个实时的时间计数器: `time` 寄存器，该寄存器以恒定的频率增长，并且在所有核心之间共享。另外，RISC-V 对每个核心的提供了一个 `timecmp` 寄存器，每当 `time >= timecmp` 时，该核心就会拉高时钟中断的 `sip.STIP` bit，如果核心满足进入中断 Trap 的条件，则会进入 Trap 。
 
-SBI 提供了一个 SBI call：`SBI_SET_TIMER` 允许 Supervisor 软件设置 `mtimecmp` 寄存器。在已知 mtime 寄存器的增长频率后，我们可以计算 10ms 后 mtime 会增长多少，并设置 mtimecmp 为该值，我们即可在 10ms 后收到一次时钟中断。在每次进入时钟中断时，我们再次计算下次的 mtimecmp，即可实现每 10ms 收到一次时间中断。
+SBI 提供了一个 SBI call：`SBI_SET_TIMER` 允许 Supervisor 软件设置 `timecmp` 寄存器。在已知 time 寄存器的增长频率后，我们可以计算一定时间 (如 10ms) 内 time 会增长多少，并设置 timecmp 为该值，我们即可在 10ms 后收到一次时钟中断。在每次进入时钟中断时，我们再次计算并设置下次的 timecmp，由此实现每 10ms 收到一次时间中断。
 
 时钟部分的代码位于 `timer.c`。
 
-在初始化时钟中断时，我们通过 SBI call `SET_TIMER` 设置 `mtimecmp`，并在 `sie` 中启用时钟中断 `SIE_STIE`。
+在初始化时钟中断时，我们通过 SBI call `SET_TIMER` 设置 `timecmp`，并在 `sie` 中启用时钟中断 `SIE_STIE`。
 
-在 `kernel_trap` 中处理时钟中断时，我们计算下一次的 `mtimecmp`，并再次 SBI call `SET_TIMER`，循环往复。
+在 `kernel_trap` 中处理时钟中断时，我们计算下一次的 `timecmp`，并再次 SBI call `SET_TIMER`，循环往复。
 
-!!!question "Lab 实验"
-    请你将 `TICKS_PER_SEC` 宏修改为 1，`make run` 后观察每次触发时钟中断时的 cycle 读数。
+!!!question "Lab 实验报告 - Question 4"
+    将 `main.c` 中的 `asm volatile("ebreak" ::: "s11");` 一行代码注释掉，并将 `intr_on()` 取消注释。
+    
+    使用 `make run` 后观察每次触发时钟中断时的 cycle 读数。
 
-    注释掉 `trap.c` 中 `kernel_trap` 调用 `set_next_timer`，并再次 `make run` 观察每次触发时钟中断时的 cycle 读数。
+    注释掉 `trap.c` 中 `kernel_trap` 调用 `set_next_timer()`，并再次 `make run` 观察每次触发时钟中断时的 cycle 读数。
 
-    请解释你的发现。
+    请解释现象和为什么会这样。
+
+!!!info "mtimecmp 和 stimecmp"
+    实际上，标准的 RISC-V 特权级手册只定义了 M-mode 的 `mtimecmp` 寄存器。S mode 的软件需要使用 SBI call 设置时钟中断，这实际上是通过 OpenSBI 设置 `mtimecmp` ，并在 `mtvec` 中将 `STIP` 置 1 来实现为 S mode 设置时钟中断的。这也体现了 RISC-V 硬件设计上能不管就不管的原则，以及 M mode 通过 emulate 来为上层软件模拟行为。
+
+    实际上，特权级切换是一个相当耗时的操作，为了改进 Supervisor 时间中断的性能，RISC-V 规定了 Sstc 扩展，创建了 `stimecmp` CSR，允许 Supervisor 直接设置其时钟中断计数器。
+
+    我们可以在 QEMU 的 CPU flags 中将 Sstc 扩展禁用掉（`-cpu rv64,sstc=off`），来观察 OpenSBI 在没有 Sstc 时的行为。我们可以直接使用命令 `qemu-system-riscv64 -nographic -machine virt -cpu rv64,svadu=off,sstc=off -m 512 -kernel build/kernel  -S -gdb tcp::3333` 来启动一个带调试器的 qemu。
+
+    挂载 GDB 后，我们是用 `c` (continue) 命令继续执行，当 QEMU 输出出现 `kernel_trap: s-timer interrupt` 时，在 GDB 终端中按 Ctrl-C 中断执行，使用`print $mtvec` 得到 M mode 的中断向量地址，并使用 `b *0x800004f0` 在中断向量上打断点。
+
+    使用 `c` 继续执行，在命中 `0x800004f0` 的断点时，我们使用 `print $mcause` 查询 M mode 的 Trap 原因。
+
+    我们应该会看到，在没有 `Sstc` 时，mcause 会有两个值 `0x8000000000000007` 和 `0x9`，分别对应着 M-mode Timer Interrupt 和来自 S-mode 的 `ecall`。如果有 `Sstc` 扩展，我们会发现 `mcause` 只会有 `0x9` 一种值。这种情况下，使用 SBI_SET_TIMER 时，OpenSBI 会直接设置 `stimecmp` 寄存器，避免了 S mode 的时钟中断通过 OpenSBI 路由。
 
 
-### PLIC (Platform-Level Interrupt Controller)
+### 外部中断
 
-PLIC 是 RISC-V 平台上用于管理外部中断的 IP 核，每个 RISC-V 平台拥有多个核心 (Hart)，而每个平台一般只有一个 PLIC。
+我们之前描述中断与 Trap 时，我们说的是 "当 Interrupt 到来时，RISC-V 核心..."。所以，外部中断是如何来到每个核心的？
+
+PLIC (Platform-Level Interrupt Controller) 是 RISC-V 平台上用于管理外部中断的 IP 核，每个 RISC-V 平台拥有多个核心 (Hart)，而每个平台一般只有一个 PLIC。
+
+简而言之，每个外设均会向 PLIC 通报自己有中断需要处理，而每个设备的中断均有一个中断号，PLIC 会根据预先配置的规则，将该中断路由 (Routing) 给某(些)核心处理，并拉起该核心的 mip.MEIP/sip.SEIP 以请求中断核心。
+
+核心需要向 PLIC 声明 (Claim) 自己来负责处理这个中断，并在处理完毕后声明自己完成了这个中断的处理 (Complete)。
 
 Specification: https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.adoc
 
+!!!info "AMD64 和 Aarch64"
+    x86 (IA32)，x86-64 (AMD64) 和 ARM 平台上也有类似的全局中断处理器：[PIC](https://wiki.osdev.org/8259_PIC), [APIC](https://wiki.osdev.org/APIC), [GIC](https://developer.arm.com/documentation/198123/0302/What-is-a-Generic-Interrupt-Controller-)
+
 #### PLIC 结构
 
-PLIC 管理 1~1023 个中断源，每个中断源拥有一个优先级 Priority 。PLIC 将能够接收中断的对象 (Interrupt Targets) 称为 Hart Context (where a hart context is a given privilege mode on a given hart)，每个 Context 可以视为一个二元组 (Hart ID, Privilege Level) 对应着一个 Hart 和一个特权级别。由于目前 RISC-V 没有规定 User-Mode Interrupt，（RISC-V privilege spec 只规定了 mie/mip 和 sie/sip，对应着 Machine Mode 和 Supervisor Mode 的中断），我们可以认为每个核心拥有两个 Context，分别对应着该 Hart 的 M mode 和 S mode 的中断。
+PLIC 可以管理 1~1023 个中断源，每个中断源拥有一个优先级 Priority 。PLIC 将能够接收中断的对象 (Interrupt Targets) 称为 Hart Context (where a hart context is a given privilege mode on a given hart)，每个 Context 可以视为一个二元组 (Hart ID, Privilege Level) 对应着一个 Hart 和一个特权级别。由于目前 RISC-V 没有规定 User-Mode Interrupt，（RISC-V privilege spec 只规定了 mie/mip 和 sie/sip，对应着 Machine Mode 和 Supervisor Mode 的中断），我们可以认为每个核心拥有两个 Context，分别对应着该 Hart 的 M mode 和 S mode 的外部中断。
 
 PLIC 能够管理 0~15871 个 Context，能设置每个中断源是否允许路由至某个 Context (Enabled Bit)，每个 Context 能接收的 Priority Threshold。
 
@@ -403,12 +419,19 @@ PLIC 会拉起 Hart 的 mip.MEIP/sip.SEIP bit，而该 hart 是否进入 Interru
 
 #### Memory-Mapped Register
 
-PLIC 使用 Memory-Mapped Register 向系统暴露管理接口。对于每个寄存器 (消歧义：此处的寄存器不是特指 RISC-V 核心的 x0 - x31 GPRs)，我们使用偏移量来定位每个寄存器。通常，这种 IP 核有着固定的基地址，在 QEMU 上，对于 PLIC 这个地址是 `0x0c00_0000`。
+PLIC 使用 Memory-Mapped Register 向系统暴露管理接口。对于每个寄存器，我们使用偏移量来定位每个寄存器。通常，这种 IP 核有着固定的基地址，在 QEMU 上，对于 PLIC 这个基地址是 `0x0c00_0000`。
 
-```
-gef > monitor info mtree
-    000000000c000000-000000000c5fffff (prio 0, i/o): riscv.sifive.plic
-```
+!!!info "Memory-Mapped Register, MMIO"
+    Memory Mapped Register（内存映射寄存器）是一种在计算机体系结构中用于外围设备和硬件控制的重要技术。
+
+    Memory-Mapped Register 是指将硬件设备的寄存器直接映射到处理器的内存地址空间中。这意味着 CPU 可以像访问内存那样访问某个地址，而该地址实际上对应着某个设备内部的寄存器。
+
+    使用 Memory-Mapped Register 进行的 IO 操作即称为 Memory-Mapped I/O (MMIO)
+
+    ```
+    gef > monitor info mtree
+        000000000c000000-000000000c5fffff (prio 0, i/o): riscv.sifive.plic
+    ```
 
 例如，Specification 中的 Memory Map 规定，`base + 0x4 * i` 是第 i 个中断源的
 
@@ -420,13 +443,32 @@ base + 0x000008: Interrupt source 2 priority
 base + 0x000FFC: Interrupt source 1023 priority
 ```
 
-在 `plicinit` 中，我们向 `base + 10*4 = 1` 设置 UART0 (10号中断) 的 Interrupt Priority 为 1，在 `plicinithart` 中，我们将该 Hart 的 S-mode Context 允许来自 10 号中断、并设置 Priority Threshold 为 0，最后，启用该核心的 `sie.SEIE` 位，表示该核心允许 Supervisor-Mode External Interrupt。
-
-!!!question "Lab 练习"
-    请对照 PLIC Specification 中的 Memory Map 解释 `plic.c` 中对所有 PLIC 的 Memory-Mapped Register 的访问，并解释它们的意义。
+在 `plicinit` 中，我们向 `base + 10*4 = 1` 设置 UART0 (10号中断) 的 Interrupt Priority 为 1。在 `plicinithart` 中，我们将该 Hart 的 S-mode Context 允许来自 10 号中断、并设置 Priority Threshold 为 0。最后，启用该核心的 `sie.SEIE` 位，表示该核心允许 Supervisor-Mode External Interrupt。在 `main.c` 的 `while(1)` 循环前，我们使用 `intr_on` 打开整个 CPU 的 S mode 中断。
 
 #### Claim & Complete
 
 在 Hart 因为 External Interrupt 陷入 Trap 后，Hart 需要向 PLIC 申请处理该中断。在处理完成后，Hart 还需要向 PLIC 申明该中断处理完毕。
 
 ![alt text](../assets/xv6lab-interrupts/PLICInterruptFlow.jpg)
+
+#### 串口中断
+
+在 QEMU 平台上，串口所使用的设备模型是 uart8250。它的 MMIO 接口暴露了 8 个寄存器。具体的细节可见：https://www.lammertbies.nl/comm/info/serial-uart
+
+uart8250 具有一个读口和一个写口，分别是 `RHR` 和 `THR`，它们在寄存器 `LSR` 中各有一个 bit 表示读口有数据和写口空闲。读取和写入的函数位于 `uartgetc` 和 `uart_putchar`。
+
+在串口初始化函数 `console_init` 中，我们向 uart8250 的 MMIO 地址中的 `IER` 寄存器写入特殊的标志位，表示我们允许 uart8250 设备在有输入的时候产生中断。随后，我们向 PLIC 注册该设备的中断号 10，将其路由到当前核心的 S mode 下，并在 `kernel_trap` 中对其处理。
+
+```c
+if (cause & SCAUSE_INTERRUPT) {
+    // handle interrupt
+    switch (exception_code) {
+        case SupervisorExternal:
+            debugf("s-external interrupt.");
+            plic_handle();
+            break;
+    }
+}
+```
+
+`plic_handle` 函数会从 PLIC Claim 得到当前外部中断来源的中断号，如果它是 UART0 的中断号 10，那么就交给 `uart_intr()` 函数处理。
