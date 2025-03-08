@@ -107,7 +107,7 @@ mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-
     - 发生中断的额外信息
 
 ### stvec
-在异常或中断产生后，应该有个**Trap处理程序**来处理。`stvec`(Supervisor Trap Vector Base Address Register)即是所谓的”Trap向量表基址”。
+在异常或中断产生后，应该有个 **Trap处理程序** 来处理这些异常和中断。`stvec`(Supervisor Trap Vector Base Address Register)即是所谓的`Trap向量表基址`。
 向量表的作用就是把不同种类的 Trap 映射到对应的 Trap 处理程序。
 如果只有一个处理程序，那么可以让`stvec`直接指向那个处理程序的地址。
 
@@ -144,7 +144,7 @@ mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-
 ### sepc
 
 当一个 Trap 被捕获并进入 S 模式（Supervisor Mode）时，
-`sepc` 寄存器会被写入**被中断或遇到异常**的指令的虚拟地址。
+`sepc` 寄存器会被写入 **被中断或遇到异常** 的指令的虚拟地址。
 
 ### stval
 
@@ -304,7 +304,7 @@ kernel_trap_entry:
     // ...
 ```
 
-由于 RISC-V 使用 a0 作为传递第一个参数的寄存器，a0 此时指向栈上的 `struct ktrapframe` 结构体，所以 `kernel_trap` 函数可以直接将第一个参数设为 `struct ktrapframe* ktf`。
+由于 RISC-V 使用 a0 作为传递第一个参数的寄存器，a0 此时指向栈上的 `struct ktrapframe` 结构体，所以 `kernel_trap` 函数的第一个参数的值即为a0的值 `struct ktrapframe* ktf`。
 
 ```c
 void kernel_trap(struct ktrapframe *ktf) {
@@ -396,7 +396,7 @@ sret 将把 `sepc` 的值还原至 PC 寄存器
 
 !!!question "Question 1"
 
-    结合本周的实验内容。通过gdb调试器写出上一周实验代码运行到main函数时stvec的值。并结合这个值进一步解释为何读取 CSR mvendorid的值失败后会导致操作系统无限重启。
+    结合本周的实验内容。通过gdb调试器写出上一周实验代码运行到main函数时stvec的值。并结合这个值进一步解释为何读取 CSR mvendorid的值失败后会操作系统的表现是无限重启。
 
     你可能需要用到gdb指令 `until main` 和 `print $stvec` 。
 
@@ -406,11 +406,9 @@ sret 将把 `sepc` 的值还原至 PC 寄存器
 
     对照 RISC-V 特权级手册 Section `4.1.1 Supervisor Status Register (sstatus)`，查阅 Kernel Panic 日志中打印的 CSR，请你从 sstatus 的值中提取的 SIE, SPIE, SPP 三个 bit 的值，并解释其意思。
 
-    对照 scause 中关于 Interrupt/Exception Code 的描述，写下当前 scause 的意思。
+    对照 scause 中关于 Interrupt/Exception Code 的描述， **写下当前 scause 的意思** 。
 
-!!!question "Question 3"
-
-    在 `trap.c` 中的 `kernel_trap` 函数中，修改 else 分支，使 `ebreak` 造成的异常不要进入 `kernel_panic` 标签，而是退出 `kernel_trap` 处理函数：
+    接着，在 `trap.c` 中的 `kernel_trap` 函数中，修改 else 分支，使 `ebreak` 造成的异常不要进入 `kernel_panic` 标签，而是退出 `kernel_trap` 处理函数：
 
     ```c
     if (cause & SCAUSE_INTERRUPT) {
@@ -428,7 +426,7 @@ sret 将把 `sepc` 的值还原至 PC 寄存器
 
     写下 ? 处应该填什么。使用 `make run` 运行内核，你观察到了什么？并解释运行结果。
 
-!!!question "Question 4"
+!!!question "Question 3"
 
     RISC-V 特权级手册，Section `3.3.1 Environment Call and Breakpoint` 解释 `ecall` 和 `ebreak` 指令如下：
 
@@ -440,8 +438,6 @@ sret 将把 `sepc` 的值还原至 PC 寄存器
     请你在 `debugf("breakpoint");` 后面加一条代码，实现在退出 Trap 后能执行后续的指令，而不是重复执行 `ebreak`。
 
     Note: 你可以在 `build/kernel.asm` 里面查阅整个内核镜像的反汇编结果，即每个地址上是什么指令。
-
-# 相关知识
 
 ## Interrupt
 
