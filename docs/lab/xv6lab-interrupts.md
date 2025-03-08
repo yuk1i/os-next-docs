@@ -1,6 +1,13 @@
 # Trap, Exception and Interrupt
 
+## 实验目的
+
+1. 了解异常控制流
+2. 了解RISC-V架构是如何支持CPU中断的
+3. 掌握trap处理流程
+
 !!!warning "xv6-lab2 代码分支"
+    
     https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab2
 
     使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab2 xv6lab2` 下载 xv6-lab2 代码。
@@ -8,6 +15,7 @@
     使用 `make run` 运行本次 Lab 的内核，你将会看到一次 Kernel Panic。
 
 !!!info "推荐阅读"
+    
     CSAPP, Chapter 8, Exceptional Control Flow.
 
     https://csapp.cs.cmu.edu/2e/ch8-preview.pdf
@@ -18,14 +26,15 @@
 
 ## Exceptions, Traps, and Interrupts
 
-在 RISC-V 体系架构中，我们将 Exception (异常)、Trap (陷阱，陷入) 和 Interrupt (中断) 定义如下：
+在 RISC-V 体系架构中，我们将 Exception (异常)、 Interrupt (中断)和 Trap (陷阱，陷入) 定义如下：
 
 - Exception: 一种不寻常的情况，出现在指令执行的时刻。
 - Interrupt: 一种外部的事件，与当前 RISC-V 核心指令执行是异步的。
-- Trap: 一种同步的、由于异常导致的控制流转移。**我们可以将 Trap 认为是对 Exception 和 Interrupt 的处理行为。**
+- Trap: 一种同步的、由于异常或中断导致的控制流转移。**我们可以将 Trap 认为是对 Exception 和 Interrupt 的处理行为。**
 
 !!!info "什么是同步/异步 (Synchronous / Asynchronous)"
-    回想在数字逻辑课程上实现的单周期 RISC-V CPU，我们有时钟信号 clk，每(n)个时钟周期执行一条指令。
+    
+    回想在数字逻辑课程上实现的单周期 RISC-V CPU，我们有时钟信号 clk (clock)，每(n)个时钟周期执行一条指令。
 
     同步的异常是由于指令执行时产生的，所以异常的产生是与 clk 对齐的；而异步的异常则完全与当前指令、clk无关。
 
@@ -43,6 +52,7 @@ When an interrupt that must be serviced occurs, some instruction is selected to 
 Source: riscv-spec-v2.1.pdf, Section 1.3 "Exceptions, Traps, and Interrupts".
 
 !!!info "RISC-V 与 x86 的不同："
+    
     在不同的教材中，我们对 Exception (异常)、Trap (陷阱) 和 Interrupt (中断) 有着类似的定义，例如 CSAPP 参照 x86 模型描述了如下四种类型的控制流中断：主要区别在于异常控制流产生是否与指令流同步、以及跳转至异常控制流后是否会返回到原来程序的控制流。
 
     ![alt text](../assets/xv6lab-interrupts/csapp-definition.png)
@@ -56,6 +66,7 @@ Source: riscv-spec-v2.1.pdf, Section 1.3 "Exceptions, Traps, and Interrupts".
 ## CSR: mstatus/sstatus
 
 !!!info "CSR"
+    
     如果你不清楚 CSR 是什么，请重新阅读上一节 Lab 课的课件。
 
     你可能会对 CSR Field 定义中的 WPRI, WLRL, WARL 等关键字感到迷惑，请查阅 riscv-privilege.pdf, Section 2.3 CSR Field Specifications.
@@ -75,16 +86,7 @@ mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-
 |  SPIE | Supervisor Previous Interrupt Enabled | 进入 Supervisor 前的中断启用状态。           |
 |   SUM | Supervisor User-Memory                | 允许 Supervisor 模式下访问带 U-bit 的页面    |
 
-其他我们目前用不到的：
-
-|       Field | 全称 (猜的)                                                | 意义                                                                       |
-| ----------: | :--------------------------------------------------------- | -------------------------------------------------------------------------- |
-|    FS/VS/XS | Float-Point Status / Vector Status / user-eXtension Status | 浮点模块/向量模块/用户自定义模块的状态，表示是否需要在中断处理器中保存它们 |
-|          SD | Status Dirty                                               | FS/VS/XS 是否有 Dirty                                                      |
-| MBE/SBE/UBE | Machine/Supervisor/User Big-Endianess                      | Machine / Supervisor / User 模式下是否使用大端序进行非取值的访存           |
-|     SXL/UXL | Supervisor/User XLEN                                       | Supervisor/User 使用 32 位/64 位。                                         |
-|        MPRV | Modify PRiVilege                                           |                                                                            |
-|         MXR | Make eXecutable Readable                                   |                                                                            |
+其他我们目前用不到的在此不做解释。
 
 ## Trap 相关寄存器：
 
@@ -105,12 +107,24 @@ mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-
     - 发生中断的额外信息
 
 ### stvec
+在异常或中断产生后，应该有个**Trap处理程序**来处理。`stvec`(Supervisor Trap Vector Base Address Register)即是所谓的”Trap向量表基址”。
+向量表的作用就是把不同种类的 Trap 映射到对应的 Trap 处理程序。
+如果只有一个处理程序，那么可以让`stvec`直接指向那个处理程序的地址。
+
+!!!note "stvec"
+
+    stvec 规定 Trap 处理函数入口一定是对齐到 4 bytes (即最后两 bit 为 0)；同时，用这最后两位表示两种模式：
+
+    1. Direct 模式：所有 Trap 的入口均为 pc <= BASE
+    2. Vectored 模式：对于异步的中断，pc <= BASE + 4 * cause
+
+    在我们的代码中，我们使用 Direct 模式。
 
 ![alt text](../assets/xv6lab-interrupts/stvec.png)
 
 ### scause
 
-When a trap is taken into S-mode, scause is written with a code indicating the event that caused the trap.
+当一个陷阱（trap）被捕获并进入 S 模式（Supervisor Mode）时，`scause` 寄存器会被写入一个代码，该代码指示导致陷阱的事件。
 
 ![alt text](../assets/xv6lab-interrupts/scause.png)
 
@@ -118,10 +132,10 @@ When a trap is taken into S-mode, scause is written with a code indicating the e
 
 ### sie & sip
 
-The sip register is an 64-bit read/write register containing information on pending interrupts,
-while sie is the corresponding 64-bit read/write register containing interrupt enable bits.
+`sip` 寄存器是一个 64 位的读写寄存器，用于存储有关挂起中断的信息，而 `sie` 则是相应的 64 位读写寄存器，包含中断使能位。
 
-Interrupt cause number i (as reported in CSR scause, Section 4.1.8) corresponds with bit i in both sip and sie. Bits 15:0 are allocated to standard interrupt causes only, while bits 16 and above are designated for platform or custom use.
+中断原因编号 `i`（如 CSR `scause` 中所示）对应于 `sip` 和 `sie` 寄存器中的第 `i` 位。
+第 15:0 位仅分配给标准中断原因，而第 16 位及以上的位则保留给平台或自定义用途。
 
 ![alt text](../assets/xv6lab-interrupts/sipsie.png)
 
@@ -129,17 +143,26 @@ Interrupt cause number i (as reported in CSR scause, Section 4.1.8) corresponds 
 
 ### sepc
 
-When a trap is taken into S-mode, sepc is written with the virtual address of the instruction that **was interrupted or that encountered the exception**.
+当一个 Trap 被捕获并进入 S 模式（Supervisor Mode）时，
+`sepc` 寄存器会被写入**被中断或遇到异常**的指令的虚拟地址。
 
 ### stval
 
-When a trap is taken into S-mode, stval is written with exception-specific information to assist software in handling the trap.
+当一个 Trap 被捕获并进入 S 模式（Supervisor Mode）时，
+`stval` 寄存器会被写入与异常相关的特定信息，以协助软件处理该陷阱。
 
-If stval is written with a nonzero value when a breakpoint, address-misaligned, access-fault, or page-fault exception occurs on an instruction fetch, load, or store, then stval will contain the faulting virtual address.
+在取指、加载或存储操作中发生断点、地址不对齐、访问错误或页错误异常时，
+`stval` 会被写入一个非零值，并且 `stval` 将包含导致异常的虚拟地址。
 
 ## CPU 如何处理 Trap
 
-### 进入 Trap
+Trap处理过程可以分为三个主要部分：
+
+1. 进入Trap
+2. Trap处理程序
+3. Trap处理返回 
+
+### 1. 进入 Trap
 
 **当一个 Exception 发生时，或者 Hart 准备好处理 Interrupt 时，** Trap 发生，CPU 在硬件电路上完成以下几件事情：
 
@@ -151,9 +174,14 @@ If stval is written with a nonzero value when a breakpoint, address-misaligned, 
 6. sstatus.SIE <= 0
 7. pc <= stvec
 
-用中文：设置 `scause` 与 `stval`，保存 PC 到 `spec`，保存当前特权级(U/S)到 `sstatus.SPP`，保存当前中断状态到 `sstatus.SPIE`，将中断关闭 `sstatus.SIE = 0`，跳转到 `stvec`。
+即设置 `scause` 与 `stval` => 保存 PC 到 `spec` => 保存当前特权级(U/S)到 `sstatus.SPP` => 保存当前中断状态到 `sstatus.SPIE` => 将中断关闭 `sstatus.SIE = 0`，防止在 Trap 处理函数中遇到中断 => 跳转到 `stvec`
 
-### sret
+### 2. Trap 处理程序
+
+`stvec` 中存储了 Trap 处理程序的地址，当CPU记录完导致Trap的异常或中断的相关信息后，`pc` 会指向 `stvec` 中存储的地址，从而执行相应的 `Trap` 处理程序.
+`Trap` 处理程序会根据寄存器中存储的异常或中断的相关信息，采用不同的软件行为进行相应的处理。
+
+### 3. Trap处理返回 `sret`
 
 RISC-V 使用 `sret` 指令从 Supervisor 的 Trap 中退出，该指令会执行以下步骤：
 
@@ -161,28 +189,23 @@ RISC-V 使用 `sret` 指令从 Supervisor 的 Trap 中退出，该指令会执�
 2. Current_Privilege_Level <= sstauts.SPP
 3. pc <= epc
 
-用中文：还原 `sstatus.SIE` 为 `sstatus.SPIE`，将特权级(U/S)设置为 `sstauts.SPP`，将 PC 设置为 `sepc`。
+即还原 `sstatus.SIE` 为 `sstatus.SPIE` => 将特权级(U/S)设置为 `sstauts.SPP` => 将 PC 设置为 `sepc`
 
 实际上 sret 就是 Trap 时三步保存的逆步骤：还原 `SIE`、特权级和 PC 寄存器。
 
-## Trap Handler
+## 代码解读
 
-在 Trap 发生时，pc 会被设置为 stvec 中保存的 Trap 处理函数地址。同时，原来的 PC 指针会被保存到 `sepc`，产生中断的原因会被写入 `scause`，一些辅助值会被写入 `stval`，特权级状态会被保存到 `sstatus.SPP`，中断会被保存到 `sstatus.SPIE`，以及 `sstatus.SIE` 会被关闭，防止在 Trap 处理函数中遇到中断。
+在操作系统启动之后，我们将对 `stvec` 寄存器的值进行初始化，将它指向 `kernel_trap_entry`。
 
-在 Trap Handler 执行完毕后，我们仍然要回到原来的程序中继续执行。而在刚刚进入 Trap 处理函数时，31 个 GPR x1-x31 均是原来的程序正在使用中的寄存器。Trap Handler 需要保证在控制流回到原先的程序后， GPR 应该与产生 Trap 前一致。所以，我们需要一些内存空间来保存这些寄存器，并在从 Trap 中返回时恢复它们原来的值。我们可以将这些寄存器称为原先程序的 Context (上下文)。
+```C
+//trap.c
+void set_kerneltrap() {
+    assert(IS_ALIGNED((uint64)kernel_trap_entry, 4));
+    w_stvec((uint64)kernel_trap_entry);  // DIRECT
+}
+```
 
-在一进入 Trap Handler 时，我们可以假定之前的程序是在执行 C 代码，以及它拥有一个合法的栈。并且，我们当然希望 Trap 处理函数能是 C 语言写的，而这也需要一个合法的栈空间。**所以，我们可以直接借用原来正在执行的程序所用的栈空间** ，只要我们确保 sp 指针能被复原即可。并且， C 语言编译器在使用栈时，借多少空间就会还多少空间；所以我们只需要保证我们在汇编层面对栈的操作是平衡的，剩下的就可以放心地交给编译器了。
-
-### 代码解读
-
-stvec 规定 Trap 处理函数入口一定是对齐到 4 bytes (即最后两 bit 为 0)；同时，用这最后两位表示两种模式：
-
-1. Direct 模式：所有 Trap 的入口均为 pc <= BASE
-2. Vectored 模式：对于异步的中断，pc <= BASE + 4 * cause
-
-在我们的代码中，我们使用 Direct 模式。
-
-我们在 `trapentry.S` 中定义了适用于 S mode 的中断向量入口点 `kernel_trap_entry` ：
+接着，当 Trap 发生后，CPU在做完相应信息的存储后，跳转到 `stvec` 指向的 `kernel_trap_entry` 方法开始执行，它是适用于 S mode 的中断向量入口点。
 
 ```asm
     .globl kernel_trap_entry
@@ -197,27 +220,90 @@ kernel_trap_entry:
     sd x30, 0xf0(sp)
     sd x31, 0xf8(sp)
 
+    // ...
+```
+
+入口点会在栈上申请 0x100 bytes 的空间，并保存所有通用寄存器到栈上。
+此时，栈上保存了 32 个寄存器，每个占用空间 8 bytes，总共占用 0x100 bytes，从低地址到高地址分别是从 x0 到 x31。
+我们定义一个结构体 `struct ktrapframe`，并使它的内存布局和此时栈上的寄存器布局一致。
+这样的话，我们在 C 语言中就可以直接对一个 `struct ktrapframe*` 的指针进行解引用，来访问到此时在栈上保存的所有 GPR。
+
+```C
+struct ktrapframe {
+    uint64 x0;  // x0
+    uint64 ra;
+    uint64 sp;
+    uint64 gp;
+    uint64 tp;
+    uint64 t0;
+    uint64 t1;
+    uint64 t2;
+    uint64 s0;
+    uint64 s1;
+    uint64 a0;
+    uint64 a1;
+    uint64 a2;
+    uint64 a3;
+    uint64 a4;
+    uint64 a5;
+    uint64 a6;
+    uint64 a7;
+    uint64 s2;
+    uint64 s3;
+    uint64 s4;
+    uint64 s5;
+    uint64 s6;
+    uint64 s7;
+    uint64 s8;
+    uint64 s9;
+    uint64 s10;
+    uint64 s11;
+    uint64 t3;
+    uint64 t4;
+    uint64 t5;
+    uint64 t6;
+
+    // 32 * 8 bytes = 256 (0x100) bytes
+};
+```
+
+!!!note "栈"
+
+    在一进入 Trap Handler 时，我们可以假定之前的程序是在执行 C 代码，以及它拥有一个合法的栈。
+    
+    我们当然希望 Trap 处理函数能是 C 语言写的，而这也需要一个合法的栈空间。 
+    **所以，我们可以直接借用原来正在执行的程序所用的栈空间** ，只要我们确保 sp 指针能被复原即可。
+    并且， C 语言编译器在使用栈时，借多少空间就会还多少空间。
+    
+    所以我们只需要保证我们在汇编层面对栈的操作是平衡的，就可以直接使用现有的栈进行上下文的保存，剩下的就可以放心地交给编译器了。
+
+!!! note "上下文"
+
+    Trap 的处理需要“放下当前的事情但之后还能回来接着之前往下做”，对于CPU来说，实际上只需要把原先的寄存器保存下来，做完其他事情把寄存器恢复回来就可以了。
+
+    在刚刚进入 Trap 处理函数时，31 个 GPR（General Purpose Register，通用寄存器） x1-x31 均是原来的程序正在使用中的寄存器。Trap Handler 需要保证在控制流回到原先的程序后， GPR 应该与产生 Trap 前一致。所以，我们需要一些内存空间来保存这些寄存器，并在从 Trap 中返回时恢复它们原来的值。我们可以将这些寄存器称为原先程序的 **Context (上下文)** 。
+
+    因此，我们使用汇编实现上下文切换(context switch)机制，这包含两步：
+
+    - 保存CPU的寄存器（上下文）到内存中（栈上）
+    - 从内存中（栈上）恢复CPU的寄存器
+
+
+接着，我们将 `a0` 设置为 `sp`，调用 `kernel_trap` ，进入 C 代码继续处理 Trap。
+
+
+```asm
+    .globl kernel_trap_entry
+    .align 2
+kernel_trap_entry:
+    // ...
+
     mv a0, sp   // make a0 point to the ktrapframe structure
     call kernel_trap
 
-    // restore all registers
-    //ld x0, 0x00(sp) // do not write to x0
-    ld x1, 0x08(sp)
-    ld x2, 0x10(sp)
     // ...
-    ld x30, 0xf0(sp)
-    ld x31, 0xf8(sp)
-
-    // restore stack
-    add sp, sp, 0x100
-
-    // return from trap
-    sret
 ```
 
-入口点会在栈上申请 0x100 bytes 的空间，并保存所有通用寄存器到栈上。此时，栈上保存了 32 个寄存器，每个占用空间 8 bytes，总共占用 0x100 bytes，从低地址到高地址分别是从 x0 到 x31。我们定义一个结构体 `struct ktrapframe`，并使它的内存布局和此时栈上的寄存器布局一致。这样的话，我们在 C 语言中就可以直接对一个 `struct ktrapframe*` 的指针进行解引用，来访问到此时在栈上保存的所有 GPR。
-
-然后，将 `a0` 设置为 `sp`，调用 `kernel_trap` ，进入 C 代码继续处理 Trap。
 由于 RISC-V 使用 a0 作为传递第一个参数的寄存器，a0 此时指向栈上的 `struct ktrapframe` 结构体，所以 `kernel_trap` 函数可以直接将第一个参数设为 `struct ktrapframe* ktf`。
 
 ```c
@@ -266,15 +352,41 @@ kernel_panic:
 在进入 `kernel_trap` 时，CPU 的中断位 `sstatus.SIE` 应该是保持关闭的，并且 Previous Privilege 应该是 Supervisor 模式，我们使用 assert（断言）来确保代码是按照预期执行的。
 
 !!!info "为什么我们要写 assert"
-    断言（Assertions）在操作系统开发中是一个非常重要的调试和错误检测工具。断言可以帮助开发者在程序执行的早期阶段捕获可能的逻辑错误。通过在代码中插入断言，我们可以立即检测到不符合预期的状态或条件，而不是等到程序崩溃或产生不可预测的行为后，再来猜测问题可能出在哪里。
+    断言（Assertions）在操作系统开发中是一个非常重要的调试和错误检测工具。
+    断言可以帮助开发者在程序执行的早期阶段捕获可能的逻辑错误。
+    通过在代码中插入断言，我们可以立即检测到不符合预期的状态或条件，而不是等到程序崩溃或产生不可预测的行为后，再来猜测问题可能出在哪里。
 
     换句话说，如果我们在某个点上能探测到程序的运行状态偏离了我们的预期，那我们就可以让它尽量崩溃在第一现场，以提供更加有效的调试信息。
 
 然后，我们读取 `scause` 寄存器判断 Trap 是因为中断还是异常陷入的，并且我们处理时钟中断和 PLIC 管理的外部中断，对于其他预期之外的 Trap 原因，我们可以打印栈上保存的 `ktramframe` 结构体帮助调试，并使用 `panic` 宏表示内核遇到了不可恢复的错误并停机。
 
-最后，我们从 `kernel_trap` 离开。
+最后，我们从 `kernel_trap` 离开，回到 `kernel_trap_entry` 继续执行。
+
+```asm
+    .globl kernel_trap_entry
+    .align 2
+kernel_trap_entry:
+    // ...
+    call kernel_trap
+
+    // restore all registers
+    //ld x0, 0x00(sp) // do not write to x0
+    ld x1, 0x08(sp)
+    ld x2, 0x10(sp)
+    // ...
+    ld x30, 0xf0(sp)
+    ld x31, 0xf8(sp)
+
+    // restore stack
+    add sp, sp, 0x100
+
+    // return from trap
+    sret
+```
 
 从 C 语言环境退出后，我们从栈上恢复所有通用寄存器，恢复栈空间，然后使用 `sret` 退出 Trap。
+
+sret 将把 `sepc` 的值还原至 PC 寄存器
 
 下图展示了 进入 Trap，构造 ktrapframe，然后恢复并 sret 过程的栈结构：
 
@@ -282,55 +394,54 @@ kernel_panic:
 
 ## Lab 实验报告
 
-在 `main.c` 中， `ebreak` 指令主动触发一次异常。请你修改 `trap.c` 里面的 `kernel_trap` 使其：
+!!!question "Question 1"
 
-1. 能够从 ebreak 产生的 Exception 中恢复，而不是 Kernel Panic
+    结合本周的实验内容。通过gdb调试器写出上一周实验代码运行到main函数时stvec的值。并结合这个值进一步解释为何读取 CSR mvendorid的值失败后会导致操作系统无限重启。
 
-2. 能继续执行后续的代码
+    你可能需要用到gdb指令 `until main` 和 `print $stvec` 。
 
-3. 将 s11 寄存器更改为 `0x12345678`
+!!!question "Question 2"
 
-### Question 1
+    在 `main.c` 中， `ebreak` 指令会主动触发一次异常。使用 `make run` 运行内核，你将会看到 `Kernel Panic`，以及它打印的一些 CSR.
 
-使用 `make run` 运行内核，你将会看到 `Kernel Panic`，以及它打印的一些 CSR.
+    对照 RISC-V 特权级手册 Section `4.1.1 Supervisor Status Register (sstatus)`，查阅 Kernel Panic 日志中打印的 CSR，请你从 sstatus 的值中提取的 SIE, SPIE, SPP 三个 bit 的值，并解释其意思。
 
-对照 RISC-V 特权级手册 Section `4.1.1 Supervisor Status Register (sstatus)`，查阅 Kernel Panic 日志中打印的 CSR，请你从 sstatus 的值中提取的 SIE, SPIE, SPP 三个 bit 的值，并解释其意思。
+    对照 scause 中关于 Interrupt/Exception Code 的描述，写下当前 scause 的意思。
 
-对照 scause 中关于 Interrupt/Exception Code 的描述，写下当前 scause 的意思。
+!!!question "Question 3"
 
-### Question 2
+    在 `trap.c` 中的 `kernel_trap` 函数中，修改 else 分支，使 `ebreak` 造成的异常不要进入 `kernel_panic` 标签，而是退出 `kernel_trap` 处理函数：
 
-在 `trap.c` 中的 `kernel_trap` 函数中，修改 else 分支，使 `ebreak` 造成的异常不要进入 `kernel_panic` 标签，而是退出 `kernel_trap` 处理函数：
-
-```c
-if (cause & SCAUSE_INTERRUPT) {
-    // handle interrupt
-    // ...
-
-} else {
-    if (exception_code == ?) {
-        debugf("breakpoint");
+    ```c
+    if (cause & SCAUSE_INTERRUPT) {
+        // handle interrupt
+        // ...
     } else {
-        // kernel exception, unexpected.
-        goto kernel_panic;
+        if (exception_code == ?) {
+            debugf("breakpoint");
+        } else {
+            // kernel exception, unexpected.
+            goto kernel_panic;
+        }
     }
-}
-```
+    ```
 
-写下 ? 处应该填什么。使用 `make run` 运行内核，你观察到了什么？
+    写下 ? 处应该填什么。使用 `make run` 运行内核，你观察到了什么？并解释运行结果。
 
-### Question 3
+!!!question "Question 4"
 
-RISC-V 特权级手册，Section `3.3.1 Environment Call and Breakpoint` 解释 `ecall` 和 `ebreak` 指令如下：
+    RISC-V 特权级手册，Section `3.3.1 Environment Call and Breakpoint` 解释 `ecall` 和 `ebreak` 指令如下：
 
-> ECALL and EBREAK cause the receiving privilege mode’s epc register to be set to the address of
-> the ECALL or EBREAK instruction itself, not the address of the following instruction. As ECALL
-> and EBREAK cause synchronous exceptions, they are not considered to retire, and should not
-> increment the minstret CSR.
+    > ECALL and EBREAK cause the receiving privilege mode’s epc register to be set to the address of
+    > the ECALL or EBREAK instruction itself, not the address of the following instruction. As ECALL
+    > and EBREAK cause synchronous exceptions, they are not considered to retire, and should not
+    > increment the minstret CSR.
 
-请你在 `debugf("breakpoint");` 后面加一条代码，实现在退出 Trap 后能执行后续的指令，而不是重复执行 `ebreak`。
+    请你在 `debugf("breakpoint");` 后面加一条代码，实现在退出 Trap 后能执行后续的指令，而不是重复执行 `ebreak`。
 
-Note: 你可以在 `build/kernel.asm` 里面查阅整个内核镜像的反汇编结果，即每个地址上是什么指令。
+    Note: 你可以在 `build/kernel.asm` 里面查阅整个内核镜像的反汇编结果，即每个地址上是什么指令。
+
+# 相关知识
 
 ## Interrupt
 
