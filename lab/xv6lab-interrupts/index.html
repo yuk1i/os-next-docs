@@ -1123,6 +1123,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../laben/xv6lab-interrupts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week 4 - Trap & Interrupt
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1526,8 +1547,8 @@
 <h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ol>
 <li>了解异常控制流</li>
-<li>了解RISC-V架构是如何支持CPU中断的</li>
-<li>掌握trap处理流程</li>
+<li>了解 RISC-V 架构是如何支持 CPU 中断的</li>
+<li>掌握 Trap 处理流程</li>
 </ol>
 <div class="admonition warning">
 <p class="admonition-title">xv6-lab2 代码分支</p>
@@ -1574,7 +1595,7 @@ When an interrupt that must be serviced occurs, some instruction is selected to 
 <div class="admonition info">
 <p class="admonition-title">CSR</p>
 <p>如果你不清楚 CSR 是什么，请重新阅读上一节 Lab 课的课件。</p>
-<p>你可能会对 CSR Field 定义中的 WPRI, WLRL, WARL 等关键字感到迷惑，请查阅 riscv-privilege.pdf, Section 2.3 CSR Field Specifications.</p>
+<p>你可能会对 CSR Field 定义中的 WPRI, WLRL, WARL 等关键字感到迷惑，请查阅 riscv-privilege.pdf, Section 2.3 CSR Field Specifications。你可以直接认为，由这些关键字定义的 Bit Fields 是我们不需要关心、修改的字段。</p>
 </div>
 <p>mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-V 核心的控制状态，sstatus 实际上是 mstatus 的一个 Restricted View.</p>
 <p><img alt="alt text" src="../../assets/xv6lab-interrupts/mstatus.png" /></p>
@@ -1642,7 +1663,7 @@ When an interrupt that must be serviced occurs, some instruction is selected to 
 </li>
 </ul>
 <h3 id="stvec">stvec<a class="headerlink" href="#stvec" title="Permanent link">&para;</a></h3>
-<p>在异常或中断产生后，应该有个 <strong>Trap处理程序</strong> 来处理这些异常和中断。<code>stvec</code>(Supervisor Trap Vector Base Address Register)即是所谓的<code>Trap向量表基址</code>。
+<p>在异常或中断产生后，应该有个 <strong>Trap 处理程序</strong> 来处理这些异常和中断。<code>stvec</code>(Supervisor Trap Vector Base Address Register)即是所谓的<code>Trap向量表基址</code>。
 向量表的作用就是把不同种类的 Trap 映射到对应的 Trap 处理程序。
 如果只有一个处理程序，那么可以让<code>stvec</code>直接指向那个处理程序的地址。</p>
 <div class="admonition note">
@@ -1772,12 +1793,12 @@ When an interrupt that must be serviced occurs, some instruction is selected to 
 <p class="admonition-title">栈</p>
 <p>在一进入 Trap Handler 时，我们可以假定之前的程序是在执行 C 代码，以及它拥有一个合法的栈。</p>
 <p>我们当然希望 Trap 处理函数能是 C 语言写的，而这也需要一个合法的栈空间。 
-<strong>所以，我们可以直接借用原来正在执行的程序所用的栈空间</strong> ，只要我们确保 sp 指针能被复原即可。
-并且， C 语言编译器在使用栈时，借多少空间就会还多少空间。</p>
-<p>所以我们只需要保证我们在汇编层面对栈的操作是平衡的，就可以直接使用现有的栈进行上下文的保存，剩下的就可以放心地交给编译器了。</p>
+<strong>所以，我们可以直接借用原来正在执行的程序所用的栈空间</strong> ，只要我们确保 sp 指针能被复原即可。</p>
+<p>额外的，C 语言编译器在使用栈时，借多少空间就会还多少空间。
+所以我们只需要保证我们在汇编层面对栈的操作是平衡的，就可以直接使用现有的栈进行上下文的保存，剩下的就可以放心地交给编译器了。</p>
 </div>
 <div class="admonition note">
-<p class="admonition-title">上下文</p>
+<p class="admonition-title">上下文 (Context)</p>
 <p>Trap 的处理需要“放下当前的事情但之后还能回来接着之前往下做”，对于CPU来说，实际上只需要把原先的寄存器保存下来，做完其他事情把寄存器恢复回来就可以了。</p>
 <p>在刚刚进入 Trap 处理函数时，31 个 GPR（General Purpose Register，通用寄存器） x1-x31 均是原来的程序正在使用中的寄存器。Trap Handler 需要保证在控制流回到原先的程序后， GPR 应该与产生 Trap 前一致。所以，我们需要一些内存空间来保存这些寄存器，并在从 Trap 中返回时恢复它们原来的值。我们可以将这些寄存器称为原先程序的 <strong>Context (上下文)</strong> 。</p>
 <p>因此，我们使用汇编实现上下文切换(context switch)机制，这包含两步：</p>
@@ -1876,8 +1897,8 @@ When an interrupt that must be serviced occurs, some instruction is selected to 
 <h2 id="lab">Lab 实验报告<a class="headerlink" href="#lab" title="Permanent link">&para;</a></h2>
 <div class="admonition question">
 <p class="admonition-title">Question 1</p>
-<p>结合本周的实验内容。通过gdb调试器写出上一周实验代码运行到main函数时stvec的值。并结合这个值进一步解释为何读取 CSR mvendorid的值失败后会操作系统的表现是无限重启。</p>
-<p>你可能需要用到gdb指令 <code>until main</code> 和 <code>print $stvec</code> 。</p>
+<p>结合本周的实验内容。通过 gdb 调试器打印出上一周实验代码运行到 main 函数时 <code>stvec</code> 的值。并结合这个值进一步解释为何读取 CSR mvendorid的值失败后会操作系统的表现是无限重启。</p>
+<p>你可能需要用到gdb指令 <code>b main</code> (在 main 函数入口打断点), <code>c</code> (continue, 继续执行) 和 <code>print $stvec</code> 。</p>
 </div>
 <div class="admonition question">
 <p class="admonition-title">Question 2</p>
@@ -1910,6 +1931,7 @@ increment the minstret CSR.</p>
 </blockquote>
 <p>请你在 <code>debugf("breakpoint");</code> 后面加一条代码，实现在退出 Trap 后能执行后续的指令，而不是重复执行 <code>ebreak</code>。</p>
 <p>Note: 你可以在 <code>build/kernel.asm</code> 里面查阅整个内核镜像的反汇编结果，即每个地址上是什么指令。</p>
+<p>Note2: 你可以使用在 <code>riscv.h</code> 头文件中定义的函数 <code>w_sepc()</code> 和 <code>r_sepc()</code> 读写 <code>sepc</code> 寄存器。</p>
 </div>
 <h2 id="interrupt">Interrupt<a class="headerlink" href="#interrupt" title="Permanent link">&para;</a></h2>
 <p>RISC-V 规范定义了每个 Hart 的 M/S mode 各有三种标准的中断：时钟中断 (Timer)、软件中断 (Software) 和外部中断 (External)。</p>
@@ -2042,8 +2064,8 @@ increment the minstret CSR.</p>
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/87e5c72c, 2025-03-08 23:30:01+08:00" target="_blank" rel="noopener">
-            87e5c72c, 2025-03-08 23:30:01+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/1e9f2b38, 2025-03-09 15:54:41+08:00" target="_blank" rel="noopener">
+            1e9f2b38, 2025-03-09 15:54:41+08:00
         </a>
     </div>
 </div>
