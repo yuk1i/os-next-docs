@@ -3,8 +3,8 @@
 ## 实验目的
 
 1. 了解异常控制流
-2. 了解RISC-V架构是如何支持CPU中断的
-3. 掌握trap处理流程
+2. 了解 RISC-V 架构是如何支持 CPU 中断的
+3. 掌握 Trap 处理流程
 
 !!!warning "xv6-lab2 代码分支"
     
@@ -69,7 +69,7 @@ Source: riscv-spec-v2.1.pdf, Section 1.3 "Exceptions, Traps, and Interrupts".
     
     如果你不清楚 CSR 是什么，请重新阅读上一节 Lab 课的课件。
 
-    你可能会对 CSR Field 定义中的 WPRI, WLRL, WARL 等关键字感到迷惑，请查阅 riscv-privilege.pdf, Section 2.3 CSR Field Specifications.
+    你可能会对 CSR Field 定义中的 WPRI, WLRL, WARL 等关键字感到迷惑，请查阅 riscv-privilege.pdf, Section 2.3 CSR Field Specifications。你可以直接认为，由这些关键字定义的 Bit Fields 是我们不需要关心、修改的字段。
 
 mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-V 核心的控制状态，sstatus 实际上是 mstatus 的一个 Restricted View.
 
@@ -107,7 +107,7 @@ mstatus/sstatus: Machine/Supervisor Status Register. 该寄存器保存着 RISC-
     - 发生中断的额外信息
 
 ### stvec
-在异常或中断产生后，应该有个 **Trap处理程序** 来处理这些异常和中断。`stvec`(Supervisor Trap Vector Base Address Register)即是所谓的`Trap向量表基址`。
+在异常或中断产生后，应该有个 **Trap 处理程序** 来处理这些异常和中断。`stvec`(Supervisor Trap Vector Base Address Register)即是所谓的`Trap向量表基址`。
 向量表的作用就是把不同种类的 Trap 映射到对应的 Trap 处理程序。
 如果只有一个处理程序，那么可以让`stvec`直接指向那个处理程序的地址。
 
@@ -273,11 +273,11 @@ struct ktrapframe {
     
     我们当然希望 Trap 处理函数能是 C 语言写的，而这也需要一个合法的栈空间。 
     **所以，我们可以直接借用原来正在执行的程序所用的栈空间** ，只要我们确保 sp 指针能被复原即可。
-    并且， C 语言编译器在使用栈时，借多少空间就会还多少空间。
     
+    额外的，C 语言编译器在使用栈时，借多少空间就会还多少空间。
     所以我们只需要保证我们在汇编层面对栈的操作是平衡的，就可以直接使用现有的栈进行上下文的保存，剩下的就可以放心地交给编译器了。
 
-!!! note "上下文"
+!!! note "上下文 (Context)"
 
     Trap 的处理需要“放下当前的事情但之后还能回来接着之前往下做”，对于CPU来说，实际上只需要把原先的寄存器保存下来，做完其他事情把寄存器恢复回来就可以了。
 
@@ -396,9 +396,9 @@ sret 将把 `sepc` 的值还原至 PC 寄存器
 
 !!!question "Question 1"
 
-    结合本周的实验内容。通过gdb调试器写出上一周实验代码运行到main函数时stvec的值。并结合这个值进一步解释为何读取 CSR mvendorid的值失败后会操作系统的表现是无限重启。
+    结合本周的实验内容。通过 gdb 调试器打印出上一周实验代码运行到 main 函数时 `stvec` 的值。并结合这个值进一步解释为何读取 CSR mvendorid的值失败后会操作系统的表现是无限重启。
 
-    你可能需要用到gdb指令 `until main` 和 `print $stvec` 。
+    你可能需要用到gdb指令 `b main` (在 main 函数入口打断点), `c` (continue, 继续执行) 和 `print $stvec` 。
 
 !!!question "Question 2"
 
@@ -438,6 +438,8 @@ sret 将把 `sepc` 的值还原至 PC 寄存器
     请你在 `debugf("breakpoint");` 后面加一条代码，实现在退出 Trap 后能执行后续的指令，而不是重复执行 `ebreak`。
 
     Note: 你可以在 `build/kernel.asm` 里面查阅整个内核镜像的反汇编结果，即每个地址上是什么指令。
+
+    Note2: 你可以使用在 `riscv.h` 头文件中定义的函数 `w_sepc()` 和 `r_sepc()` 读写 `sepc` 寄存器。
 
 ## Interrupt
 
