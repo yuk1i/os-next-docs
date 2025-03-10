@@ -859,6 +859,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Week 4 - Trap & Interrupt
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -868,6 +879,265 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives-of-experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectives of Experiment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exceptional-control-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exceptional Control Flow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exceptions-traps-and-interrupts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exceptions, Traps, and Interrupts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csr-mstatussstatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR: mstatus/sstatus
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trap-related-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trap-Related Registers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trap-Related Registers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stvec" class="md-nav__link">
+    <span class="md-ellipsis">
+      stvec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scause" class="md-nav__link">
+    <span class="md-ellipsis">
+      scause
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sie-sip" class="md-nav__link">
+    <span class="md-ellipsis">
+      sie &amp; sip
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sepc" class="md-nav__link">
+    <span class="md-ellipsis">
+      sepc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stval" class="md-nav__link">
+    <span class="md-ellipsis">
+      stval
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-cpu-handles-traps" class="md-nav__link">
+    <span class="md-ellipsis">
+      How the CPU Handles Traps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How the CPU Handles Traps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-entering-the-trap" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Entering the Trap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-trap-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Trap Handler
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-returning-from-the-trap-sret" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Returning from the Trap (sret)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-walkthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Walkthrough
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab Report
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interrupt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupt
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interrupt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-can-an-interrupt-be-handled" class="md-nav__link">
+    <span class="md-ellipsis">
+      When Can an Interrupt Be Handled?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timer-interrupt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timer Interrupt
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-interrupt" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Interrupt
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="External Interrupt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plic-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      PLIC Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-mapped-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory-Mapped Registers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claim-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      Claim &amp; Complete
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serial-port-interrupt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serial Port Interrupt
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1009,6 +1279,254 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objectives-of-experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objectives of Experiment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exceptional-control-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exceptional Control Flow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exceptions-traps-and-interrupts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exceptions, Traps, and Interrupts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csr-mstatussstatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR: mstatus/sstatus
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trap-related-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trap-Related Registers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trap-Related Registers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stvec" class="md-nav__link">
+    <span class="md-ellipsis">
+      stvec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scause" class="md-nav__link">
+    <span class="md-ellipsis">
+      scause
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sie-sip" class="md-nav__link">
+    <span class="md-ellipsis">
+      sie &amp; sip
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sepc" class="md-nav__link">
+    <span class="md-ellipsis">
+      sepc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stval" class="md-nav__link">
+    <span class="md-ellipsis">
+      stval
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-cpu-handles-traps" class="md-nav__link">
+    <span class="md-ellipsis">
+      How the CPU Handles Traps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How the CPU Handles Traps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-entering-the-trap" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Entering the Trap
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-trap-handler" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Trap Handler
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-returning-from-the-trap-sret" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Returning from the Trap (sret)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-walkthrough" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code Walkthrough
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab Report
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interrupt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupt
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interrupt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-can-an-interrupt-be-handled" class="md-nav__link">
+    <span class="md-ellipsis">
+      When Can an Interrupt Be Handled?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timer-interrupt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timer Interrupt
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-interrupt" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Interrupt
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="External Interrupt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plic-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      PLIC Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-mapped-registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory-Mapped Registers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claim-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      Claim &amp; Complete
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#serial-port-interrupt" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serial Port Interrupt
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1025,7 +1543,488 @@
   
 
 
-<h1 id="trap-exception-and-interrupt">Trap, Exception and Interrupt<a class="headerlink" href="#trap-exception-and-interrupt" title="Permanent link">&para;</a></h1>
+<h1 id="trap-exception-and-interrupt">Trap, Exception, and Interrupt<a class="headerlink" href="#trap-exception-and-interrupt" title="Permanent link">&para;</a></h1>
+<h2 id="objectives-of-experiment">Objectives of Experiment<a class="headerlink" href="#objectives-of-experiment" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Understand exceptional control flow.</li>
+<li>Learn how the RISC-V architecture supports CPU interrupts.</li>
+<li>Master the Trap handling process.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">xv6-lab2 Code Branch</p>
+<p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab2">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab2</a></p>
+<p>Use the command <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab2 xv6lab2</code> to download the xv6-lab2 code.</p>
+<p>Run <code>make run</code> to execute the kernel for this lab, and you will encounter a Kernel Panic.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Recommended Reading</p>
+<p>CSAPP, Chapter 8, Exceptional Control Flow.</p>
+<p><a href="https://csapp.cs.cmu.edu/2e/ch8-preview.pdf">https://csapp.cs.cmu.edu/2e/ch8-preview.pdf</a></p>
+</div>
+<h2 id="exceptional-control-flow">Exceptional Control Flow<a class="headerlink" href="#exceptional-control-flow" title="Permanent link">&para;</a></h2>
+<p>In a normal program execution state, the control flow (which can be thought of as the sequence of the program counter, or <code>pc</code>) proceeds step-by-step according to the predefined order of the program. However, an operating system inevitably needs to handle situations that fall "outside the predefined plan," such as program errors or changes in external state—e.g., a network packet arriving at the NIC, or a user pressing a key on the keyboard. Modern operating systems manage these events by altering the control flow, and we refer to this altered control flow as <strong>Exceptional Control Flow (ECF)</strong>.</p>
+<h2 id="exceptions-traps-and-interrupts">Exceptions, Traps, and Interrupts<a class="headerlink" href="#exceptions-traps-and-interrupts" title="Permanent link">&para;</a></h2>
+<p>In the RISC-V architecture, we define <strong>Exception</strong>, <strong>Interrupt</strong>, and <strong>Trap</strong> as follows:</p>
+<ul>
+<li><strong>Exception</strong>: An unusual condition that occurs at the moment of instruction execution.</li>
+<li><strong>Interrupt</strong>: An external event that is asynchronous to the current RISC-V core’s instruction execution.</li>
+<li><strong>Trap</strong>: A synchronous transfer of control flow caused by an exception or interrupt. <strong>We can consider a Trap as the handling behavior for Exceptions and Interrupts.</strong></li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">What is Synchronous/Asynchronous?</p>
+<p>Recall the single-cycle RISC-V CPU implemented in a digital logic course. We have a clock signal <code>clk</code>, and every (n) clock cycles, one instruction is executed.</p>
+<p>Synchronous exceptions arise during instruction execution and are thus aligned with the <code>clk</code> signal, whereas asynchronous exceptions are entirely independent of the current instruction or <code>clk</code>.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/sync-async.png" /></p>
+</div>
+<p>Thus, it’s clear why the control flow transfer referred to as a <strong>Trap</strong> is "synchronous": we must at least wait for the clock cycle to arrive before performing the control flow transfer.</p>
+<p>We use the term <strong>exception</strong> to refer to an unusual condition occurring at run time associated with an instruction in the current RISC-V thread.
+We use the term <strong>trap</strong> to refer to the synchronous transfer of control to a trap handler caused by an exceptional condition occurring within a RISC-V thread.
+Trap handlers usually execute in a more privileged environment.</p>
+<p>We use the term <strong>interrupt</strong> to refer to an external event that occurs asynchronously to the current RISC-V thread.
+When an interrupt that must be serviced occurs, some instruction is selected to receive an interrupt exception and subsequently experiences a trap.</p>
+<p>Source: riscv-spec-v2.1.pdf, Section 1.3 "Exceptions, Traps, and Interrupts".</p>
+<div class="admonition info">
+<p class="admonition-title">Differences Between RISC-V and x86</p>
+<p>Different textbooks provide similar definitions for <strong>Exception</strong>, <strong>Trap</strong>, and <strong>Interrupt</strong>. For example, CSAPP, referencing the x86 model, describes four types of control flow interruptions. The main distinctions lie in whether the exceptional control flow is synchronous with the instruction stream and whether the control flow returns to the original program after jumping to the exceptional control flow.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/csapp-definition.png" /></p>
+<p>For instance, exception types in x86 include <strong>Page Fault</strong> (page missing exception) and <strong>Machine Check (Abort)</strong> (memory or hardware error).</p>
+<p>However, in the RISC-V model, the return behavior mentioned above can be simulated in software. Thus, in the RISC-V hardware model, there are only two causes of control flow changes: <strong>Exceptions</strong> and <strong>Interrupts</strong>, with the result of such changes being entry into a <strong>Trap</strong>.</p>
+<p>Note: RISC-V employs an extremely minimalist design philosophy at the hardware level: anything that can be handled by software is left out of hardware.</p>
+</div>
+<h2 id="csr-mstatussstatus">CSR: mstatus/sstatus<a class="headerlink" href="#csr-mstatussstatus" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">CSR</p>
+<p>If you’re unfamiliar with CSR, please review the slides from the previous lab session.</p>
+<p>You might find keywords like WPRI, WLRL, and WARL in the CSR field definitions confusing. Refer to riscv-privilege.pdf, Section 2.3 "CSR Field Specifications". For now, you can simply assume that bit fields defined by these keywords are ones we don’t need to care about or modify.</p>
+</div>
+<p>mstatus/sstatus: Machine/Supervisor Status Register. This register holds the control state of the RISC-V core. <code>sstatus</code> is essentially a Restricted View of <code>mstatus</code>.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/mstatus.png" /></p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/sstatus.png" /></p>
+<p>Since the RISC-V manual’s definitions for each CSR register field are notoriously hard to locate, we provide a quick reference table here:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Field</th>
+<th style="text-align: left;">Full Name (Guessed)</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">SPP</td>
+<td style="text-align: left;">Supervisor Previous Privilege</td>
+<td>The privilege level of the Hart before entering Supervisor mode.</td>
+</tr>
+<tr>
+<td style="text-align: right;">SIE</td>
+<td style="text-align: left;">Supervisor Interrupt Enabled</td>
+<td>Interrupt enable flag in Supervisor mode.</td>
+</tr>
+<tr>
+<td style="text-align: right;">SPIE</td>
+<td style="text-align: left;">Supervisor Previous Interrupt Enabled</td>
+<td>Interrupt enable state before entering Supervisor mode.</td>
+</tr>
+<tr>
+<td style="text-align: right;">SUM</td>
+<td style="text-align: left;">Supervisor User-Memory</td>
+<td>Allows Supervisor mode to access pages with the U-bit set.</td>
+</tr>
+</tbody>
+</table>
+<p>Other fields we don’t currently use are omitted here.</p>
+<h2 id="trap-related-registers">Trap-Related Registers<a class="headerlink" href="#trap-related-registers" title="Permanent link">&para;</a></h2>
+<p>Here’s a list of registers involved in the Trap handling process:</p>
+<ul>
+<li><strong>stvec</strong>: Supervisor Trap Vector Base Address Register<ul>
+<li>Stores the address of the Trap handler function. Often referred to as the "interrupt vector," which we’ll explain later.</li>
+</ul>
+</li>
+<li><strong>sip</strong>: Supervisor Interrupt Pending<ul>
+<li>Indicates which interrupts are pending.</li>
+</ul>
+</li>
+<li><strong>sie</strong>: Supervisor Interrupt Enabled<ul>
+<li>Indicates which interrupts can be processed.</li>
+<li>Note: Don’t confuse this with <code>sstatus.SIE</code>.</li>
+</ul>
+</li>
+<li><strong>sepc</strong>: Supervisor Exception Program Counter<ul>
+<li>The PC value at the time of the interrupt.</li>
+</ul>
+</li>
+<li><strong>scause</strong>: Supervisor Cause<ul>
+<li>The reason for the interrupt.</li>
+</ul>
+</li>
+<li><strong>stval</strong>: Supervisor Trap Value<ul>
+<li>Additional information about the interrupt.</li>
+</ul>
+</li>
+</ul>
+<h3 id="stvec">stvec<a class="headerlink" href="#stvec" title="Permanent link">&para;</a></h3>
+<p>When an exception or interrupt occurs, a <strong>Trap handler</strong> is needed to process it. The <code>stvec</code> (Supervisor Trap Vector Base Address Register) serves as the base address of the so-called "Trap vector table."<br />
+The vector table maps different types of Traps to their corresponding handlers. 
+If there’s only one handler, <code>stvec</code> can directly point to that handler’s address.</p>
+<div class="admonition note">
+<p class="admonition-title">stvec</p>
+<p><code>stvec</code> mandates that the Trap handler entry must be aligned to 4 bytes (i.e., the last two bits are 0). These last two bits also indicate two modes:</p>
+<ol>
+<li><strong>Direct Mode</strong>: All Traps enter at <code>pc &lt;= BASE</code>.</li>
+<li><strong>Vectored Mode</strong>: For asynchronous interrupts, <code>pc &lt;= BASE + 4 * cause</code>.</li>
+</ol>
+<p>In our code, we use <strong>Direct Mode</strong>.</p>
+</div>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/stvec.png" /></p>
+<h3 id="scause">scause<a class="headerlink" href="#scause" title="Permanent link">&para;</a></h3>
+<p>When a Trap is caught and enters Supervisor Mode (S-mode), the <code>scause</code> register is written with a code indicating the event that caused the Trap.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/scause.png" /></p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/scause-table.png" /></p>
+<h3 id="sie-sip">sie &amp; sip<a class="headerlink" href="#sie-sip" title="Permanent link">&para;</a></h3>
+<p>The <code>sip</code> register is a 64-bit read-write register that stores information about pending interrupts, while <code>sie</code> is a corresponding 64-bit read-write register containing interrupt enable bits.</p>
+<p>Interrupt cause number <code>i</code> (as shown in CSR <code>scause</code>) corresponds to bit <code>i</code> in the <code>sip</code> and <code>sie</code> registers.
+Bits 15:0 are allocated to standard interrupt causes, while bits 16 and above are reserved for platform-specific or custom use.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/sipsie.png" /></p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/sie-standard-def.png" /></p>
+<h3 id="sepc">sepc<a class="headerlink" href="#sepc" title="Permanent link">&para;</a></h3>
+<p>When a Trap is caught and enters Supervisor Mode (S-mode), 
+the <code>sepc</code> register is written with the virtual address of the instruction that <strong>was interrupted or encountered an exception</strong>.</p>
+<h3 id="stval">stval<a class="headerlink" href="#stval" title="Permanent link">&para;</a></h3>
+<p>When a Trap is caught and enters Supervisor Mode (S-mode),
+the <code>stval</code> register is written with specific information related to the exception to assist software in handling the Trap.</p>
+<p>For exceptions such as breakpoints, misaligned addresses, access faults, or page faults during instruction fetch, load, or store operations, 
+<code>stval</code> is set to a non-zero value representing the virtual address that caused the exception.</p>
+<h2 id="how-the-cpu-handles-traps">How the CPU Handles Traps<a class="headerlink" href="#how-the-cpu-handles-traps" title="Permanent link">&para;</a></h2>
+<p>The Trap handling process can be divided into three main stages:</p>
+<ol>
+<li>Entering the Trap</li>
+<li>Trap Handler</li>
+<li>Returning from the Trap</li>
+</ol>
+<h3 id="1-entering-the-trap">1. Entering the Trap<a class="headerlink" href="#1-entering-the-trap" title="Permanent link">&para;</a></h3>
+<p><strong>When an Exception occurs, or the Hart is ready to handle an Interrupt</strong>, a Trap is triggered, and the CPU performs the following actions in hardware:</p>
+<ol>
+<li>scause &lt;= {1b'Is_Interrupt, 63b'Cause}</li>
+<li>stval &lt;= Trap_Value</li>
+<li>sepc &lt;= pc</li>
+<li>sstatus.SPP &lt;= Current_Privilege_Level</li>
+<li>sstatus.SPIE &lt;= sstatus.SIE</li>
+<li>sstatus.SIE &lt;= 0</li>
+<li>pc &lt;= stvec</li>
+</ol>
+<p>In summary: Set <code>scause</code> and <code>stval</code> =&gt; Save the PC to <code>sepc</code> =&gt; Save the current privilege level (U/S) to <code>sstatus.SPP</code> =&gt; Save the current interrupt state to <code>sstatus.SPIE</code> =&gt; Disable interrupts by setting <code>sstatus.SIE = 0</code> to prevent interrupts during Trap handling =&gt; Jump to <code>stvec</code>.</p>
+<h3 id="2-trap-handler">2. Trap Handler<a class="headerlink" href="#2-trap-handler" title="Permanent link">&para;</a></h3>
+<p>The <code>stvec</code> register stores the address of the Trap handler. After the CPU records the information related to the exception or interrupt causing the Trap, the <code>pc</code> points to the address stored in <code>stvec</code>, executing the corresponding Trap handler.<br />
+The Trap handler then processes the event based on the information stored in the registers, using different software behaviors as needed.</p>
+<h3 id="3-returning-from-the-trap-sret">3. Returning from the Trap (<code>sret</code>)<a class="headerlink" href="#3-returning-from-the-trap-sret" title="Permanent link">&para;</a></h3>
+<p>RISC-V uses the <code>sret</code> instruction to exit a Trap in Supervisor mode, performing the following steps:</p>
+<ol>
+<li>sstauts.SIE &lt;= sstatus.SPIE</li>
+<li>Current_Privilege_Level &lt;= sstauts.SPP</li>
+<li>pc &lt;= epc</li>
+</ol>
+<p>Restore <code>sstatus.SIE</code> from <code>sstatus.SPIE</code> =&gt; Set the privilege level (U/S) to <code>sstatus.SPP</code> =&gt; Set the PC to <code>sepc</code>.</p>
+<p>The <code>sret</code> instruction is essentially the reverse of the three steps performed when entering a Trap: restoring <code>SIE</code>, the privilege level, and the PC register.</p>
+<h2 id="code-walkthrough">Code Walkthrough<a class="headerlink" href="#code-walkthrough" title="Permanent link">&para;</a></h2>
+<p>After the operating system boots, we initialize the <code>stvec</code> register to point to <code>kernel_trap_entry</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// trap.c</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set_kerneltrap</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">IS_ALIGNED</span><span class="p">((</span><span class="n">uint64</span><span class="p">)</span><span class="n">kernel_trap_entry</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">));</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">w_stvec</span><span class="p">((</span><span class="n">uint64</span><span class="p">)</span><span class="n">kernel_trap_entry</span><span class="p">);</span><span class="w">  </span><span class="c1">// DIRECT</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>When a Trap occurs, after the CPU stores the relevant information, it jumps to the <code>kernel_trap_entry</code> function pointed to by <code>stvec</code>, which serves as the interrupt vector entry point for S-mode.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">kernel_trap_entry</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="na">.align</span><span class="w"> </span><span class="mi">2</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nl">kernel_trap_entry:</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="c1">// we store all registers in the stack</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nf">add</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">-0</span><span class="no">x100</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">0x00</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">x1</span><span class="p">,</span><span class="w"> </span><span class="mi">0x08</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">x2</span><span class="p">,</span><span class="w"> </span><span class="mi">0x10</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">x30</span><span class="p">,</span><span class="w"> </span><span class="mi">0xf0</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nf">sd</span><span class="w"> </span><span class="no">x31</span><span class="p">,</span><span class="w"> </span><span class="mi">0xf8</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="c1">// ...</span>
+</code></pre></div>
+<p>The entry point allocates 0x100 bytes of stack space and saves all general-purpose registers (GPRs) onto the stack.<br />
+At this point, the stack holds 32 registers, each occupying 8 bytes, totaling 0x100 bytes, with addresses ranging from low to high corresponding to registers <code>x0</code> to <code>x31</code>.<br />
+We define a <code>struct ktrapframe</code> whose memory layout matches the register layout on the stack. 
+This allows us to dereference a <code>struct ktrapframe*</code> pointer in C to access all GPRs saved on the stack.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">ktrapframe</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">x0</span><span class="p">;</span><span class="w">  </span><span class="c1">// x0</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">ra</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">sp</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">gp</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">tp</span><span class="p">;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">t0</span><span class="p">;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">t1</span><span class="p">;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">t2</span><span class="p">;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s0</span><span class="p">;</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s1</span><span class="p">;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">a0</span><span class="p">;</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">a1</span><span class="p">;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">a2</span><span class="p">;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">a3</span><span class="p">;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">a4</span><span class="p">;</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">a5</span><span class="p">;</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">a6</span><span class="p">;</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">a7</span><span class="p">;</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s2</span><span class="p">;</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s3</span><span class="p">;</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s4</span><span class="p">;</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s5</span><span class="p">;</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s6</span><span class="p">;</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s7</span><span class="p">;</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s8</span><span class="p">;</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s9</span><span class="p">;</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s10</span><span class="p">;</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">s11</span><span class="p">;</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">t3</span><span class="p">;</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">t4</span><span class="p">;</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">t5</span><span class="p">;</span>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">t6</span><span class="p">;</span>
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">    </span><span class="c1">// 32 * 8 bytes = 256 (0x100) bytes</span>
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="p">};</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Stack</p>
+<p>Upon entering the Trap handler, we can assume the previous program was executing C code and had a valid stack.</p>
+<p>We naturally want the Trap handler to be written in C, which also requires a valid stack space.<br />
+<strong>Thus, we can directly reuse the stack space of the program that was executing</strong>, as long as we ensure the <code>sp</code> pointer can be restored.</p>
+<p>Additionally, the C compiler maintains stack balance: it deallocates as much space as it allocates.<br />
+Therefore, as long as our assembly-level stack operations are balanced, we can safely use the existing stack for context saving, leaving the rest to the compiler.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Context</p>
+<p>Trap handling requires "pausing the current task but being able to resume it later." For the CPU, this simply means saving the original registers, performing other tasks, and then restoring the registers.</p>
+<p>Upon entering the Trap handler, the 31 GPRs (<code>x1</code>-<code>x31</code>) are in use by the original program. The Trap handler must ensure that when control returns to the original program, the GPRs remain consistent with their state before the Trap. Thus, we need memory space to save these registers and restore their original values upon returning from the Trap. We refer to these registers as the <strong>Context</strong> of the original program.</p>
+<p>Therefore, we implement a context-switching mechanism in assembly, which involves two steps:</p>
+<ul>
+<li>Save the CPU registers (context) to memory (on the stack).</li>
+<li>Restore the CPU registers from memory (the stack).</li>
+</ul>
+</div>
+<p>Next, we set <code>a0</code> to <code>sp</code> and call <code>kernel_trap</code> to continue Trap handling in C code.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">kernel_trap_entry</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="na">.align</span><span class="w"> </span><span class="mi">2</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nl">kernel_trap_entry:</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nf">mv</span><span class="w"> </span><span class="no">a0</span><span class="p">,</span><span class="w"> </span><span class="no">sp</span><span class="w">   </span><span class="c1">// make a0 point to the ktrapframe structure</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="nf">call</span><span class="w"> </span><span class="no">kernel_trap</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="c1">// ...</span>
+</code></pre></div>
+<p>Since RISC-V uses <code>a0</code> to pass the first argument, <code>a0</code> now points to the <code>struct ktrapframe</code> on the stack. Thus, the first parameter of the <code>kernel_trap</code> function is <code>struct ktrapframe* ktf</code>, corresponding to the value of <code>a0</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">kernel_trap</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">ktrapframe</span><span class="w"> </span><span class="o">*</span><span class="n">ktf</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">intr_get</span><span class="p">());</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">r_sstatus</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SSTATUS_SPP</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;kerneltrap: not from supervisor mode&quot;</span><span class="p">);</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_scause</span><span class="p">();</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">exception_code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SCAUSE_EXCEPTION_CODE_MASK</span><span class="p">;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cause</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SCAUSE_INTERRUPT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="c1">// handle interrupt</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">        </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">exception_code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="no">SupervisorTimer</span><span class="p">:</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">                </span><span class="n">debugf</span><span class="p">(</span><span class="s">&quot;s-timer interrupt, cycle: %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r_time</span><span class="p">());</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">                </span><span class="n">set_next_timer</span><span class="p">();</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="no">SupervisorExternal</span><span class="p">:</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">                </span><span class="n">debugf</span><span class="p">(</span><span class="s">&quot;s-external interrupt.&quot;</span><span class="p">);</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">                </span><span class="n">plic_handle</span><span class="p">();</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">            </span><span class="k">default</span><span class="o">:</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">                </span><span class="n">errorf</span><span class="p">(</span><span class="s">&quot;unhandled interrupt: %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">cause</span><span class="p">);</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">                </span><span class="k">goto</span><span class="w"> </span><span class="n">kernel_panic</span><span class="p">;</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">        </span><span class="c1">// kernel exception, unexpected.</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">kernel_panic</span><span class="p">;</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">intr_get</span><span class="p">());</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="nl">kernel_panic</span><span class="p">:</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="w">    </span><span class="n">panicked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="w">    </span><span class="n">errorf</span><span class="p">(</span><span class="s">&quot;=========== Kernel Panic ===========&quot;</span><span class="p">);</span>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="w">    </span><span class="n">print_sysregs</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="w">    </span><span class="n">print_ktrapframe</span><span class="p">(</span><span class="n">ktf</span><span class="p">);</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="w">    </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;kernel panic&quot;</span><span class="p">);</span>
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="p">}</span>
+</code></pre></div>
+<p>Upon entering <code>kernel_trap</code>, the CPU’s interrupt bit <code>sstatus.SIE</code> should remain disabled, and the Previous Privilege should be Supervisor mode. We use assertions to ensure the code executes as expected.</p>
+<div class="admonition info">
+<p class="admonition-title">Why We Write Assertions</p>
+<p>Assertions are a critical debugging and error-detection tool in operating system development.<br />
+They help developers catch potential logic errors early in program execution.<br />
+By inserting assertions in the code, we can immediately detect states or conditions that deviate from expectations, rather than waiting for a crash or unpredictable behavior and then guessing the cause.</p>
+<p>In other words, if we can detect at some point that the program’s state has deviated from our expectations, we can make it crash at the "first scene" to provide more effective debugging information.</p>
+</div>
+<p>Next, we read the <code>scause</code> register to determine whether the Trap was caused by an interrupt or an exception. We handle timer interrupts and PLIC-managed external interrupts. For any other unexpected Trap causes, we print the <code>ktrapframe</code> structure saved on the stack for debugging and use the <code>panic</code> macro to indicate an unrecoverable kernel error, halting the system.</p>
+<p>Finally, we exit <code>kernel_trap</code> and return to <code>kernel_trap_entry</code> to continue execution.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">kernel_trap_entry</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="na">.align</span><span class="w"> </span><span class="mi">2</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nl">kernel_trap_entry:</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nf">call</span><span class="w"> </span><span class="no">kernel_trap</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="c1">// restore all registers</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="c1">//ld x0, 0x00(sp) // do not write to x0</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">x1</span><span class="p">,</span><span class="w"> </span><span class="mi">0x08</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">x2</span><span class="p">,</span><span class="w"> </span><span class="mi">0x10</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">x30</span><span class="p">,</span><span class="w"> </span><span class="mi">0xf0</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="nf">ld</span><span class="w"> </span><span class="no">x31</span><span class="p">,</span><span class="w"> </span><span class="mi">0xf8</span><span class="p">(</span><span class="no">sp</span><span class="p">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="c1">// restore stack</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="nf">add</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0x100</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">    </span><span class="c1">// return from trap</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span><span class="nf">sret</span>
+</code></pre></div>
+<p>After exiting the C environment, we restore all GPRs from the stack, restore the stack space, and use <code>sret</code> to exit the Trap.</p>
+<p>The <code>sret</code> instruction restores the value of <code>sepc</code> to the PC register.</p>
+<p>The following diagram illustrates the stack structure during the process of entering the Trap, constructing the <code>ktrapframe</code>, and then restoring and exiting with <code>sret</code>:</p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/trap-stacklayout.png" /></p>
+<h2 id="lab-report">Lab Report<a class="headerlink" href="#lab-report" title="Permanent link">&para;</a></h2>
+<div class="admonition question">
+<p class="admonition-title">Question 1</p>
+<p>Based on this week’s lab content, use the GDB debugger to print the value of <code>stvec</code> when the code from last week’s lab runs to the <code>main</code> function. Then, explain why the operating system exhibits an infinite reboot behavior after failing to read the CSR <code>mvendorid</code> value, using this <code>stvec</code> value.</p>
+<p>You may need to use GDB commands like <code>b main</code> (set a breakpoint at the <code>main</code> function entry), <code>c</code> (continue execution), and <code>print $stvec</code>.</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Question 2</p>
+<p>In <code>main.c</code>, the <code>ebreak</code> instruction actively triggers an exception. Run the kernel with <code>make run</code>, and you’ll observe a <code>Kernel Panic</code> along with some printed CSRs.</p>
+<p>Refer to the RISC-V Privileged Architecture Manual, Section <code>4.1.1 Supervisor Status Register (sstatus)</code>, and extract the values of the <code>SIE</code>, <code>SPIE</code>, and <code>SPP</code> bits from the <code>sstatus</code> value printed in the Kernel Panic log. Explain their meanings.</p>
+<p>Referring to the description of Interrupt/Exception Codes in <code>scause</code>, <strong>write down the meaning of the current <code>scause</code> value</strong>.</p>
+<p>Next, modify the <code>else</code> branch in the <code>kernel_trap</code> function in <code>trap.c</code> so that the exception caused by <code>ebreak</code> does not jump to the <code>kernel_panic</code> label but instead exits the <code>kernel_trap</code> handler:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cause</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SCAUSE_INTERRUPT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="c1">// handle interrupt</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">exception_code</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">?</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">        </span><span class="n">debugf</span><span class="p">(</span><span class="s">&quot;breakpoint&quot;</span><span class="p">);</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">        </span><span class="c1">// kernel exception, unexpected.</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">kernel_panic</span><span class="p">;</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">}</span>
+</code></pre></div>
+<p>Write what should replace the <code>?</code>. Run the kernel with <code>make run</code>. What do you observe? Explain the results.</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Question 3</p>
+<p>The RISC-V Privileged Architecture Manual, Section <code>3.3.1 Environment Call and Breakpoint</code>, explains the <code>ecall</code> and <code>ebreak</code> instructions as follows:</p>
+<blockquote>
+<p>ECALL and EBREAK cause the receiving privilege mode’s epc register to be set to the address of
+the ECALL or EBREAK instruction itself, not the address of the following instruction. As ECALL
+and EBREAK cause synchronous exceptions, they are not considered to retire, and should not
+increment the minstret CSR.</p>
+</blockquote>
+<p>Add a line of code after <code>debugf("breakpoint");</code> to ensure that, upon exiting the Trap, the subsequent instruction is executed instead of repeatedly executing <code>ebreak</code>.</p>
+<p>Note: You can refer to the disassembled kernel image in <code>build/kernel.asm</code> to see the instructions at each address.</p>
+<p>Note 2: You can use the functions <code>w_sepc()</code> and <code>r_sepc()</code> defined in <code>riscv.h</code> to read/write the <code>sepc</code> register.</p>
+</div>
+<h2 id="interrupt">Interrupt<a class="headerlink" href="#interrupt" title="Permanent link">&para;</a></h2>
+<p>The RISC-V specification defines three standard interrupts for each Hart in M/S modes: Timer Interrupt, Software Interrupt, and External Interrupt.</p>
+<h3 id="when-can-an-interrupt-be-handled">When Can an Interrupt Be Handled?<a class="headerlink" href="#when-can-an-interrupt-be-handled" title="Permanent link">&para;</a></h3>
+<p>RISC-V defines three standard interrupts—Software Interrupt, Timer Interrupt, and External Interrupt—corresponding to Exception Codes 1, 5, and 9 in <code>scause</code>, and bits 1, 5, and 9 in <code>sip</code>/<code>sie</code>.</p>
+<!-- The interrupt source will raise the corresponding bit in the Hart's `sip` (Supervisor Interrupt Pending) register, and the Hart will determine whether it can enter the interrupt. -->
+
+<p>When an interrupt arrives, the RISC-V core checks whether it can currently handle the interrupt and enter a Trap:</p>
+<ul>
+<li>(Currently running in S-mode with <code>sstatus.SIE == 1</code>) <strong>OR</strong> currently running in U-mode.</li>
+<li>The interrupt type’s bit <code>i</code> is set to 1 in both <code>sie</code> and <code>sip</code>.</li>
+</ul>
+<blockquote>
+<p>An interrupt i will trap to S-mode if both of the following are true:</p>
+<p>(a) either the current privilege mode is S and the SIE bit in the sstatus register is set, or the current privilege mode has less privilege than S-mode; and</p>
+<p>(b) bit i is set in both sip and sie.</p>
+</blockquote>
+<p>When a Software/Timer/External Interrupt reaches the CPU, the corresponding bit in <code>sip</code> is set high. The CPU then evaluates the above conditions, entering a Trap if they are met.</p>
+<h3 id="timer-interrupt">Timer Interrupt<a class="headerlink" href="#timer-interrupt" title="Permanent link">&para;</a></h3>
+<p>A timer interrupt can be understood as a program that executes periodically. It triggers an interrupt at fixed intervals, during which we can perform operations like process scheduling.</p>
+<p>The RISC-V platform provides a real-time counter, the <code>time</code> register, which increments at a constant frequency and is shared across all cores. Additionally, RISC-V provides each core with a <code>timecmp</code> register. Whenever <code>time &gt;= timecmp</code>, the core sets the <code>sip.STIP</code> bit high for a timer interrupt. If the core meets the conditions to enter a Trap, it does so.</p>
+<p>The SBI provides an SBI call, <code>SBI_SET_TIMER</code>, allowing Supervisor-mode software to set the <code>timecmp</code> register. Knowing the frequency of the <code>time</code> register, we can calculate how much <code>time</code> will increase in a given period (e.g., 10ms) and set <code>timecmp</code> accordingly to receive a timer interrupt after 10ms. Each time a timer interrupt occurs, we recalculate and set the next <code>timecmp</code>, achieving a timer interrupt every 10ms.</p>
+<p>The timer-related code is located in <code>timer.c</code>.</p>
+<p>During timer interrupt initialization, we use the SBI call <code>SET_TIMER</code> to set <code>timecmp</code> and enable the timer interrupt in <code>sie</code> with <code>SIE_STIE</code>. </p>
+<p>When handling a timer interrupt in <code>kernel_trap</code>, we calculate the next <code>timecmp</code> and call <code>SET_TIMER</code> again via SBI, repeating the cycle.</p>
+<div class="admonition question">
+<p class="admonition-title">Lab Report - Question 4</p>
+<p>Comment out the line <code>asm volatile("ebreak" ::: "s11");</code> in <code>main.c</code> and uncomment <code>intr_on()</code>.</p>
+<p>Run <code>make run</code> and observe the cycle count printed each time a timer interrupt is triggered.</p>
+<p>Comment out the call to <code>set_next_timer()</code> in <code>kernel_trap</code> in <code>trap.c</code>, then run <code>make run</code> again and observe the cycle count printed for each timer interrupt.</p>
+<p>Explain the observed phenomena and why they occur.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">mtimecmp and stimecmp</p>
+<p>In fact, the standard RISC-V Privileged Architecture Manual only defines the <code>mtimecmp</code> register for M-mode. S-mode software must use an SBI call to set the timer interrupt, which internally uses OpenSBI to set <code>mtimecmp</code> and sets <code>STIP</code> in <code>mtvec</code> to emulate a timer interrupt for S-mode. This reflects RISC-V’s hardware design principle of leaving tasks to software whenever possible, with M-mode emulating behavior for higher-level software.</p>
+<p>However, privilege mode switches are quite time-consuming. To improve Supervisor timer interrupt performance, the RISC-V Sstc extension introduces the <code>stimecmp</code> CSR, allowing Supervisor mode to directly set its timer interrupt counter.</p>
+<p>We can disable the Sstc extension in QEMU’s CPU flags (<code>-cpu rv64,sstc=off</code>) to observe OpenSBI’s behavior without Sstc. Use the command <code>qemu-system-riscv64 -nographic -machine virt -cpu rv64,svadu=off,sstc=off -m 512 -kernel build/kernel -S -gdb tcp::3333</code> to start QEMU with a debugger.</p>
+<p>After attaching GDB, use the <code>c</code> (continue) command to proceed. When QEMU outputs <code>kernel_trap: s-timer interrupt</code>, press Ctrl-C in the GDB terminal to interrupt execution. Use <code>print $mtvec</code> to get the M-mode interrupt vector address, and set a breakpoint with <code>b *0x800004f0</code> at the interrupt vector.</p>
+<p>Resume execution with <code>c</code>. When the breakpoint at <code>0x800004f0</code> is hit, use <code>print $mcause</code> to check the M-mode Trap cause.</p>
+<p>Without Sstc, you should see <code>mcause</code> alternate between <code>0x8000000000000007</code> (M-mode Timer Interrupt) and <code>0x9</code> (S-mode <code>ecall</code>). With the Sstc extension, <code>mcause</code> will only show <code>0x9</code>. In this case, OpenSBI directly sets <code>stimecmp</code> when using <code>SBI_SET_TIMER</code>, avoiding the routing of S-mode timer interrupts through OpenSBI.</p>
+</div>
+<h3 id="external-interrupt">External Interrupt<a class="headerlink" href="#external-interrupt" title="Permanent link">&para;</a></h3>
+<p>When we previously described interrupts and Traps, we mentioned, "When an Interrupt arrives, the RISC-V core...". So, how do external interrupts reach each core?</p>
+<p>The <strong>PLIC (Platform-Level Interrupt Controller)</strong> is an IP core on the RISC-V platform for managing external interrupts. Each RISC-V platform has multiple cores (Harts), but typically only one PLIC.</p>
+<p>In short, each peripheral notifies the PLIC when it has an interrupt to process, with each device assigned an interrupt number. The PLIC routes the interrupt to one or more cores based on preconfigured rules, setting the <code>mip.MEIP</code> or <code>sip.SEIP</code> bit of the target core(s) to request an interrupt.</p>
+<p>The core must <strong>claim</strong> the interrupt from the PLIC to handle it and <strong>complete</strong> it after processing.</p>
+<p>Specification: <a href="https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.adoc">https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.adoc</a></p>
+<div class="admonition info">
+<p class="admonition-title">AMD64 and Aarch64</p>
+<p>Similar global interrupt controllers exist on x86 (IA32), x86-64 (AMD64), and ARM platforms: <a href="https://wiki.osdev.org/8259_PIC">PIC</a>, <a href="https://wiki.osdev.org/APIC">APIC</a>, <a href="https://developer.arm.com/documentation/198123/0302/What-is-a-Generic-Interrupt-Controller-">GIC</a></p>
+</div>
+<h4 id="plic-structure">PLIC Structure<a class="headerlink" href="#plic-structure" title="Permanent link">&para;</a></h4>
+<p>The PLIC can manage 1–1023 interrupt sources, each with a priority level (<strong>Priority</strong>). The PLIC refers to interrupt recipients as <strong>Hart Contexts</strong> (where a Hart Context is a privilege mode on a given Hart). Each Context can be viewed as a tuple (Hart ID, Privilege Level), corresponding to a Hart and a privilege level. Since RISC-V does not yet specify User-Mode Interrupts (the privilege spec only defines <code>mie/mip</code> and <code>sie/sip</code> for Machine and Supervisor modes), we can assume each core has two Contexts: one for M-mode and one for S-mode external interrupts.</p>
+<p>The PLIC can manage 0–15,871 Contexts, setting whether each interrupt source is allowed to route to a specific Context (<strong>Enabled Bit</strong>) and the <strong>Priority Threshold</strong> for each Context.</p>
+<p>The PLIC sets the <code>mip.MEIP</code> or <code>sip.SEIP</code> bit of a Hart, and whether the Hart enters an interrupt Trap depends on the conditions described earlier.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/plic-structure.png" /></p>
+<h4 id="memory-mapped-registers">Memory-Mapped Registers<a class="headerlink" href="#memory-mapped-registers" title="Permanent link">&para;</a></h4>
+<p>The PLIC exposes its management interface via <strong>Memory-Mapped Registers</strong>. We use offsets to locate each register. Typically, such an IP core has a fixed base address, which in QEMU is <code>0x0c00_0000</code>.</p>
+<div class="admonition info">
+<p class="admonition-title">Memory-Mapped Register, MMIO</p>
+<p><strong>Memory-Mapped Registers</strong> are a critical technique in computer architecture for peripheral device and hardware control.</p>
+<p>A Memory-Mapped Register maps a hardware device’s registers directly into the processor’s memory address space. This allows the CPU to access a specific address as if it were memory, when it actually corresponds to a register within a device.</p>
+<p>I/O operations using Memory-Mapped Registers are called <strong>Memory-Mapped I/O (MMIO)</strong>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gef &gt; monitor info mtree
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    000000000c000000-000000000c5fffff (prio 0, i/o): riscv.sifive.plic
+</code></pre></div>
+</div>
+<p>For example, the Specification’s Memory Map defines <code>base + 0x4 * i</code> as the priority of interrupt source <code>i</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>base + 0x000000: Reserved (interrupt source 0 does not exist)
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>base + 0x000004: Interrupt source 1 priority
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>base + 0x000008: Interrupt source 2 priority
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>...
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>base + 0x000FFC: Interrupt source 1023 priority
+</code></pre></div>
+<p>In <code>plicinit</code>, we set the Interrupt Priority of UART0 (interrupt 10) to 1 at <code>base + 10*4 = 1</code>. In <code>plicinithart</code>, we enable the S-mode Context of the current Hart to receive interrupt 10 and set its Priority Threshold to 0. Finally, we enable the core’s <code>sie.SEIE</code> bit to allow Supervisor-Mode External Interrupts. Before the <code>while(1)</code> loop in <code>main.c</code>, we use <code>intr_on</code> to enable S-mode interrupts for the entire CPU.</p>
+<h4 id="claim-complete">Claim &amp; Complete<a class="headerlink" href="#claim-complete" title="Permanent link">&para;</a></h4>
+<p>When a Hart enters a Trap due to an External Interrupt, it must <strong>claim</strong> the interrupt from the PLIC to process it. After handling, it must <strong>complete</strong> the interrupt to notify the PLIC.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-interrupts/PLICInterruptFlow.jpg" /></p>
+<h4 id="serial-port-interrupt">Serial Port Interrupt<a class="headerlink" href="#serial-port-interrupt" title="Permanent link">&para;</a></h4>
+<p>On the QEMU platform, the serial port uses the <code>uart8250</code> device model, exposing eight MMIO registers. For details, see: <a href="https://www.lammertbies.nl/comm/info/serial-uart">https://www.lammertbies.nl/comm/info/serial-uart</a></p>
+<p>The <code>uart8250</code> has a read port (<code>RHR</code>) and a write port (<code>THR</code>), with bits in the <code>LSR</code> register indicating whether the read port has data and the write port is free. Read and write functions are in <code>uartgetc</code> and <code>uart_putchar</code>.</p>
+<p>In the serial initialization function <code>console_init</code>, we write specific flags to the <code>IER</code> register at the <code>uart8250</code>’s MMIO address, enabling the device to generate an interrupt when input is available. We then register interrupt 10 with the PLIC, routing it to the current core’s S-mode, and handle it in <code>kernel_trap</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cause</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SCAUSE_INTERRUPT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="c1">// handle interrupt</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">exception_code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">SupervisorExternal</span><span class="p">:</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">            </span><span class="n">debugf</span><span class="p">(</span><span class="s">&quot;s-external interrupt.&quot;</span><span class="p">);</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">            </span><span class="n">plic_handle</span><span class="p">();</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">}</span>
+</code></pre></div>
+<p>The <code>plic_handle</code> function claims the current external interrupt’s source number from the PLIC. If it’s UART0’s interrupt 10, it passes it to <code>uart_intr()</code> for processing.</p>
 
 
 
@@ -1065,8 +2064,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/1e9f2b38, 2025-03-09 15:54:41+08:00" target="_blank" rel="noopener">
-            1e9f2b38, 2025-03-09 15:54:41+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/079c3dc3, 2025-03-10 16:56:47+08:00" target="_blank" rel="noopener">
+            079c3dc3, 2025-03-10 16:56:47+08:00
         </a>
     </div>
 </div>
