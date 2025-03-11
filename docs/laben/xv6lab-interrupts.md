@@ -205,7 +205,7 @@ void set_kerneltrap() {
 }
 ```
 
-When a Trap occurs, after the CPU stores the relevant information, it jumps to the `kernel_trap_entry` function pointed to by `stvec`, which serves as the interrupt vector entry point for S-mode.
+When a Trap occurs, the CPU, after storing the relevant information, jumps to the `kernel_trap_entry` function pointed to by `stvec`, which serves as the interrupt vector entry point for S-mode.
 
 ```asm
     .globl kernel_trap_entry
@@ -396,7 +396,7 @@ The following diagram illustrates the stack structure during the process of ente
 
 !!!question "Question 1"
 
-    Based on this week’s lab content, use the GDB debugger to print the value of `stvec` when the code from last week’s lab runs to the `main` function. Then, explain why the operating system exhibits an infinite reboot behavior after failing to read the CSR `mvendorid` value, using this `stvec` value.
+    Based on this week’s lab content, use the GDB debugger to print the value of `stvec` when the code from last week’s lab runs to the `main` function. Further, using this `stvec` value, explain why the operating system reboots infinitely after failing to read the CSR `mvendorid` value.
 
     You may need to use GDB commands like `b main` (set a breakpoint at the `main` function entry), `c` (continue execution), and `print $stvec`.
 
