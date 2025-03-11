@@ -1733,7 +1733,7 @@ The Trap handler then processes the event based on the information stored in the
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">w_stvec</span><span class="p">((</span><span class="n">uint64</span><span class="p">)</span><span class="n">kernel_trap_entry</span><span class="p">);</span><span class="w">  </span><span class="c1">// DIRECT</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span>
 </code></pre></div>
-<p>When a Trap occurs, after the CPU stores the relevant information, it jumps to the <code>kernel_trap_entry</code> function pointed to by <code>stvec</code>, which serves as the interrupt vector entry point for S-mode.</p>
+<p>When a Trap occurs, the CPU, after storing the relevant information, jumps to the <code>kernel_trap_entry</code> function pointed to by <code>stvec</code>, which serves as the interrupt vector entry point for S-mode.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">    </span><span class="na">.globl</span><span class="w"> </span><span class="no">kernel_trap_entry</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="na">.align</span><span class="w"> </span><span class="mi">2</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nl">kernel_trap_entry:</span>
@@ -1897,7 +1897,7 @@ By inserting assertions in the code, we can immediately detect states or conditi
 <h2 id="lab-report">Lab Report<a class="headerlink" href="#lab-report" title="Permanent link">&para;</a></h2>
 <div class="admonition question">
 <p class="admonition-title">Question 1</p>
-<p>Based on this week’s lab content, use the GDB debugger to print the value of <code>stvec</code> when the code from last week’s lab runs to the <code>main</code> function. Then, explain why the operating system exhibits an infinite reboot behavior after failing to read the CSR <code>mvendorid</code> value, using this <code>stvec</code> value.</p>
+<p>Based on this week’s lab content, use the GDB debugger to print the value of <code>stvec</code> when the code from last week’s lab runs to the <code>main</code> function. Further, using this <code>stvec</code> value, explain why the operating system reboots infinitely after failing to read the CSR <code>mvendorid</code> value.</p>
 <p>You may need to use GDB commands like <code>b main</code> (set a breakpoint at the <code>main</code> function entry), <code>c</code> (continue execution), and <code>print $stvec</code>.</p>
 </div>
 <div class="admonition question">
@@ -2064,8 +2064,8 @@ increment the minstret CSR.</p>
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/079c3dc3, 2025-03-10 16:56:47+08:00" target="_blank" rel="noopener">
-            079c3dc3, 2025-03-10 16:56:47+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/bb3d0820, 2025-03-11 14:12:37+08:00" target="_blank" rel="noopener">
+            bb3d0820, 2025-03-11 14:12:37+08:00
         </a>
     </div>
 </div>
