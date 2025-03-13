@@ -1778,12 +1778,12 @@
 <p>这一步是通过检查 <code>mycpu()-&gt;noff</code> 实现的，因为每次 <code>acquire</code> 会将其增加1，每次 release 会将其减少1。</p>
 </li>
 <li>
-<p>必须已经修改 p-&gt;state 为非 RUNNING。</p>
+<p>必须已经修改 <code>p-&gt;state</code> 为非 RUNNING。</p>
 </li>
 <li>禁止在 kernel trap 环境中调用 sched。</li>
 </ol>
-<p>如果检查通过，则使用 <code>swtch</code> 将当前进程状态保存到 p-&gt;context, 并跳转到 scheduler 的 context (<code>&amp;mycpu()-&gt;sched_context</code>) 上面。</p>
-<p>同理，如果 scheduler 还会切换回来，我们一样要求 scheduler 在给予 CPU 控制权时将 p-&gt;lock 上锁。</p>
+<p>如果检查通过，则使用 <code>swtch</code> 将当前进程状态保存到 <code>p-&gt;context</code>, 并跳转到 scheduler 的 context (<code>&amp;mycpu()-&gt;sched_context</code>) 上面。</p>
+<p>同理，如果 scheduler 还会切换回来，我们一样要求 scheduler 在给予 CPU 控制权时将 <code>p-&gt;lock</code> 上锁。</p>
 <h2 id="-init">第一个进程 - init<a class="headerlink" href="#-init" title="Permanent link">&para;</a></h2>
 <p>目前，我们讲了 xv6 里面的 Process Control Block: <code>struct proc</code>，Context Switch 的原理，以及调度器的设计。我们即将介绍 xv6 中第一个进程（内核线程）是如何运行起来的。</p>
 <p>在 <code>main.c</code> 中的 <code>bootcpu_init</code> 函数中，我们创建了第一个内核线程 <code>init</code>：<code>create_kthread(init, 0x1919810);</code>，这表示第一个进程将执行 <code>init()</code> 方法，并且传入一个参数。</p>
@@ -1951,8 +1951,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/65eb117e, 2025-03-13 19:26:31+08:00" target="_blank" rel="noopener">
-            65eb117e, 2025-03-13 19:26:31+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/290edff2, 2025-03-13 19:27:12+08:00" target="_blank" rel="noopener">
+            290edff2, 2025-03-13 19:27:12+08:00
         </a>
     </div>
 </div>
