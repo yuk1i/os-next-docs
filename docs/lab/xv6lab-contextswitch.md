@@ -1,5 +1,27 @@
 # Context Switch
 
+!!!warning "xv6-lab3 代码分支"
+    
+    https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab3
+
+    使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab3 xv6lab3` 下载 xv6-lab3 代码。
+
+    使用 `make runsmp` **使用多核心** 运行本次 Lab 的内核，你应该会看到：
+
+    ```
+    Boot another cpus.
+    ...
+    System has 4 cpus online
+    ...
+    kthread: all threads exited, count 6288388
+    [INFO  1,1] init: kthread: init ends!
+    [PANIC 1,1] os/proc.c:225: init process exited
+    [PANIC 0,-1] os/trap.c:41: other CPU has panicked
+    [PANIC 2,-1] os/trap.c:41: other CPU has panicked
+    [PANIC 3,-1] os/trap.c:41: other CPU has panicked
+    ```
+
+
 上下文切换 (Context Switch) 是操作系统中的一个重要概念，本章我们将集中于 Context Switch 在技术上的实现，和 xv6 中调度器 (scheduler) 的设计。
 
 ## 什么是 Context
@@ -44,9 +66,164 @@
 
     进程调用 `yield` 系统调用，主动放弃剩余的时间片，通常用于进程感知到自己短期内无事可做时。
 
-## xv6 Context Switch 实现
+## xv6 Process
 
-对于一个程序而言，它所能看到和修改所有状态，即它的所有寄存器和内存空间。在 xv6 中，我们定义一个进程的 **内核** Context 为如下结构。因为在内核空间下，所有进程所看到的内存空间是同一个（而对于用户进程而言，不同的程序有不同的内存空间）。所以，对于内核进程，我们只需要保存它的寄存器状态即可。
+!!!info "Process, Thread 和 Kernel Thread"
+    在上周的理论课中，我们讲解了什么是进程 (Process)：进程是程序的一个实例，每个进程有自己独立的地址空间、内存、文件描述符等资源。
+    而线程 (Thread) 是进程内的执行单元，是 CPU 调度的基本单位，线程有自己的栈空间和寄存器状态，同一进程的线程共享进程的地址空间和大部分资源。通常来说，一个进程内可以有多个线程。
+
+    在我们的实验课上，我们使用的 xv6 为了简化实现，做出了如下规定：
+
+    1. 每个进程有且只有一个线程。所以，在 xv6 中，进程即是 CPU 调度的基本单位。
+    2. 每一个用户进程拥有两个执行环境：处于用户模式（U mode）的用户环境，和处于内核（S mode）的内核环境，我们将后者称为内核线程（Kernel Thread）。
+
+    在本次 Lab 中，我们还尚未进入用户模式，所以每个进程仅有一个内核线程。我们会在下下周开始介绍用户空间。
+
+> 代码：`os/proc.h`, `os/sched.c`, `os/smp.c`
+
+在 xv6 中，Process Control Block (PCB) 被定义如下：
+
+```c
+enum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
+
+struct proc {
+    spinlock_t lock;
+    // p->lock must be held when accessing to these fields:
+    enum procstate state;  // Process state
+    int pid;               // Process ID
+    uint64 exit_code;
+    void *sleep_chan;
+    int killed;
+    struct proc *parent;    // Parent process
+    uint64 __kva kstack;    // Virtual address of kernel stack
+    struct context context; // swtch() here to run process
+
+    // Userspace: User Memory Management, not covered in today's lab
+    struct mm *mm;
+    struct vma *vma_brk;
+    struct trapframe *__kva trapframe;  // data page for trampoline.S
+};
+```
+
+每个 Process 有自己的 pid, 进程状态、parent 指针、内核栈、和内核 Context。
+
+对于有用户态的 Process，PCB 中还有负责管理内存的 `struct mm`，和保存用户模式下 Trap 触发时数据的 Trapframe。
+
+除此之外，每个进程都有一个自旋锁 `spinlock_t`，尽管我们目前理论课还没有接触到锁和并发的相关知识，但是我们在 xv6 中规定：访问 `struct proc` 的所有成员时，都需要在持有 `p->lock` 的情况下进行。
+
+!!!info "偷跑：什么是锁"
+    锁 (lock) 是一种控制并发访问的基本工具。
+    
+    我们规定：在我们持有 (holding) 一把自旋锁时：1. 该 CPU 不能被中断，2. 其他 CPU 不能同时持有这一把锁。
+        
+    我们使用 `acquire` 和 `release` 原语表示 上锁 和 解锁 的动作。
+
+    如果在 `acquire` 时抢不到锁，那么该 CPU 会进行原地空转直到抢到锁。
+
+### `struct cpu`
+
+在 xv6 中，我们使用 `struct cpu` 描述每个 CPU 的状态，我们是用 `mycpu()` 方法获取当前 `cpu` 对象。
+
+```c
+struct cpu {
+    int mhart_id;                  // mhartid for this cpu, passed by OpenSBI
+    struct proc *proc;             // current process
+    struct context sched_context;  // scheduler context, swtch() here to run scheduler
+    int inkernel_trap;             // whether we are in a kernel trap context
+    int noff;                      // how many push-off
+    int interrupt_on;              // Is the interrupt Enabled before the first push-off?
+    uint64 sched_kstack_top;       // top of per-cpu sheduler kernel stack
+    int cpuid;                     // for debug purpose
+};
+```
+
+### Process 初始化
+
+为了简化实现，xv6 限制了系统中进程数量的最大值为一个固定值 512，并使用一个指针数组来索引所有进程。
+
+在系统启动时，xv6 会执行 `proc_init` 函数来初始化所有进程资源，它会先初始化 Process 模块所需要的自旋锁，以及 `struct proc` 的分配池 `proc_allocator`。随后，它会初始化 512 个进程，每个进程从 `proc_allocator` 分配 PCB 结构体 `struct proc*`，进行 memset 初始化，以及分配一个内核栈 `kstack`。
+
+!!!info "kalloc"
+    `kalloc.c` 模块主要完成以下事情：
+
+    1. 分配、释放一个 4KiB 页面：`kallocpage`，`kfreepage`。
+    2. 分配、释放一个固定大小的对象：`allocator_init`, `kalloc`, `kfree`。
+
+```c
+struct proc *pool[NPROC];
+
+// initialize the proc table at boot time.
+void proc_init() {
+    // we only init once.
+    static int proc_inited = 0;
+    assert(proc_inited == 0);
+    proc_inited = 1;
+
+    spinlock_init(&pid_lock, "pid");
+    spinlock_init(&wait_lock, "wait");
+    allocator_init(&proc_allocator, "proc", sizeof(struct proc), NPROC);
+
+    struct proc *p;
+    for (int i = 0; i < NPROC; i++) {
+        p = kalloc(&proc_allocator);
+        memset(p, 0, sizeof(*p));
+        spinlock_init(&p->lock, "proc");
+        p->index = i;
+        p->state = UNUSED;
+
+        p->kstack = (uint64)kallocpage();
+        assert(p->kstack);
+
+        pool[i] = p;
+    }
+    sched_init();
+}
+```
+
+在我们需要一个 PCB 时，`allocproc` 会在 `pool` 中寻找一个未被分配的进程，进行最终的初始化并返回。我们会在后续讲解 xv6 是如何初始化进程的 Context。
+
+```c
+// Look in the process table for an UNUSED proc.
+// If found, initialize state required to run in the kernel.
+// If there are no free procs, or a memory allocation fails, return 0.
+struct proc *allocproc() {
+    struct proc *p;
+    // find an UNUSED proc
+    for (int i = 0; i < NPROC; i++) {
+        p = pool[i];
+        acquire(&p->lock);
+        if (p->state == UNUSED) {
+            goto found;
+        }
+        release(&p->lock);
+    }
+    return 0;
+
+found:
+    // initialize a proc
+    tracef("init proc %p", p);
+    p->pid        = allocpid();
+    p->state      = USED;
+    p->killed     = 0;
+    p->sleep_chan = NULL;
+    p->parent     = NULL;
+    p->exit_code  = 0;
+
+    memset(&p->context, 0, sizeof(p->context));
+    memset((void *)p->kstack, 0, PGSIZE);
+
+    if (!init_proc)
+        init_proc = p;
+
+    assert(holding(&p->lock));
+
+    return p;
+}
+```
+
+## xv6 Context Switch
+
+对于一个程序而言，它所能看到和修改所有状态，即它的所有寄存器和内存空间。因为在内核空间下，所有内核线程所看到的内存空间是同一个（而对于用户进程而言，不同的程序有不同的内存空间）。所以，对于内核进程，我们只需要保存它的寄存器状态即可。因此，在 xv6 中，我们定义一个进程的 **内核** Context 为如下结构。
 
 ```c
 // Saved registers for kernel context switches.
@@ -138,114 +315,6 @@ P1 在执行 `P1` 函数时，会在函数开头 (prologue) 保存 `P1` 的调�
 
 此外，`swtch` 方法是天生成对的：如果上次使用 swtch 离开了当前进程，那么下次返回时，必定是有其他进程调用了 swtch 回到了该进程。
 
-## xv6 Process
-
-> 代码：`os/sched.c`, `os/smp.c`, `os/proc.h`
-
-在 xv6 中，Process Control Block (PCB) 被定义如下：
-
-```c
-// Per-process state
-struct proc {
-    spinlock_t lock;
-    // p->lock must be held when accessing to these fields:
-    enum procstate state;  // Process state
-    int pid;               // Process ID
-    uint64 exit_code;
-    void *sleep_chan;
-    int killed;
-    struct proc *parent;    // Parent process
-    uint64 __kva kstack;    // Virtual address of kernel stack
-    struct context context; // swtch() here to run process
-
-    // Userspace: User Memory Management
-    struct mm *mm;
-    struct vma *vma_brk;
-    struct trapframe *__kva trapframe;  // data page for trampoline.S
-
-};
-
-enum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
-```
-
-每个 Process 有自己的 pid, 进程状态、parent 指针、内核栈、和内核 Context。
-
-对于有用户态的 Process，PCB 中还有负责管理内存的 `struct mm`，和保存 User mode 下 Trap 触发时数据的 Trapframe。
-
-除此之外，每个进程都有一个自旋锁 `spinlock_t`，尽管我们目前理论课还没有接触到锁的相关知识，但是我们在 xv6 中规定：访问 `struct proc` 的所有成员时，都需要在持有 `p->lock` 的情况下进行。
-
-!!!info "偷跑：什么是锁"
-    锁 (lock) 是一种控制并发访问的基本工具。
-    
-    我们规定：在我们持有 (holding) 一把自旋锁时：1. 该 CPU 不能被中断，2. 其他 CPU 不能同时持有这一把锁。
-        
-    我们使用 `acquire` 和 `release` 原语表示 上锁 和 解锁 的动作。
-
-    如果在 `acquire` 时抢不到锁，那么该 CPU 会进行原地空转直到抢到锁。
-
-### `struct cpu`
-
-在 xv6 中，我们使用 `struct cpu` 描述每个 CPU 的状态，我们是用 `mycpu()` 方法获取当前 `cpu` 对象。
-
-```c
-struct cpu {
-    int mhart_id;                  // mhartid for this cpu, passed by OpenSBI
-    struct proc *proc;             // current process
-    struct context sched_context;  // scheduler context, swtch() here to run scheduler
-    int inkernel_trap;             // whether we are in a kernel trap context
-    int noff;                      // how many push-off
-    int interrupt_on;              // Is the interrupt Enabled before the first push-off?
-    uint64 sched_kstack_top;       // top of per-cpu sheduler kernel stack
-    int cpuid;                     // for debug purpose
-};
-```
-
-### 关中断
-
-在内核代码中，我们有时会希望当前的执行不会被打断、不会被其他任务抢占，我们可以通过关闭中断来实现这一点。（当然，异常还是会直接跳入 Trap Handler 的）
-
-我们使用 `push_off()` 和 `pop_off()` 表示一对 关中断/开中断的操作。由于我们可能会有嵌套 `push_off` 的情况，我们可以将关中断视为一种“压栈”操作，并且当且仅当栈空时才将中断恢复原样，我们在 `struct cpu` 中记录两个变量：
-
-1. `noff`：我们目前 `push_off`/`pop_off` 的深度是多少。
-
-    例如 `push_off()`, `push_off()`, `pop_off()` 序列后，`noff` 应该为 1.
-
-2. `interrupt_on`: 在第一次 `push_off()` 时，即 `noff == 0` 时，CPU 的中断是开的还是关的。
-
-```c
-void push_off(void) {
-    uint64 ra = r_ra();
-
-    int old = intr_get();
-    intr_off();
-
-    if (mycpu()->noff == 0) {
-        // warnf("intr on saved: %p", ra);
-        mycpu()->interrupt_on = old;
-    }
-    mycpu()->noff += 1;
-}
-
-void pop_off(void) {
-    uint64 ra = r_ra();
-
-    struct cpu *c = mycpu();
-    if (intr_get())
-        panic("pop_off - interruptible");
-    if (c->noff < 1)
-        panic("pop_off - unpair");
-    c->noff -= 1;
-    if (c->noff == 0 && c->interrupt_on) {
-        if (c->inkernel_trap)
-            panic("pop_off->intr_on happens in kernel trap");
-        // we only open the interrupt if: 
-        //    1. the push-pop stack is cleared, and 
-        //    2. the interrupt was on before the first push-off
-        intr_on();
-    }
-}
-```
-
 ## xv6 scheduler
 
 xv6 中，每个 CPU 都有一个自己的 scheduler。`scheduler` 方法从不返回。它是一个 `while(1)` 死循环，每次循环时，scheduler 都尝试获取一个 task，如果能执行它，那就 swtch 到该进程执行。
@@ -257,7 +326,7 @@ xv6 中，每个 CPU 都有一个自己的 scheduler。`scheduler` 方法从不�
 对于 scheduler，我们做出如下规定：
 
 1. 进程只能通过 scheduler 来进行切换，即 A 进程会先切换到 `scheduler` 再切换到 B 进程，而不能直接 A 进程切换到 B 进程。
-2. 切换到某进程 `p` 时，离开 scheduler 前，当前 CPU 会持有 `p->lock` 这一把锁。而持有锁暗含着当前 CPU 中断为关闭。
+2. 切换到某进程 `p` 时，离开 scheduler 前，当前 CPU 会持有 `p->lock` 这把锁。而持有锁暗含着当前 CPU 中断为关闭。
 3. 从进程 `p` 切换回 scheduler 时，当前 CPU 会持有 `p->lock` 这一把锁。
 
 ```c
@@ -381,6 +450,146 @@ void sched() {
 
 同理，如果 scheduler 还会切换回来，我们一样要求 scheduler 在给予 CPU 控制权时将 p->lock 上锁。
 
+## 第一个进程 - init
+
+目前，我们讲了 xv6 里面的 Process Control Block: `struct proc`，Context Switch 的原理，以及调度器的设计。我们即将介绍 xv6 中第一个进程（内核线程）是如何运行起来的。
+
+在 `main.c` 中的 `bootcpu_init` 函数中，我们创建了第一个内核线程 `init`：`create_kthread(init, 0x1919810);`，这表示
+
+`create_kthread` 从 `allocproc()` 处分配得到一个 PCB 结构体，并初始化它的 `struct context` 结构体，即第一次被调度时执行的代码。随后它会将该进程标记为可执行，并加入到调度器的队列中。
+
+```c
+int create_kthread(void (*fn)(uint64), uint64 arg) {
+    struct proc *p = allocproc();
+    if (!p)
+        return -1;
+
+    // initialize process state
+    p->context.ra = (uint64)first_sched_ret;
+    p->context.sp = p->kstack + PGSIZE;
+    p->context.s1 = (uint64)fn;
+    p->context.s2 = arg;
+
+    p->state = RUNNABLE;
+    p->parent = init_proc;
+
+    int pid = p->pid;
+    add_task(p);
+    release(&p->lock);
+
+    return pid;
+}
+```
+
+### 第一次调度
+
+在内核线程 `init` 第一次被调度到时，scheduler 会 `swtch(&initproc->context, ...)`。在 `swtch` return 后，CPU 会切换到 init 的内核栈并执行 `first_sched_ret` 方法。该方法会从 s1 和 s2 寄存器中读出该内核进程将要执行的方法，以及一个任意的参数。随后，依照 scheduler 的规范，它会释放 `p->lock`，然后启用中断后跳转到 fn 中执行。
+
+```c
+static void first_sched_ret(void) {
+    // s0: frame pointer, s1: fn, s2: uint64 arg
+    void (*fn)(uint64);
+    uint64 arg;
+    asm volatile("mv %0, s1":"=r"(fn));
+    asm volatile("mv %0, s2":"=r"(arg));
+    
+    release(&curr_proc()->lock);
+    intr_on();
+    fn(arg);
+    panic("first_sched_ret should never return. You should use exit to terminate kthread");
+}
+```
+
+### init()
+
+> code: nommu_init.c
+
+`init` 进程会执行 init 方法，它会创建 8 个内核线程，均执行 `worker` 方法。这 8 个内核线程会对共享变量 `count` 进行累加，并且每累加 1000 次调用 `yield` 一次。
+
+`init` 方法会调用 `wait` 等待所有创建的内核线程退出，并最终打印共享变量 `count` 的值。
+
+```c
+#define NTHREAD 8
+
+volatile uint64 count = 0;
+
+void worker(uint64 id) {
+    for (int i = 0; i < 1000000; i++) {
+        count++;
+        if (i % 1000 == 0) {
+            infof("thread %d: count %d, yielding", id, count);
+            yield();
+        }
+    }
+    exit(id + 114514);
+}
+
+void init(uint64) {
+    infof("kthread: init starts!");
+    int pids[NTHREAD];
+    for (int i = 0; i < NTHREAD; i++) {
+        pids[i]        = create_kthread(worker, i);
+    }
+    int retcode;
+    for (int i = 0; i < NTHREAD; i++) {
+        int pid = wait(pids[i], &retcode);
+        infof("thread %d exited with code %d, expected %d", pid, retcode, i + 114514);
+    }
+    printf("kthread: all threads exited, count %d\n", count);
+    infof("kthread: init ends!");
+    exit(0);
+}
+```
+
+## 课后阅读
+
+### 关中断
+
+在内核代码中，我们有时会希望当前的执行不会被打断、不会被其他任务抢占，我们可以通过关闭中断来实现这一点。（当然，异常还是会直接跳入 Trap Handler 的）
+
+我们使用 `push_off()` 和 `pop_off()` 表示一对 关中断/开中断的操作。由于我们可能会有嵌套 `push_off` 的情况，我们可以将关中断视为一种“压栈”操作，并且当且仅当栈空时才将中断恢复原样，我们在 `struct cpu` 中记录两个变量：
+
+1. `noff`：我们目前 `push_off`/`pop_off` 的深度是多少。
+
+    例如 `push_off()`, `push_off()`, `pop_off()` 序列后，`noff` 应该为 1.
+
+2. `interrupt_on`: 在第一次 `push_off()` 时，即 `noff == 0` 时，CPU 的中断是开的还是关的。
+
+```c
+void push_off(void) {
+    uint64 ra = r_ra();
+
+    int old = intr_get();
+    intr_off();
+
+    if (mycpu()->noff == 0) {
+        // warnf("intr on saved: %p", ra);
+        mycpu()->interrupt_on = old;
+    }
+    mycpu()->noff += 1;
+}
+
+void pop_off(void) {
+    uint64 ra = r_ra();
+
+    struct cpu *c = mycpu();
+    if (intr_get())
+        panic("pop_off - interruptible");
+    if (c->noff < 1)
+        panic("pop_off - unpair");
+    c->noff -= 1;
+    if (c->noff == 0 && c->interrupt_on) {
+        if (c->inkernel_trap)
+            panic("pop_off->intr_on happens in kernel trap");
+        // we only open the interrupt if: 
+        //    1. the push-pop stack is cleared, and 
+        //    2. the interrupt was on before the first push-off
+        intr_on();
+    }
+}
+```
+
+
 ### 为什么需要保存 `cpu->interrupt_on`
 
 因为该属性是当前内核进程的属性，而并不是当前 cpu 的属性。因为我们会在没有 Process 的情况下使用 push_off/pop_off，所以我们必须将 `interrupt_on` 标志放置在 `struct cpu` 中，而不是 `struct proc` 中，并且在 `sched` 切换内核进程时，将该属性保存在该内核进程的栈上。
@@ -392,6 +601,3 @@ void sched() {
 Kernel Process 2 先运行了一段时间，此时中断为关，然后调用 sched 暂时离开(虚线)，而此时 Kernel Process 1 开始执行(实线)。P1 执行时，中断为开。在 P1 调用 sched 切换到 scheduler 时，中断状态被 `acquire->push_off` 保存在 `cpu->interrupt_on` 中，随后 scheduler 选择了 P2 继续执行。而 P2 在退出 sched 时调用了 `release`->`pop_off` 而错误恢复了中断开的状态。对于 P2 而言，它在被切换前是执行环境是中断关的，而被切换后它运行在中断开的环境中，这显然违反了 Context Switch 不会改变程序运行的上下文这一规则。
 
 ![alt text](../assets/xv6lab-contextswitch/kernel-intron.png)
-
-## 第一个进程 - init
-
