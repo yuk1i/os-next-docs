@@ -1775,7 +1775,7 @@
 <li>持有 <code>curr_proc()-&gt;lock</code> 这把锁，因为要操作该 <code>struct proc</code> 结构体。</li>
 <li>
 <p>除了 <code>curr_proc()-&gt;lock</code> 这把锁，<strong>不持有任何其他的锁</strong>，防止内核出现死锁。</p>
-<p>这一步是通过检查 <code>mycpu()-&gt;noff</code> 实现的，因为每次 <code>acquire</code> 会 pushoff 一次，每次 release 会 popoff 一次。</p>
+<p>这一步是通过检查 <code>mycpu()-&gt;noff</code> 实现的，因为每次 <code>acquire</code> 会将其增加1，每次 release 会将其减少1。</p>
 </li>
 <li>
 <p>必须已经修改 p-&gt;state 为非 RUNNING。</p>
@@ -1951,8 +1951,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/bf4b0ae9, 2025-03-13 19:22:11+08:00" target="_blank" rel="noopener">
-            bf4b0ae9, 2025-03-13 19:22:11+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/65eb117e, 2025-03-13 19:26:31+08:00" target="_blank" rel="noopener">
+            65eb117e, 2025-03-13 19:26:31+08:00
         </a>
     </div>
 </div>
