@@ -1786,8 +1786,8 @@
 <p>同理，如果 scheduler 还会切换回来，我们一样要求 scheduler 在给予 CPU 控制权时将 p-&gt;lock 上锁。</p>
 <h2 id="-init">第一个进程 - init<a class="headerlink" href="#-init" title="Permanent link">&para;</a></h2>
 <p>目前，我们讲了 xv6 里面的 Process Control Block: <code>struct proc</code>，Context Switch 的原理，以及调度器的设计。我们即将介绍 xv6 中第一个进程（内核线程）是如何运行起来的。</p>
-<p>在 <code>main.c</code> 中的 <code>bootcpu_init</code> 函数中，我们创建了第一个内核线程 <code>init</code>：<code>create_kthread(init, 0x1919810);</code>，这表示</p>
-<p><code>create_kthread</code> 从 <code>allocproc()</code> 处分配得到一个 PCB 结构体，并初始化它的 <code>struct context</code> 结构体，即第一次被调度时执行的代码。随后它会将该进程标记为可执行，并加入到调度器的队列中。</p>
+<p>在 <code>main.c</code> 中的 <code>bootcpu_init</code> 函数中，我们创建了第一个内核线程 <code>init</code>：<code>create_kthread(init, 0x1919810);</code>，这表示第一个进程将执行 <code>init()</code> 方法，并且传入一个参数。</p>
+<p><code>create_kthread</code> 从 <code>allocproc()</code> 处分配得到一个 PCB 结构体，并初始化它的 <code>struct context</code> 结构体，即第一次被调度后的执行环境。随后它会将该进程标记为可执行，并加入到调度器的队列中。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">create_kthread</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">fn</span><span class="p">)(</span><span class="n">uint64</span><span class="p">),</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">arg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">allocproc</span><span class="p">();</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span>
@@ -1810,7 +1810,7 @@
 <a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="_1">第一次调度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
-<p>在内核线程 <code>init</code> 第一次被调度到时，scheduler 会 <code>swtch(&amp;initproc-&gt;context, ...)</code>。在 <code>swtch</code> return 后，CPU 会切换到 init 的内核栈并执行 <code>first_sched_ret</code> 方法。该方法会从 s1 和 s2 寄存器中读出该内核进程将要执行的方法，以及一个任意的参数。随后，依照 scheduler 的规范，它会释放 <code>p-&gt;lock</code>，然后启用中断后跳转到 fn 中执行。</p>
+<p>在内核线程 <code>init</code> 第一次被调度到时，scheduler 会 <code>swtch(&amp;initproc-&gt;context, ...)</code>。在 <code>swtch</code> return 后，CPU 会切换到 init 的内核栈 (<code>p-&gt;kstack + PGSIZE</code>) 并执行 <code>first_sched_ret</code> 方法。该方法会从 s1 和 s2 寄存器中读出该内核进程将要执行的方法，以及一个任意的参数。随后，依照 scheduler 的规范，它会释放 <code>p-&gt;lock</code>，然后启用中断后跳转到 fn 中执行。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">first_sched_ret</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="c1">// s0: frame pointer, s1: fn, s2: uint64 arg</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">fn</span><span class="p">)(</span><span class="n">uint64</span><span class="p">);</span>
@@ -1951,8 +1951,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/63e8f4ca, 2025-03-13 19:19:05+08:00" target="_blank" rel="noopener">
-            63e8f4ca, 2025-03-13 19:19:05+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/bf4b0ae9, 2025-03-13 19:22:11+08:00" target="_blank" rel="noopener">
+            bf4b0ae9, 2025-03-13 19:22:11+08:00
         </a>
     </div>
 </div>
