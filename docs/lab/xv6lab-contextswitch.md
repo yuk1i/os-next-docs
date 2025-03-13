@@ -441,7 +441,7 @@ void sched() {
 1. 持有 `curr_proc()->lock` 这把锁，因为要操作该 `struct proc` 结构体。
 2. 除了 `curr_proc()->lock` 这把锁，**不持有任何其他的锁**，防止内核出现死锁。
 
-    这一步是通过检查 `mycpu()->noff` 实现的，因为每次 `acquire` 会 pushoff 一次，每次 release 会 popoff 一次。
+    这一步是通过检查 `mycpu()->noff` 实现的，因为每次 `acquire` 会将其增加1，每次 release 会将其减少1。
 
 3. 必须已经修改 p->state 为非 RUNNING。
 4. 禁止在 kernel trap 环境中调用 sched。
