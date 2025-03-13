@@ -454,9 +454,9 @@ void sched() {
 
 目前，我们讲了 xv6 里面的 Process Control Block: `struct proc`，Context Switch 的原理，以及调度器的设计。我们即将介绍 xv6 中第一个进程（内核线程）是如何运行起来的。
 
-在 `main.c` 中的 `bootcpu_init` 函数中，我们创建了第一个内核线程 `init`：`create_kthread(init, 0x1919810);`，这表示
+在 `main.c` 中的 `bootcpu_init` 函数中，我们创建了第一个内核线程 `init`：`create_kthread(init, 0x1919810);`，这表示第一个进程将执行 `init()` 方法，并且传入一个参数。
 
-`create_kthread` 从 `allocproc()` 处分配得到一个 PCB 结构体，并初始化它的 `struct context` 结构体，即第一次被调度时执行的代码。随后它会将该进程标记为可执行，并加入到调度器的队列中。
+`create_kthread` 从 `allocproc()` 处分配得到一个 PCB 结构体，并初始化它的 `struct context` 结构体，即第一次被调度后的执行环境。随后它会将该进程标记为可执行，并加入到调度器的队列中。
 
 ```c
 int create_kthread(void (*fn)(uint64), uint64 arg) {
@@ -483,7 +483,7 @@ int create_kthread(void (*fn)(uint64), uint64 arg) {
 
 ### 第一次调度
 
-在内核线程 `init` 第一次被调度到时，scheduler 会 `swtch(&initproc->context, ...)`。在 `swtch` return 后，CPU 会切换到 init 的内核栈并执行 `first_sched_ret` 方法。该方法会从 s1 和 s2 寄存器中读出该内核进程将要执行的方法，以及一个任意的参数。随后，依照 scheduler 的规范，它会释放 `p->lock`，然后启用中断后跳转到 fn 中执行。
+在内核线程 `init` 第一次被调度到时，scheduler 会 `swtch(&initproc->context, ...)`。在 `swtch` return 后，CPU 会切换到 init 的内核栈 (`p->kstack + PGSIZE`) 并执行 `first_sched_ret` 方法。该方法会从 s1 和 s2 寄存器中读出该内核进程将要执行的方法，以及一个任意的参数。随后，依照 scheduler 的规范，它会释放 `p->lock`，然后启用中断后跳转到 fn 中执行。
 
 ```c
 static void first_sched_ret(void) {
