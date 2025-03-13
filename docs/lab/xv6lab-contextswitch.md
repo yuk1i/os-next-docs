@@ -46,7 +46,7 @@
 
 ## xv6 Context Switch 实现
 
-在 xv6 中，我们定义一个进程的内核 Context 为：
+对于一个程序而言，它所能看到和修改所有状态，即它的所有寄存器和内存空间。在 xv6 中，我们定义一个进程的 **内核** Context 为如下结构。因为在内核空间下，所有进程所看到的内存空间是同一个（而对于用户进程而言，不同的程序有不同的内存空间）。所以，对于内核进程，我们只需要保存它的寄存器状态即可。
 
 ```c
 // Saved registers for kernel context switches.
@@ -114,9 +114,11 @@ swtch:
 
 当我们需要进行上下文切换时，我们需要调用 `swtch` 函数，并给出两个 `struct context*` 指针，分别表示，当前的 Context 应该被保存到哪里 (old)，和之后应该从哪里继续执行 (new)。
 
-由于我们是 C 语言中调用一个函数，编译器会按照 RISC-V 的 Calling Convention 构造环境，例如返回地址会被写入在 `ra` 寄存器中，这通常是通过 `jalr` 指令实现的。
+由于我们是 C 语言中尝试去调用一个函数 (`swtch`)，编译器会按照 RISC-V 的 Calling Convention 构造环境，例如返回地址会被写入在 `ra` 寄存器中，有一些寄存器会被保存在栈上。
 
-而根据 RISC-V 的 Calling Convention，寄存器的值要么需要调用者自己保存 (Caller-saved register)，被调用者能够随意修改这些寄存器；要么被调用者在需要修改这些寄存器时保存 (Callee-saved register)。并且，调用者会在自己的栈帧 (Stack Frame) 上保存这些 caller-saved register (这一步是由编译器自动进行的)，所以，**我们只需要记住 `sp` 寄存器，即可再下次返回时让 `old` 找回这些 caller-saved register**。
+根据 RISC-V 的 Calling Convention，寄存器分为两种：Caller-saved 和 Callee-saved。对于 Caller-saved register，如果调用者想保证它们在函数调用前后不变，那么调用者需要自己进行保存，被调用者允许随意修改这些寄存器；对于 Callee-saved register，调用者可以假设它们在函数调用前后不变，如果被调用者想要使用这些寄存器，那么被调用者需要自己进行保存并恢复。并且，寄存器是在栈帧 (Stack Frame) 上保存的 (由编译器自动进行的)。
+
+所以，`swtch` 函数只需要保存 `sp`, `ra` 和所有其他的 Callee-saved Register 到 `old` 结构体中，就可以记住原来调用者的程序执行状态。相反的，从 `new` 中恢复只需要设置这些寄存器即可。
 
 ![alt text](../assets/xv6lab-contextswitch/riscv-cc.png)
 
@@ -124,7 +126,7 @@ swtch:
 
 ![alt text](../assets/xv6lab-contextswitch/xv6lab-context-swtchfunc.png)
 
-P1 在执行 `P1` 函数时，会在函数开头 (prologue) 保存 `P1` 的调用者的返回地址，同时局部变量也是在栈上开辟的。在 P1 调用 `swtch` 前，编译器在已经将所有 Caller-Saved Registers 保存在栈上，然后编译器生成 `jal swtch` 的汇编，这一调汇编执行时会将 ra 设置为 `P1` 函数中 `jal` 的下一条指令。
+P1 在执行 `P1` 函数时，会在函数开头 (prologue) 保存 `P1` 的调用者的返回地址，同时在栈上开辟局部变量。在 P1 调用 `swtch` 前，编译器在已经将所有 Caller-Saved Registers 保存在栈上，然后生成汇编 `jal swtch`，这一条汇编执行时会将 ra 设置为 `P1` 函数中 `jal` 的下一条指令，即我们常说的 pc+4。
 
 在调用 `swtch` 时，`a0` 指向了 P1 的 `struct context` 结构体，`swtch` 使用 `sd` 指令保存 ra, sp 和 s0 - s11 寄存器。
 
@@ -152,21 +154,15 @@ struct proc {
     uint64 exit_code;
     void *sleep_chan;
     int killed;
+    struct proc *parent;    // Parent process
+    uint64 __kva kstack;    // Virtual address of kernel stack
+    struct context context; // swtch() here to run process
 
-    struct proc *parent;  // Parent process
-    
-    // User Memory Management
+    // Userspace: User Memory Management
     struct mm *mm;
-    struct vma *vma_ustack;
     struct vma *vma_brk;
-    struct vma *vma_trapframe;
-    struct vma *vma_trampoline;
-    
-    // User Trapframe
     struct trapframe *__kva trapframe;  // data page for trampoline.S
 
-    uint64 __kva kstack;                // Virtual address of kernel stack
-    struct context context;             // swtch() here to run process
 };
 
 enum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
@@ -176,16 +172,16 @@ enum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
 
 对于有用户态的 Process，PCB 中还有负责管理内存的 `struct mm`，和保存 User mode 下 Trap 触发时数据的 Trapframe。
 
-除此之外，每个进程都有一个自旋锁 `spinlock_t`，尽管我们目前理论课还没有接触到锁的相关知识，但是我们在 xv6 中规定：访问所有 `struct proc` 的成员时，都需要在持有 `p->lock` 的情况下进行。
+除此之外，每个进程都有一个自旋锁 `spinlock_t`，尽管我们目前理论课还没有接触到锁的相关知识，但是我们在 xv6 中规定：访问 `struct proc` 的所有成员时，都需要在持有 `p->lock` 的情况下进行。
 
 !!!info "偷跑：什么是锁"
     锁 (lock) 是一种控制并发访问的基本工具。
     
     我们规定：在我们持有 (holding) 一把自旋锁时：1. 该 CPU 不能被中断，2. 其他 CPU 不能同时持有这一把锁。
-    
-    如果抢不到锁，那么 CPU 会进行原地空转直到抢到锁。
-    
+        
     我们使用 `acquire` 和 `release` 原语表示 上锁 和 解锁 的动作。
+
+    如果在 `acquire` 时抢不到锁，那么该 CPU 会进行原地空转直到抢到锁。
 
 ### `struct cpu`
 
@@ -208,13 +204,13 @@ struct cpu {
 
 在内核代码中，我们有时会希望当前的执行不会被打断、不会被其他任务抢占，我们可以通过关闭中断来实现这一点。（当然，异常还是会直接跳入 Trap Handler 的）
 
-我们使用 `push_off()` 和 `pop_off()` 表示一对 关中断/开中断的操作。由于我们可能会有嵌套 `push_off` 的情况，我们可以将关中断视为一种“压栈”操作，并且当且仅当栈空时才恢复原样，我们在 `struct cpu` 中记录两个变量：
+我们使用 `push_off()` 和 `pop_off()` 表示一对 关中断/开中断的操作。由于我们可能会有嵌套 `push_off` 的情况，我们可以将关中断视为一种“压栈”操作，并且当且仅当栈空时才将中断恢复原样，我们在 `struct cpu` 中记录两个变量：
 
 1. `noff`：我们目前 `push_off`/`pop_off` 的深度是多少。
 
     例如 `push_off()`, `push_off()`, `pop_off()` 序列后，`noff` 应该为 1.
 
-2. 在第一次 `push_off()` 时，即 `noff == 0` 时，CPU 的中断是开的还是关的。
+2. `interrupt_on`: 在第一次 `push_off()` 时，即 `noff == 0` 时，CPU 的中断是开的还是关的。
 
 ```c
 void push_off(void) {
@@ -252,13 +248,17 @@ void pop_off(void) {
 
 ## xv6 scheduler
 
-xv6 中，每个 CPU 都有一个自己的 scheduler。`scheduler` 方法从不返回，其中是一个 `while(1)` 死循环。
+xv6 中，每个 CPU 都有一个自己的 scheduler。`scheduler` 方法从不返回。它是一个 `while(1)` 死循环，每次循环时，scheduler 都尝试获取一个 task，如果能执行它，那就 swtch 到该进程执行。
 
-`p = fetch_task();` ：每次循环时，scheduler 都尝试获取一个 task。
+如果获取不到，检查是否所有进程都退出了。如果是，则表明系统应该结束运行了；如果不是，则表示可能有的进程正在睡眠以等待资源，或者正在由其他 CPU 执行。我们使用 `wfi` (Wait For Interrupt) 指令等待下一次时钟中断，这一步等价于用 `while(1);` 使 CPU 空转一段时间。
 
-如果获取不到，检查是否所有进程都退出了。如果是，则表明系统应该结束运行了，如果不是，我们使用 `wfi` (Wait For Interrupt) 指令等待下一次时钟中断，这一步等价于用 `while(1);` 使CPU空转一段时间。
+如果我们成功获取到了一个进程，则对该进程上锁 `acquire(&p->lock)`，将其状态设置为 `RUNNING`，将当前 cpu 正在运行的进程设为该进程，随后，**使用 `swtch` 方法跳转到该进程保存的 Context 中，并保存当前 Context 到 cpu->sched_context 中**。
 
-如果我们成功获取到了一个进程，则对该进程上锁 `acquire(&p->lock)`，将其状态设置为 RUNNING，将当前 cpu 正在运行的进程设为该进程，随后，**使用 `swtch` 方法跳转到该进程保存的 Context 中，并保存当前 Context 到 cpu->sched_context 中**。
+对于 scheduler，我们做出如下规定：
+
+1. 进程只能通过 scheduler 来进行切换，即 A 进程会先切换到 `scheduler` 再切换到 B 进程，而不能直接 A 进程切换到 B 进程。
+2. 切换到某进程 `p` 时，离开 scheduler 前，当前 CPU 会持有 `p->lock` 这一把锁。而持有锁暗含着当前 CPU 中断为关闭。
+3. 从进程 `p` 切换回 scheduler 时，当前 CPU 会持有 `p->lock` 这一把锁。
 
 ```c
 // Scheduler never returns.  It loops, doing:
@@ -314,36 +314,22 @@ void scheduler() {
 }
 ```
 
-当我们从 swtch 返回时，我们可以推导得出以下结论：
+当我们从 `swtch(&c->sched_context, &p->context)` 这一行返回时，我们可以推导得出以下结论：
 
-1. 因为 swtch 是成对的，我们上次从 swtch 离开，这次肯定是有谁调用了 swtch(... , &c->sched_context)
-2. 这是个 per-cpu scheduler，而在离开时我们将该 CPU 的控制权移交给了进程 p，所以肯定是从进程 p swtch 回来的。(这里其实要求了进程只能通过 scheduler 来进行切换，而不能直接 Pa <--> Pb)。
+1. 因为 `swtch` 是成对的，我们上次从 `swtch` 离开，这次肯定是有谁调用了 `swtch(... , &c->sched_context)`
+2. 这是个 per-cpu scheduler，而在离开时我们将该 CPU 的控制权移交给了进程 p，所以肯定是从进程 p swtch 回来的。
 
 所以，我们可以写出三行 assert 来确保我们的 scheduler 机制运行正常：
 
 1. swtch 返回时，中断一定是关闭的
-2. 我们一定持有者 p->lock 这把锁
+2. 我们一定持有者 `p->lock` 这把锁
 3. 当前 cpu 正在运行的进程一定是 p
 
-最后，我们清除 `c->proc`。如果 p 还能继续运行 (RUNNABLE)，则将其丢回队列。释放 p->lock 后，scheduler 进入下一个循环。
+最后，我们清除 `c->proc`。如果 p 还能继续运行 (RUNNABLE)，则将其丢回队列。释放 `p->lock` 后，`scheduler` 进入下一个循环。
 
 ### sched 方法
 
 `sched` 方法用于将 CPU 控制权由当前内核进程交还给 scheduler。
-
-我们规定在 sched 时：
-
-1. 必须持有 curr_proc()->lock 这把锁，因为要操作该 `struct proc` 结构体。
-2. 必须只持有 curr_proc()->lock 这把锁，防止内核出现死锁
-
-    这一步是通过检查 mycpu()->noff 实现的，因为每次 acquire 会 pushoff 一次，每次 release 会 popoff 一次。
-
-3. 必须已经修改 p->state 为非 RUNNING。
-4. 禁止在 kernel trap 环境中调用 sched。
-
-如果检查通过，则将当前进程状态保存到 p->context, 并跳转到 scheduler 的 context 上面。
-
-同理，如果 scheduler 还会切换回来，我们一样要求 scheduler 在给予 CPU 控制权时将 p->lock 上锁。
 
 ```c
 // Switch to scheduler.  Must hold only p->lock
@@ -381,6 +367,20 @@ void sched() {
 }
 ```
 
+我们规定在 sched 时：
+
+1. 持有 `curr_proc()->lock` 这把锁，因为要操作该 `struct proc` 结构体。
+2. 除了 `curr_proc()->lock` 这把锁，**不持有任何其他的锁**，防止内核出现死锁。
+
+    这一步是通过检查 `mycpu()->noff` 实现的，因为每次 `acquire` 会 pushoff 一次，每次 release 会 popoff 一次。
+
+3. 必须已经修改 p->state 为非 RUNNING。
+4. 禁止在 kernel trap 环境中调用 sched。
+
+如果检查通过，则使用 `swtch` 将当前进程状态保存到 p->context, 并跳转到 scheduler 的 context (`&mycpu()->sched_context`) 上面。
+
+同理，如果 scheduler 还会切换回来，我们一样要求 scheduler 在给予 CPU 控制权时将 p->lock 上锁。
+
 ### 为什么需要保存 `cpu->interrupt_on`
 
 因为该属性是当前内核进程的属性，而并不是当前 cpu 的属性。因为我们会在没有 Process 的情况下使用 push_off/pop_off，所以我们必须将 `interrupt_on` 标志放置在 `struct cpu` 中，而不是 `struct proc` 中，并且在 `sched` 切换内核进程时，将该属性保存在该内核进程的栈上。
@@ -389,10 +389,9 @@ void sched() {
 
 如果我们注释掉保存 `interrupt_on` 这一行，下图展示了 Kernel Process 1 (红色) 的 Interrupt On 状态是如何通过 sched 和 scheduler (蓝色) 错误影响到 Kernel Process 2 (黄色) 的：
 
-Kernel Process 2 先运行了一段时间，此时中断为关，然后调用 sched 暂时离开(虚线)，而此时 Kernel Process 1 开始执行(实线)。P1 执行时，中断为开。在 P1 调用 sched 切换到 scheduler 时，中断状态被 acquire->push_off 保存在 `cpu->interrupt_on` 中，随后 scheduler 选择了 P2 继续执行。而 P2 在退出 sched 时调用了 `release`->`pop_off` 而错误恢复了中断开的状态。
+Kernel Process 2 先运行了一段时间，此时中断为关，然后调用 sched 暂时离开(虚线)，而此时 Kernel Process 1 开始执行(实线)。P1 执行时，中断为开。在 P1 调用 sched 切换到 scheduler 时，中断状态被 `acquire->push_off` 保存在 `cpu->interrupt_on` 中，随后 scheduler 选择了 P2 继续执行。而 P2 在退出 sched 时调用了 `release`->`pop_off` 而错误恢复了中断开的状态。对于 P2 而言，它在被切换前是执行环境是中断关的，而被切换后它运行在中断开的环境中，这显然违反了 Context Switch 不会改变程序运行的上下文这一规则。
 
 ![alt text](../assets/xv6lab-contextswitch/kernel-intron.png)
 
-## Lab 练习
+## 第一个进程 - init
 
-目前，我们规定 `sched` 调度不允许发生在 kernel trap 环境中。请你修改内核代码，使得我们能在时钟中断中进行内核线程切换。
