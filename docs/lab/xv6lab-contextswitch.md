@@ -443,12 +443,12 @@ void sched() {
 
     这一步是通过检查 `mycpu()->noff` 实现的，因为每次 `acquire` 会将其增加1，每次 release 会将其减少1。
 
-3. 必须已经修改 p->state 为非 RUNNING。
+3. 必须已经修改 `p->state` 为非 RUNNING。
 4. 禁止在 kernel trap 环境中调用 sched。
 
-如果检查通过，则使用 `swtch` 将当前进程状态保存到 p->context, 并跳转到 scheduler 的 context (`&mycpu()->sched_context`) 上面。
+如果检查通过，则使用 `swtch` 将当前进程状态保存到 `p->context`, 并跳转到 scheduler 的 context (`&mycpu()->sched_context`) 上面。
 
-同理，如果 scheduler 还会切换回来，我们一样要求 scheduler 在给予 CPU 控制权时将 p->lock 上锁。
+同理，如果 scheduler 还会切换回来，我们一样要求 scheduler 在给予 CPU 控制权时将 `p->lock` 上锁。
 
 ## 第一个进程 - init
 
