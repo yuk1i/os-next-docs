@@ -1,12 +1,18 @@
 # Context Switch
 
+## 实验目的
+
+1. 了解进程管理
+2. 了解上下文切换
+3. 掌握XV6进行多核进程切换的流程
+
 !!!warning "xv6-lab3 代码分支"
     
     https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab3
 
     使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab3 xv6lab3` 下载 xv6-lab3 代码。
 
-    使用 `make runsmp` **使用多核心** 运行本次 Lab 的内核，你应该会看到：
+    使用 `make runsmp` **使用多核心（4个）** 运行本次 Lab 的内核，你应该会看到：
 
     ```
     Boot another cpus.
@@ -23,6 +29,55 @@
 
 
 上下文切换 (Context Switch) 是操作系统中的一个重要概念，本章我们将集中于 Context Switch 在技术上的实现，和 xv6 中调度器 (scheduler) 的设计。
+
+## 实验场景
+
+本次试验中，我们将在拥有4个核的 riscv CPU 上运行我们的XV6操作系统。
+
+当操作系统启动后，我们会创建并运行 `init` 进程。`init`进程会创建8个内核线程 `worker` 放入调度队列。接着，四个核会轮流运行这8个 `worker` 直到exit。而父进程 `init` 会在 wait 完8个子进程后运行结束。
+
+本次的实验场景就是对于以上9个线程的调度和切换过程。以下是 `init` 和 `worker` 执行内容。在之后的章节中我们会逐步解释进程切换所涉及到的知识点和具体流程。
+
+### init()
+
+> code: nommu_init.c
+
+`init` 进程会执行 init 方法，它会创建 8 个内核线程，均执行 `worker` 方法。这 8 个内核线程会对共享变量 `count` 进行累加，并且每累加 1000 次调用 `yield` 一次。
+
+`init` 方法会调用 `wait` 等待所有创建的内核线程退出，并最终打印共享变量 `count` 的值。
+
+```c
+#define NTHREAD 8
+
+volatile uint64 count = 0;
+
+void worker(uint64 id) {
+    for (int i = 0; i < 1000000; i++) {
+        count++;
+        if (i % 1000 == 0) {
+            infof("thread %d: count %d, yielding", id, count);
+            yield();
+        }
+    }
+    exit(id + 114514);
+}
+
+void init(uint64) {
+    infof("kthread: init starts!");
+    int pids[NTHREAD];
+    for (int i = 0; i < NTHREAD; i++) {
+        pids[i]        = create_kthread(worker, i);
+    }
+    int retcode;
+    for (int i = 0; i < NTHREAD; i++) {
+        int pid = wait(pids[i], &retcode);
+        infof("thread %d exited with code %d, expected %d", pid, retcode, i + 114514);
+    }
+    printf("kthread: all threads exited, count %d\n", count);
+    infof("kthread: init ends!");
+    exit(0);
+}
+```
 
 ## 什么是 Context
 
@@ -364,7 +419,7 @@ swtch:
 
 xv6 中，每个 CPU 都有一个自己的 scheduler。`scheduler` 方法从不返回。它是一个 `while(1)` 死循环，每次循环时，scheduler 都尝试获取一个 task，如果能执行它，那就 swtch 到该进程执行。
 
-如果获取不到，检查是否所有进程都退出了。如果是，则表明系统应该结束运行了；如果不是，则表示可能有的进程正在睡眠以等待资源，或者正在由其他 CPU 执行。我们使用 `wfi` (Wait For Interrupt) 指令等待下一次时钟中断，这一步等价于用 `while(1);` 使 CPU 空转一段时间。
+如果获取不到，则检查是否所有进程都退出了。如果是，则表明系统应该结束运行了；如果不是，则表示可能有的进程正在睡眠以等待资源，或者正在由其他 CPU 执行。我们使用 `wfi` (Wait For Interrupt) 指令等待下一次时钟中断，这一步等价于用 `while(1);` 使 CPU 空转一段时间。
 
 如果我们成功获取到了一个进程，则对该进程上锁 `acquire(&p->lock)`，将其状态设置为 `RUNNING`，将当前 cpu 正在运行的进程设为该进程 (`c->proc = p`)。
 
@@ -533,7 +588,7 @@ int create_kthread(void (*fn)(uint64), uint64 arg) {
 
 ### 第一次调度
 
-在内核线程 `init` 第一次被调度到时，scheduler 从任务队列中将其取出，随后，scheduler 会执行 `swtch(&c->sched_context, &p->context)`。在 `swtch` 执行到 ret 后，CPU 会切换到 init 的内核栈 (`p->kstack + PGSIZE`) 并执行 `first_sched_ret` 方法。该方法会从 s1 和 s2 寄存器中读出该内核进程将要执行的方法，以及一个任意的参数。随后，依照 scheduler 的规范，它会释放 `p->lock`，然后启用中断后跳转到 fn 中执行。
+在内核线程 `init` 第一次被调度到时，scheduler 从任务队列中将其取出，随后，scheduler 会执行 `swtch(&c->sched_context, &p->context)`（此时p就是`init`）。在 `swtch` 执行到 ret 后，CPU 会切换到 init 的内核栈 (`p->kstack + PGSIZE`) 并执行 `first_sched_ret` 方法。该方法会从 s1 和 s2 寄存器中读出该内核进程将要执行的方法，以及一个任意的参数。随后，依照 scheduler 的规范，它会释放 `p->lock`，然后启用中断后跳转到 fn 中执行。
 
 ```c
 static void first_sched_ret(void) {
@@ -547,47 +602,6 @@ static void first_sched_ret(void) {
     intr_on();
     fn(arg);
     panic("first_sched_ret should never return. You should use exit to terminate kthread");
-}
-```
-
-### init()
-
-> code: nommu_init.c
-
-`init` 进程会执行 init 方法，它会创建 8 个内核线程，均执行 `worker` 方法。这 8 个内核线程会对共享变量 `count` 进行累加，并且每累加 1000 次调用 `yield` 一次。
-
-`init` 方法会调用 `wait` 等待所有创建的内核线程退出，并最终打印共享变量 `count` 的值。
-
-```c
-#define NTHREAD 8
-
-volatile uint64 count = 0;
-
-void worker(uint64 id) {
-    for (int i = 0; i < 1000000; i++) {
-        count++;
-        if (i % 1000 == 0) {
-            infof("thread %d: count %d, yielding", id, count);
-            yield();
-        }
-    }
-    exit(id + 114514);
-}
-
-void init(uint64) {
-    infof("kthread: init starts!");
-    int pids[NTHREAD];
-    for (int i = 0; i < NTHREAD; i++) {
-        pids[i]        = create_kthread(worker, i);
-    }
-    int retcode;
-    for (int i = 0; i < NTHREAD; i++) {
-        int pid = wait(pids[i], &retcode);
-        infof("thread %d exited with code %d, expected %d", pid, retcode, i + 114514);
-    }
-    printf("kthread: all threads exited, count %d\n", count);
-    infof("kthread: init ends!");
-    exit(0);
 }
 ```
 
@@ -608,6 +622,12 @@ void init(uint64) {
 1. 从 scheduler 切换到 P1 后，P1 进入下一个工作循环，随后 P1 调用 `yield`，`sched`，控制流来到右上角的 `swtch` 处，请你画出这个 `swtch` 会将控制流带向哪里。
 2. 随后，控制流回到 `scheduler`，`scheduler` 进入下一个工作循环，它从 `fetch_task()` 中获取到 P2，控制流来到左下角的 `swtch` 处，请你画出这个 `swtch` 会将控制流带向哪里。
 3. 从 scheduler 切换到 P2 后，P2 进入下一个工作循环，随后 P2 调用 `yield`，`sched`，控制流来到右下角的 `swtch` 处，请你画出这个 `swtch` 会将控制流带向哪里。
+
+### worker
+
+第一次调度完成后，`init` 会按照代码创建8个内核线程 `worker` 放入就绪队列中。此时正在scheduler中循环的空闲cpu核可以从队列中取得某一个 `worker` 进行执行。而 `init` 在创建完 `worker` 们后，会因wait()而陷入等待，故而释放出一个cpu核的资源，自此之后则是4个 cpu 核执行8个 `worker` 的过程。
+
+这 8 个 `worker` 会对共享变量 `count` 进行累加，并且每累加 1000 次调用 `yield` 一次。调用 `yield` 的 `worker` 会因为调用 `yield` 而主动释放出自己正在使用的cpu核，此时该 cpu 核则将调度到下一个就绪的进程继续执行。 之后我们会通过一次相关的作业对这个过程进行更深入的理解。
 
 ## 课后阅读
 
