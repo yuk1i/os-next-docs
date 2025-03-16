@@ -69,7 +69,7 @@
 ## xv6 Process
 
 !!!info "Process, Thread 和 Kernel Thread"
-    在上周的理论课中，我们讲解了什么是进程 (Process)：进程是程序的一个实例，每个进程有自己独立的地址空间、内存、文件描述符等资源。
+    什么是进程 (Process)：进程是程序的一个实例，每个进程有自己独立的地址空间、内存、文件描述符等资源。
     而线程 (Thread) 是进程内的执行单元，是 CPU 调度的基本单位，线程有自己的栈空间和寄存器状态，同一进程的线程共享进程的地址空间和大部分资源。通常来说，一个进程内可以有多个线程。
 
     在我们的实验课上，我们使用的 xv6 为了简化实现，做出了如下规定：
@@ -77,9 +77,9 @@
     1. 每个进程有且只有一个线程。所以，在 xv6 中，进程即是 CPU 调度的基本单位。
     2. 每一个用户进程拥有两个执行环境：处于用户模式（U mode）的用户环境，和处于内核（S mode）的内核环境，我们将后者称为内核线程（Kernel Thread）。
 
-    在本次 Lab 中，我们还尚未进入用户模式，所以每个进程仅有一个内核线程。我们会在下下周开始介绍用户空间。
+    在本次 Lab 中，我们还尚未进入用户模式，所以每个进程仅有内核线程。我们会在几周后的实验课介绍用户空间。
 
-> 代码：`os/proc.h`, `os/sched.c`, `os/smp.c`
+> 相关代码：`os/proc.h`, `os/sched.c`, `os/smp.c`
 
 在 xv6 中，Process Control Block (PCB) 被定义如下：
 
@@ -107,7 +107,7 @@ struct proc {
 
 每个 Process 有自己的 pid, 进程状态、parent 指针、内核栈、和内核 Context。
 
-对于有用户态的 Process，PCB 中还有负责管理内存的 `struct mm`，和保存用户模式下 Trap 触发时数据的 Trapframe。
+对于有用户态（本次实验代码中还没有）的 Process，PCB 中还有负责管理内存的 `struct mm`，和保存用户模式下 Trap 触发时数据的 Trapframe。
 
 除此之外，每个进程都有一个自旋锁 `spinlock_t`，尽管我们目前理论课还没有接触到锁和并发的相关知识，但是我们在 xv6 中规定：访问 `struct proc` 的所有成员时，都需要在持有 `p->lock` 的情况下进行。
 
@@ -122,7 +122,7 @@ struct proc {
 
 ### `struct cpu`
 
-在 xv6 中，我们使用 `struct cpu` 描述每个 CPU 的状态，我们是用 `mycpu()` 方法获取当前 `cpu` 对象。
+在 xv6 中，我们使用 `struct cpu` 描述每个 CPU 的状态，并且可以使用 `mycpu()` 方法获取当前 `cpu` 对象。
 
 ```c
 struct cpu {
