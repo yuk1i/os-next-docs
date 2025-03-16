@@ -887,13 +887,31 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      第一次被调度时执行流程图
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab 练习 2
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       课后阅读
     </span>
@@ -903,7 +921,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       关中断
     </span>
@@ -1367,13 +1385,31 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      第一次被调度时执行流程图
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lab-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab 练习 2
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       课后阅读
     </span>
@@ -1383,7 +1419,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       关中断
     </span>
@@ -1726,7 +1762,12 @@
 <h2 id="xv6-scheduler">xv6 scheduler<a class="headerlink" href="#xv6-scheduler" title="Permanent link">&para;</a></h2>
 <p>xv6 中，每个 CPU 都有一个自己的 scheduler。<code>scheduler</code> 方法从不返回。它是一个 <code>while(1)</code> 死循环，每次循环时，scheduler 都尝试获取一个 task，如果能执行它，那就 swtch 到该进程执行。</p>
 <p>如果获取不到，检查是否所有进程都退出了。如果是，则表明系统应该结束运行了；如果不是，则表示可能有的进程正在睡眠以等待资源，或者正在由其他 CPU 执行。我们使用 <code>wfi</code> (Wait For Interrupt) 指令等待下一次时钟中断，这一步等价于用 <code>while(1);</code> 使 CPU 空转一段时间。</p>
-<p>如果我们成功获取到了一个进程，则对该进程上锁 <code>acquire(&amp;p-&gt;lock)</code>，将其状态设置为 <code>RUNNING</code>，将当前 cpu 正在运行的进程设为该进程，随后，<strong>使用 <code>swtch</code> 方法跳转到该进程保存的 Context 中，并保存当前 Context 到 cpu-&gt;sched_context 中</strong>。</p>
+<p>如果我们成功获取到了一个进程，则对该进程上锁 <code>acquire(&amp;p-&gt;lock)</code>，将其状态设置为 <code>RUNNING</code>，将当前 cpu 正在运行的进程设为该进程 (<code>c-&gt;proc = p</code>)。</p>
+<div class="admonition info">
+<p class="admonition-title">mycpu 和 curr_proc</p>
+<p>对于单处理器系统，单个 CPU 上同时只能有一个进程在运行，我们定义一个全局变量 <code>struct proc* curr_proc</code> 表示正在运行的进程(Current Process)。而对于多处理器系统，对于每个 CPU 都有一个 <code>curr_proc</code>，所以我们使用 <code>struct cpu</code> 结构体来表示每个 CPU 的信息。我们有一个全局数组 <code>struct cpu cpus[4]</code> 表示系统上的 4 个 CPU，并使用寄存器 <code>tp</code> 来表示当前运行在哪个 CPU 上，即 <code>cpuid()</code>，它直接读取并返回 <code>tp</code> 寄存器的值。</p>
+</div>
+<p>随后，<strong>使用 <code>swtch</code> 方法跳转到该进程保存的 Context 中，并保存当前 Context 到 cpu-&gt;sched_context 中</strong>。</p>
 <p>对于 scheduler，我们做出如下规定：</p>
 <ol>
 <li>进程只能通过 scheduler 来进行切换，即 A 进程会先切换到 <code>scheduler</code> 再切换到 B 进程，而不能直接 A 进程切换到 B 进程。</li>
@@ -1924,8 +1965,20 @@
 <a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 <a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="_2">课后阅读<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<h3 id="_3">关中断<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_2">第一次被调度时执行流程图<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p><img alt="alt text" src="../../assets/xv6lab-contextswitch/xv6lab3-scheduler.png" /></p>
+<h3 id="lab-2">Lab 练习 2<a class="headerlink" href="#lab-2" title="Permanent link">&para;</a></h3>
+<p><img alt="alt text" src="../../assets/xv6lab-contextswitch/xv6lab3-sched-two-proc.png" /></p>
+<p>请你仿照上图，绘制两个进程之间切换的流程图。已知 P1 和 P2 都已经被调度过至少一次，即已经离开了 <code>first_sched_ret</code> 阶段，它们的 context 中的 ra 指向 <code>sched</code> 函数中 <code>swtch</code> 的下一行。</p>
+<p>首先，流程从左上角开始，scheduler 从 <code>fetch_task</code> 中取出 P1，使用 <code>swtch</code> 切换到 P1 的 Context 中保存的地址，即 P1 上次切换回 scheduler 的地方：P1 里面的 <code>swtch</code> 的下一行 <code>sched() ends</code>。</p>
+<p>第一个箭头已为你画出，请按照如下流程画出剩下的箭头，只需要画出每个 <code>swtch</code> 会切换到哪里即可。</p>
+<ol>
+<li>从 scheduler 切换到 P1 后，P1 进入下一个工作循环，随后 P1 调用 <code>yield</code>，<code>sched</code>，控制流来到右上角的 <code>swtch</code> 处，请你画出这个 <code>swtch</code> 会将控制流带向哪里。</li>
+<li>随后，控制流回到 <code>scheduler</code>，<code>scheduler</code> 进入下一个工作循环，它从 <code>fetch_task()</code> 中获取到 P2，控制流来到左下角的 <code>swtch</code> 处，请你画出这个 <code>swtch</code> 会将控制流带向哪里。</li>
+<li>从 scheduler 切换到 P2 后，P2 进入下一个工作循环，随后 P2 调用 <code>yield</code>，<code>sched</code>，控制流来到右下角的 <code>swtch</code> 处，请你画出这个 <code>swtch</code> 会将控制流带向哪里。</li>
+</ol>
+<h2 id="_3">课后阅读<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">关中断<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>在内核代码中，我们有时会希望当前的执行不会被打断、不会被其他任务抢占，我们可以通过关闭中断来实现这一点。（当然，异常还是会直接跳入 Trap Handler 的）</p>
 <p>我们使用 <code>push_off()</code> 和 <code>pop_off()</code> 表示一对 关中断/开中断的操作。由于我们可能会有嵌套 <code>push_off</code> 的情况，我们可以将关中断视为一种“压栈”操作，并且当且仅当栈空时才将中断恢复原样，我们在 <code>struct cpu</code> 中记录两个变量：</p>
 <ol>
@@ -2014,8 +2067,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/a1c70fdf, 2025-03-16 16:44:47+08:00" target="_blank" rel="noopener">
-            a1c70fdf, 2025-03-16 16:44:47+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/21965478, 2025-03-16 17:55:02+08:00" target="_blank" rel="noopener">
+            21965478, 2025-03-16 17:55:02+08:00
         </a>
     </div>
 </div>
