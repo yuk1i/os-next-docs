@@ -366,7 +366,12 @@ xv6 中，每个 CPU 都有一个自己的 scheduler。`scheduler` 方法从不�
 
 如果获取不到，检查是否所有进程都退出了。如果是，则表明系统应该结束运行了；如果不是，则表示可能有的进程正在睡眠以等待资源，或者正在由其他 CPU 执行。我们使用 `wfi` (Wait For Interrupt) 指令等待下一次时钟中断，这一步等价于用 `while(1);` 使 CPU 空转一段时间。
 
-如果我们成功获取到了一个进程，则对该进程上锁 `acquire(&p->lock)`，将其状态设置为 `RUNNING`，将当前 cpu 正在运行的进程设为该进程，随后，**使用 `swtch` 方法跳转到该进程保存的 Context 中，并保存当前 Context 到 cpu->sched_context 中**。
+如果我们成功获取到了一个进程，则对该进程上锁 `acquire(&p->lock)`，将其状态设置为 `RUNNING`，将当前 cpu 正在运行的进程设为该进程 (`c->proc = p`)。
+
+!!!info "mycpu 和 curr_proc"
+    对于单处理器系统，单个 CPU 上同时只能有一个进程在运行，我们定义一个全局变量 `struct proc* curr_proc` 表示正在运行的进程(Current Process)。而对于多处理器系统，对于每个 CPU 都有一个 `curr_proc`，所以我们使用 `struct cpu` 结构体来表示每个 CPU 的信息。我们有一个全局数组 `struct cpu cpus[4]` 表示系统上的 4 个 CPU，并使用寄存器 `tp` 来表示当前运行在哪个 CPU 上，即 `cpuid()`，它直接读取并返回 `tp` 寄存器的值。
+
+随后，**使用 `swtch` 方法跳转到该进程保存的 Context 中，并保存当前 Context 到 cpu->sched_context 中**。
 
 对于 scheduler，我们做出如下规定：
 
@@ -585,6 +590,24 @@ void init(uint64) {
     exit(0);
 }
 ```
+
+### 第一次被调度时执行流程图
+
+![alt text](../assets/xv6lab-contextswitch/xv6lab3-scheduler.png)
+
+### Lab 练习 2
+
+![alt text](../assets/xv6lab-contextswitch/xv6lab3-sched-two-proc.png)
+
+请你仿照上图，绘制两个进程之间切换的流程图。已知 P1 和 P2 都已经被调度过至少一次，即已经离开了 `first_sched_ret` 阶段，它们的 context 中的 ra 指向 `sched` 函数中 `swtch` 的下一行。
+
+首先，流程从左上角开始，scheduler 从 `fetch_task` 中取出 P1，使用 `swtch` 切换到 P1 的 Context 中保存的地址，即 P1 上次切换回 scheduler 的地方：P1 里面的 `swtch` 的下一行 `sched() ends`。
+
+第一个箭头已为你画出，请按照如下流程画出剩下的箭头，只需要画出每个 `swtch` 会切换到哪里即可。
+
+1. 从 scheduler 切换到 P1 后，P1 进入下一个工作循环，随后 P1 调用 `yield`，`sched`，控制流来到右上角的 `swtch` 处，请你画出这个 `swtch` 会将控制流带向哪里。
+2. 随后，控制流回到 `scheduler`，`scheduler` 进入下一个工作循环，它从 `fetch_task()` 中获取到 P2，控制流来到左下角的 `swtch` 处，请你画出这个 `swtch` 会将控制流带向哪里。
+3. 从 scheduler 切换到 P2 后，P2 进入下一个工作循环，随后 P2 调用 `yield`，`sched`，控制流来到右下角的 `swtch` 处，请你画出这个 `swtch` 会将控制流带向哪里。
 
 ## 课后阅读
 
