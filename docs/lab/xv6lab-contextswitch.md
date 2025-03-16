@@ -311,9 +311,54 @@ P1 在执行 `P1` 函数时，会在函数开头 (prologue) 保存 `P1` 的调�
 
 在 CPU 执行到 `ret` 时，pc 被恢复为 ra 寄存器的值，此时开始执行上次 P2 调用 `swtch` 时保存的返回地址。
 
-至此，成功完成了从 P1 到 P2 的切换。
+至此，成功完成了从 P1 到 P2 的切换。（注：P1 与 P2 不一定指代操作系统中的两个进程，而是任意的两个程序）
 
 此外，`swtch` 方法是天生成对的：如果上次使用 swtch 离开了当前进程，那么下次返回时，必定是有其他进程调用了 swtch 回到了该进程。
+
+### Lab 练习 1
+
+请你从汇编层面理解 `swtch` 函数。
+
+假设你有如下两个 `struct context` 结构体，称为 `ctx_a` 和 `ctx_b`：
+
+```c
+struct context ctx_a = {
+    .ra = 0x0,
+    .sp = 0x0,
+};
+struct context ctx_b = {
+    .ra = 0x802dead0,
+    .sp = 0x7fffB000,
+};
+```
+
+假设你正在执行 `swtch(&ctx_a, &ctx_b)`，这一行方法调用所对应的汇编代码即周围的汇编代码如下所示：
+
+```asm
+// a0: address of ctx_a, a1: address of ctx_b
+    80205720:	05848593          	addi	a1,s1,88
+    80205724:	00002097          	auipc	ra,0x2
+    80205728:	1b4080e7          	jalr	436(ra) # 802078d8 <swtch>
+    8020572c:	008ab503          	ld	a0,8(s5)
+    80205730:	24951263          	bne	a0,s1,80205974 <scheduler+0x304>
+```
+
+`swtch` 符号的地址为 `802078d8`，其汇编为：
+
+```
+swtch:
+    802078d8:	00153023          	sd	ra,0(a0)
+    802078dc:	00253423          	sd	sp,8(a0)
+    // store s0 - s11, ignored.
+
+    80207910:	0005b083          	ld	ra,0(a1)
+    80207914:	0085b103          	ld	sp,8(a1)
+    // restore s0 - s11, ignored.
+
+    80207948:	00008067          	ret
+```
+
+此时，PC 寄存器指向 0x00400008，请你在表格中填写接下来每一步指令所修改的寄存器或内存状态
 
 ## xv6 scheduler
 
@@ -483,7 +528,7 @@ int create_kthread(void (*fn)(uint64), uint64 arg) {
 
 ### 第一次调度
 
-在内核线程 `init` 第一次被调度到时，scheduler 会 `swtch(&initproc->context, ...)`。在 `swtch` return 后，CPU 会切换到 init 的内核栈 (`p->kstack + PGSIZE`) 并执行 `first_sched_ret` 方法。该方法会从 s1 和 s2 寄存器中读出该内核进程将要执行的方法，以及一个任意的参数。随后，依照 scheduler 的规范，它会释放 `p->lock`，然后启用中断后跳转到 fn 中执行。
+在内核线程 `init` 第一次被调度到时，scheduler 从任务队列中将其取出，随后，scheduler 会执行 `swtch(&c->sched_context, &p->context)`。在 `swtch` 执行到 ret 后，CPU 会切换到 init 的内核栈 (`p->kstack + PGSIZE`) 并执行 `first_sched_ret` 方法。该方法会从 s1 和 s2 寄存器中读出该内核进程将要执行的方法，以及一个任意的参数。随后，依照 scheduler 的规范，它会释放 `p->lock`，然后启用中断后跳转到 fn 中执行。
 
 ```c
 static void first_sched_ret(void) {
