@@ -167,7 +167,7 @@ Trap处理过程可以分为三个主要部分：
 **当一个 Exception 发生时，或者 Hart 准备好处理 Interrupt 时，** Trap 发生，CPU 在硬件电路上完成以下几件事情：
 
 1. scause <= {1b'Is_Interrupt, 63b'Cause}
-2. stavl <= Trap_Value
+2. stval <= Trap_Value
 3. sepc <= pc
 4. sstatus.SPP <= Current_Privilege_Level
 5. sstatus.SPIE <= sstatus.SIE
