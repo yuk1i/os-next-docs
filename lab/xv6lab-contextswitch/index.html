@@ -1452,17 +1452,17 @@
 <h2 id="xv6-process">xv6 Process<a class="headerlink" href="#xv6-process" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
 <p class="admonition-title">Process, Thread 和 Kernel Thread</p>
-<p>在上周的理论课中，我们讲解了什么是进程 (Process)：进程是程序的一个实例，每个进程有自己独立的地址空间、内存、文件描述符等资源。
+<p>什么是进程 (Process)：进程是程序的一个实例，每个进程有自己独立的地址空间、内存、文件描述符等资源。
 而线程 (Thread) 是进程内的执行单元，是 CPU 调度的基本单位，线程有自己的栈空间和寄存器状态，同一进程的线程共享进程的地址空间和大部分资源。通常来说，一个进程内可以有多个线程。</p>
 <p>在我们的实验课上，我们使用的 xv6 为了简化实现，做出了如下规定：</p>
 <ol>
 <li>每个进程有且只有一个线程。所以，在 xv6 中，进程即是 CPU 调度的基本单位。</li>
 <li>每一个用户进程拥有两个执行环境：处于用户模式（U mode）的用户环境，和处于内核（S mode）的内核环境，我们将后者称为内核线程（Kernel Thread）。</li>
 </ol>
-<p>在本次 Lab 中，我们还尚未进入用户模式，所以每个进程仅有一个内核线程。我们会在下下周开始介绍用户空间。</p>
+<p>在本次 Lab 中，我们还尚未进入用户模式，所以每个进程仅有内核线程。我们会在几周后的实验课介绍用户空间。</p>
 </div>
 <blockquote>
-<p>代码：<code>os/proc.h</code>, <code>os/sched.c</code>, <code>os/smp.c</code></p>
+<p>相关代码：<code>os/proc.h</code>, <code>os/sched.c</code>, <code>os/smp.c</code></p>
 </blockquote>
 <p>在 xv6 中，Process Control Block (PCB) 被定义如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">enum</span><span class="w"> </span><span class="n">procstate</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">UNUSED</span><span class="p">,</span><span class="w"> </span><span class="n">USED</span><span class="p">,</span><span class="w"> </span><span class="n">SLEEPING</span><span class="p">,</span><span class="w"> </span><span class="n">RUNNABLE</span><span class="p">,</span><span class="w"> </span><span class="n">RUNNING</span><span class="p">,</span><span class="w"> </span><span class="n">ZOMBIE</span><span class="w"> </span><span class="p">};</span>
@@ -1486,7 +1486,7 @@
 <a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="p">};</span>
 </code></pre></div>
 <p>每个 Process 有自己的 pid, 进程状态、parent 指针、内核栈、和内核 Context。</p>
-<p>对于有用户态的 Process，PCB 中还有负责管理内存的 <code>struct mm</code>，和保存用户模式下 Trap 触发时数据的 Trapframe。</p>
+<p>对于有用户态（本次实验代码中还没有）的 Process，PCB 中还有负责管理内存的 <code>struct mm</code>，和保存用户模式下 Trap 触发时数据的 Trapframe。</p>
 <p>除此之外，每个进程都有一个自旋锁 <code>spinlock_t</code>，尽管我们目前理论课还没有接触到锁和并发的相关知识，但是我们在 xv6 中规定：访问 <code>struct proc</code> 的所有成员时，都需要在持有 <code>p-&gt;lock</code> 的情况下进行。</p>
 <div class="admonition info">
 <p class="admonition-title">偷跑：什么是锁</p>
@@ -1496,7 +1496,7 @@
 <p>如果在 <code>acquire</code> 时抢不到锁，那么该 CPU 会进行原地空转直到抢到锁。</p>
 </div>
 <h3 id="struct-cpu"><code>struct cpu</code><a class="headerlink" href="#struct-cpu" title="Permanent link">&para;</a></h3>
-<p>在 xv6 中，我们使用 <code>struct cpu</code> 描述每个 CPU 的状态，我们是用 <code>mycpu()</code> 方法获取当前 <code>cpu</code> 对象。</p>
+<p>在 xv6 中，我们使用 <code>struct cpu</code> 描述每个 CPU 的状态，并且可以使用 <code>mycpu()</code> 方法获取当前 <code>cpu</code> 对象。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">cpu</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">mhart_id</span><span class="p">;</span><span class="w">                  </span><span class="c1">// mhartid for this cpu, passed by OpenSBI</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">proc</span><span class="p">;</span><span class="w">             </span><span class="c1">// current process</span>
@@ -1951,8 +1951,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/290edff2, 2025-03-13 19:27:12+08:00" target="_blank" rel="noopener">
-            290edff2, 2025-03-13 19:27:12+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/764307a5, 2025-03-16 16:16:36+08:00" target="_blank" rel="noopener">
+            764307a5, 2025-03-16 16:16:36+08:00
         </a>
     </div>
 </div>
