@@ -414,11 +414,82 @@ __attribute__((section(".text.entry"))) int __start_main(int argc, char *argv[])
 }
 ```
 
+该函数会调用 main 函数，并将其返回值作为 exit 的退出状态码。
 
+### Lab 练习
 
-TODO: proc.c 设置 kstack，trapframe
+TODO: 列出用户进程的起始状态
 
-kvm.c 映射 trampoline
+### 概览
 
-vm.c 映射 trampline 和 trapframe
+下图展示了内核中的众多数据结构之间的指针关系（黑色箭头），以及内核态用户态之间切换的步骤（红色虚线箭头）。
+
+![alt](../assets/xv6lab-userspace/userspace-kernel-trampoline.png)
+
+## 系统调用 Syscall
+
+系统调用（System Call）是操作系统提供给应用程序的接口，允许用户程序请求操作系统内核的服务。系统调用也有自己的调用规定（calling convention），你可以使用 `man 2 syscall` 查看不同平台上 Linux 的 syscall 调用规约。
+
+RISC-V 上，系统调用由 `ecall` 指令发起，syscall number 即调用哪个 syscall 在 a7 寄存器中指定，6个参数在 a0-a5 中指定，系统调用的返回值则在 a0 与 a1 中。
+
+`ecall` 指令会发起一个异常，导致 CPU 进入 Trap，其 trap cause (scause) 为 8 (ecall from U-mode)。我们在 `usertrap` 中处理这种异常，并转交 `syscall.c` 中的 `syscall` 函数处理。
+
+```c
+void usertrap() {
+    // ...
+
+    uint64 cause = r_scause();
+    uint64 code  = cause & SCAUSE_EXCEPTION_CODE_MASK;
+    if (cause & SCAUSE_INTERRUPT) {
+        // handle interrupt
+    } else {
+        switch (code) {
+            case UserEnvCall:
+                trapframe->epc += 4;
+                intr_on();
+                syscall();
+                intr_off();
+                break;
+            default:
+                unknown_trap();
+                break;
+        }
+    }
+    assert(!intr_get());
+    usertrapret();
+}
+```
+
+`syscall` 函数从当前进程的 Trapframe 中读取用户执行 `ecall` 时的寄存器值，并调用对应的 syscall 处理函数。
+
+```c
+void syscall() {
+    struct trapframe *trapframe = curr_proc()->trapframe;
+    int id                      = trapframe->a7;
+    uint64 ret;
+    uint64 args[6] = {trapframe->a0, trapframe->a1, trapframe->a2, trapframe->a3, trapframe->a4, trapframe->a5};
+    switch (id) {
+        case SYS_read:
+            ret = sys_read(args[0], args[1], args[2]);
+            break;
+        case SYS_write:
+            ret = sys_write(args[0], args[1], args[2]);
+            break;
+        default:
+            ret = -1;
+            errorf("unknown syscall %d", id);
+    }
+    trapframe->a0 = ret;
+    tracef("syscall ret %d", ret);
+}
+```
+
+### read & write
+
+`read` 和 `write` 是 Linux 下重要的两个系统调用，它们的原型如下：
+
+```c
+ssize_t read(int fd, void buf[.count], size_t count);
+ssize_t write(int fd, const void buf[.count], size_t count);
+```
 
