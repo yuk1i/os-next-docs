@@ -1871,7 +1871,7 @@
 <a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
 <a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    80207948:   00008067            ret
 </code></pre></div>
-<p>此时，PC 寄存器指向 0x00400008，请你在表格中填写接下来每一步指令所修改的寄存器或内存状态</p>
+<p>此时，PC 寄存器指向 0x80205728，请你在表格中填写接下来每一步指令所修改的寄存器或内存状态。</p>
 <h2 id="xv6-scheduler">xv6 scheduler<a class="headerlink" href="#xv6-scheduler" title="Permanent link">&para;</a></h2>
 <p>xv6 中，每个 CPU 都有一个自己的 scheduler。<code>scheduler</code> 方法从不返回。它是一个 <code>while(1)</code> 死循环，每次循环时，scheduler 都尝试获取一个 task，如果能执行它，那就 swtch 到该进程执行。</p>
 <p>如果获取不到，则检查是否所有进程都退出了。如果是，则表明系统应该结束运行了；如果不是，则表示可能有的进程正在睡眠以等待资源，或者正在由其他 CPU 执行。我们使用 <code>wfi</code> (Wait For Interrupt) 指令等待下一次时钟中断，这一步等价于用 <code>while(1);</code> 使 CPU 空转一段时间。</p>
@@ -2146,8 +2146,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/bf34960c, 2025-03-16 18:35:31+08:00" target="_blank" rel="noopener">
-            bf34960c, 2025-03-16 18:35:31+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/e823d6e1, 2025-03-17 13:32:44+08:00" target="_blank" rel="noopener">
+            e823d6e1, 2025-03-17 13:32:44+08:00
         </a>
     </div>
 </div>
