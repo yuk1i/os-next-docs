@@ -41,6 +41,7 @@ nav:
     - Week 2 - C language basic & Makefile: laben/lab2.md
     - Week 3 - Bare Metal: laben/xv6lab-baremetal.md
     - Week 4 - Trap & Interrupt: laben/xv6lab-interrupts.md
+    - Week 5 - Context Switch: laben/xv6lab-contextswitch.md
   - 快速参考手册:
     - 目录: qrh/nav.md
     - VisionFive2 板子教程: qrh/vf2.md
@@ -90,6 +91,14 @@ plugins:
           subtitle: Lab 4 - Trap & Interrupt
           include:
           - laben/xv6lab-interrupts
+        - pdf: pdf/lab5.pdf
+          subtitle: Lab 5 - 上下文切换 Context Switch
+          include:
+          - lab/xv6lab-contextswitch
+        - pdf: pdf/lab5-en.pdf
+          subtitle: Lab 5 - Context Switch
+          include:
+          - laben/xv6lab-contextswitch
 
         # - pdf: pdf/oslab-quick-reference-handbook.pdf
         #   include: qrh
