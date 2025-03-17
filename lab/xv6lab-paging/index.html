@@ -767,6 +767,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么要地址翻译（虚拟地址）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么是页表
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#satp" class="md-nav__link">
     <span class="md-ellipsis">
       satp
@@ -795,7 +813,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -818,7 +836,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       内核内存布局
     </span>
@@ -860,7 +878,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       固定大小对象分配器
     </span>
@@ -1169,6 +1187,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么要地址翻译（虚拟地址）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么是页表
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#satp" class="md-nav__link">
     <span class="md-ellipsis">
       satp
@@ -1197,7 +1233,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -1220,7 +1256,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       内核内存布局
     </span>
@@ -1262,7 +1298,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       固定大小对象分配器
     </span>
@@ -1289,6 +1325,15 @@
 
 
 <h1 id="risc-v-xv6">RISC-V 页表模型 &amp; xv6 内核页表<a class="headerlink" href="#risc-v-xv6" title="Permanent link">&para;</a></h1>
+<h2 id="_1">为什么要地址翻译（虚拟地址）<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>从对内存访问保护而言，我们希望对内存的访问是带有权限保护的。这包括两个层面：</p>
+<ol>
+<li>该内存地址是否可读、可写、可执行。</li>
+<li>该内存地址是否允许低特权级访问。</li>
+</ol>
+<p>也就是说，对于每个虚拟地址，我们都希望能检查它的操作权限是否符合原先的程序设计。</p>
+<p>在 CPU 实现上，内存是以字节为单位来寻址的。如果要实现对每个字节的访问权限都能进行管理，这样的代价是难以现象的。</p>
+<h2 id="_2">为什么是页表<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <h2 id="satp">satp<a class="headerlink" href="#satp" title="Permanent link">&para;</a></h2>
 <p>satp (Supervisor Address Translation and Protection) 寄存器是控制 S mode 和 U mode 下地址翻译的寄存器，其中包含三个属性：<code>MODE</code>, <code>ASID</code> 和 <code>PPN</code>。</p>
 <blockquote>
@@ -1382,7 +1427,7 @@ The 27-bit VPN is translated into a 44-bit PPN via a three-level page table, whi
 <p>1. When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, a page-fault exception is raised.
 2. When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, the implementation sets the corresponding bit(s) in the PTE.</p>
 <p>See also: "riscv-privilege.pdf" "4.3.1 Addressing and Memory Protection"</p>
-<h3 id="_1">权限检查<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<h3 id="_3">权限检查<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>凭直觉的，读取的页面要带有 R bit，写入的页面要带有 W bit，执行的页面要带有 X bit。</p>
 <p>但是，如果一个页面的权限带有 U bit，并且现在 CPU 核心运行在 S mode 下，我们需要对此进行额外检查：如果 <code>sstatus.SUM == 1</code> 则访问被允许，否则 Page Fault.</p>
 <blockquote>
@@ -1530,7 +1575,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 </tbody>
 </table>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/xv6lab-paging-phymemlayout.png" /></p>
-<h2 id="_2">内核内存布局<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_4">内核内存布局<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>Sv39 虚拟地址的高位是 Sign-Extension 的，在 <code>&lt; 256 GiB</code> 和 <code>256 GiB ~ 512 GiB</code> 之间有着巨大的 gap，我们利用此特性在地址上区分用户地址（低，以 0x0000 开头）和内核地址（高，以 0xffff 开头）。</p>
 <table>
 <thead>
@@ -1786,7 +1831,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>=== END ===
 </code></pre></div>
 </div>
-<h2 id="_3">固定大小对象分配器<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_5">固定大小对象分配器<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>TODO</p>
 
 
@@ -1827,8 +1872,8 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/15391c88, 2025-03-17 16:33:42+08:00" target="_blank" rel="noopener">
-            15391c88, 2025-03-17 16:33:42+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/b9e53918, 2025-03-17 20:34:00+08:00" target="_blank" rel="noopener">
+            b9e53918, 2025-03-17 20:34:00+08:00
         </a>
     </div>
 </div>
