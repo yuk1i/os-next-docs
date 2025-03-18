@@ -91,7 +91,7 @@ Imagine reading a book and needing to pause to do something else. You might use 
 
 From a scheduling perspective, context switching is a key mechanism for enabling multitasking and resource multiplexing:
 
-1. **Time-Sharing Multiplexing of CPU Resources**
+1. **Time-Division Multiplexing of CPU Resources**
 
     When multiple ready processes need to run, the operating system must allow them to take turns using the CPU. Even with a single CPU, time-sharing multiplexing enables processes to appear to run concurrently by executing them in turns. The scheduler decides which process to run at any given moment based on policies like Round Robin or Priority Scheduling. Context switching is required to transition to the scheduled process.
 
