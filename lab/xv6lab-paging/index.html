@@ -776,15 +776,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      为什么是页表
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#satp" class="md-nav__link">
     <span class="md-ellipsis">
       satp
@@ -813,7 +804,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -836,9 +827,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#xv6" class="md-nav__link">
     <span class="md-ellipsis">
-      内核内存布局
+      xv6 内核内存布局
     </span>
   </a>
   
@@ -856,17 +847,50 @@
         <li class="md-nav__item">
   <a href="#relocation" class="md-nav__link">
     <span class="md-ellipsis">
-      Relocation
+      重定位（Relocation）
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Relocation">
+    <nav class="md-nav" aria-label="重定位（Relocation）">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#relocation_start" class="md-nav__link">
     <span class="md-ellipsis">
       relocation_start
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      跳转
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      内核页表
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="内核页表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kvmmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      kvmmap
     </span>
   </a>
   
@@ -1196,15 +1220,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      为什么是页表
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#satp" class="md-nav__link">
     <span class="md-ellipsis">
       satp
@@ -1233,7 +1248,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -1256,9 +1271,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#xv6" class="md-nav__link">
     <span class="md-ellipsis">
-      内核内存布局
+      xv6 内核内存布局
     </span>
   </a>
   
@@ -1276,17 +1291,50 @@
         <li class="md-nav__item">
   <a href="#relocation" class="md-nav__link">
     <span class="md-ellipsis">
-      Relocation
+      重定位（Relocation）
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Relocation">
+    <nav class="md-nav" aria-label="重定位（Relocation）">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#relocation_start" class="md-nav__link">
     <span class="md-ellipsis">
       relocation_start
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      跳转
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      内核页表
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="内核页表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kvmmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      kvmmap
     </span>
   </a>
   
@@ -1332,8 +1380,9 @@
 <li>该内存地址是否允许低特权级访问。</li>
 </ol>
 <p>也就是说，对于每个虚拟地址，我们都希望能检查它的操作权限是否符合原先的程序设计。</p>
-<p>在 CPU 实现上，内存是以字节为单位来寻址的。如果要实现对每个字节的访问权限都能进行管理，这样的代价是难以现象的。</p>
-<h2 id="_2">为什么是页表<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>在 CPU 实现上，内存是以字节为单位来寻址的。如果要实现对每个字节的访问权限都能进行管理，这样的代价是难以现象的。
+但是，我们可以让相同权限的代码、数据排布在一起，这样即可将整个程序的内存空间分为几个大块，每个块均有自己的起始地址(Base)和大小限制(Limit)，以及权限设置，这就是使用 Segmentation 进行内存保护的方式。 </p>
+<p>Segmentation 在内存空间的管理上有着诸多劣势，例如难以动态调节大小、存在碎片化的问题。所以，现代 CPU 和操作系统均使用页表（Paging）机制来实现内存管理。</p>
 <h2 id="satp">satp<a class="headerlink" href="#satp" title="Permanent link">&para;</a></h2>
 <p>satp (Supervisor Address Translation and Protection) 寄存器是控制 S mode 和 U mode 下地址翻译的寄存器，其中包含三个属性：<code>MODE</code>, <code>ASID</code> 和 <code>PPN</code>。</p>
 <blockquote>
@@ -1345,7 +1394,7 @@
 <p><img alt="alt text" src="../../assets/xv6lab-paging/satp-mode.png" /></p>
 <h2 id="sv39">Sv39<a class="headerlink" href="#sv39" title="Permanent link">&para;</a></h2>
 <p>RISC-V 的 Sv39 模式支持了 39-bit 的虚拟地址空间，每个页面大小 4KiB。</p>
-<p>有效的虚拟地址为 64 位，但是 63-39 位必须与第 38 位相同，否则会产生 Page Fault 异常。所以，Sv39 的虚拟地址空间一共为 <code>(1 &lt;&lt; 39) = 512 GiB</code> 的空间，其中分为高地址和低地址各 <code>256 GiB</code> 的空间。</p>
+<p>RISC-V CPU 的虚拟地址为64位。Sv39模式下，有效的虚拟地址为 39 位，并规定虚拟地址的 63-39 位必须与第 38 位相同，否则会产生 Page Fault 异常。所以，Sv39 的虚拟地址空间一共为 <code>(1 &lt;&lt; 39) = 512 GiB</code> 的空间，其中分为高地址和低地址各 <code>256 GiB</code> 的空间，低地址空间为 <code>0x0000_0000_0000_0000</code> - <code>0x0000_003f_xxxx_xxxx</code> ，而高地址空间为 <code>0xffff_ffc0_0000_0000</code> - <code>0xffff_ffff_xxxx_xxxx</code>。</p>
 <blockquote>
 <p>Sv39 implementations support a 39-bit virtual address space, divided into 4 KiB pages.
 An Sv39 address is partitioned as shown in Figure 4.19.
@@ -1411,8 +1460,7 @@ The 27-bit VPN is translated into a 44-bit PPN via a three-level page table, whi
 <li>A 表示：自从上次 A bit 被清零，该虚拟页面曾经被读取、写入、取指 （Instruction Fetch）。</li>
 <li>D 表示：自从上次 D bit 被清零，该虚拟页面曾经被写入。</li>
 </ul>
-<p>RISC-V 硬件实现允许两种方式来更新 A &amp; D bits:</p>
-<p>当访问的虚拟页面被访问时，A bit 是 0、或被写入时，D bit 是 0：</p>
+<p>当访问的虚拟页面被访问时，A bit 是 0、或被写入时，D bit 是 0 是，RISC-V 规范实现允许两种方式来更新 A &amp; D bits：</p>
 <ol>
 <li>发出 PageFault，Supervisor 的异常处理函数需要手动设置 A / D bits.</li>
 <li>由硬件设置 A / D bits.</li>
@@ -1424,10 +1472,12 @@ The 27-bit VPN is translated into a 44-bit PPN via a three-level page table, whi
 <li>The D bit indicates the virtual page has been written since the last time the D bit was cleared.</li>
 </ul>
 <p>Two schemes to manage the A and D bits are permitted:</p>
-<p>1. When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, a page-fault exception is raised.
-2. When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, the implementation sets the corresponding bit(s) in the PTE.</p>
+<ol>
+<li>When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, a page-fault exception is raised.</li>
+<li>When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, the implementation sets the corresponding bit(s) in the PTE.</li>
+</ol>
 <p>See also: "riscv-privilege.pdf" "4.3.1 Addressing and Memory Protection"</p>
-<h3 id="_3">权限检查<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_2">权限检查<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>凭直觉的，读取的页面要带有 R bit，写入的页面要带有 W bit，执行的页面要带有 X bit。</p>
 <p>但是，如果一个页面的权限带有 U bit，并且现在 CPU 核心运行在 S mode 下，我们需要对此进行额外检查：如果 <code>sstatus.SUM == 1</code> 则访问被允许，否则 Page Fault.</p>
 <blockquote>
@@ -1570,13 +1620,13 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <tr>
 <td style="text-align: left;"><code>0x8020_3000</code></td>
 <td style="text-align: left;"><code>0x0000_9048</code></td>
-<td>kernel segment 1</td>
+<td>kernel segment 2</td>
 </tr>
 </tbody>
 </table>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/xv6lab-paging-phymemlayout.png" /></p>
-<h2 id="_4">内核内存布局<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>Sv39 虚拟地址的高位是 Sign-Extension 的，在 <code>&lt; 256 GiB</code> 和 <code>256 GiB ~ 512 GiB</code> 之间有着巨大的 gap，我们利用此特性在地址上区分用户地址（低，以 0x0000 开头）和内核地址（高，以 0xffff 开头）。</p>
+<h2 id="xv6">xv6 内核内存布局<a class="headerlink" href="#xv6" title="Permanent link">&para;</a></h2>
+<p>Sv39 虚拟地址的高位是 Sign-Extension 的，在 <code>&lt; 256 GiB</code> 和 <code>256 GiB ~ 512 GiB</code> 之间有着巨大的 gap，我们利用此特性在地址上区分用户地址（低，以 <code>0x0000</code> 开头）和内核地址（高，以 <code>0xffff</code> 开头）。</p>
 <table>
 <thead>
 <tr>
@@ -1588,6 +1638,10 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <tr>
 <td style="text-align: right;"><code>0x0000_0000_xxxx_xxxx</code></td>
 <td>Userspace</td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>0x0000_003f_ffff_e000</code></td>
+<td>Trapframe</td>
 </tr>
 <tr>
 <td style="text-align: right;"><code>0x0000_003f_ffff_f000</code></td>
@@ -1621,14 +1675,14 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 </table>
 <ul>
 <li>Trampoline (n. 蹦床) 是用户空间和内核空间的跳板，所以我们将它放在低 128 GiB 的最高处。</li>
-<li>然后，我们将内核的镜像，即 build/kernel ELF 文件，映射到 <code>0xffff_ffff_8020_0000</code>。</li>
-<li>其次，映射一些内核 setup 所需要的页面，如每个 CPU 的 scheduler 所用的栈，以及外设所需要的 MMIO。</li>
-<li>最后，剩下的所有可用的物理页面将被 Direct Mapping 到 <code>0xffff_ffc0_0000_0000</code>，并交给 kalloc 管理。</li>
+<li>然后，我们将内核的镜像，即 <code>build/kernel</code> ELF 文件，映射到 <code>0xffff_ffff_8020_0000</code>。</li>
+<li>其次，映射一些内核所需要的页面，如每个 CPU 的 scheduler 所用的栈，以及外设所需要的 MMIO。</li>
+<li>最后，剩下的所有可用的物理页面将被 Direct Mapping 到 <code>0xffff_ffc0_80xx_xxxx</code>，并交给 kalloc 管理。</li>
 </ul>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/xv6lab-paging-kmemlayout.png" /></p>
 <p>Direct Mapping 的作用是让 Kernel 能直接操纵所有可用的物理内存，但是除了内核本身镜像以外。</p>
 <p>如果没有 Direct Mapping，我们每次都需要将新分配的页面映射到内核虚拟地址空间上，才能通过虚拟地址去访问该物理页面。
-而有了 Direct Mapping 后，我们可以直接将物理地址加上一个常量偏移量，得到一个内核可访问的虚拟地址：</p>
+而有了 Direct Mapping 后，我们可以直接将物理地址加上一个常量偏移量，即可得到一个内核可访问的虚拟地址：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#define KERNEL_DIRECT_MAPPING_BASE  0xffffffc000000000ull</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="cp">#define KVA_TO_PA(x) (((uint64)(x)) - KERNEL_DIRECT_MAPPING_BASE)</span>
@@ -1637,62 +1691,48 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <h2 id="kalloc">kalloc 模块<a class="headerlink" href="#kalloc" title="Permanent link">&para;</a></h2>
 <p><code>kalloc.c</code> 会在启动后接管 Direct Mapping，其负责两个功能：</p>
 <ol>
-<li>
-<p>对物理页面的分配 (物理页面管理)</p>
-</li>
-<li>
-<p>对固定大小对象的动态分配和回收 (对象分配器管理)</p>
-</li>
+<li>对剩余可分配的物理页面的管理</li>
+<li>对固定大小对象的动态分配和回收 (对象分配器管理)</li>
 </ol>
-<p>在 kalloc 接管剩余的物理内存后，我们需要从它分配：</p>
+<p>在 kalloc 接管内核启动后剩余的物理内存（即上图紫色部分）后，我们需要从它分配：</p>
 <ol>
-<li>每个 object allocator 的内存池</li>
+<li>每个 object allocator（对象分配器）的内存池</li>
 <li>每个 process 的 kernel stack</li>
-<li>每个 cpu 的 scheduler stack</li>
+<li>每个 cpu scheduler 的 kernel stack</li>
 </ol>
 <p>随后，用户空间所需要的页面和配置页表所需要的页面均由 <code>kalloc</code> 模块管理。</p>
-<h2 id="relocation">Relocation<a class="headerlink" href="#relocation" title="Permanent link">&para;</a></h2>
-<p>对于内核本身(即编译出来的 ELF 文件：<code>build/kernel</code>，也称为 内核镜像)，我们采用基地址偏移映射。</p>
-<p>也就是说，内核中定义 (Defined) 的符号(变量、函数)，它们会被 OpenSBI 加载到指定的物理地址 <code>0x0000_0000_8020_abcd</code>，而该符号所对应的虚拟地址是 <code>0xffff_ffff_8020_abcd</code>。对于所有符号，这两个地址之间永远相差一个固定的值。我们将该值定义为内核偏移量 (kernel offset)。</p>
-<p>该值定义为宏 <code>KERNEL_OFFSET</code>，并定义宏 <code>KIVA_TO_PA</code> 和 <code>PA_TO_KIVA</code> 在便于两者之间转换。(KIAV: Kernel Image Virtual Address)</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// (Kernel Image Virtual Address) TO (Physical Address)</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#define KIVA_TO_PA(x) (((uint64)(x)) - KERNEL_OFFSET)</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#define PA_TO_KIVA(x) (((uint64)(x)) + KERNEL_OFFSET)</span>
+<h2 id="relocation">重定位（Relocation）<a class="headerlink" href="#relocation" title="Permanent link">&para;</a></h2>
+<p>对于内核本身（即编译出来的 ELF 文件：<code>build/kernel</code>，也称为内核镜像），我们也需要把它映射到高地址上。我们采用固定偏移量来映射整个 ELF 文件。</p>
+<p>也就是说，内核中定义 (Defined) 的符号（变量、函数），它们会被 OpenSBI 加载到指定的物理地址 <code>0x0000_0000_8020_abcd</code>，而我们最终会将该符号加载到虚拟地址 <code>0xffff_ffff_8020_abcd</code> 上。对于所有符号，这两个地址之间永远相差一个固定的值。我们将该值定义为内核偏移量 (kernel offset)。</p>
+<p>我们将该值定义为宏 <code>KERNEL_OFFSET</code>，并定义宏 <code>KIVA_TO_PA</code> 和 <code>PA_TO_KIVA</code> 在便于两者之间转换。(KIAV: Kernel Image Virtual Address)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#define KERNEL_VIRT_BASE 0xffffffff80200000ull</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#define KERNEL_PHYS_BASE 0x80200000ull</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#define KERNEL_OFFSET    ((uint64)(KERNEL_VIRT_BASE - KERNEL_PHYS_BASE))</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="cp">#define KERNEL_VIRT_BASE 0xffffffff80200000ull</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="cp">#define KERNEL_PHYS_BASE 0x80200000ull</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="cp">#define KERNEL_OFFSET    ((uint64)(KERNEL_VIRT_BASE - KERNEL_PHYS_BASE))</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">// (Kernel Image Virtual Address) TO (Physical Address)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="cp">#define KIVA_TO_PA(x) (((uint64)(x)) - KERNEL_OFFSET)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="cp">#define PA_TO_KIVA(x) (((uint64)(x)) + KERNEL_OFFSET)</span>
 </code></pre></div>
-<p>除此之外，偏移整个镜像文件加载的基地址并不会改变两个符号之间的距离，也就是说：</p>
+<p>我们注意到，偏移整个镜像文件加载的基地址并不会改变两个符号之间的距离，也就是说：</p>
 <ol>
 <li>符号 a 被加载到 PA_a <code>0x0000_0000_8020_dead</code>，符号 b 被加载到 PA_b <code>0x0000_0000_8020_beef</code>。</li>
-<li>符号 a 将会被映射到 VA_a <code>0xffff_ffff_8020_dead</code>，符号 b 将会被加载在 VA_b <code>0xffff_ffff_8020_beef</code></li>
+<li>符号 a 将会被映射到 VA_a <code>0xffff_ffff_8020_dead</code>，符号 b 将会被映射到 VA_b <code>0xffff_ffff_8020_beef</code></li>
 <li><code>PA_a - PA_b = VA_a - VA_b</code></li>
 </ol>
-<p>这个性质允许我们在使用 <code>PC-relative</code> 寻址时，能不依赖链接器为符号设置的地址，而仅依赖于某条指令的 pc 和该符号地址之间的差值，而这个差值在 链接器 所看到的虚拟地址下和 实际镜像被加载的地址下一致即可。所以，我们可以将整个 ELF 镜像的基地址重定位到任何起始地址，只需要保证所有 Program Headers 之间的偏移量是固定的即可。（当然我们的内核在内存地址上是连续的，所以只需要基地址一致即可）。这一条性质也是 Linux Kernel 能实现对自身镜像的 KASLR (Kernel address space layout randomization) 的原理。</p>
-<p>See also: <a href="https://lwn.net/Articles/569635/">https://lwn.net/Articles/569635/</a></p>
+<p>这个性质允许我们在使用 <code>PC-relative</code> 寻址时，对整个内核镜像进行重定位。使用 <code>PC-relative</code> 寻址时，我们会通过当前 PC 与目标符号的偏移量来计算目标符号的地址，具体而言，在汇编上使用 <code>auipc</code> 和 <code>addi</code> 来计算 <code>target = pc + offset</code>，而不是 <code>target = immediate</code>（立即数寻址）。
+所以，我们可以将整个内核镜像整体重定位到任何起始地址，只需要保证所有符号之间的偏移量在编译期间和被加载时是固定的即可。这一条性质也是 Linux Kernel 能实现对自身镜像的 KASLR (Kernel address space layout randomization, See also: <a href="https://lwn.net/Articles/569635/">https://lwn.net/Articles/569635/</a>) 的原理。</p>
+<p>因此，我们只需要完成两步即可实现内核镜像的重定位：</p>
+<ol>
+<li>将内核镜像映射到虚拟地址 <code>0xffff_ffff_8020_0000</code> 上。</li>
+<li>将 PC 跳转到 <code>0xffff_ffff_8020_xxxx</code> 的高地址上。</li>
+</ol>
 <p>我们期望内核会运行在 <code>0xffff_ffff_8020_0000</code> 的高地址上。所以，我们需要修改 <code>kernel.ld</code> 使链接器能正确链接内核。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>OUTPUT_ARCH(riscv)
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>ENTRY(_entry)
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>BASE_ADDRESS = 0xffffffff80200000;
 </code></pre></div>
-<p>此时 OpenSBI 无法正确加载 kernel ELF 到物理地址上，因为 kernel ELF 的 Program Header 的预计加载的物理地址 (PhysAddr) 是 <code>0xffff_ffff_8020_0000</code> 的高地址，然而这个地址只能在地址翻译启用时被使用。
-但是，在控制权从 OpenSBI 转交至我们的内核时，CPU 的地址翻译功能是没有启用的。</p>
-<div class="admonition warning">
-<p class="admonition-title">Question 1</p>
-<ol>
-<li>使用 <code>make</code> 编译内核，使用 <code>make run</code> 启动内核，观察内核是否能够启动。</li>
-<li>使用 <code>readelf -a build/kernel</code> 打印出 kernel ELF 的结构，并解释里面的 Program Headers。</li>
-</ol>
-<p>随后，将 <code>kernel.ld</code> 的内容覆盖为 <code>kernel-backup.ld</code> 中的内容。</p>
-<ol>
-<li>使用 <code>make</code> 编译内核，使用 <code>make run</code> 启动内核，观察内核是否能够启动。</li>
-<li>使用 <code>readelf -a build/kernel</code> 打印出 kernel ELF 的结构，并解释里面的 Program Headers。</li>
-</ol>
-<p>使用 <code>make debug</code> 开启一个带调试的 qemu，并在另一个窗口启动 <code>gdb-multiarch</code>。在内核入口 <code>0x8020_0000</code> 处打上断点 (<code>b *0x80200000</code>)，断点命中后打印 satp 寄存器的值 (<code>print $satp</code>)。</p>
-</div>
-<p>所以，我们需要再次修改 <code>kernel.ld</code> 使链接器产生的 ELF 的 Program Headers 拥有 <code>VirtAddr = 0xffff_ffff_8020_0000</code>，以及 <code>PhysAddr = 0x8020_0000</code>。</p>
-<p>我们在第一个段 <code>.text</code> 后面注明 <code>AT(0x80200000)</code>，表示这个段会被加载到物理地址 <code>0x8020_0000</code>。</p>
+<p>但是，此时 OpenSBI 无法正确加载 kernel ELF 到物理地址上，因为 kernel ELF 的 Program Header 的预计加载的物理地址 (PhysAddr) 是 <code>0xffff_ffff_8020_0000</code> 的高地址，然而这个地址在 OpenSBI 转交至我们的内核时是非法的。</p>
+<p>所以，我们在第一个段 <code>.text</code> 后面注明 <code>AT(0x80200000)</code>，表示这个段应该被加载到物理地址 <code>0x8020_0000</code>。这样能使链接器产生的 ELF 的 Program Headers 拥有 <code>VirtAddr = 0xffff_ffff_8020_0000</code>，以及 <code>PhysAddr = 0x8020_0000</code>。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>BASE_ADDRESS = 0xffffffff80200000;
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>SECTIONS
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>{
@@ -1723,44 +1763,38 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    call main
 </code></pre></div>
 <p>请思考：为什么在程序运行在 <code>0x0000_0000_8020_0000</code> 的地址上时，使用 <code>lla</code> 加载符号和 <code>call main</code> 跳转 main <strong>能找到正确的物理地址，而不是在此时为非法的虚拟地址</strong> <code>0xffff_ffff_8020_0000</code>？</p>
-<p>Hint: 我们是如何寻址的？回忆计算机组成课上学习的寻址模式。</p>
-<p>上述 <code>_entry</code> 代码编译后的汇编是：</p>
+<p>Hint: 我们是如何寻址的？回忆计算机组成原理课上学习的寻址模式。</p>
+<p>上述 <code>_entry</code> 中两行汇编代码被编译后的汇编是：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>────────────────────────────────────────────────────────────────────────── code:riscv:RISCV ────
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>●→  0x80200000 &lt;skernel+0000&gt;   auipc  sp, 0xac
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    0x80200004 &lt;skernel+0004&gt;   mv     sp, sp
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    0x80200008 &lt;skernel+0008&gt;   auipc  ra, 0x2
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    0x8020000c &lt;skernel+000c&gt;   jalr   488(ra)
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>─────────────────────────────────────────────────────────────────────── source:os/entry.S+4 ────
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    1      .section .text.entry
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    2      .globl _entry
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    3  _entry:
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>→   4      lla sp, boot_stack_top
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    5      call main
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>    6
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    7      .section .bss.stack
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    8      .globl boot_stack
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>    9  boot_stack:
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    3  _entry:
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>→   4      lla sp, boot_stack_top
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    5      call main
 </code></pre></div>
 </div>
-<p>如果我们直接构建上图的页表，我们需要两条或更多指令来跳转到高地址：</p>
+<p>如果我们直接构建上图的页表，我们需要两条或更多指令来完成切换页表+跳转到高地址：</p>
 <ol>
 <li><code>csrw satp</code>: 设置 satp 寄存器，启用 Sv39 地址翻译</li>
-<li><code>mv a0, 0xffff_ffff_8020_xxxx</code></li>
-<li><code>jr a0</code></li>
+<li><code>...</code></li>
 </ol>
-<p>但是，当我们执行第 1 条指令时，我们的 PC 还指向着 0x8020_xxxx 上面，当设置完 satp 后页表启用，下一条指令的寻址地址是 上一个 PC + 4，仍然是在 0x8020_xxxx 的范围里面。
-这样我们的第二条指令就会发生 Instruction Page Fault 异常。
-也就是说，在我们设置完高地址的内核页表后，我们并不能直接切换到仅包含高地址的页表上，因为此时我们的 PC 指针还指向低地址。</p>
-<p>所以，我们需要一个临时页表，其中包含了两份映射：</p>
+<p>当执行第一条指令时，我们的 PC 指向在 <code>0x8020_xxxx</code> 的物理地址上。
+但是，当我们执行完第 1 条指令设置完 satp 后，即将开始执行第二条指令，我们的 PC 还指向着该指令的物理地址，而这个物理地址的 PC 在当前的页表中是非法的。
+所以，我们的第 2 条指令就会发生 Instruction Page Fault 异常。</p>
+<p>也就是说，在我们设置完内核页表后，我们并不能直接切换到仅包含高地址的页表上，因为此时我们的 PC 指针还指向低地址，而我们无法在同时完成切换 PC + 切换 satp 两件事情。
+所以，我们需要一个临时页表，其中包含了两份映射：</p>
 <ol>
 <li>VA <code>0x0000_0000_8020_0000</code> -&gt; PA <code>0x8020_0000</code></li>
 <li>VA <code>0xffff_ffff_8020_0000</code> -&gt; PA <code>0x8020_0000</code></li>
 </ol>
-<p>当执行完上述第 1 条指令启用 Sv39 后，我们目前的 PC 仍然指向合法的虚拟地址，我们可以加载一个绝对地址到寄存器中，然后使用 <code>jr</code> 指令跳转到该寄存器的值，从而进入到内核的高地址。</p>
+<p>当执行完上述第 1 条指令启用 Sv39 后，我们目前的 PC 虽然是下一条指令的物理地址，但是它是一个合法的虚拟地址。我们可以加载一个立即数到寄存器中，然后使用 <code>jr</code> 指令跳转到该寄存器的值，从而进入到高地址。</p>
 <p>我们将这一系列步骤称为 Relocate (重定位)。</p>
 <p>See also: <a href="https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-6.html">https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-6.html</a></p>
-<h3 id="relocation_start">relocation_start<a class="headerlink" href="#relocation_start" title="Permanent link">&para;</a></h3>
-<p>在 relocation_start 的临时页表中，我们使用 2 MiB 的大页映射。我们先在 .bss 段上开辟四个对齐的物理页面：</p>
+<h3 id="relocation_start"><code>relocation_start</code><a class="headerlink" href="#relocation_start" title="Permanent link">&para;</a></h3>
+<p>在 relocation_start 的临时页表中，我们使用 2 MiB 的大页映射。我们先开辟四个对齐的物理页面：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_ident</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_direct_mapping</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
@@ -1780,7 +1814,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
 <a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Kernel size: %p, Rounded to 2MiB: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">);</span>
 </code></pre></div>
-<p>在 <code>kernel_image_end_2M</code> 后面，我们再开辟一个 2MiB 的页面作为 Kernel Direct Mapping 的第一个内存池，这是为了在第二阶段中，在 <code>kpagemgr</code>还未初始化时，给<code>kvmmake</code> 提供构建页表时所需要的物理页面。</p>
+<p>在 <code>kernel_image_end_2M</code> 后面，我们再开辟一个 2MiB 的页面作为 Kernel Direct Mapping 的第一个内存池，这是为了在第二阶段中，在最终的 <code>kallocpage</code> 还未能使用时，给 <code>kvmmake</code> 提供构建页表时所需要的物理页面。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// Calculate Kernel Mapping Base &amp; End</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_PHYS_BASE</span><span class="p">;</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_phys_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">;</span>
@@ -1813,24 +1847,235 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="p">}</span>
 </code></pre></div>
-<p>然后，我们开始映射内核 ELF 的虚拟地址：VA <code>0xffff_ffff_8020_0000</code> -&gt; PA <code>0x8020_0000</code>。</p>
-<p>此时 <code>va = pa + KERNEL_OFFSET</code>。</p>
-<p>最后，我们映射第一块 Direct Mapping：VA <code>0xffff_ffc0_80xx_0000</code> -&gt; 第一个空闲的 2 MiB 物理页 <code>0x80xx_0000</code></p>
-<div class="admonition warning">
-<p class="admonition-title">Question 2</p>
-<p>请你阅读 <code>main.c</code> 里面的 <code>relocation_start</code> 并正确构建临时页表。</p>
-<p>你可以使用 <code>vm_print_tmp(pgt_root)</code> 打印临时页表。最终，你的临时页表结构应该如下所示：</p>
-<p><img alt="alt text" src="../../assets/xv6lab-paging/xv6lab-paging-temporary-pgt.png" /></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>=== Temporary PageTable at 0x000000008020b000 ===
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>[2], pte[0x000000008020b010]: 0x0000000080000000 -&gt; 0x000000008020a000 -------V
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    [1], pte[0x000000008020a008]: 0x0000000080200000 -&gt; 0x0000000080200000 DA--XWRV
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>[102], pte[0x000000008020b810]: 0xffffffc080000000 -&gt; 0x0000000080209000 -------V
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    [2], pte[0x0000000080209010]: 0xffffffc080400000 -&gt; 0x0000000080400000 DA---WRV
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>[1fe], pte[0x000000008020bff0]: 0xffffffff80000000 -&gt; 0x0000000080208000 -------V
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    [1], pte[0x0000000080208008]: 0xffffffff80200000 -&gt; 0x0000000080200000 DA--XWRV
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>=== END ===
+<p>然后，我们开始映射内核 ELF 的虚拟地址：VA <code>0xffff_ffff_8020_0000</code> -&gt; PA <code>0x8020_0000</code>。
+此时 <code>va = pa + KERNEL_OFFSET</code>。</p>
+<p>最后，我们映射第一块 Direct Mapping：VA <code>0xffff_ffc0_80xx_0000</code> -&gt; 第一个空闲的 2 MiB 物理页 <code>0x80xx_0000</code>。</p>
+<h3 id="_3">跳转<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>code: os/main.c</p>
+</blockquote>
+<p>在 <code>bootcpu_entry</code> 的末尾，我们会调用 <code>bootcpu_start_relocation</code>，而在它的末尾，我们会使用汇编完成跳转 PC 到 <code>bootcpu_relocating</code>。</p>
+<p><code>bootcpu_relocating</code> 会调用 <code>kvm_init</code> 完成对内核页表的设置与切换，它最终会跳转函数 <code>bootcpu_init</code>，并使用最终的栈 scheduler kernel stack(<code>mycpu()-&gt;sched_kstack_top</code>)。</p>
+<p><code>bootcpu_init</code> 会完成接下来的内核初始化，包括启动其他 CPU，设置 Kernel Trap，初始化 kernel page manager 等。最终，它会调用 <code>scheduler()</code> 函数并永不返回。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">bootcpu_entry</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">mhartid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n\n</span><span class="s">=====</span><span class="se">\n</span><span class="s">Hello World!</span><span class="se">\n</span><span class="s">=====</span><span class="se">\n\n</span><span class="s">Boot stack: %p</span><span class="se">\n</span><span class="s">clean bss: %p - %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">boot_stack</span><span class="p">,</span><span class="w"> </span><span class="n">s_bss</span><span class="p">,</span><span class="w"> </span><span class="n">e_bss</span><span class="p">);</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">s_bss</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">e_bss</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s_bss</span><span class="p">);</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Kernel Starts Relocating...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="n">bootcpu_start_relocation</span><span class="p">();</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">    </span><span class="c1">// We will jump to kernel&#39;s real pagetable in bootcpu_start_relocation.</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">    </span><span class="n">__builtin_unreachable</span><span class="p">();</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="p">}</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">bootcpu_start_relocation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">fn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="o">&amp;</span><span class="n">bootcpu_relocating</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">KERNEL_OFFSET</span><span class="p">;</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="o">&amp;</span><span class="n">boot_stack_top</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">KERNEL_OFFSET</span><span class="p">;</span>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="w">    </span><span class="k">asm</span><span class="w"> </span><span class="k">volatile</span><span class="p">(</span>
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="w">        </span><span class="s">&quot;mv a1, %0 </span><span class="se">\n</span><span class="s"> \</span>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="s">        mv sp, %1 </span><span class="se">\n</span><span class="s"> \</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="s">        jr a1&quot;</span><span class="w"> </span><span class="o">::</span><span class="s">&quot;r&quot;</span><span class="p">(</span><span class="n">fn</span><span class="p">),</span><span class="s">&quot;r&quot;</span><span class="p">(</span><span class="n">sp</span><span class="p">));</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="w">    </span><span class="n">__builtin_unreachable</span><span class="p">();</span>
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="p">}</span>
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">bootcpu_relocating</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Boot HART Relocated. We are at high address now! PC: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r_pc</span><span class="p">());</span>
+<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>
+<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="w">    </span><span class="c1">// Step 4. Rebuild final kernel pagetable</span>
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a><span class="w">    </span><span class="n">kvm_init</span><span class="p">();</span>
+<a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>
+<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">new_sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mycpu</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">sched_kstack_top</span><span class="p">;</span>
+<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">fn</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="o">&amp;</span><span class="n">bootcpu_init</span><span class="p">;</span>
+<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>
+<a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a><span class="w">    </span><span class="k">asm</span><span class="w"> </span><span class="k">volatile</span><span class="p">(</span>
+<a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a><span class="w">        </span><span class="s">&quot;mv a1, %0 </span><span class="se">\n</span><span class="s"> \</span>
+<a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a><span class="s">        mv sp, %1 </span><span class="se">\n</span><span class="s"> \</span>
+<a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a><span class="s">        jr a1&quot;</span><span class="w"> </span><span class="o">::</span><span class="s">&quot;r&quot;</span><span class="p">(</span><span class="n">fn</span><span class="p">),</span><span class="s">&quot;r&quot;</span><span class="p">(</span><span class="n">new_sp</span><span class="p">));</span>
+<a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a><span class="w">    </span><span class="n">__builtin_unreachable</span><span class="p">();</span>
+<a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a><span class="p">}</span>
 </code></pre></div>
-</div>
+<h2 id="_4">内核页表<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>code: <code>os/kvm.c</code></p>
+</blockquote>
+<p>在完成 Relocation 后，我们调用 <code>kvm_init()</code> 来构造最终的内核页表，并切换到该页表上。</p>
+<p>Relocation 时，我们会在 Direct Mapping 区间先借用一个 2M 的区域，即 <code>e_kernel</code> (0x802x_0000) 对齐到 2MiB (0x8040_0000) 后的下一个 2MiB 区域 <code>[0x8040_0000, 0x8060_0000)</code>。
+在构建内核页表时，我们会需要申请物理页面来放置次级页表，我们称之为 <code>boot-stage page allocator</code>，这些页面的生命周期是持久的，永远不会被释放。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>[INFO  0,-1] kvm_init: boot-stage page allocator: base 0xffffffc080400000, end 0xffffffc080600000
+</code></pre></div>
+<p><code>kvmmake</code> 函数会调用 <code>kvmmap</code> 依次映射每个区域。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">static</span><span class="w"> </span><span class="n">pagetable_t</span><span class="w"> </span><span class="nf">kvmmake</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">kpgtbl</span><span class="p">;</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="n">kpgtbl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pagetable_t</span><span class="p">)</span><span class="n">allocsetuppage</span><span class="p">();</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="c1">// Step.1 : Kernel Image</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="c1">// Step.2 : Kernel Trampoline</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">    </span><span class="c1">// Step.3 : Kernel Device MMIO :</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="c1">// Step.4 : Kernel Scheduler stack:</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="c1">// Step.5 : Kernel Direct Mapping</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>kvmmap</code> 的原型为 <code>void kvmmap(pagetable_t kpgtbl, uint64 va, uint64 pa, uint64 sz, int perm)</code>，表示将 <code>[va, va+sz)</code> 映射到 <code>[pa, pa+sz)</code> 的区域上。</p>
+<ol>
+<li>对于 Kernel Image，我们映射三个分区：<code>.text</code> (RX), <code>.rodata</code> (RO), <code>.data (.bss)</code> (RW)。我们可以引用在 <code>kernel.ld</code> 中导出的地址符号 <code>e_text</code> 等来得到每个分区的起始地址和结束地址。注意我们直接引用符号 <code>s_text</code> 时，我们会解析得到它的虚拟地址；而它的物理地址则可以通过 <code>KIVA_TO_PA</code> 转换得到。</li>
+</ol>
+<p>在 <code>kernel.ld</code> 中的 <code>.text</code> 存在另一个特殊的页面，称为 trampoline，我们会在下一节课讲到它。我们将它映射到虚拟地址 <code>0x3f_ffff_f000</code> 上。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="w">    </span><span class="c1">// map kernel text executable and read-only.</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="c1">// 0xffff_ffff_8020_0000 -&gt; 0x8020_0000</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">    </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">s_text</span><span class="p">,</span><span class="w"> </span><span class="n">KIVA_TO_PA</span><span class="p">(</span><span class="n">s_text</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">e_text</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">s_text</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_X</span><span class="p">);</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">    </span><span class="c1">// map kernel ro_data: s_rodata to e_rodata</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">s_rodata</span><span class="p">,</span><span class="w"> </span><span class="n">KIVA_TO_PA</span><span class="p">(</span><span class="n">s_rodata</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">e_rodata</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">s_rodata</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="p">);</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">    </span><span class="c1">// map kernel .s_data to .e_bss,</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">kimage_data_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KIVA_TO_PA</span><span class="p">(</span><span class="n">e_bss</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">KIVA_TO_PA</span><span class="p">(</span><span class="n">s_data</span><span class="p">);</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">    </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">s_data</span><span class="p">,</span><span class="w"> </span><span class="n">KIVA_TO_PA</span><span class="p">(</span><span class="n">s_data</span><span class="p">),</span><span class="w"> </span><span class="n">kimage_data_size</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_D</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_W</span><span class="p">);</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">    </span><span class="c1">// map trampoline</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">    </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">TRAMPOLINE</span><span class="p">,</span><span class="w"> </span><span class="n">KIVA_TO_PA</span><span class="p">(</span><span class="n">trampoline</span><span class="p">),</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_X</span><span class="p">);</span>
+</code></pre></div>
+<p>此时，<code>kernel_pagetable</code> 的结构如下所示：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>=== PageTable at 0xffffffc080400000 ===
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>[ff], pte[0xffffffc0804007f8]: 0x0000003fc0000000 -&gt; 0x0000000080403000 -------V
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>  [1ff], pte[0xffffffc080403ff8]: 0x0000003fffe00000 -&gt; 0x0000000080404000 -------V
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    [1ff], pte[0xffffffc080404ff8]: 0x0000003ffffff000 -&gt; 0x000000008020a000 -A--X-RV
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>[1fe], pte[0xffffffc080400ff0]: 0xffffffff80000000 -&gt; 0x0000000080401000 -------V
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>  [1], pte[0xffffffc080401008]: 0xffffffff80200000 -&gt; 0x0000000080402000 -------V
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    [0], pte[0xffffffc080402000]: 0xffffffff80200000 -&gt; 0x0000000080200000 -A--X-RV
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    ...
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>    [9], pte[0xffffffc080402048]: 0xffffffff80209000 -&gt; 0x0000000080209000 -A--X-RV
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>    [b], pte[0xffffffc080402058]: 0xffffffff8020b000 -&gt; 0x000000008020b000 -A----RV
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>    ...
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>    [20], pte[0xffffffc080402100]: 0xffffffff80220000 -&gt; 0x0000000080220000 -A----RV
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>    [21], pte[0xffffffc080402108]: 0xffffffff80221000 -&gt; 0x0000000080221000 DA---WRV
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>    ...
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>    [2c], pte[0xffffffc080402160]: 0xffffffff8022c000 -&gt; 0x000000008022c000 DA---WRV
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>=== END ===
+</code></pre></div>
+<ol>
+<li>然后，我们映射外设的 MMIO 区域，目前我们会使用到 PLIC 和 UART0 两个外设。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="w">    </span><span class="c1">// Step.3 : Kernel Device MMIO :</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="n">KERNEL_PLIC_BASE</span><span class="p">,</span><span class="w"> </span><span class="n">PLIC_PHYS</span><span class="p">,</span><span class="w"> </span><span class="n">KERNEL_PLIC_SIZE</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_D</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_W</span><span class="p">);</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="n">KERNEL_UART0_BASE</span><span class="p">,</span><span class="w"> </span><span class="n">UART0_PHYS</span><span class="p">,</span><span class="w"> </span><span class="n">KERNEL_UART0_SIZE</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_D</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_W</span><span class="p">);</span>
+</code></pre></div>
+<ol>
+<li>然后，我们映射每个 cpu 的 scheduler 所用的栈。我们令每个 scheduler 的内核为两个 <code>PGSIZE</code>，并且相邻的两个栈空间相隔一段非法的地址，我们称之为 <code>guard page</code>。如果我们在内核栈上发生栈溢出，我们会得到一个 Page Fault 而不是内核带着错误悄无声息的继续运行。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="w">    </span><span class="c1">// Step.4 : Kernel Scheduler stack:</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">sched_stack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_STACK_SCHED</span><span class="p">;</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">NCPU</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu</span><span class="w"> </span><span class="o">*</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getcpu</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">        </span><span class="c1">// allocate #KERNEL_STACK_SIZE / PGSIZE pages</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="w"> </span><span class="n">va</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sched_stack</span><span class="p">;</span><span class="w"> </span><span class="n">va</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">sched_stack</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">KERNEL_STACK_SIZE</span><span class="p">;</span><span class="w"> </span><span class="n">va</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">            </span><span class="n">uint64</span><span class="w"> </span><span class="n">__pa</span><span class="w"> </span><span class="n">newpg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KVA_TO_PA</span><span class="p">(</span><span class="n">allockernelpage</span><span class="p">());</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">            </span><span class="n">debugf</span><span class="p">(</span><span class="s">&quot;map halt %d, va:%p, pa:%p&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="n">newpg</span><span class="p">);</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">            </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="n">newpg</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_D</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_W</span><span class="p">);</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="w">        </span><span class="n">c</span><span class="o">-&gt;</span><span class="n">sched_kstack_top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sched_stack</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">KERNEL_STACK_SIZE</span><span class="p">;</span>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="w">        </span><span class="c1">// double the sched_stack to make a significant gap between different cpus.</span>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="w">        </span><span class="c1">//  if any kernel stack overflows, it will page fault.</span>
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="w">        </span><span class="n">sched_stack</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">KERNEL_STACK_SIZE</span><span class="p">;</span>
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+<p>内核 scheduler 栈的结构如下所示，尽管所分配的页面在物理地址上是连续的，但是在虚拟地址上我们可以故意令它不连续。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>[1ff], pte[0xffffffc080400ff8]: 0xffffffffc0000000 -&gt; 0x0000000080405000 -------V
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>  [1f8], pte[0xffffffc080405fc0]: 0xffffffffff000000 -&gt; 0x0000000080408000 -------V
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>    [0], pte[0xffffffc080408000]: 0xffffffffff000000 -&gt; 0x0000000080407000 DA---WRV
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    [1], pte[0xffffffc080408008]: 0xffffffffff001000 -&gt; 0x0000000080409000 DA---WRV
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    [4], pte[0xffffffc080408020]: 0xffffffffff004000 -&gt; 0x000000008040a000 DA---WRV
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    [5], pte[0xffffffc080408028]: 0xffffffffff005000 -&gt; 0x000000008040b000 DA---WRV
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    [8], pte[0xffffffc080408040]: 0xffffffffff008000 -&gt; 0x000000008040c000 DA---WRV
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>    [9], pte[0xffffffc080408048]: 0xffffffffff009000 -&gt; 0x000000008040d000 DA---WRV
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>    [c], pte[0xffffffc080408060]: 0xffffffffff00c000 -&gt; 0x000000008040e000 DA---WRV
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>    [d], pte[0xffffffc080408068]: 0xffffffffff00d000 -&gt; 0x000000008040f000 DA---WRV
+</code></pre></div>
+<ol>
+<li>最后，计算系统中所有应该被 Direct Mapping 管理的页面，即 <code>kernel_image_end_2M</code> 开始到物理内存空间的结束，从 <code>0xffffffc0_80400000 -&gt; 0x00000000_80400000</code> 处开始映射。注意到 <code>boot-stage page allocator</code> 所用的区域（<code>[0x8040_0000, 0x8060_0000)</code>）也会在这个映射范围之内。</li>
+</ol>
+<p>之后，将剩下的空间交给 <code>kalloc.c</code> 中的 <code>kpgmgr</code> 管理：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="w">    </span><span class="c1">// So page allocator should starts after these used pages.</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="n">kpage_allocator_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">init_page_allocator</span><span class="p">;</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="n">kpage_allocator_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">available_mems</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">init_page_allocator</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">init_page_allocator_base</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="kvmmap">kvmmap<a class="headerlink" href="#kvmmap" title="Permanent link">&para;</a></h3>
+<p><code>kvmmap</code> 的逻辑非常简单，按照 Sv39 的三级页表格式对 <code>vaddr</code> 展开到三个 index：<code>vpn2</code>, <code>vpn1</code>, 和 <code>vpn0</code>，随后开始逐级往下走 <code>pgtbl_level1</code>, <code>pgtbl_level0</code>。当遇到未被分配的次级页表时，从 <code>allockernelpage</code> 处分配一个，并设置上级到次级的 PTE (<code>RWX=000</code>) 即可。最后，在最后一级按照给定的 <code>perm</code> 设置 PTE ：<code>pgtbl_level0[vpn0] = MAKE_PTE(paddr, perm)</code>。</p>
+<p>当然，当我们映射一大片对齐到 2MiB 的内存区域时，我们可以使用一个 2MiB 的大页映射，而不是多个 4KiB 的映射。这需要满足大页映射的条件： <code>IS_ALIGNED(vaddr, PGSIZE_2M) &amp;&amp; IS_ALIGNED(paddr, PGSIZE_2M) &amp;&amp; sz &gt;= PGSIZE_2M</code>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">kvmmap</span><span class="p">(</span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">sz</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">perm</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">PGALIGNED</span><span class="p">(</span><span class="n">va</span><span class="p">));</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">PGALIGNED</span><span class="p">(</span><span class="n">pa</span><span class="p">));</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">PGALIGNED</span><span class="p">(</span><span class="n">sz</span><span class="p">));</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">    </span><span class="n">debugf</span><span class="p">(</span><span class="s">&quot;va:%p, pa:%p, sz:%x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">sz</span><span class="p">);</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="w">    </span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">__kva</span><span class="w"> </span><span class="n">pgtbl_level1</span><span class="p">,</span><span class="w"> </span><span class="n">pgtbl_level0</span><span class="p">;</span>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">vpn2</span><span class="p">,</span><span class="w"> </span><span class="n">vpn1</span><span class="p">,</span><span class="w"> </span><span class="n">vpn0</span><span class="p">;</span>
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">__kva</span><span class="w"> </span><span class="n">vaddr</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">va</span><span class="p">;</span>
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">__kva</span><span class="w"> </span><span class="n">paddr</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">pa</span><span class="p">;</span>
+<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">__kva</span><span class="w"> </span><span class="n">vaddr_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vaddr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sz</span><span class="p">;</span>
+<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>
+<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">vaddr</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">vaddr_end</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a><span class="w">        </span><span class="c1">// try to add mapping: vaddr -&gt; pa</span>
+<a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="w">        </span><span class="n">vpn2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">vaddr</span><span class="p">);</span>
+<a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a><span class="w">        </span><span class="n">vpn1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">vaddr</span><span class="p">);</span>
+<a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a><span class="w">        </span><span class="n">vpn0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">vaddr</span><span class="p">);</span>
+<a id="__codelineno-23-20" name="__codelineno-23-20" href="#__codelineno-23-20"></a>
+<a id="__codelineno-23-21" name="__codelineno-23-21" href="#__codelineno-23-21"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">[</span><span class="n">vpn2</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_V</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-22" name="__codelineno-23-22" href="#__codelineno-23-22"></a><span class="w">            </span><span class="c1">// kpgtbl[vpn2] is not a valid PTE, allocate the level 1 pagetable.</span>
+<a id="__codelineno-23-23" name="__codelineno-23-23" href="#__codelineno-23-23"></a><span class="w">            </span><span class="n">uint64</span><span class="w"> </span><span class="n">__kva</span><span class="w"> </span><span class="n">newpg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">allockernelpage</span><span class="p">();</span>
+<a id="__codelineno-23-24" name="__codelineno-23-24" href="#__codelineno-23-24"></a><span class="w">            </span><span class="n">memset</span><span class="p">((</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">newpg</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
+<a id="__codelineno-23-25" name="__codelineno-23-25" href="#__codelineno-23-25"></a><span class="w">            </span><span class="n">pgtbl_level1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pagetable_t</span><span class="p">)</span><span class="n">newpg</span><span class="p">;</span>
+<a id="__codelineno-23-26" name="__codelineno-23-26" href="#__codelineno-23-26"></a><span class="w">            </span><span class="n">kpgtbl</span><span class="p">[</span><span class="n">vpn2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAKE_PTE</span><span class="p">(</span><span class="n">KVA_TO_PA</span><span class="p">(</span><span class="n">newpg</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-23-27" name="__codelineno-23-27" href="#__codelineno-23-27"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-28" name="__codelineno-23-28" href="#__codelineno-23-28"></a><span class="w">            </span><span class="n">pte_t</span><span class="w"> </span><span class="n">pte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kpgtbl</span><span class="p">[</span><span class="n">vpn2</span><span class="p">];</span>
+<a id="__codelineno-23-29" name="__codelineno-23-29" href="#__codelineno-23-29"></a><span class="w">            </span><span class="c1">// check validity: pte must points to next level page table.</span>
+<a id="__codelineno-23-30" name="__codelineno-23-30" href="#__codelineno-23-30"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_R</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_W</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_X</span><span class="p">))</span>
+<a id="__codelineno-23-31" name="__codelineno-23-31" href="#__codelineno-23-31"></a><span class="w">                </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;kvmmap: vaddr %p already mapped at level 2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">vaddr</span><span class="p">);</span>
+<a id="__codelineno-23-32" name="__codelineno-23-32" href="#__codelineno-23-32"></a><span class="w">            </span><span class="n">pgtbl_level1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pagetable_t</span><span class="p">)</span><span class="n">PA_TO_KVA</span><span class="p">(</span><span class="n">PTE2PA</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">[</span><span class="n">vpn2</span><span class="p">]));</span>
+<a id="__codelineno-23-33" name="__codelineno-23-33" href="#__codelineno-23-33"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-23-34" name="__codelineno-23-34" href="#__codelineno-23-34"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">pgtbl_level1</span><span class="p">[</span><span class="n">vpn1</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_V</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-35" name="__codelineno-23-35" href="#__codelineno-23-35"></a><span class="w">            </span><span class="c1">// pgtbl_level1[vpn1] is not a valid PTE.</span>
+<a id="__codelineno-23-36" name="__codelineno-23-36" href="#__codelineno-23-36"></a><span class="w">            </span><span class="c1">//   try to allocate 2M page</span>
+<a id="__codelineno-23-37" name="__codelineno-23-37" href="#__codelineno-23-37"></a><span class="w">            </span><span class="c1">//   , or allocate the level 1 pagetable.</span>
+<a id="__codelineno-23-38" name="__codelineno-23-38" href="#__codelineno-23-38"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">IS_ALIGNED</span><span class="p">(</span><span class="n">vaddr</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">IS_ALIGNED</span><span class="p">(</span><span class="n">paddr</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">sz</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-39" name="__codelineno-23-39" href="#__codelineno-23-39"></a><span class="w">                </span><span class="c1">// it&#39;s ok for a huge page.</span>
+<a id="__codelineno-23-40" name="__codelineno-23-40" href="#__codelineno-23-40"></a><span class="w">                </span><span class="n">pgtbl_level1</span><span class="p">[</span><span class="n">vpn1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAKE_PTE</span><span class="p">(</span><span class="n">paddr</span><span class="p">,</span><span class="w"> </span><span class="n">perm</span><span class="p">);</span>
+<a id="__codelineno-23-41" name="__codelineno-23-41" href="#__codelineno-23-41"></a><span class="w">                </span><span class="n">vaddr</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">;</span>
+<a id="__codelineno-23-42" name="__codelineno-23-42" href="#__codelineno-23-42"></a><span class="w">                </span><span class="n">paddr</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">;</span>
+<a id="__codelineno-23-43" name="__codelineno-23-43" href="#__codelineno-23-43"></a><span class="w">                </span><span class="n">sz</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">;</span>
+<a id="__codelineno-23-44" name="__codelineno-23-44" href="#__codelineno-23-44"></a><span class="w">                </span><span class="k">continue</span><span class="p">;</span>
+<a id="__codelineno-23-45" name="__codelineno-23-45" href="#__codelineno-23-45"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-23-46" name="__codelineno-23-46" href="#__codelineno-23-46"></a><span class="w">            </span><span class="n">uint64</span><span class="w"> </span><span class="n">__kva</span><span class="w"> </span><span class="n">newpg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">allockernelpage</span><span class="p">();</span>
+<a id="__codelineno-23-47" name="__codelineno-23-47" href="#__codelineno-23-47"></a><span class="w">            </span><span class="n">memset</span><span class="p">((</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">newpg</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
+<a id="__codelineno-23-48" name="__codelineno-23-48" href="#__codelineno-23-48"></a><span class="w">            </span><span class="n">pgtbl_level0</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pagetable_t</span><span class="p">)</span><span class="n">newpg</span><span class="p">;</span>
+<a id="__codelineno-23-49" name="__codelineno-23-49" href="#__codelineno-23-49"></a><span class="w">            </span><span class="n">pgtbl_level1</span><span class="p">[</span><span class="n">vpn1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAKE_PTE</span><span class="p">(</span><span class="n">KVA_TO_PA</span><span class="p">(</span><span class="n">newpg</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-23-50" name="__codelineno-23-50" href="#__codelineno-23-50"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-51" name="__codelineno-23-51" href="#__codelineno-23-51"></a><span class="w">            </span><span class="n">pte_t</span><span class="w"> </span><span class="n">pte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pgtbl_level1</span><span class="p">[</span><span class="n">vpn1</span><span class="p">];</span>
+<a id="__codelineno-23-52" name="__codelineno-23-52" href="#__codelineno-23-52"></a><span class="w">            </span><span class="c1">// check validity: pte must points to next level page table.</span>
+<a id="__codelineno-23-53" name="__codelineno-23-53" href="#__codelineno-23-53"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_R</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_W</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_X</span><span class="p">))</span>
+<a id="__codelineno-23-54" name="__codelineno-23-54" href="#__codelineno-23-54"></a><span class="w">                </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;kvmmap: vaddr %p already mapped at level 1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">vaddr</span><span class="p">);</span>
+<a id="__codelineno-23-55" name="__codelineno-23-55" href="#__codelineno-23-55"></a><span class="w">            </span><span class="n">pgtbl_level0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pagetable_t</span><span class="p">)</span><span class="n">PA_TO_KVA</span><span class="p">(</span><span class="n">PTE2PA</span><span class="p">(</span><span class="n">pgtbl_level1</span><span class="p">[</span><span class="n">vpn1</span><span class="p">]));</span>
+<a id="__codelineno-23-56" name="__codelineno-23-56" href="#__codelineno-23-56"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-23-57" name="__codelineno-23-57" href="#__codelineno-23-57"></a><span class="w">        </span><span class="c1">// check validity: pte must points to next level page table.</span>
+<a id="__codelineno-23-58" name="__codelineno-23-58" href="#__codelineno-23-58"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pgtbl_level0</span><span class="p">[</span><span class="n">vpn0</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_V</span><span class="p">)</span>
+<a id="__codelineno-23-59" name="__codelineno-23-59" href="#__codelineno-23-59"></a><span class="w">            </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;kvmmap: vaddr %p already mapped at level 0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">vaddr</span><span class="p">);</span>
+<a id="__codelineno-23-60" name="__codelineno-23-60" href="#__codelineno-23-60"></a><span class="w">        </span><span class="n">pgtbl_level0</span><span class="p">[</span><span class="n">vpn0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAKE_PTE</span><span class="p">(</span><span class="n">paddr</span><span class="p">,</span><span class="w"> </span><span class="n">perm</span><span class="p">);</span>
+<a id="__codelineno-23-61" name="__codelineno-23-61" href="#__codelineno-23-61"></a><span class="w">        </span><span class="n">vaddr</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">;</span>
+<a id="__codelineno-23-62" name="__codelineno-23-62" href="#__codelineno-23-62"></a><span class="w">        </span><span class="n">paddr</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">;</span>
+<a id="__codelineno-23-63" name="__codelineno-23-63" href="#__codelineno-23-63"></a><span class="w">        </span><span class="n">sz</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">;</span>
+<a id="__codelineno-23-64" name="__codelineno-23-64" href="#__codelineno-23-64"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-23-65" name="__codelineno-23-65" href="#__codelineno-23-65"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">vaddr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">vaddr_end</span><span class="p">);</span>
+<a id="__codelineno-23-66" name="__codelineno-23-66" href="#__codelineno-23-66"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">sz</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-23-67" name="__codelineno-23-67" href="#__codelineno-23-67"></a><span class="p">}</span>
+</code></pre></div>
 <h2 id="_5">固定大小对象分配器<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>TODO</p>
 
@@ -1872,8 +2117,8 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/c5a74c26, 2025-03-18 13:01:52+08:00" target="_blank" rel="noopener">
-            c5a74c26, 2025-03-18 13:01:52+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/b2d5a4c6, 2025-03-19 19:12:02+08:00" target="_blank" rel="noopener">
+            b2d5a4c6, 2025-03-19 19:12:02+08:00
         </a>
     </div>
 </div>
