@@ -6,13 +6,6 @@
 2. 掌握虚拟地址到物理地址的转换机制
 3. 掌握XV6如何管理内存并创建页表
 
-!!!warning "xv6-lab4 代码"
-    
-    https://github.com/yuk1i/SUSTechOS/tree/main
-
-    使用命令 `git clone https://github.com/yuk1i/SUSTechOS -b main xv6lab4` 下载 xv6-lab4 代码。
-
-
 ## Segmentation
 
 从对内存访问保护而言，我们希望对内存的访问是带有权限保护的。这包括两个层面：
@@ -44,19 +37,15 @@ Segmentation 在内存空间的管理上有着诸多劣势，例如难以动态�
 
 分页机制很重要的一点是如何建立和解析虚拟地址到物理地址的映射，下面我们从“如何从虚拟地址获得相应的物理地址”的角度进行介绍：
 
+### 一级页表
+
 如图所示是一个一级页表分页机制（一级对应于后面的多级，一级页表只需要查询一层页表即可得到物理地址）：
 
 ![1648542681894](../assets/xv6lab-paging/1648542681894.png)
 
-以上图为例，我们首先得到一个**虚拟地址（Virtual Address）**，这个地址长度为6位，其中5~4位（高2位）为**页号（VPN，Virtual Page Number）**，3~0位（低4位）为**偏移量（Offset）**。
+以上图为例，我们首先得到一个 **虚拟地址（Virtual Address** ，这个地址长度为6位，其中5~4位（高2位）为 **页号（VPN，Virtual Page Number）** ，3~0位（低4位）为 **偏移量（Offset** 。
 
-通过虚拟地址，我们可以查询**页表**（**Page Table**），页表存在于**页表基地址**（**PageTablePtr，Page Table Pointer**，是个物理地址）所指向的内存空间中，由连续存储的若干个**页表项（PTE，Page Table Entry）**构成。在一级页表中，每个页表项内容即为**物理页号（Page Frame #）+部分标志位**。尽管图中每个页表项看似包含**页号（Page #）**但是在实际的设计中，**页号并不写在页表项中**，由于页表项是连续分布的，我们只需要知道页表项的大小（有多少位）以及虚拟地址页号（VPN，代表要查询第几个页表项），就可以通过`页表首地址+页号×页表项大小`得到对应的页表项地址，查询该地址对应内容即可得到物理页号。页表首地址是存储在架构指定的寄存器中的。
-
-得到物理页号后，通过`物理页号×页面大小`即可得到所在页的物理地址（物理空间首地址为0x0）。一页可能很大，如何得到一页中具体某个字节的地址呢？通过偏移量，`页物理地址+偏移量`即可得到具体虚拟地址对应的具体物理地址。
-
-以上图为例，我们首先得到一个**虚拟地址（Virtual Address）**，这个地址长度为6位，其中5~4位（高2位）为**页号（VPN，Virtual Page Number）**，3~0位（低4位）为**偏移量（Offset）**。
-
-通过虚拟地址，我们可以查询**页表**（**Page Table**），页表存在于**页表基地址**（**PageTablePtr，Page Table Pointer**，是个物理地址）所指向的内存空间中，由连续存储的若干个**页表项（PTE，Page Table Entry）**构成。在一级页表中，每个页表项内容即为**物理页号（Page Frame #）+部分标志位**。尽管图中每个页表项看似包含**页号（Page #）**但是在实际的设计中，**页号并不写在页表项中**，由于页表项是连续分布的，我们只需要知道页表项的大小（有多少位）以及虚拟地址页号（VPN，代表要查询第几个页表项），就可以通过`页表首地址+页号×页表项大小`得到对应的页表项地址，查询该地址对应内容即可得到物理页号。页表首地址是存储在架构指定的寄存器中的。
+通过虚拟地址，我们可以查询 **页表** （ **Page Table** ），页表存在于 **页表基地址**（ **PageTablePtr，Page Table Pointer** ，是个物理地址）所指向的内存空间中，由连续存储的若干个 **页表项（PTE，Page Table Entry）** 构成。在一级页表中，每个页表项内容即为 **物理页号（Page Frame #）+部分标志位** 。尽管图中每个页表项看似包含 **页号（Page #）** 但是在实际的设计中， **页号并不写在页表项中** ，由于页表项是连续分布的，我们只需要知道页表项的大小（有多少位）以及虚拟地址页号（VPN，代表要查询第几个页表项），就可以通过`页表首地址+页号×页表项大小`得到对应的页表项地址，查询该地址对应内容即可得到物理页号。页表首地址是存储在架构指定的寄存器中的。
 
 得到物理页号后，通过`物理页号×页面大小`即可得到所在页的物理地址（物理空间首地址为0x0）。一页可能很大，如何得到一页中具体某个字节的地址呢？通过偏移量，`页物理地址+偏移量`即可得到具体虚拟地址对应的具体物理地址。
 
@@ -65,31 +54,80 @@ Segmentation 在内存空间的管理上有着诸多劣势，例如难以动态�
     
     在图片的一级页表中，Offset为4位，可以得知页面大小为2^4^=16B。如果给定虚拟地址100100~2~，可以得出其页号为10~2~，即2~10~，通过页号2~10~可以查到对应的页表项内容为5~10~。5是物理页号，可以求得物理页面地址： 物理首地址+物理页号×页面大小=0+5×16=80~10~。100100中低四位偏移量为0100，因此查询的是该页面的第5个字节对应的地址（地址0也是一个字节），则该物理地址为80+4=84~10~（5*16+4=0101左移四位+0100=0101 0100~2~）。需要注意运算过程中是2进制还是10进制还是16进制数（存储肯定是2进制）。
 
+### 多级页表
 
-## satp
+系统中，通常页面大小是4KB，假设我们物理空间是4GB，那么页表中就需要1M个页表项来对应不同的物理页，假设一个页表项为4B，则一个页表就有4MB。由于虚拟地址是连续的（相当于高位VPN是连续的），而PTE的存储方式也是相当于数组的连续存储方式，因此即使进程实际使用的空间非常小，它也需要连续完整的页表来进行地址转换（不能移除中间不使用的PTE）。而操作系统中除了内核页表，为每个进程还会分配自己的页表，进程多的情况下，存储所有页表的开销就变得很大。
+
+因此需要用到多级页表，如图所示，是一个二级页表分页机制：
+
+![1648548797416](../assets/xv6lab-paging/1648548797416.png)
+
+与一级页表不同的是，二级页表将虚拟地址分割成了三个部分，其中偏移量位数依然与页面大小相关，而VPN被切割成了两个部分VPN[1]和VPN[0]。VPN[1]代表第一级页表的页号，VPN[0]代表第二级页表的页号。
+
+图中32位虚拟地址的翻译过程变成了下面这个流程：
+
+```
+	1. 取得虚拟地址高10位得到一级页号，通过`第一级页表基地址+页号×PTE大小`得到第一级页表项地址（第一级页表基地址存储于指定寄存器中）
+	2. 通过第一级页表项地址，取得其内容即第二级页表的物理页号，通过`0+第二级页表物理页号×页面大小`得到第二级页表基地址
+	3. 取得虚拟地址中间的10位VPN[0]即二级页号，通过`第二级页表基地址+二级页号×PTE大小`可以得到第二级页表项的地址
+	4. 从第二级页表项地址所在空间可以得到整个虚拟地址对应的物理页号，通过`物理页号×页面大小+偏移量`可以得到最终的物理地址
+```
+
+!!!note "思考"
+    二级页表相对于一级页表（这里指分页机制，并非Level 1 page table)为什么可以节省页面开销呢?
+    
+    例子: 一个4GB的内存空间，页面大小4KB，设每个PTE大小为4Byte，有一个进程只需要使用高虚拟地址空间(0xFFF...)的1页4KB空间和低虚拟地址空间(0x000...)的1页4KB空间。在一级页表和上图所示的二级页表机制中，这个进程分别需要至少多大的页表空间？
+    
+    一级页表中，需要`4GB÷4KB=1M`个PTE映射虚拟地址最低位到最高位的空间，因此页表大小为`1M×4Byte=4MB`。
+    
+    二级页表中，第二级页号VPN[0]为10个bit，因此可以表示2^10^个不同的页面，每个页面大小为4KB，故一个二级页表可以指向2^10^×4KB=4MB的物理空间。
+    第一级页号VPN[1]同样为10个bit可以指向2^10^个不同的二级页表，因此图中的二级页表机制可以指向2^10^×4MB=4GB的物理空间。
+    
+    一个进程需要使用高虚拟地址空间的1页4KB空间和低虚拟地址空间的1页4KB空间，可以知道这两部分空间属于不同的第二级页表指向的空间。那么，我们首先需要预留两个第二级页表。除此之外我们还需要一个第一级页表存储这两个二级页表的PTE，虽然第一级页表中指向第二级页表的PTE也是连续存储的（与一级页表分页机制相同），但是第一级页表的大小已经变了，第一级页表有2^10^个PTE，因此大小为2^10^×4B=4KB远小于一级页表分页机制中的（第一级）页表大小。综上，我们需要2个二级页表+1个一级页表（其余2^10^-2个二级页表都用不上，直接在一级页表对应的PTE中设置为不可用即可，不需要分配页表空间），由于VPN位数相同，因此一级页表和二级页表大小都是4KB，故总共需要12KB大小的页表空间。
+
+!!!warning "注意"
+    将虚拟地址翻译成物理地址的工作是由 CPU 的内存管理单元（MMU，Memory Management Unit）完成的，并不需要我们编写代码进行操作。
+
+    我们需要在操作系统中完成的是"词典"也就是页表的编写工作，为词条分配页表空间并填写页表项才是我们的工作。
+
+### 快表 TLB
+
+物理内存的访问速度要比 CPU 的运行速度慢很多, 去访问一次物理内存可能需要几百个时钟周期（带来所谓的“冯诺依曼瓶颈”）。
+
+而我们的页表都是存放在物理内存中。如果我们按照页表机制一步步走，将一个虚拟地址转化为物理地址需要访问 3 次物理内存，得到物理地址之后还要再访问一次物理内存，才能读到我们想要的数据。这很大程度上降低了效率。
+
+好在，实践表明虚拟地址的访问具有时间局部性和空间局部性。
+
+- 时间局部性是指，被访问过一次的地址很有可能不远的将来再次被访问；
+- 空间局部性是指，如果一个地址被访问，则这个地址附近的地址很有可能在不远的将来被访问。
+
+​因此，在 CPU 内部，我们使用 **快表 (TLB, Translation Lookaside Buffer)** 来记录近期已完成的虚拟页号到物理页号的映射。由于局部性，当我们要做一个映射时，会有很大可能这个映射在近期被完成过，所以我们可以先到 TLB 里面去查一下，如果有的话我们就可以直接完成映射，而不用访问那么多次内存了。
+
+但是，我们如果修改了根页表寄存器的值，比如将上面的 PPN 字段进行了修改，说明我们切换到了一个与先前映射方式完全不同的页表。此时快表里面存储的映射结果就跟不上时代了，很可能是错误的。这种情况下我们要使用特定的指令刷新整个 TLB 。在 RISC-V 中这个指令是 `sfence.vma` 。
+
+同样的，如果我们手动修改一个页表项，也等于修改了映射，但 TLB 并不会自动刷新，我们也需要使用特定的指令刷新 TLB 。
+
+在 RISC-V 中，如果不加参数， `sfence.vma` 会刷新整个 TLB 。如果加上一个虚拟地址，则 `sfence.vma` 只会刷新这个虚拟地址的映射。
+
+## RISC-V 的 Sv39 分页机制 
+
+### satp
 
 satp (Supervisor Address Translation and Protection) 寄存器是控制 S mode 和 U mode 下地址翻译的寄存器，其中包含三个属性：`MODE`, `ASID` 和 `PPN`。
 
-> This register holds the physical page number (PPN) of the root page table, i.e., its supervisor physical address divided by 4 KiB; an address space identifier (ASID), which facilitates address-translation fences on a per-address-space basis; and the MODE field, which selects the current address-translation scheme. Further details on the access to this register are described in Section 3.1.6.5.
-
 ![alt text](../assets/xv6lab-paging/satp.png)
 
-Mode 表示使用的地址翻译模式，0 则表示禁用地址翻译，所有请求的地址均作为物理地址看待，`PPN` 表示根页表的基地址。在我们的课程中，我们将使用 Sv39 作为页表模式。
+Mode 表示使用的地址翻译模式，0 则表示禁用地址翻译，所有请求的地址均作为物理地址看待，`PPN` 表示 **根页表的基地址** 。在我们的课程中，我们将使用 **Sv39** 作为页表模式。
 
 我们暂且不需要理解 ASID 的作用。
 
 ![alt text](../assets/xv6lab-paging/satp-mode.png)
 
-## Sv39
+### Sv39
 
 RISC-V 的 Sv39 模式支持了 39-bit 的虚拟地址空间，每个页面大小 4KiB。
 
 RISC-V CPU 的虚拟地址为64位。Sv39模式下，有效的虚拟地址为 39 位，并规定虚拟地址的 63-39 位必须与第 38 位相同，否则会产生 Page Fault 异常。所以，Sv39 的虚拟地址空间一共为 `(1 << 39) = 512 GiB` 的空间，其中分为高地址和低地址各 `256 GiB` 的空间，低地址空间为 `0x0000_0000_0000_0000` - `0x0000_003f_xxxx_xxxx` ，而高地址空间为 `0xffff_ffc0_0000_0000` - `0xffff_ffff_xxxx_xxxx`。
-
-> Sv39 implementations support a 39-bit virtual address space, divided into 4 KiB pages.
-> An Sv39 address is partitioned as shown in Figure 4.19.
-> Instruction fetch addresses and load and store effective addresses, which are 64 bits, must have bits 63–39 all equal to bit 38, or else a page-fault exception will occur.
-> The 27-bit VPN is translated into a 44-bit PPN via a three-level page table, while the 12-bit page offset is untranslated.
 
 ![alt text](../assets/xv6lab-paging/sv39-pgt-structure.png)
 
@@ -97,20 +135,7 @@ RISC-V CPU 的虚拟地址为64位。Sv39模式下，有效的虚拟地址为 39
 
 Sv39 中的 PTE 长度为 8-byte，分为两部分：PPN 和 Flags。PPN (Physical Page Number) 和虚拟地址中的 page offset 组成最终的物理地址，Flags 则表示该虚拟地址页面的访问权限等信息。
 
-Flags 定义如下：
-
-- D, A: Dirty, Accessed。表示该页面最近被访问 / 写入过。
-- G: Global。表示该映射关系在所有页表中均存在。
-- U: User。表示该映射关系允许在用户权限下访问。
-- V: Valid。该 bit 表示此 PTE 为有效 PTE，否则整个 PTE 视为无效。
-- R, W, X: Read, Write, Executable 权限
-
-RWX 定义如下图所示：
-注意 `XWR == 3'b000` 的情况表示物理地址 [PPN: 12b0] 为下一级页表的基地址。
-
-![alt text](../assets/xv6lab-paging/pte-rwx-encoding.png)
-
-地址翻译的过程如下图所示：
+Sv39 地址翻译的过程如下图所示：
 
 ![alt text](../assets/xv6lab-paging/riscv-address-translation.png)
 
@@ -152,9 +177,40 @@ See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process
 
 11. 权限检查：检查 `final_pte.rwx` 是否与访存请求相同。
 
-### A & D
+### Flags
 
-每个叶 PTE 包含 Accessed 和 Dirty 两个 bits：
+Flags 定义如下：
+
+- D, A: Dirty, Accessed。表示该页面最近被访问 / 写入过。
+- G: Global。表示该映射关系在所有页表中均存在。
+- U: User。表示该映射关系允许在用户权限下访问。
+- V: Valid。该 bit 表示此 PTE 为有效 PTE，否则整个 PTE 视为无效。
+- R, W, X: Read, Write, Executable 权限
+
+RWX 定义如下图所示：
+注意 `XWR == 3'b000` 的情况表示物理地址 [PPN: 12b0] 为下一级页表的基地址。
+
+![alt text](../assets/xv6lab-paging/pte-rwx-encoding.png)
+
+#### 大页映射
+
+可以注意到当 Flags 中的 XWR 取值均为0时，该 PTE 是指向下一级页表的指针，而当这XWR中存在非0位时，则该PTE是页表树的一个叶节点，也就是此时该PTE的PPN值代表了 **物理页** 的基地址而非 **页表** 的物理基址。
+
+比如，Sv39中给定一个虚拟地址VA[38:0]，然后我们根据satp.PPN×4096+VA[38:30]×8求得一级页表的页表项PTE的地址，假设该PTE的XWR为001，则该PTE为叶节点页表项。此时由于一级页表的页表项就是叶节点页表项，虚拟地址的含义就从原本的
+
+![1648559693528](.\typora-user-images\1648559693528.png)
+
+变成了
+
+![1648559882811](.\typora-user-images\1648559882811.png)
+
+而物理地址的计算则变成了PTE.PPN×4096+VA[29:0]。此时可以发现30位偏移量可以表示从PTE.PPN×4096开始的一个很大的空间（空间大小为2^30^Byte即1GiB），我们称之为 **吉页** ，本次实验的内核虚拟地址映射中会应用到它。（注意常见支持大页机制的架构中大页基地址必须对齐自己的大页空间，即吉页基地址必须对齐1GB，PTE.PPN*4096的低30位需要为0。）
+
+相应的，如果第二级页表的页表项为叶节点页表项，则该页表项的[20:0]位将表示一个整体的偏移量，代表一个小于吉页的页，我们称之为 **巨页** 。一般情况下三级页表项是叶节点页表项，指向一个 **基页** （4KB）。
+
+#### A & D
+
+每个页 PTE 包含 Accessed 和 Dirty 两个 bits：
 
 - A 表示：自从上次 A bit 被清零，该虚拟页面曾经被读取、写入、取指 （Instruction Fetch）。
 - D 表示：自从上次 D bit 被清零，该虚拟页面曾经被写入。
@@ -166,7 +222,7 @@ See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process
 
 Supervisor 软件应当正确处理以上两种情况。
 
-### 权限检查
+#### 权限检查
 
 凭直觉的，读取的页面要带有 R bit，写入的页面要带有 W bit，执行的页面要带有 X bit。
 
@@ -185,9 +241,33 @@ See also: https://github.com/torvalds/linux/blob/master/arch/riscv/include/asm/u
 
     显然，这一种模型天生适合将内核页表和用户页表隔离。 -->
 
+!!!warning "xv6-lab4 代码"
+    
+    https://github.com/yuk1i/SUSTechOS/tree/main
+
+    使用命令 `git clone https://github.com/yuk1i/SUSTechOS -b main xv6lab4` 下载 xv6-lab4 代码。
+
+## 实验场景
+
+在本次的实验代码中，我们会为内核构建虚拟地址空间，并将操作系统从运行在物理地址空间跳转到运行在虚拟地址空间。
+
+代码的具体执行流程如下：
+
+1. entry.S 的 _entry //操作系统入口
+
+2. main.c 的 bootcpu_entry //C语言入口
+
+3. main.c 的 bootcpu_start_relocation //将PC和satp进行重定位
+
+4. main.c 的 bootcpu_relocating //调用 kvm_init 完成对内核页表的设置与切换
+
+5. main.c 的 bootcpu_init //内核初始化，跳转scheduler
+
+要将运行在物理地址空间改为运行在虚拟地址空间，我们首先需要了解内核放置在物理空间的什么区域：
+
 ## RISC-V 物理地址布局
 
-RISC-V 将物理内存 (DDR / DRAM) 的起始地址映射到物理地址 `0x8000_0000` 上，而不是物理地址 `0x0000_0000` 处。
+首先，RISC-V 将物理内存 (DDR / DRAM) 的起始地址映射在物理地址 `0x8000_0000` 上，而不是物理地址 `0x0000_0000` 处。
 
 也就是说，如果我们有 128 MiB (0x0800_0000) 的 DRAM 大小，RISC-V 核心会将 DRAM 空间映射到 `[0x8000_0000, 0x8800_0000)` 上面。
 
@@ -254,7 +334,7 @@ FlatView #0
 
 ```
 
-在我们的操作系统实验中，我们只需要关注 DRAM 空间和一些外设(PLIC, UART)即可
+不过，在我们的操作系统实验中，我们只需要关注 DRAM 空间和一些外设(PLIC, UART)即可
 
 | `Base`        | Size          | Description |
 | :------------ | :------------ | ----------- |
@@ -287,6 +367,8 @@ OpenSBI 被加载到 DRAM 空间开始的 `0x8000_0000`。（这也是为什么�
 
 ![alt text](../assets/xv6lab-paging/xv6lab-paging-phymemlayout.png)
 
+接着，我们需要设计一个内存布局，它将决定对于内核，我们将建立怎么样的地址映射。
+
 ## xv6 内核内存布局
 
 Sv39 虚拟地址的高位是 Sign-Extension 的，在 `< 256 GiB` 和 `256 GiB ~ 512 GiB` 之间有着巨大的 gap，我们利用此特性在地址上区分用户地址（低，以 `0x0000` 开头）和内核地址（高，以 `0xffff` 开头）。
@@ -310,10 +392,12 @@ Sv39 虚拟地址的高位是 Sign-Extension 的，在 `< 256 GiB` 和 `256 GiB 
 
 ![alt text](../assets/xv6lab-paging/xv6lab-paging-kmemlayout.png)
 
+!!!note "Direct Mapping"
+    对于可用的物理内存空间，我们使用 Direct Mapping 的方式建立地址映射，即 `虚拟地址 = 物理地址 + 固定偏移量` 。
+        
 Direct Mapping 的作用是让 Kernel 能直接操纵所有可用的物理内存，但是除了内核本身镜像以外。
-
-如果没有 Direct Mapping，我们每次都需要将新分配的页面映射到内核虚拟地址空间上，才能通过虚拟地址去访问该物理页面。
-而有了 Direct Mapping 后，我们可以直接将物理地址加上一个常量偏移量，即可得到一个内核可访问的虚拟地址：
+    
+如果没有 Direct Mapping，我们每次都需要将新分配的页面映射到内核虚拟地址空间上，才能通过虚拟地址去访问该物理页面。而有了 Direct Mapping 后，我们可以直接将物理地址加上一个常量偏移量，即可得到一个内核可访问的虚拟地址：
 
 ```c
 #define KERNEL_DIRECT_MAPPING_BASE 	0xffffffc000000000ull
@@ -322,24 +406,11 @@ Direct Mapping 的作用是让 Kernel 能直接操纵所有可用的物理内存
 #define PA_TO_KVA(x) (((uint64)(x)) + KERNEL_DIRECT_MAPPING_BASE)
 ```
 
-## kalloc 模块
-
-`kalloc.c` 会在启动后接管 Direct Mapping，其负责两个功能：
-
-1. 对剩余可分配的物理页面的管理
-2. 对固定大小对象的动态分配和回收 (对象分配器管理)
-
-在 kalloc 接管内核启动后剩余的物理内存（即上图紫色部分）后，我们需要从它分配：
-
-1. 每个 object allocator（对象分配器）的内存池
-2. 每个 process 的 kernel stack
-3. 每个 cpu scheduler 的 kernel stack
-
-随后，用户空间所需要的页面和配置页表所需要的页面均由 `kalloc` 模块管理。
+在设计完内核内存布局后，我们需要通知内核从物理地址切换到虚拟地址继续运行，这一步需要首先做一个重定位的操作：
 
 ## 重定位（Relocation）
 
-对于内核本身（即编译出来的 ELF 文件：`build/kernel`，也称为内核镜像），我们也需要把它映射到高地址上。我们采用固定偏移量来映射整个 ELF 文件。
+对于内核本身（即编译出来的 ELF 文件：`build/kernel`，也称为内核镜像），一直是放置在 0x80200000 的物理地址上的。现在，我们需要把它映射到高地址上。我们将采用固定偏移量来映射整个 ELF 文件。
 
 也就是说，内核中定义 (Defined) 的符号（变量、函数），它们会被 OpenSBI 加载到指定的物理地址 `0x0000_0000_8020_abcd`，而我们最终会将该符号加载到虚拟地址 `0xffff_ffff_8020_abcd` 上。对于所有符号，这两个地址之间永远相差一个固定的值。我们将该值定义为内核偏移量 (kernel offset)。
 
@@ -435,28 +506,30 @@ Kernel is Relocating...
         5      call main
     ```
 
-如果我们直接构建上图的页表，我们需要两条或更多指令来完成切换页表+跳转到高地址：
+接着，我们需要构建页表来让MMU可以按照我们设计的布局翻译我们的虚拟地址。
+
+如果我们直接按照设计好的内核内存布局构建页表，我们将需要如下两条或更多指令来完成切换页表+跳转到高地址：
 
 1. `csrw satp`: 设置 satp 寄存器，启用 Sv39 地址翻译
 2. `...`
 
-当执行第一条指令时，我们的 PC 指向在 `0x8020_xxxx` 的物理地址上。
-但是，当我们执行完第 1 条指令设置完 satp 后，即将开始执行第二条指令，我们的 PC 还指向着该指令的物理地址，而这个物理地址的 PC 在当前的页表中是非法的。
-所以，我们的第 2 条指令就会发生 Instruction Page Fault 异常。
+但是，当执行第一条指令时，我们的 PC 指向在 `0x8020_xxxx` 的物理地址上。
+可是，当我们执行完第 1 条指令设置完 satp 后，马上将开始执行第二条指令，而我们的 PC 还指向第二条指令的物理地址，而这个物理地址的 PC 在当前的页表中是非法的。
+所以，我们的第二条指令就会触发 Instruction Page Fault 异常。
 
 也就是说，在我们设置完内核页表后，我们并不能直接切换到仅包含高地址的页表上，因为此时我们的 PC 指针还指向低地址，而我们无法在同时完成切换 PC + 切换 satp 两件事情。
-所以，我们需要一个临时页表，其中包含了两份映射：
+所以，我们需要一个临时页表，其中包含了两部份映射：
 
 1. VA `0x0000_0000_8020_0000` -> PA `0x8020_0000`
-1. VA `0xffff_ffff_8020_0000` -> PA `0x8020_0000`
+2. VA `0xffff_ffff_8020_0000` -> PA `0x8020_0000`
 
-当执行完上述第 1 条指令启用 Sv39 后，我们目前的 PC 虽然是下一条指令的物理地址，但是它是一个合法的虚拟地址。我们可以加载一个立即数到寄存器中，然后使用 `jr` 指令跳转到该寄存器的值，从而进入到高地址。
+当执行完上述第一条指令启用 Sv39 后，我们目前的 PC 虽然是下一条指令的物理地址，但是它是一个合法的虚拟地址。我们可以加载一个立即数到寄存器中，然后使用 `jr` 指令跳转到该寄存器的值，从而进入到高地址。
 
 我们将这一系列步骤称为 Relocate (重定位)。
 
 See also: https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-6.html
 
-### `relocation_start`
+### `relocation_start` 代码解释
 
 在 relocation_start 的临时页表中，我们使用 2 MiB 的大页映射。我们先开辟四个对齐的物理页面：
 
@@ -527,66 +600,11 @@ uint64 kernel_la_end = kernel_la_base + PGSIZE_2M;
 
 最后，我们映射第一块 Direct Mapping：VA `0xffff_ffc0_80xx_0000` -> 第一个空闲的 2 MiB 物理页 `0x80xx_0000`。
 
-### 跳转
-
-> code: os/main.c
-
-在 `bootcpu_entry` 的末尾，我们会调用 `bootcpu_start_relocation`，而在它的末尾，我们会使用汇编完成跳转 PC 到 `bootcpu_relocating`。
-
-`bootcpu_relocating` 会调用 `kvm_init` 完成对内核页表的设置与切换，它最终会跳转函数 `bootcpu_init`，并使用最终的栈 scheduler kernel stack(`mycpu()->sched_kstack_top`)。
-
-`bootcpu_init` 会完成接下来的内核初始化，包括启动其他 CPU，设置 Kernel Trap，初始化 kernel page manager 等。最终，它会调用 `scheduler()` 函数并永不返回。
-
-```c
-void bootcpu_entry(int mhartid) {
-    printf("\n\n=====\nHello World!\n=====\n\nBoot stack: %p\nclean bss: %p - %p\n", boot_stack, s_bss, e_bss);
-    memset(s_bss, 0, e_bss - s_bss);
-
-    // ...
-    
-    printf("Kernel Starts Relocating...\n");
-    bootcpu_start_relocation();
-
-    // We will jump to kernel's real pagetable in bootcpu_start_relocation.
-    __builtin_unreachable();
-}
-
-static void bootcpu_start_relocation() {
-    // ...
-
-    uint64 fn = (uint64)&bootcpu_relocating + KERNEL_OFFSET;
-    uint64 sp = (uint64)&boot_stack_top + KERNEL_OFFSET;
-
-    asm volatile(
-        "mv a1, %0 \n \
-        mv sp, %1 \n \
-        jr a1" ::"r"(fn),"r"(sp));
- 
-    __builtin_unreachable();
-}
-
-static void bootcpu_relocating() {
-    printf("Boot HART Relocated. We are at high address now! PC: %p\n", r_pc());
-
-    // Step 4. Rebuild final kernel pagetable
-    kvm_init();
-
-    uint64 new_sp = mycpu()->sched_kstack_top;
-    uint64 fn     = (uint64)&bootcpu_init;
-
-    asm volatile(
-        "mv a1, %0 \n \
-        mv sp, %1 \n \
-        jr a1" ::"r"(fn),"r"(new_sp));
-    __builtin_unreachable();
-}
-```
-
 ## 内核页表
 
 > code: `os/kvm.c`
 
-在完成 Relocation 后，我们调用 `kvm_init()` 来构造最终的内核页表，并切换到该页表上。
+在完成 Relocation 后，我们在 `bootcpu_relocating` 中调用 `kvm_init()` 来构造最终的内核页表，并切换到该页表上。
 
 Relocation 时，我们会在 Direct Mapping 区间先借用一个 2M 的区域，即 `e_kernel` (0x802x_0000) 对齐到 2MiB (0x8040_0000) 后的下一个 2MiB 区域 `[0x8040_0000, 0x8060_0000)`。
 在构建内核页表时，我们会需要申请物理页面来放置次级页表，我们称之为 `boot-stage page allocator`，这些页面的生命周期是持久的，永远不会被释放。
@@ -707,9 +725,26 @@ static pagetable_t kvmmake() {
     kpage_allocator_size = available_mems - (init_page_allocator - init_page_allocator_base);
 ```
 
+## 建立页表的相关函数
+
+### kalloc 模块
+
+`kalloc.c` 会在启动后接管 Direct Mapping，其负责两个功能：
+
+1. 对剩余可分配的物理页面的管理
+2. 对固定大小对象的动态分配和回收 (对象分配器管理)
+
+在 kalloc 接管内核启动后剩余的物理内存（即上图紫色部分）后，我们需要从它分配：
+
+1. 每个 object allocator（对象分配器）的内存池
+2. 每个 process 的 kernel stack
+3. 每个 cpu scheduler 的 kernel stack
+
+随后，用户空间所需要的页面和配置页表所需要的页面均由 `kalloc` 模块管理。
+
 ### kvmmap
 
-`kvmmap` 的逻辑非常简单，按照 Sv39 的三级页表格式对 `vaddr` 展开到三个 index：`vpn2`, `vpn1`, 和 `vpn0`，随后开始逐级往下走 `pgtbl_level1`, `pgtbl_level0`。当遇到未被分配的次级页表时，从 `allockernelpage` 处分配一个，并设置上级到次级的 PTE (`RWX=000`) 即可。最后，在最后一级按照给定的 `perm` 设置 PTE ：`pgtbl_level0[vpn0] = MAKE_PTE(paddr, perm)`。
+`kvmmap` 负责按照 Sv39 的三级页表格式对 `vaddr` 逐级展开，分配相应的物理页作为页表，并填充对应的页表项。当遇到未被分配的次级页表时，从 `allockernelpage` 处分配一个，并设置上级到次级的 PTE (`RWX=000`) 即可。最后，在最后一级按照给定的 `perm` 设置 PTE ：`pgtbl_level0[vpn0] = MAKE_PTE(paddr, perm)`。
 
 当然，当我们映射一大片对齐到 2MiB 的内存区域时，我们可以使用一个 2MiB 的大页映射，而不是多个 4KiB 的映射。这需要满足大页映射的条件： `IS_ALIGNED(vaddr, PGSIZE_2M) && IS_ALIGNED(paddr, PGSIZE_2M) && sz >= PGSIZE_2M`。
 
@@ -782,8 +817,3 @@ void kvmmap(pagetable_t kpgtbl, uint64 va, uint64 pa, uint64 sz, int perm) {
     assert(sz == 0);
 }
 ```
-
-## 固定大小对象分配器
-
-
-TODO
