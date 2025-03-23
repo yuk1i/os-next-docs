@@ -1589,7 +1589,7 @@
 <h3 id="_3">一级页表<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>如图所示是一个一级页表分页机制（一级对应于后面的多级，一级页表只需要查询一层页表即可得到物理地址）：</p>
 <p><img alt="1648542681894" src="../../assets/xv6lab-paging/1648542681894.png" /></p>
-<p>以上图为例，我们首先得到一个 <strong>虚拟地址（Virtual Address</strong> ，这个地址长度为6位，其中5~4位（高2位）为 <strong>页号（VPN，Virtual Page Number）</strong> ，3~0位（低4位）为 <strong>偏移量（Offset</strong> 。</p>
+<p>以上图为例，我们首先得到一个 <strong>虚拟地址（Virtual Address</strong> ，这个地址长度为6位，其中 5 ~ 4 位（高2位）为 <strong>页号（VPN，Virtual Page Number）</strong> ， 3 ~ 0 位（低4位）为 <strong>偏移量（Offset</strong> 。</p>
 <p>通过虚拟地址，我们可以查询 <strong>页表</strong> （ <strong>Page Table</strong> ），页表存在于 <strong>页表基地址</strong>（ <strong>PageTablePtr，Page Table Pointer</strong> ，是个物理地址）所指向的内存空间中，由连续存储的若干个 <strong>页表项（PTE，Page Table Entry）</strong> 构成。在一级页表中，每个页表项内容即为 <strong>物理页号（Page Frame #）+部分标志位</strong> 。尽管图中每个页表项看似包含 <strong>页号（Page #）</strong> 但是在实际的设计中， <strong>页号并不写在页表项中</strong> ，由于页表项是连续分布的，我们只需要知道页表项的大小（有多少位）以及虚拟地址页号（VPN，代表要查询第几个页表项），就可以通过 <code>页表首地址+页号×页表项大小</code> 得到对应的页表项地址，查询该地址对应内容即可得到物理页号。页表首地址是存储在架构指定的寄存器中的。</p>
 <p>得到物理页号后，通过 <code>物理页号×页面大小</code> 即可得到所在页的物理地址（物理空间首地址为0x0）。一页可能很大，如何得到一页中具体某个字节的地址呢？通过偏移量， <code>页物理地址+偏移量</code> 即可得到具体虚拟地址对应的具体物理地址。</p>
 <div class="admonition note">
@@ -1610,7 +1610,7 @@
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">思考</p>
-<p>二级页表相对于一级页表（这里指分页机制，并非Level 1 page table)为什么可以节省页面开销呢?</p>
+<p>二级页表相对于一级页表（这里指分页机制，并非Level 1 page table）为什么可以节省页面开销呢?</p>
 <p>例子: 一个4GB的内存空间，页面大小 4KB ，设每个 PTE 大小为 4Byte ，有一个进程只需要使用高虚拟地址空间 (0xFFF...) 的1页 4KB 空间和低虚拟地址空间 (0x000...) 的1页 4KB 空间。在一级页表和上图所示的二级页表机制中，这个进程分别需要至少多大的页表空间？</p>
 <p>一级页表中，需要 <code>4GB÷4KB=1M</code> 个PTE映射虚拟地址最低位到最高位的空间，因此页表大小为 <code>1M×4Byte=4MB</code> 。</p>
 <p>二级页表中，第二级页号 VPN[0] 为10个 bit ，因此可以表示2<sup>10</sup>个不同的页面，每个页面大小为 4KB ，故一个二级页表可以指向 2<sup>10</sup>×4KB=4MB 的物理空间。
@@ -2335,8 +2335,8 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/ba7fd305, 2025-03-24 00:27:21+08:00" target="_blank" rel="noopener">
-            ba7fd305, 2025-03-24 00:27:21+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/8127b5e3, 2025-03-24 00:30:17+08:00" target="_blank" rel="noopener">
+            8127b5e3, 2025-03-24 00:30:17+08:00
         </a>
     </div>
 </div>
