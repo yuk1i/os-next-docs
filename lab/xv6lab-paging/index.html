@@ -769,7 +769,34 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      为什么要地址翻译（虚拟地址）
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Segmentation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paging
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      虚拟地址 =&gt; 物理地址
     </span>
   </a>
   
@@ -804,7 +831,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -864,7 +891,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       跳转
     </span>
@@ -878,7 +905,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       内核页表
     </span>
@@ -902,7 +929,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       固定大小对象分配器
     </span>
@@ -1213,7 +1240,34 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      为什么要地址翻译（虚拟地址）
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Segmentation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paging
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      虚拟地址 =&gt; 物理地址
     </span>
   </a>
   
@@ -1248,7 +1302,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -1308,7 +1362,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       跳转
     </span>
@@ -1322,7 +1376,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       内核页表
     </span>
@@ -1346,7 +1400,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       固定大小对象分配器
     </span>
@@ -1373,16 +1427,51 @@
 
 
 <h1 id="risc-v-xv6">RISC-V 页表模型 &amp; xv6 内核页表<a class="headerlink" href="#risc-v-xv6" title="Permanent link">&para;</a></h1>
-<h2 id="_1">为什么要地址翻译（虚拟地址）<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li>了解RISC-V页表模型SV39</li>
+<li>掌握虚拟地址到物理地址的转换机制</li>
+<li>掌握XV6如何管理内存并创建页表</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">xv6-lab4 代码</p>
+<p><a href="https://github.com/yuk1i/SUSTechOS/tree/main">https://github.com/yuk1i/SUSTechOS/tree/main</a></p>
+<p>使用命令 <code>git clone https://github.com/yuk1i/SUSTechOS -b main xv6lab4</code> 下载 xv6-lab4 代码。</p>
+</div>
+<h2 id="segmentation">Segmentation<a class="headerlink" href="#segmentation" title="Permanent link">&para;</a></h2>
 <p>从对内存访问保护而言，我们希望对内存的访问是带有权限保护的。这包括两个层面：</p>
 <ol>
 <li>该内存地址是否可读、可写、可执行。</li>
 <li>该内存地址是否允许低特权级访问。</li>
 </ol>
-<p>也就是说，对于每个虚拟地址，我们都希望能检查它的操作权限是否符合原先的程序设计。</p>
+<p>也就是说，对于每个内存地址，我们都希望能检查它的操作权限是否符合原先的程序设计。</p>
 <p>在 CPU 实现上，内存是以字节为单位来寻址的。如果要实现对每个字节的访问权限都能进行管理，这样的代价是难以现象的。
 但是，我们可以让相同权限的代码、数据排布在一起，这样即可将整个程序的内存空间分为几个大块，每个块均有自己的起始地址(Base)和大小限制(Limit)，以及权限设置，这就是使用 Segmentation 进行内存保护的方式。 </p>
 <p>Segmentation 在内存空间的管理上有着诸多劣势，例如难以动态调节大小、存在碎片化的问题。所以，现代 CPU 和操作系统均使用页表（Paging）机制来实现内存管理。</p>
+<h2 id="paging">Paging<a class="headerlink" href="#paging" title="Permanent link">&para;</a></h2>
+<p>分页机制，是将程序空间（虚拟地址）切割成相同大小的若干个页面，同时将物理内存也切割成同样大小的多个页面，从而可以在物理地址不连续的情况下，给进程分配足够的内存空间，并且从虚拟地址的角度看这个空间是连续的。</p>
+<div class="admonition note">
+<p class="admonition-title">为什么需要虚拟地址空间？</p>
+<p>如果我们只有物理内存空间，那么我们也可以写程序，但是所有的程序，包括内核，包括用户程序，都在同一个地址空间里，用户程序访问的<code>0x80200000</code>和内核访问的<code>0x80200000</code>是同一个地址。这样好不好？如果只有一个程序在运行，那也无所谓。但很多程序使用同一个内存空间，就会有问题：怎样防止程序之间互相干扰，甚至互相搞破坏？</p>
+<p>比较粗暴的方式就是，我让用户程序访问的<code>0x80200000</code>和内核访问的<code>0x80200000</code>不是一个地址。但是我们只有一块内存，为了创造两个不同的地址空间，我们可以引入一个”翻译“机制：程序使用的地址（虚拟地址）需要经过一步”翻译“才能变成真正的内存的物理地址。这个”翻译“过程，我们用一个”词典“（页表）实现---给出翻译之前的地址，可以在词典里查找翻译后的地址。</p>
+<p>每个程序都有唯一的一本”词典“，而它能使用的内存也就只有他的”词典“所包含的。</p>
+<p>"词典"是否对能使用的每个字节都进行翻译？我们可以想象，存储每个字节翻译的结果至少需要一个字节，那么使用1MB的内存将至少需要构造1MB的”词典“，这效率太低了。观察到，一个程序使用内存的数量级通常远大于字节，至少以KB为单位（所以上古时代的人说的是"640K对每个人都够了"而不是"640B对每个人都够了"）。那么我们可以考虑，把连续的很多字节合在一起翻译，让他们翻译前后的数值之差相同，这就是"页"。</p>
+</div>
+<h2 id="_2">虚拟地址 =&gt; 物理地址<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>分页机制很重要的一点是如何建立和解析虚拟地址到物理地址的映射，下面我们从“如何从虚拟地址获得相应的物理地址”的角度进行介绍：</p>
+<p>如图所示是一个一级页表分页机制（一级对应于后面的多级，一级页表只需要查询一层页表即可得到物理地址）：</p>
+<p><img alt="1648542681894" src="../../assets/xv6lab-paging/1648542681894.png" /></p>
+<p>以上图为例，我们首先得到一个**虚拟地址（Virtual Address）<strong>，这个地址长度为6位，其中5~4位（高2位）为**页号（VPN，Virtual Page Number）</strong>，3~0位（低4位）为**偏移量（Offset）**。</p>
+<p>通过虚拟地址，我们可以查询**页表**（<strong>Page Table</strong>），页表存在于**页表基地址**（<strong>PageTablePtr，Page Table Pointer</strong>，是个物理地址）所指向的内存空间中，由连续存储的若干个**页表项（PTE，Page Table Entry）<strong>构成。在一级页表中，每个页表项内容即为**物理页号（Page Frame #）+部分标志位</strong>。尽管图中每个页表项看似包含**页号（Page #）<strong>但是在实际的设计中，**页号并不写在页表项中</strong>，由于页表项是连续分布的，我们只需要知道页表项的大小（有多少位）以及虚拟地址页号（VPN，代表要查询第几个页表项），就可以通过<code>页表首地址+页号×页表项大小</code>得到对应的页表项地址，查询该地址对应内容即可得到物理页号。页表首地址是存储在架构指定的寄存器中的。</p>
+<p>得到物理页号后，通过<code>物理页号×页面大小</code>即可得到所在页的物理地址（物理空间首地址为0x0）。一页可能很大，如何得到一页中具体某个字节的地址呢？通过偏移量，<code>页物理地址+偏移量</code>即可得到具体虚拟地址对应的具体物理地址。</p>
+<p>以上图为例，我们首先得到一个**虚拟地址（Virtual Address）<strong>，这个地址长度为6位，其中5~4位（高2位）为**页号（VPN，Virtual Page Number）</strong>，3~0位（低4位）为**偏移量（Offset）**。</p>
+<p>通过虚拟地址，我们可以查询**页表**（<strong>Page Table</strong>），页表存在于**页表基地址**（<strong>PageTablePtr，Page Table Pointer</strong>，是个物理地址）所指向的内存空间中，由连续存储的若干个**页表项（PTE，Page Table Entry）<strong>构成。在一级页表中，每个页表项内容即为**物理页号（Page Frame #）+部分标志位</strong>。尽管图中每个页表项看似包含**页号（Page #）<strong>但是在实际的设计中，**页号并不写在页表项中</strong>，由于页表项是连续分布的，我们只需要知道页表项的大小（有多少位）以及虚拟地址页号（VPN，代表要查询第几个页表项），就可以通过<code>页表首地址+页号×页表项大小</code>得到对应的页表项地址，查询该地址对应内容即可得到物理页号。页表首地址是存储在架构指定的寄存器中的。</p>
+<p>得到物理页号后，通过<code>物理页号×页面大小</code>即可得到所在页的物理地址（物理空间首地址为0x0）。一页可能很大，如何得到一页中具体某个字节的地址呢？通过偏移量，<code>页物理地址+偏移量</code>即可得到具体虚拟地址对应的具体物理地址。</p>
+<div class="admonition note">
+<p class="admonition-title">一个例子</p>
+<p>假设页面大小为4KB，如果想要定位到页面的每一个Byte，我们的偏移量则需能表示4096个不同的位置，因此对于4KB大小的页面来说，偏移量的位数为12位（2<sup>12</sup>=4096）。或者说，偏移量的位数为12位可以推出页面大小为2<sup>12</sup>个Byte。</p>
+<p>在图片的一级页表中，Offset为4位，可以得知页面大小为2<sup>4</sup>=16B。如果给定虚拟地址100100<sub>2</sub>，可以得出其页号为10<sub>2</sub>，即2<sub>10</sub>，通过页号2<sub>10</sub>可以查到对应的页表项内容为5<sub>10</sub>。5是物理页号，可以求得物理页面地址： 物理首地址+物理页号×页面大小=0+5×16=80<sub>10</sub>。100100中低四位偏移量为0100，因此查询的是该页面的第5个字节对应的地址（地址0也是一个字节），则该物理地址为80+4=84<sub>10</sub>（5*16+4=0101左移四位+0100=0101 0100<sub>2</sub>）。需要注意运算过程中是2进制还是10进制还是16进制数（存储肯定是2进制）。</p>
+</div>
 <h2 id="satp">satp<a class="headerlink" href="#satp" title="Permanent link">&para;</a></h2>
 <p>satp (Supervisor Address Translation and Protection) 寄存器是控制 S mode 和 U mode 下地址翻译的寄存器，其中包含三个属性：<code>MODE</code>, <code>ASID</code> 和 <code>PPN</code>。</p>
 <blockquote>
@@ -1466,25 +1555,10 @@ The 27-bit VPN is translated into a 44-bit PPN via a three-level page table, whi
 <li>由硬件设置 A / D bits.</li>
 </ol>
 <p>Supervisor 软件应当正确处理以上两种情况。</p>
-<p>Each leaf PTE contains an accessed (A) and dirty (D) bit.</p>
-<ul>
-<li>The A bit indicates the virtual page has been read, written, or fetched from since the last time the A bit was cleared.</li>
-<li>The D bit indicates the virtual page has been written since the last time the D bit was cleared.</li>
-</ul>
-<p>Two schemes to manage the A and D bits are permitted:</p>
-<ol>
-<li>When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, a page-fault exception is raised.</li>
-<li>When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, the implementation sets the corresponding bit(s) in the PTE.</li>
-</ol>
-<p>See also: "riscv-privilege.pdf" "4.3.1 Addressing and Memory Protection"</p>
-<h3 id="_2">权限检查<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h3 id="_3">权限检查<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>凭直觉的，读取的页面要带有 R bit，写入的页面要带有 W bit，执行的页面要带有 X bit。</p>
-<p>但是，如果一个页面的权限带有 U bit，并且现在 CPU 核心运行在 S mode 下，我们需要对此进行额外检查：如果 <code>sstatus.SUM == 1</code> 则访问被允许，否则 Page Fault.</p>
-<blockquote>
-<p>The SUM (permit Supervisor User Memory access) bit modifies the privilege with which S-mode loads and stores access virtual memory.
-When SUM=0, S-mode memory accesses to pages that are accessible by U-mode (U=1 in Figure 4.18) will fault. When SUM=1, these accesses are permitted.</p>
-</blockquote>
-<p>通常来说，S mode 一般运行在 <code>sstatus.SUM == 0</code> 的情况下，如果我们需要通过页表去访问用户数据时，我们会将该 flag 置 1，并在访问结束后清零。该过程一般被称为 uaccess 原语 (primitive).</p>
+<p>但是，如果一个页面的权限带有 U bit，并且现在 CPU 核心运行在 S mode 下，我们需要对 SUM (permit Supervisor User Memory access) bit 进行额外检查：如果 <code>sstatus.SUM == 1</code> 则访问被允许，否则导致 Page Fault.</p>
+<p>通常来说，S mode 一般运行在 <code>sstatus.SUM == 0</code> 的情况下，如果我们需要通过页表去访问用户数据时，我们会将该 flag 置 1，并在访问结束后清零。该过程一般被称为 <strong>uaccess</strong> 原语 (primitive).</p>
 <p>See also: <a href="https://github.com/torvalds/linux/blob/master/arch/riscv/include/asm/uaccess.h">https://github.com/torvalds/linux/blob/master/arch/riscv/include/asm/uaccess.h</a></p>
 <!-- !!!questions "AArch64 架构下的虚拟内存模型"
 
@@ -1850,7 +1924,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <p>然后，我们开始映射内核 ELF 的虚拟地址：VA <code>0xffff_ffff_8020_0000</code> -&gt; PA <code>0x8020_0000</code>。
 此时 <code>va = pa + KERNEL_OFFSET</code>。</p>
 <p>最后，我们映射第一块 Direct Mapping：VA <code>0xffff_ffc0_80xx_0000</code> -&gt; 第一个空闲的 2 MiB 物理页 <code>0x80xx_0000</code>。</p>
-<h3 id="_3">跳转<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_4">跳转<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <blockquote>
 <p>code: os/main.c</p>
 </blockquote>
@@ -1900,7 +1974,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a><span class="w">    </span><span class="n">__builtin_unreachable</span><span class="p">();</span>
 <a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="_4">内核页表<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_5">内核页表<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>code: <code>os/kvm.c</code></p>
 </blockquote>
@@ -2076,7 +2150,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-23-66" name="__codelineno-23-66" href="#__codelineno-23-66"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">sz</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 <a id="__codelineno-23-67" name="__codelineno-23-67" href="#__codelineno-23-67"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="_5">固定大小对象分配器<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_6">固定大小对象分配器<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>TODO</p>
 
 
@@ -2117,8 +2191,8 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/b2d5a4c6, 2025-03-19 19:12:02+08:00" target="_blank" rel="noopener">
-            b2d5a4c6, 2025-03-19 19:12:02+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/9c70b4e4, 2025-03-23 23:09:00+08:00" target="_blank" rel="noopener">
+            9c70b4e4, 2025-03-23 23:09:00+08:00
         </a>
     </div>
 </div>
