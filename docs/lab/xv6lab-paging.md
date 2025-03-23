@@ -1,18 +1,70 @@
 # RISC-V 页表模型 & xv6 内核页表
 
-## 为什么要地址翻译（虚拟地址）
+## 实验目的
+
+1. 了解RISC-V页表模型SV39
+2. 掌握虚拟地址到物理地址的转换机制
+3. 掌握XV6如何管理内存并创建页表
+
+!!!warning "xv6-lab4 代码"
+    
+    https://github.com/yuk1i/SUSTechOS/tree/main
+
+    使用命令 `git clone https://github.com/yuk1i/SUSTechOS -b main xv6lab4` 下载 xv6-lab4 代码。
+
+
+## Segmentation
 
 从对内存访问保护而言，我们希望对内存的访问是带有权限保护的。这包括两个层面：
 
 1. 该内存地址是否可读、可写、可执行。
 2. 该内存地址是否允许低特权级访问。
 
-也就是说，对于每个虚拟地址，我们都希望能检查它的操作权限是否符合原先的程序设计。
+也就是说，对于每个内存地址，我们都希望能检查它的操作权限是否符合原先的程序设计。
 
 在 CPU 实现上，内存是以字节为单位来寻址的。如果要实现对每个字节的访问权限都能进行管理，这样的代价是难以现象的。
 但是，我们可以让相同权限的代码、数据排布在一起，这样即可将整个程序的内存空间分为几个大块，每个块均有自己的起始地址(Base)和大小限制(Limit)，以及权限设置，这就是使用 Segmentation 进行内存保护的方式。 
 
 Segmentation 在内存空间的管理上有着诸多劣势，例如难以动态调节大小、存在碎片化的问题。所以，现代 CPU 和操作系统均使用页表（Paging）机制来实现内存管理。
+
+## Paging
+
+分页机制，是将程序空间（虚拟地址）切割成相同大小的若干个页面，同时将物理内存也切割成同样大小的多个页面，从而可以在物理地址不连续的情况下，给进程分配足够的内存空间，并且从虚拟地址的角度看这个空间是连续的。
+
+!!!note "为什么需要虚拟地址空间？"
+    如果我们只有物理内存空间，那么我们也可以写程序，但是所有的程序，包括内核，包括用户程序，都在同一个地址空间里，用户程序访问的`0x80200000`和内核访问的`0x80200000`是同一个地址。这样好不好？如果只有一个程序在运行，那也无所谓。但很多程序使用同一个内存空间，就会有问题：怎样防止程序之间互相干扰，甚至互相搞破坏？
+    
+    比较粗暴的方式就是，我让用户程序访问的`0x80200000`和内核访问的`0x80200000`不是一个地址。但是我们只有一块内存，为了创造两个不同的地址空间，我们可以引入一个”翻译“机制：程序使用的地址（虚拟地址）需要经过一步”翻译“才能变成真正的内存的物理地址。这个”翻译“过程，我们用一个”词典“（页表）实现---给出翻译之前的地址，可以在词典里查找翻译后的地址。
+    
+    每个程序都有唯一的一本”词典“，而它能使用的内存也就只有他的”词典“所包含的。
+    
+    "词典"是否对能使用的每个字节都进行翻译？我们可以想象，存储每个字节翻译的结果至少需要一个字节，那么使用1MB的内存将至少需要构造1MB的”词典“，这效率太低了。观察到，一个程序使用内存的数量级通常远大于字节，至少以KB为单位（所以上古时代的人说的是"640K对每个人都够了"而不是"640B对每个人都够了"）。那么我们可以考虑，把连续的很多字节合在一起翻译，让他们翻译前后的数值之差相同，这就是"页"。
+
+## 虚拟地址 => 物理地址
+
+分页机制很重要的一点是如何建立和解析虚拟地址到物理地址的映射，下面我们从“如何从虚拟地址获得相应的物理地址”的角度进行介绍：
+
+如图所示是一个一级页表分页机制（一级对应于后面的多级，一级页表只需要查询一层页表即可得到物理地址）：
+
+![1648542681894](../assets/xv6lab-paging/1648542681894.png)
+
+以上图为例，我们首先得到一个**虚拟地址（Virtual Address）**，这个地址长度为6位，其中5~4位（高2位）为**页号（VPN，Virtual Page Number）**，3~0位（低4位）为**偏移量（Offset）**。
+
+通过虚拟地址，我们可以查询**页表**（**Page Table**），页表存在于**页表基地址**（**PageTablePtr，Page Table Pointer**，是个物理地址）所指向的内存空间中，由连续存储的若干个**页表项（PTE，Page Table Entry）**构成。在一级页表中，每个页表项内容即为**物理页号（Page Frame #）+部分标志位**。尽管图中每个页表项看似包含**页号（Page #）**但是在实际的设计中，**页号并不写在页表项中**，由于页表项是连续分布的，我们只需要知道页表项的大小（有多少位）以及虚拟地址页号（VPN，代表要查询第几个页表项），就可以通过`页表首地址+页号×页表项大小`得到对应的页表项地址，查询该地址对应内容即可得到物理页号。页表首地址是存储在架构指定的寄存器中的。
+
+得到物理页号后，通过`物理页号×页面大小`即可得到所在页的物理地址（物理空间首地址为0x0）。一页可能很大，如何得到一页中具体某个字节的地址呢？通过偏移量，`页物理地址+偏移量`即可得到具体虚拟地址对应的具体物理地址。
+
+以上图为例，我们首先得到一个**虚拟地址（Virtual Address）**，这个地址长度为6位，其中5~4位（高2位）为**页号（VPN，Virtual Page Number）**，3~0位（低4位）为**偏移量（Offset）**。
+
+通过虚拟地址，我们可以查询**页表**（**Page Table**），页表存在于**页表基地址**（**PageTablePtr，Page Table Pointer**，是个物理地址）所指向的内存空间中，由连续存储的若干个**页表项（PTE，Page Table Entry）**构成。在一级页表中，每个页表项内容即为**物理页号（Page Frame #）+部分标志位**。尽管图中每个页表项看似包含**页号（Page #）**但是在实际的设计中，**页号并不写在页表项中**，由于页表项是连续分布的，我们只需要知道页表项的大小（有多少位）以及虚拟地址页号（VPN，代表要查询第几个页表项），就可以通过`页表首地址+页号×页表项大小`得到对应的页表项地址，查询该地址对应内容即可得到物理页号。页表首地址是存储在架构指定的寄存器中的。
+
+得到物理页号后，通过`物理页号×页面大小`即可得到所在页的物理地址（物理空间首地址为0x0）。一页可能很大，如何得到一页中具体某个字节的地址呢？通过偏移量，`页物理地址+偏移量`即可得到具体虚拟地址对应的具体物理地址。
+
+!!!note "一个例子"
+    假设页面大小为4KB，如果想要定位到页面的每一个Byte，我们的偏移量则需能表示4096个不同的位置，因此对于4KB大小的页面来说，偏移量的位数为12位（2^12^=4096）。或者说，偏移量的位数为12位可以推出页面大小为2^12^个Byte。
+    
+    在图片的一级页表中，Offset为4位，可以得知页面大小为2^4^=16B。如果给定虚拟地址100100~2~，可以得出其页号为10~2~，即2~10~，通过页号2~10~可以查到对应的页表项内容为5~10~。5是物理页号，可以求得物理页面地址： 物理首地址+物理页号×页面大小=0+5×16=80~10~。100100中低四位偏移量为0100，因此查询的是该页面的第5个字节对应的地址（地址0也是一个字节），则该物理地址为80+4=84~10~（5*16+4=0101左移四位+0100=0101 0100~2~）。需要注意运算过程中是2进制还是10进制还是16进制数（存储肯定是2进制）。
+
 
 ## satp
 
@@ -114,28 +166,13 @@ See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process
 
 Supervisor 软件应当正确处理以上两种情况。
 
-Each leaf PTE contains an accessed (A) and dirty (D) bit.
-
-- The A bit indicates the virtual page has been read, written, or fetched from since the last time the A bit was cleared.
-- The D bit indicates the virtual page has been written since the last time the D bit was cleared.
-
-Two schemes to manage the A and D bits are permitted:
-
-1. When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, a page-fault exception is raised.
-2. When a virtual page is accessed and the A bit is clear, or is written and the D bit is clear, the implementation sets the corresponding bit(s) in the PTE.
-
-See also: "riscv-privilege.pdf" "4.3.1 Addressing and Memory Protection"
-
 ### 权限检查
 
 凭直觉的，读取的页面要带有 R bit，写入的页面要带有 W bit，执行的页面要带有 X bit。
 
-但是，如果一个页面的权限带有 U bit，并且现在 CPU 核心运行在 S mode 下，我们需要对此进行额外检查：如果 `sstatus.SUM == 1` 则访问被允许，否则 Page Fault.
+但是，如果一个页面的权限带有 U bit，并且现在 CPU 核心运行在 S mode 下，我们需要对 SUM (permit Supervisor User Memory access) bit 进行额外检查：如果 `sstatus.SUM == 1` 则访问被允许，否则导致 Page Fault.
 
-> The SUM (permit Supervisor User Memory access) bit modifies the privilege with which S-mode loads and stores access virtual memory.
-> When SUM=0, S-mode memory accesses to pages that are accessible by U-mode (U=1 in Figure 4.18) will fault. When SUM=1, these accesses are permitted.
-
-通常来说，S mode 一般运行在 `sstatus.SUM == 0` 的情况下，如果我们需要通过页表去访问用户数据时，我们会将该 flag 置 1，并在访问结束后清零。该过程一般被称为 uaccess 原语 (primitive).
+通常来说，S mode 一般运行在 `sstatus.SUM == 0` 的情况下，如果我们需要通过页表去访问用户数据时，我们会将该 flag 置 1，并在访问结束后清零。该过程一般被称为 **uaccess** 原语 (primitive).
 
 See also: https://github.com/torvalds/linux/blob/master/arch/riscv/include/asm/uaccess.h
 
