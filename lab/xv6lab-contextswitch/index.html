@@ -1572,7 +1572,7 @@
 </div>
 <p>上下文切换 (Context Switch) 是操作系统中的一个重要概念，本章我们将集中于 Context Switch 在技术上的实现，和 xv6 中调度器 (scheduler) 的设计。</p>
 <h2 id="_2">实验场景<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>本次试验中，我们将在拥有4个核的 riscv CPU 上运行我们的XV6操作系统。</p>
+<p>本次实验中，我们将在拥有4个核的 riscv CPU 上运行我们的XV6操作系统。</p>
 <p>当操作系统启动后，我们会创建并运行 <code>init</code> 进程。<code>init</code>进程会创建8个内核线程 <code>worker</code> 放入调度队列。接着，四个核会轮流运行这8个 <code>worker</code> 直到exit。而父进程 <code>init</code> 会在 wait 完8个子进程后运行结束。</p>
 <p>本次的实验场景就是对于以上9个线程的调度和切换过程。以下是 <code>init</code> 和 <code>worker</code> 执行内容。在之后的章节中我们会逐步解释进程切换所涉及到的知识点和具体流程。</p>
 <h3 id="init">init()<a class="headerlink" href="#init" title="Permanent link">&para;</a></h3>
@@ -2167,8 +2167,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/9c70b4e4, 2025-03-23 23:09:00+08:00" target="_blank" rel="noopener">
-            9c70b4e4, 2025-03-23 23:09:00+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/ba7fd305, 2025-03-24 00:27:21+08:00" target="_blank" rel="noopener">
+            ba7fd305, 2025-03-24 00:27:21+08:00
         </a>
     </div>
 </div>
