@@ -874,15 +874,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      大页映射
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#a-d" class="md-nav__link">
     <span class="md-ellipsis">
       A &amp; D
@@ -892,7 +883,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -902,6 +893,15 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      大页映射
+    </span>
+  </a>
   
 </li>
         
@@ -968,26 +968,8 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
-      建立页表的相关函数
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="建立页表的相关函数">
+    <nav class="md-nav" aria-label="内核页表">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#kalloc" class="md-nav__link">
-    <span class="md-ellipsis">
-      kalloc 模块
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#kvmmap" class="md-nav__link">
@@ -1000,6 +982,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kalloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      kalloc 模块
+    </span>
+  </a>
   
 </li>
       
@@ -1411,15 +1402,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      大页映射
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#a-d" class="md-nav__link">
     <span class="md-ellipsis">
       A &amp; D
@@ -1429,7 +1411,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -1439,6 +1421,15 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      大页映射
+    </span>
+  </a>
   
 </li>
         
@@ -1505,26 +1496,8 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
-      建立页表的相关函数
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="建立页表的相关函数">
+    <nav class="md-nav" aria-label="内核页表">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#kalloc" class="md-nav__link">
-    <span class="md-ellipsis">
-      kalloc 模块
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#kvmmap" class="md-nav__link">
@@ -1537,6 +1510,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kalloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      kalloc 模块
+    </span>
+  </a>
   
 </li>
       
@@ -1642,50 +1624,11 @@
 <p>我们暂且不需要理解 ASID 的作用。</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/satp-mode.png" /></p>
 <h3 id="sv39">Sv39<a class="headerlink" href="#sv39" title="Permanent link">&para;</a></h3>
-<p>RISC-V 的 Sv39 模式支持了 39-bit 的虚拟地址空间，每个页面大小 4KiB。</p>
+<p>RISC-V 的 Sv39 模式支持了 39-bit 的虚拟地址空间，每个页面大小 4KiB，每个 PTE 8 bytes，即每个页面中有 <code>2^9=512</code> 个 PTE。Sv39 要求每个页表是一个对齐的页面，即其基地址对齐到 4KiB。</p>
 <p>RISC-V CPU 的虚拟地址为64位。Sv39模式下，有效的虚拟地址为 39 位，并规定虚拟地址的 63-39 位必须与第 38 位相同，否则会产生 Page Fault 异常。所以，Sv39 的虚拟地址空间一共为 <code>(1 &lt;&lt; 39) = 512 GiB</code> 的空间，其中分为高地址和低地址各 <code>256 GiB</code> 的空间，低地址空间为 <code>0x0000_0000_0000_0000</code> - <code>0x0000_003f_xxxx_xxxx</code> ，而高地址空间为 <code>0xffff_ffc0_0000_0000</code> - <code>0xffff_ffff_xxxx_xxxx</code>。</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/sv39-pgt-structure.png" /></p>
 <p>虚拟地址分为四部分：VPN[2-0] (Virtual Page Number) 和 page offset。三级 VPN 表示在三级页表中的 index, 而 page offset 表示当前地址在被翻译的页面中的偏移量。</p>
 <p>Sv39 中的 PTE 长度为 8-byte，分为两部分：PPN 和 Flags。PPN (Physical Page Number) 和虚拟地址中的 page offset 组成最终的物理地址，Flags 则表示该虚拟地址页面的访问权限等信息。</p>
-<p>Sv39 地址翻译的过程如下图所示：</p>
-<p><img alt="alt text" src="../../assets/xv6lab-paging/riscv-address-translation.png" /></p>
-<p>See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process</p>
-<p>文字描述，以下 <code>{xx | yy}</code> 表示在 <code>xx</code> bit 右边并上 <code>yy</code> bit，类似于 Verilog 的写法。</p>
-<ol>
-<li>分解 Virtual Address: <code>{ 25'signed_ext, 9'VPN2, 9'VPN1, 9'VPN0, 12'pgoff} = 64'VirtualAddress</code></li>
-<li>将 satp 寄存器中第二级页表的基地址取出</li>
-<li>使用 VPN2 作为 index 在第二级页表中找到 PTE。</li>
-</ol>
-<p>这一步等效于 C 代码：<code>uint64 pte2 = *(uint64*)(satp.base + VPN2 * 8);</code></p>
-<ol>
-<li>如果 <code>pte2.WXR != 3'b000</code>，则表示该 PTE 为 1GiB 大页映射。</li>
-</ol>
-<p>检查 PPN 是否对齐到 1GiB，aka：<code>pte2.PPN1 == 9'b0 &amp;&amp; pte2.PPN0 == 9'b0</code>。如果满足，则跳转至 10.，否则 Page Fault。</p>
-<ol>
-<li>否则，<code>{pte2.PPN, 12'b0}</code> 为第一级页表的基地址</li>
-<li>使用 VPN1 作为 index 在第一级页表中找到 PTE。</li>
-</ol>
-<p>这一步等效于 C 代码：<code>uint64 pte1 = *(uint64*)((pte2.ppn &lt;&lt; 12) + VPN1 * 8);</code></p>
-<ol>
-<li>如果 <code>pte1.WXR != 3'b000</code>，则表示该 PTE 为 2MiB 大页映射。</li>
-</ol>
-<p>检查 PPN 是否对齐到 2MiB，aka：<code>pte2.PPN0 == 9'b0</code>。如果满足，则跳转至 10.，否则 Page Fault。</p>
-<ol>
-<li>否则，<code>{pte1.PPN | 12'b0}</code> 为第零级页表的基地址</li>
-<li>使用 VPN0 作为 index 在第零级页表中找到 PTE。</li>
-</ol>
-<p>这一步等效于 C 代码：<code>uint64 pte0 = *(uint64*)((pte1.ppn &lt;&lt; 12) + VPN0 * 8);</code></p>
-<ol>
-<li>
-<p>得到最终的物理地址：<code>PA = (final_pte.ppn &lt;&lt; 12) | final_page_offset</code>，</p>
-<p>如果为 2MiB 大页映射，<code>final_page_offset = {9'bVPN0, 12'bpgoff}</code>。</p>
-<p>如果为 1GiB 大页映射，<code>final_page_offset = {9'bVPN1, 9'bVPN0, 12'bpgoff}</code></p>
-<p>否则，<code>final_page_offset = pgoff</code></p>
-</li>
-<li>
-<p>权限检查：检查 <code>final_pte.rwx</code> 是否与访存请求相同。</p>
-</li>
-</ol>
 <h3 id="flags">Flags<a class="headerlink" href="#flags" title="Permanent link">&para;</a></h3>
 <p>Flags 定义如下：</p>
 <ul>
@@ -1696,16 +1639,8 @@
 <li>R, W, X: Read, Write, Executable 权限</li>
 </ul>
 <p>RWX 定义如下图所示：
-注意 <code>XWR == 3'b000</code> 的情况表示物理地址 [PPN: 12b0] 为下一级页表的基地址。</p>
+注意 <code>XWR == 3'b000</code> 的情况表示物理地址 [PPN: 12b0] 为下一级页表的基地址，否则，该PTE为 Leaf PTE.</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/pte-rwx-encoding.png" /></p>
-<h4 id="_5">大页映射<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
-<p>可以注意到当 Flags 中的 XWR 取值均为0时，该 PTE 是指向下一级页表的指针，而当这XWR中存在非0位时，则该PTE是页表树的一个叶节点，也就是此时该PTE的PPN值代表了 <strong>物理页</strong> 的基地址而非 <strong>页表</strong> 的物理基址。</p>
-<p>比如，Sv39中给定一个虚拟地址VA[38:0]，然后我们根据satp.PPN×4096+VA[38:30]×8求得一级页表的页表项PTE的地址，假设该PTE的XWR为001，则该PTE为叶节点页表项。此时由于一级页表的页表项就是叶节点页表项，虚拟地址的含义就从原本的</p>
-<p><img alt="1648559693528" src=".\typora-user-images\1648559693528.png" /></p>
-<p>变成了</p>
-<p><img alt="1648559882811" src=".\typora-user-images\1648559882811.png" /></p>
-<p>而物理地址的计算则变成了PTE.PPN×4096+VA[29:0]。此时可以发现30位偏移量可以表示从PTE.PPN×4096开始的一个很大的空间（空间大小为2<sup>30</sup>Byte即1GiB），我们称之为 <strong>吉页</strong> ，本次实验的内核虚拟地址映射中会应用到它。（注意常见支持大页机制的架构中大页基地址必须对齐自己的大页空间，即吉页基地址必须对齐1GB，PTE.PPN*4096的低30位需要为0。）</p>
-<p>相应的，如果第二级页表的页表项为叶节点页表项，则该页表项的[20:0]位将表示一个整体的偏移量，代表一个小于吉页的页，我们称之为 <strong>巨页</strong> 。一般情况下三级页表项是叶节点页表项，指向一个 <strong>基页</strong> （4KB）。</p>
 <h4 id="a-d">A &amp; D<a class="headerlink" href="#a-d" title="Permanent link">&para;</a></h4>
 <p>每个页 PTE 包含 Accessed 和 Dirty 两个 bits：</p>
 <ul>
@@ -1718,7 +1653,7 @@
 <li>由硬件设置 A / D bits.</li>
 </ol>
 <p>Supervisor 软件应当正确处理以上两种情况。</p>
-<h4 id="_6">权限检查<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<h4 id="_5">权限检查<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
 <p>凭直觉的，读取的页面要带有 R bit，写入的页面要带有 W bit，执行的页面要带有 X bit。</p>
 <p>但是，如果一个页面的权限带有 U bit，并且现在 CPU 核心运行在 S mode 下，我们需要对 SUM (permit Supervisor User Memory access) bit 进行额外检查：如果 <code>sstatus.SUM == 1</code> 则访问被允许，否则导致 Page Fault.</p>
 <p>通常来说，S mode 一般运行在 <code>sstatus.SUM == 0</code> 的情况下，如果我们需要通过页表去访问用户数据时，我们会将该 flag 置 1，并在访问结束后清零。该过程一般被称为 <strong>uaccess</strong> 原语 (primitive).</p>
@@ -1732,29 +1667,91 @@
 
     显然，这一种模型天生适合将内核页表和用户页表隔离。 -->
 
-<div class="admonition warning">
-<p class="admonition-title">xv6-lab4 代码</p>
-<p><a href="https://github.com/yuk1i/SUSTechOS/tree/main">https://github.com/yuk1i/SUSTechOS/tree/main</a></p>
-<p>使用命令 <code>git clone https://github.com/yuk1i/SUSTechOS -b main xv6lab4</code> 下载 xv6-lab4 代码。</p>
-</div>
+<p>Sv39 地址翻译的过程如下图所示：</p>
+<p><img alt="alt text" src="../../assets/xv6lab-paging/riscv-address-translation.png" /></p>
+<p>See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process</p>
+<p>文字描述，以下 <code>{xx | yy}</code> 表示在 <code>xx</code> bit 右边并上 <code>yy</code> bit，类似于 Verilog 的写法。</p>
+<ol>
+<li>分解 Virtual Address: <code>{ 25'signed_ext, 9'VPN2, 9'VPN1, 9'VPN0, 12'pgoff} = 64'VirtualAddress</code></li>
+<li>将 satp 寄存器中的 PPN 作为第一级页表的基地址</li>
+<li>使用 VPN2 作为 index 在第一级页表中找到 pte2。</li>
+</ol>
+<p>这一步等效于 C 代码：<code>uint64 pte2 = *(uint64*)(satp.base + VPN2 * 8);</code></p>
+<ol>
+<li>如果 <code>pte2.WXR != 3'b000</code>，则表示该 PTE 为 1GiB 大页映射。</li>
+</ol>
+<p>检查 PPN 是否对齐到 1GiB，aka：<code>pte2.PPN1 == 9'b0 &amp;&amp; pte2.PPN0 == 9'b0</code>。如果满足，则跳转至 10，否则 Page Fault。</p>
+<ol>
+<li><code>{pte2.PPN, 12'b0}</code> 为第二级页表的基地址</li>
+<li>使用 VPN1 作为 index 在第二级页表中找到 pte1。</li>
+</ol>
+<p>这一步等效于 C 代码：<code>uint64 pte1 = *(uint64*)((pte2.ppn &lt;&lt; 12) + VPN1 * 8);</code></p>
+<ol>
+<li>如果 <code>pte1.WXR != 3'b000</code>，则表示该 PTE 为 2MiB 大页映射。</li>
+</ol>
+<p>检查 PPN 是否对齐到 2MiB，aka：<code>pte2.PPN0 == 9'b0</code>。如果满足，则跳转至 10，否则 Page Fault。</p>
+<ol>
+<li>否则，<code>{pte1.PPN | 12'b0}</code> 为第三级页表的基地址</li>
+<li>使用 VPN0 作为 index 在第三级页表中找到 PTE。</li>
+</ol>
+<p>这一步等效于 C 代码：<code>uint64 pte0 = *(uint64*)((pte1.ppn &lt;&lt; 12) + VPN0 * 8);</code></p>
+<ol>
+<li>
+<p>得到最终的物理地址：<code>PA = (leaf_pte.ppn &lt;&lt; 12) | final_page_offset</code>，</p>
+<p>如果为 2MiB 大页映射，<code>final_page_offset = {9'VPN0, 12'pgoff}</code>。</p>
+<p>如果为 1GiB 大页映射，<code>final_page_offset = {9'VPN1, 9'VPN0, 12'pgoff}</code></p>
+<p>否则，<code>final_page_offset = 12'pgoff</code></p>
+</li>
+<li>
+<p>权限检查：检查 <code>leaf_pte.rwx</code> 是否与访存请求相同。</p>
+</li>
+</ol>
+<h3 id="_6">大页映射<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>可以注意到当 Flags 中的 XWR 取值均为0时，该 PTE 是指向下一级页表的指针，而当这 XWR 中存在非0位时，则该PTE是页表树的一个叶节点，也就是此时该PTE的PPN值代表了 <strong>物理页</strong> 的基地址而非 <strong>页表</strong> 的物理基址。</p>
+<p>比如，Sv39中给定一个虚拟地址VA[38:0]，然后我们根据 <code>satp.PPN×4096+VPN2</code> 求得一级页表中的PTE的地址，假设该PTE的XWR为001，则该PTE为叶节点页表项，我们称之为大页映射。此时，由于一级页表中的页表项就是叶节点页表项，虚拟地址的含义就从原本的</p>
+<p><img alt="alt text" src="../../assets/xv6lab-paging/vpn_origin.png" /></p>
+<p>变成了</p>
+<p><img alt="alt text" src="../../assets/xv6lab-paging/vpn_gigapage.png" /></p>
+<p>而物理地址的计算则变成了 <code>PTE.PPN×4096+VA[29:0]</code>。此时可以发现30位偏移量可以表示从PTE.PPN×4096开始的一个很大的空间（空间大小为2<sup>30</sup>Byte即1GiB），我们称之为 <strong>吉页</strong>。（注意常见支持大页机制的架构中，大页基地址必须对齐自己的大页空间，即吉页基地址必须对齐1GB，PTE.PPN*4096的低30位需要为0。）</p>
+<p>相应的，如果第二级页表的页表项为叶节点页表项，则该页表项的 <code>[20:0]</code> 位将表示一个整体的偏移量，代表一个小于吉页的页，我们称之为 <strong>巨页</strong> 。一般情况下三级页表项是叶节点页表项，指向一个 <strong>基页</strong> （4KB）。</p>
 <h2 id="_7">实验场景<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">xv6-lab4 代码分支</p>
+<p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab4">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab4</a></p>
+<p>使用命令 <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab4 xv6lab4</code> 下载 xv6-lab4 代码。</p>
+<p>使用 <code>make run</code> 运行本次 Lab 的内核，内核会进行重定位启动，最终，它会运行在高地址的 pc 和 sp 上。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Kernel Starts Relocating...
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Kernel size: 0x000000000002e000, Rounded to 2MiB: 0x0000000000200000
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>[INFO  0,-1] bootcpu_start_relocation: Kernel phy_base: 0x0000000080200000, phy_end_4k:0x000000008022e000, phy_end_2M 0x0000000080400000
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Mapping Identity: 0x0000000080200000 to 0x0000000080200000
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Mapping kernel image: 0xffffffff80200000 to 0x0000000080200000
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>Mapping Direct Mapping: 0xffffffc080400000 to 0x0000000080400000
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Enable SATP on temporary pagetable.
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>Boot HART Relocated. We are at high address now! PC: 0xffffffff80203d68
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>[INFO  0,-1] kvm_init: boot-stage page allocator: base 0xffffffc080400000, end 0xffffffc080600000
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>[INFO  0,-1] kvmmake: Memory after kernel image (phys) size = 0x0000000007c00000
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>[INFO  0,-1] kvm_init: enable pageing at 0x8000000000080400
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>[INFO  0,-1] kvm_init: boot-stage page allocator ends up: base 0xffffffc080400000, used: 0xffffffc080411000
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>Relocated. Boot halt sp at 0xffffffffff001fb0
+</code></pre></div>
+</div>
 <p>在本次的实验代码中，我们会为内核构建虚拟地址空间，并将操作系统从运行在物理地址空间跳转到运行在虚拟地址空间。</p>
 <p>代码的具体执行流程如下：</p>
 <ol>
 <li>
-<p>entry.S 的 _entry //操作系统入口</p>
+<p>entry.S 的 <code>_entry</code> ：操作系统入口</p>
 </li>
 <li>
-<p>main.c 的 bootcpu_entry //C语言入口</p>
+<p>main.c 的 <code>bootcpu_entry</code> ：C语言入口</p>
 </li>
 <li>
-<p>main.c 的 bootcpu_start_relocation //将PC和satp进行重定位</p>
+<p>main.c 的 <code>bootcpu_start_relocation</code> ：将 PC 和 satp 进行重定位，设置临时页表</p>
 </li>
 <li>
-<p>main.c 的 bootcpu_relocating //调用 kvm_init 完成对内核页表的设置与切换</p>
+<p>main.c 的 <code>bootcpu_relocating</code> ：调用 <code>kvm_init</code> 完成对内核页表的设置与切换</p>
 </li>
 <li>
-<p>main.c 的 bootcpu_init //内核初始化，跳转scheduler</p>
+<p>main.c 的 <code>bootcpu_init</code> ：内核初始化，跳转 <code>scheduler</code></p>
 </li>
 </ol>
 <p>要将运行在物理地址空间改为运行在虚拟地址空间，我们首先需要了解内核放置在物理空间的什么区域：</p>
@@ -1762,60 +1759,28 @@
 <p>首先，RISC-V 将物理内存 (DDR / DRAM) 的起始地址映射在物理地址 <code>0x8000_0000</code> 上，而不是物理地址 <code>0x0000_0000</code> 处。</p>
 <p>也就是说，如果我们有 128 MiB (0x0800_0000) 的 DRAM 大小，RISC-V 核心会将 DRAM 空间映射到 <code>[0x8000_0000, 0x8800_0000)</code> 上面。</p>
 <p>对于 QEMU 的 virt 机子，我们可以翻阅 qemu 的源代码找到其物理地址的映射：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">MemMapEntry</span><span class="w"> </span><span class="n">virt_memmap</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_DEBUG</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">        </span><span class="p">{</span><span class="w">        </span><span class="mh">0x0</span><span class="p">,</span><span class="w">         </span><span class="mh">0x100</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_MROM</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="p">{</span><span class="w">     </span><span class="mh">0x1000</span><span class="p">,</span><span class="w">        </span><span class="mh">0xf000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_TEST</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="p">{</span><span class="w">   </span><span class="mh">0x100000</span><span class="p">,</span><span class="w">        </span><span class="mh">0x1000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_RTC</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">          </span><span class="p">{</span><span class="w">   </span><span class="mh">0x101000</span><span class="p">,</span><span class="w">        </span><span class="mh">0x1000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_CLINT</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">        </span><span class="p">{</span><span class="w">  </span><span class="mh">0x2000000</span><span class="p">,</span><span class="w">       </span><span class="mh">0x10000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_ACLINT_SSWI</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="p">{</span><span class="w">  </span><span class="mh">0x2F00000</span><span class="p">,</span><span class="w">        </span><span class="mh">0x4000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_PCIE_PIO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">     </span><span class="p">{</span><span class="w">  </span><span class="mh">0x3000000</span><span class="p">,</span><span class="w">       </span><span class="mh">0x10000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_PLATFORM_BUS</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="mh">0x4000000</span><span class="p">,</span><span class="w">     </span><span class="mh">0x2000000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_PLIC</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="p">{</span><span class="w">  </span><span class="mh">0xc000000</span><span class="p">,</span><span class="w"> </span><span class="n">VIRT_PLIC_SIZE</span><span class="p">(</span><span class="n">VIRT_CPUS_MAX</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_APLIC_M</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">      </span><span class="p">{</span><span class="w">  </span><span class="mh">0xc000000</span><span class="p">,</span><span class="w"> </span><span class="n">APLIC_SIZE</span><span class="p">(</span><span class="n">VIRT_CPUS_MAX</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_APLIC_S</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">      </span><span class="p">{</span><span class="w">  </span><span class="mh">0xd000000</span><span class="p">,</span><span class="w"> </span><span class="n">APLIC_SIZE</span><span class="p">(</span><span class="n">VIRT_CPUS_MAX</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_UART0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x10000000</span><span class="p">,</span><span class="w">         </span><span class="mh">0x100</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_VIRTIO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">       </span><span class="p">{</span><span class="w"> </span><span class="mh">0x10001000</span><span class="p">,</span><span class="w">        </span><span class="mh">0x1000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_FW_CFG</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">       </span><span class="p">{</span><span class="w"> </span><span class="mh">0x10100000</span><span class="p">,</span><span class="w">          </span><span class="mh">0x18</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_FLASH</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x20000000</span><span class="p">,</span><span class="w">     </span><span class="mh">0x4000000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_IMSIC_M</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="mh">0x24000000</span><span class="p">,</span><span class="w"> </span><span class="n">VIRT_IMSIC_MAX_SIZE</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_IMSIC_S</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="mh">0x28000000</span><span class="p">,</span><span class="w"> </span><span class="n">VIRT_IMSIC_MAX_SIZE</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_PCIE_ECAM</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="mh">0x30000000</span><span class="p">,</span><span class="w">    </span><span class="mh">0x10000000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_PCIE_MMIO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="mh">0x40000000</span><span class="p">,</span><span class="w">    </span><span class="mh">0x40000000</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_DRAM</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="p">{</span><span class="w"> </span><span class="mh">0x80000000</span><span class="p">,</span><span class="w">           </span><span class="mh">0x0</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="p">};</span>
-</code></pre></div>
-<p>或者，我们可以在 gdb 连接到 qemu 上时，输入 <code>monitor info mtree -f</code> 查看 Memory Tree 的结构：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>(qemu) gef➤  monitor info mtree -f
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>FlatView #0
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a> AS &quot;memory&quot;, root: system
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a> AS &quot;cpu-memory-0&quot;, root: system
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a> Root memory region: system
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  0000000000001000-000000000000ffff (prio 0, rom): riscv_virt_board.mrom
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  0000000000100000-0000000000100fff (prio 0, i/o): riscv.sifive.test
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  0000000000101000-0000000000101023 (prio 0, i/o): goldfish_rtc
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>  0000000002000000-0000000002003fff (prio 0, i/o): riscv.aclint.swi
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  0000000002004000-000000000200bfff (prio 0, i/o): riscv.aclint.mtimer
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>  0000000003000000-000000000300ffff (prio 0, i/o): gpex_ioport_window
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>  000000000c000000-000000000c5fffff (prio 0, i/o): riscv.sifive.plic
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>  0000000010000000-0000000010000007 (prio 0, i/o): serial
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>  0000000010001000-00000000100011ff (prio 0, i/o): virtio-mmio
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>  0000000010002000-00000000100021ff (prio 0, i/o): virtio-mmio
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>  0000000010003000-00000000100031ff (prio 0, i/o): virtio-mmio
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>  0000000010004000-00000000100041ff (prio 0, i/o): virtio-mmio
-<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>  0000000010005000-00000000100051ff (prio 0, i/o): virtio-mmio
-<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>  0000000010006000-00000000100061ff (prio 0, i/o): virtio-mmio
-<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>  0000000010007000-00000000100071ff (prio 0, i/o): virtio-mmio
-<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>  0000000010008000-00000000100081ff (prio 0, i/o): virtio-mmio
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>  0000000010100000-0000000010100007 (prio 0, i/o): fwcfg.data
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>  0000000010100008-0000000010100009 (prio 0, i/o): fwcfg.ctl
-<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>  0000000010100010-0000000010100017 (prio 0, i/o): fwcfg.dma
-<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>  0000000020000000-0000000021ffffff (prio 0, romd): virt.flash0
-<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>  0000000022000000-0000000023ffffff (prio 0, romd): virt.flash1
-<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>  0000000030000000-000000003fffffff (prio 0, i/o): pcie-mmcfg-mmio
-<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>  0000000040000000-000000007fffffff (prio 0, i/o): gpex_mmio_window @0000000040000000
-<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>  0000000080000000-000000009fffffff (prio 0, ram): riscv_virt_board.ram
-<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>  0000000400000000-00000007ffffffff (prio 0, i/o): gpex_mmio_window @0000000400000000
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">MemMapEntry</span><span class="w"> </span><span class="n">virt_memmap</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_DEBUG</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">        </span><span class="p">{</span><span class="w">        </span><span class="mh">0x0</span><span class="p">,</span><span class="w">         </span><span class="mh">0x100</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_MROM</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="p">{</span><span class="w">     </span><span class="mh">0x1000</span><span class="p">,</span><span class="w">        </span><span class="mh">0xf000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_TEST</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="p">{</span><span class="w">   </span><span class="mh">0x100000</span><span class="p">,</span><span class="w">        </span><span class="mh">0x1000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_RTC</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">          </span><span class="p">{</span><span class="w">   </span><span class="mh">0x101000</span><span class="p">,</span><span class="w">        </span><span class="mh">0x1000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_CLINT</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">        </span><span class="p">{</span><span class="w">  </span><span class="mh">0x2000000</span><span class="p">,</span><span class="w">       </span><span class="mh">0x10000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_ACLINT_SSWI</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="p">{</span><span class="w">  </span><span class="mh">0x2F00000</span><span class="p">,</span><span class="w">        </span><span class="mh">0x4000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_PCIE_PIO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">     </span><span class="p">{</span><span class="w">  </span><span class="mh">0x3000000</span><span class="p">,</span><span class="w">       </span><span class="mh">0x10000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_PLATFORM_BUS</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="mh">0x4000000</span><span class="p">,</span><span class="w">     </span><span class="mh">0x2000000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_PLIC</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="p">{</span><span class="w">  </span><span class="mh">0xc000000</span><span class="p">,</span><span class="w"> </span><span class="n">VIRT_PLIC_SIZE</span><span class="p">(</span><span class="n">VIRT_CPUS_MAX</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_APLIC_M</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">      </span><span class="p">{</span><span class="w">  </span><span class="mh">0xc000000</span><span class="p">,</span><span class="w"> </span><span class="n">APLIC_SIZE</span><span class="p">(</span><span class="n">VIRT_CPUS_MAX</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_APLIC_S</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">      </span><span class="p">{</span><span class="w">  </span><span class="mh">0xd000000</span><span class="p">,</span><span class="w"> </span><span class="n">APLIC_SIZE</span><span class="p">(</span><span class="n">VIRT_CPUS_MAX</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_UART0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x10000000</span><span class="p">,</span><span class="w">         </span><span class="mh">0x100</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_VIRTIO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">       </span><span class="p">{</span><span class="w"> </span><span class="mh">0x10001000</span><span class="p">,</span><span class="w">        </span><span class="mh">0x1000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_FW_CFG</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">       </span><span class="p">{</span><span class="w"> </span><span class="mh">0x10100000</span><span class="p">,</span><span class="w">          </span><span class="mh">0x18</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_FLASH</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="mh">0x20000000</span><span class="p">,</span><span class="w">     </span><span class="mh">0x4000000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_IMSIC_M</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="mh">0x24000000</span><span class="p">,</span><span class="w"> </span><span class="n">VIRT_IMSIC_MAX_SIZE</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_IMSIC_S</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="mh">0x28000000</span><span class="p">,</span><span class="w"> </span><span class="n">VIRT_IMSIC_MAX_SIZE</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_PCIE_ECAM</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="mh">0x30000000</span><span class="p">,</span><span class="w">    </span><span class="mh">0x10000000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_PCIE_MMIO</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="mh">0x40000000</span><span class="p">,</span><span class="w">    </span><span class="mh">0x40000000</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_DRAM</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="p">{</span><span class="w"> </span><span class="mh">0x80000000</span><span class="p">,</span><span class="w">           </span><span class="mh">0x0</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="p">};</span>
 </code></pre></div>
 <p>不过，在我们的操作系统实验中，我们只需要关注 DRAM 空间和一些外设(PLIC, UART)即可</p>
 <table>
@@ -1846,44 +1811,6 @@
 <td style="text-align: left;"><code>0x8000_0000</code></td>
 <td style="text-align: left;">DRAM Size</td>
 <td>DRAM</td>
-</tr>
-</tbody>
-</table>
-<p>实际上 OpenSBI 在加载时也会占用一部分 DRAM 空间，我们可以在 gdb 下用 <code>monitor info roms</code> 查看 QEMU 启动时所加载的文件：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>(qemu) gef➤  monitor info roms
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>addr=0000000000001000 size=0x000028 mem=rom name=&quot;mrom.reset&quot;
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>addr=0000000000001028 size=0x000030 mem=rom name=&quot;mrom.finfo&quot;
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>addr=0000000080000000 size=0x042868 mem=ram name=&quot;/usr/share/qemu/opensbi-riscv64-generic-fw_dynamic.bin&quot;
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>addr=0000000080200000 size=0x002790 mem=ram name=&quot;build/kernel ELF program header segment 1&quot;
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>addr=0000000080203000 size=0x009048 mem=ram name=&quot;build/kernel ELF program header segment 2&quot;
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>addr=000000009fe00000 size=0x0012b8 mem=ram name=&quot;fdt&quot;
-</code></pre></div>
-<p>其中，<code>0x1000</code> 上放置的是 BootROM，是 CPU 上电后的执行的第一块代码。（类似于在组成原理课程里面使用的 BlockRAM）
-OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也是为什么我们内核的 BASE_ADDRESS 不能是 <code>0x8000_0000</code> 而得是 <code>0x8020_0000</code>）
-内核 ELF 被加载到 <code>0x8020_0000</code> 的地址。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align: left;"><code>Base</code></th>
-<th style="text-align: left;">Size</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: left;"><code>0x8000_0000</code></td>
-<td style="text-align: left;"><code>0x0004_2868</code></td>
-<td>OpenSBI</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>0x8020_0000</code></td>
-<td style="text-align: left;"><code>0x0000_2790</code></td>
-<td>kernel segment 1</td>
-</tr>
-<tr>
-<td style="text-align: left;"><code>0x8020_3000</code></td>
-<td style="text-align: left;"><code>0x0000_9048</code></td>
-<td>kernel segment 2</td>
 </tr>
 </tbody>
 </table>
@@ -1938,35 +1865,35 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 </tbody>
 </table>
 <ul>
-<li>Trampoline (n. 蹦床) 是用户空间和内核空间的跳板，所以我们将它放在低 128 GiB 的最高处。</li>
-<li>然后，我们将内核的镜像，即 <code>build/kernel</code> ELF 文件，映射到 <code>0xffff_ffff_8020_0000</code>。</li>
+<li>Trampoline (n. 蹦床) 是用户空间和内核空间的跳板，我们将它放在低 128 GiB 的最高处。</li>
+<li>然后，我们将内核的镜像，即 <code>build/kernel</code> ELF 文件，我们令它映射到虚拟地址 <code>0xffff_ffff_8020_0000</code>，与实际的物理地址 <code>0x8020_0000</code> 相差一个常数 <code>0xffff_ffff_0000_0000</code>。</li>
 <li>其次，映射一些内核所需要的页面，如每个 CPU 的 scheduler 所用的栈，以及外设所需要的 MMIO。</li>
 <li>最后，剩下的所有可用的物理页面将被 Direct Mapping 到 <code>0xffff_ffc0_80xx_xxxx</code>，并交给 kalloc 管理。</li>
 </ul>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/xv6lab-paging-kmemlayout.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Direct Mapping</p>
-<p>对于可用的物理内存空间，我们使用 Direct Mapping 的方式建立地址映射，即 <code>虚拟地址 = 物理地址 + 固定偏移量</code> 。</p>
+<p>对于可用的物理内存空间，我们使用 Direct Mapping 的方式建立地址映射，即 <code>虚拟地址 = 物理地址 + 常数偏移量</code> 。</p>
 </div>
 <p>Direct Mapping 的作用是让 Kernel 能直接操纵所有可用的物理内存，但是除了内核本身镜像以外。</p>
 <p>如果没有 Direct Mapping，我们每次都需要将新分配的页面映射到内核虚拟地址空间上，才能通过虚拟地址去访问该物理页面。而有了 Direct Mapping 后，我们可以直接将物理地址加上一个常量偏移量，即可得到一个内核可访问的虚拟地址：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#define KERNEL_DIRECT_MAPPING_BASE  0xffffffc000000000ull</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#define KVA_TO_PA(x) (((uint64)(x)) - KERNEL_DIRECT_MAPPING_BASE)</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="cp">#define PA_TO_KVA(x) (((uint64)(x)) + KERNEL_DIRECT_MAPPING_BASE)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#define KERNEL_DIRECT_MAPPING_BASE  0xffffffc000000000ull</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="cp">#define KVA_TO_PA(x) (((uint64)(x)) - KERNEL_DIRECT_MAPPING_BASE)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="cp">#define PA_TO_KVA(x) (((uint64)(x)) + KERNEL_DIRECT_MAPPING_BASE)</span>
 </code></pre></div>
-<p>在设计完内核内存布局后，我们需要通知内核从物理地址切换到虚拟地址继续运行，这一步需要首先做一个重定位的操作：</p>
+<p>在设计完内核内存布局后，我们需要令内核从物理地址切换到虚拟地址继续运行，这一步需要首先做一个重定位的操作：</p>
 <h2 id="relocation">重定位（Relocation）<a class="headerlink" href="#relocation" title="Permanent link">&para;</a></h2>
-<p>对于内核本身（即编译出来的 ELF 文件：<code>build/kernel</code>，也称为内核镜像），一直是放置在 0x80200000 的物理地址上的。现在，我们需要把它映射到高地址上。我们将采用固定偏移量来映射整个 ELF 文件。</p>
+<p>对于内核本身（即编译出来的 ELF 文件：<code>build/kernel</code>，也称为内核镜像），一直是放置在 <code>0x8020_0000</code> 的物理地址上的。现在，我们需要把它映射到高地址上。我们将采用固定偏移量来映射整个 ELF 文件。</p>
 <p>也就是说，内核中定义 (Defined) 的符号（变量、函数），它们会被 OpenSBI 加载到指定的物理地址 <code>0x0000_0000_8020_abcd</code>，而我们最终会将该符号加载到虚拟地址 <code>0xffff_ffff_8020_abcd</code> 上。对于所有符号，这两个地址之间永远相差一个固定的值。我们将该值定义为内核偏移量 (kernel offset)。</p>
 <p>我们将该值定义为宏 <code>KERNEL_OFFSET</code>，并定义宏 <code>KIVA_TO_PA</code> 和 <code>PA_TO_KIVA</code> 在便于两者之间转换。(KIAV: Kernel Image Virtual Address)</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#define KERNEL_VIRT_BASE 0xffffffff80200000ull</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="cp">#define KERNEL_PHYS_BASE 0x80200000ull</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="cp">#define KERNEL_OFFSET    ((uint64)(KERNEL_VIRT_BASE - KERNEL_PHYS_BASE))</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">// (Kernel Image Virtual Address) TO (Physical Address)</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="cp">#define KIVA_TO_PA(x) (((uint64)(x)) - KERNEL_OFFSET)</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="cp">#define PA_TO_KIVA(x) (((uint64)(x)) + KERNEL_OFFSET)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#define KERNEL_VIRT_BASE 0xffffffff80200000ull</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#define KERNEL_PHYS_BASE 0x80200000ull</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#define KERNEL_OFFSET    ((uint64)(KERNEL_VIRT_BASE - KERNEL_PHYS_BASE))</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">// (Kernel Image Virtual Address) TO (Physical Address)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="cp">#define KIVA_TO_PA(x) (((uint64)(x)) - KERNEL_OFFSET)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="cp">#define PA_TO_KIVA(x) (((uint64)(x)) + KERNEL_OFFSET)</span>
 </code></pre></div>
 <p>我们注意到，偏移整个镜像文件加载的基地址并不会改变两个符号之间的距离，也就是说：</p>
 <ol>
@@ -1981,54 +1908,54 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <li>将内核镜像映射到虚拟地址 <code>0xffff_ffff_8020_0000</code> 上。</li>
 <li>将 PC 跳转到 <code>0xffff_ffff_8020_xxxx</code> 的高地址上。</li>
 </ol>
-<p>我们期望内核会运行在 <code>0xffff_ffff_8020_0000</code> 的高地址上。所以，我们需要修改 <code>kernel.ld</code> 使链接器能正确链接内核。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>OUTPUT_ARCH(riscv)
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>ENTRY(_entry)
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>BASE_ADDRESS = 0xffffffff80200000;
+<p>我们预期内核会运行在 <code>0xffff_ffff_8020_0000</code> 的高地址上。所以，我们需要修改 <code>kernel.ld</code> 使链接器能正确链接内核。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>OUTPUT_ARCH(riscv)
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>ENTRY(_entry)
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>BASE_ADDRESS = 0xffffffff80200000;
 </code></pre></div>
-<p>但是，此时 OpenSBI 无法正确加载 kernel ELF 到物理地址上，因为 kernel ELF 的 Program Header 的预计加载的物理地址 (PhysAddr) 是 <code>0xffff_ffff_8020_0000</code> 的高地址，然而这个地址在 OpenSBI 转交至我们的内核时是非法的。</p>
+<p>但是，此时 OpenSBI 无法正确加载 kernel ELF 到物理地址上，因为 kernel ELF 的 Program Header 的预计加载的物理地址 (PhysAddr) 是 <code>0xffff_ffff_8020_0000</code> 的高地址，然而这个地址在 OpenSBI 加载内核时是非法的。</p>
 <p>所以，我们在第一个段 <code>.text</code> 后面注明 <code>AT(0x80200000)</code>，表示这个段应该被加载到物理地址 <code>0x8020_0000</code>。这样能使链接器产生的 ELF 的 Program Headers 拥有 <code>VirtAddr = 0xffff_ffff_8020_0000</code>，以及 <code>PhysAddr = 0x8020_0000</code>。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>BASE_ADDRESS = 0xffffffff80200000;
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>SECTIONS
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>{
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    . = BASE_ADDRESS;
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    skernel = .;
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    s_text = .;
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    .text : AT(0x80200000) {
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>        *(.text.entry)
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>        // ...
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    }
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    // ...
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>}
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>BASE_ADDRESS = 0xffffffff80200000;
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>SECTIONS
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>{
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    . = BASE_ADDRESS;
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    skernel = .;
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    s_text = .;
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    .text : AT(0x80200000) {
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>        *(.text.entry)
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>        // ...
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    }
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    // ...
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>}
 </code></pre></div>
 <p>此时再 <code>make run</code> 运行内核，我们可以发现 OpenSBI 正确找到了我们内核的入口点：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Domain0 Next Address      : 0x0000000080200000
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Domain0 Next Arg1         : 0x000000009fe00000
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Domain0 Next Mode         : S-mode
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>...
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>clean bss: 0x00000000802ac000 - 0x00000000802b3000
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Kernel is Relocating...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Domain0 Next Address      : 0x0000000080200000
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Domain0 Next Arg1         : 0x000000009fe00000
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Domain0 Next Mode         : S-mode
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>...
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>clean bss: 0x00000000802ac000 - 0x00000000802b3000
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>Kernel is Relocating...
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Question</p>
 <p>我们在 <code>kernel.ld</code> 里面指定的虚拟地址是 <code>0xffff_ffff_8020_0000</code>，但是 <code>entry.S</code> 中仍然使用的是</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>_entry:
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    lla sp, boot_stack_top
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    call main
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>_entry:
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    lla sp, boot_stack_top
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    call main
 </code></pre></div>
 <p>请思考：为什么在程序运行在 <code>0x0000_0000_8020_0000</code> 的地址上时，使用 <code>lla</code> 加载符号和 <code>call main</code> 跳转 main <strong>能找到正确的物理地址，而不是在此时为非法的虚拟地址</strong> <code>0xffff_ffff_8020_0000</code>？</p>
 <p>Hint: 我们是如何寻址的？回忆计算机组成原理课上学习的寻址模式。</p>
 <p>上述 <code>_entry</code> 中两行汇编代码被编译后的汇编是：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>────────────────────────────────────────────────────────────────────────── code:riscv:RISCV ────
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>●→  0x80200000 &lt;skernel+0000&gt;   auipc  sp, 0xac
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    0x80200004 &lt;skernel+0004&gt;   mv     sp, sp
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    0x80200008 &lt;skernel+0008&gt;   auipc  ra, 0x2
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    0x8020000c &lt;skernel+000c&gt;   jalr   488(ra)
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>─────────────────────────────────────────────────────────────────────── source:os/entry.S+4 ────
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    3  _entry:
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>→   4      lla sp, boot_stack_top
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    5      call main
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>────────────────────────────────────────────────────────────────────────── code:riscv:RISCV ────
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>●→  0x80200000 &lt;skernel+0000&gt;   auipc  sp, 0xac
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    0x80200004 &lt;skernel+0004&gt;   mv     sp, sp
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    0x80200008 &lt;skernel+0008&gt;   auipc  ra, 0x2
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    0x8020000c &lt;skernel+000c&gt;   jalr   488(ra)
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>─────────────────────────────────────────────────────────────────────── source:os/entry.S+4 ────
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    3  _entry:
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>→   4      lla sp, boot_stack_top
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    5      call main
 </code></pre></div>
 </div>
 <p>接着，我们需要构建页表来让MMU可以按照我们设计的布局翻译我们的虚拟地址。</p>
@@ -2051,36 +1978,36 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <p>See also: <a href="https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-6.html">https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-6.html</a></p>
 <h3 id="relocation_start"><code>relocation_start</code> 代码解释<a class="headerlink" href="#relocation_start" title="Permanent link">&para;</a></h3>
 <p>在 relocation_start 的临时页表中，我们使用 2 MiB 的大页映射。我们先开辟四个对齐的物理页面：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_ident</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_direct_mapping</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_high</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_ident</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_direct_mapping</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_high</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
 </code></pre></div>
-<p>然后，我们计算内核镜像的终止点 <code>ekernel</code> 向上对齐到 2MiB 的大小。这是因为 2 MiB 的大页映射要求虚拟地址和物理地址同时对齐到 2MiB 上。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// Kernel Start Point must be aligned to 2MiB</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">assert</span><span class="p">(</span><span class="n">IS_ALIGNED</span><span class="p">(</span><span class="n">KERNEL_PHYS_BASE</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">));</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1">// Calculate Kernel image size, and round up to 2MiB.</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">ekernel</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">skernel</span><span class="p">;</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_size_4K</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ROUNDUP_2N</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ROUNDUP_2N</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">);</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="n">kernel_image_end_4k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_PHYS_BASE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_4K</span><span class="p">;</span>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="n">kernel_image_end_2M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_PHYS_BASE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">;</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Kernel size: %p, Rounded to 2MiB: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">);</span>
+<p>我们计算内核镜像的终止点 <code>ekernel</code> 向上对齐到 2MiB 的大小。这是因为 2 MiB 的大页映射要求虚拟地址和物理地址同时对齐到 2MiB 上。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// Kernel Start Point must be aligned to 2MiB</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">assert</span><span class="p">(</span><span class="n">IS_ALIGNED</span><span class="p">(</span><span class="n">KERNEL_PHYS_BASE</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">));</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">// Calculate Kernel image size, and round up to 2MiB.</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">ekernel</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">skernel</span><span class="p">;</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_size_4K</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ROUNDUP_2N</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ROUNDUP_2N</span><span class="p">(</span><span class="n">kernel_size</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">);</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="n">kernel_image_end_4k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_PHYS_BASE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_4K</span><span class="p">;</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="n">kernel_image_end_2M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_PHYS_BASE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">;</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Kernel size: %p, Rounded to 2MiB: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">);</span>
 </code></pre></div>
-<p>在 <code>kernel_image_end_2M</code> 后面，我们再开辟一个 2MiB 的页面作为 Kernel Direct Mapping 的第一个内存池，这是为了在第二阶段中，在最终的 <code>kallocpage</code> 还未能使用时，给 <code>kvmmake</code> 提供构建页表时所需要的物理页面。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// Calculate Kernel Mapping Base &amp; End</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_PHYS_BASE</span><span class="p">;</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_phys_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">;</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_virt_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_VIRT_BASE</span><span class="p">;</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_virt_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_virt_base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">;</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1">// Calculate the first Direct Mapping Base &amp; End</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_la_phy_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_image_end_2M</span><span class="p">;</span>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_la_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_DIRECT_MAPPING_BASE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_la_phy_base</span><span class="p">;</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_la_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_la_base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">;</span>
+<p>在 <code>kernel_image_end_2M</code> 后面，我们再开辟一个 2MiB 的页面作为 Kernel Direct Mapping 的第一个内存池，我们会在后续讲到为什么会这么做。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// Calculate Kernel Mapping Base &amp; End</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_PHYS_BASE</span><span class="p">;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_phys_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">;</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_virt_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_VIRT_BASE</span><span class="p">;</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_virt_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_virt_base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">;</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1">// Calculate the first Direct Mapping Base &amp; End</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_la_phy_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_image_end_2M</span><span class="p">;</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_la_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_DIRECT_MAPPING_BASE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_la_phy_base</span><span class="p">;</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_la_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_la_base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">;</span>
 </code></pre></div>
 <p>然后，我们开始映射：VA <code>0x0000_0000_8020_0000</code> -&gt; PA <code>0x8020_0000</code></p>
 <ol>
@@ -2089,19 +2016,19 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <li>计算该物理地址应该被映射到哪个虚拟地址上，在这个映射中，<code>va = pa</code>。</li>
 <li>计算 <code>VPN1</code>，并在 <code>pgt_ident</code> 中添加映射。</li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1">// We will still have some instructions executed on pc 0x8020xxxx before jumping to KIVA.</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1">// Step 2. Setup Identity Mapping for 0x80200000 -&gt; 0x80200000, using 2MiB huge page.</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="p">{</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">VPN2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="p">);</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="n">pgt_root</span><span class="p">[</span><span class="n">VPN2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAKE_PTE</span><span class="p">((</span><span class="n">uint64</span><span class="p">)</span><span class="n">pgt_ident</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="w"> </span><span class="n">pa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="p">;</span><span class="w"> </span><span class="n">pa</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kernel_phys_end</span><span class="p">;</span><span class="w"> </span><span class="n">pa</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">        </span><span class="n">uint64</span><span class="w"> </span><span class="n">va</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pa</span><span class="p">;</span>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">        </span><span class="n">uint64</span><span class="w"> </span><span class="n">vpn1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">);</span>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">        </span><span class="n">pgt_ident</span><span class="p">[</span><span class="n">vpn1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAKE_PTE</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_W</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_X</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_D</span><span class="p">);</span>
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Mapping Identity: %p to %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="n">pa</span><span class="p">);</span>
-<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// We will still have some instructions executed on pc 0x8020xxxx before jumping to KIVA.</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1">// Step 2. Setup Identity Mapping for 0x80200000 -&gt; 0x80200000, using 2MiB huge page.</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">{</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">VPN2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="p">);</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="n">pgt_root</span><span class="p">[</span><span class="n">VPN2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAKE_PTE</span><span class="p">((</span><span class="n">uint64</span><span class="p">)</span><span class="n">pgt_ident</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="w"> </span><span class="n">pa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="p">;</span><span class="w"> </span><span class="n">pa</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">kernel_phys_end</span><span class="p">;</span><span class="w"> </span><span class="n">pa</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">        </span><span class="n">uint64</span><span class="w"> </span><span class="n">va</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pa</span><span class="p">;</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">        </span><span class="n">uint64</span><span class="w"> </span><span class="n">vpn1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">);</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">        </span><span class="n">pgt_ident</span><span class="p">[</span><span class="n">vpn1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAKE_PTE</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_W</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_X</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_D</span><span class="p">);</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Mapping Identity: %p to %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="n">pa</span><span class="p">);</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="p">}</span>
 </code></pre></div>
 <p>然后，我们开始映射内核 ELF 的虚拟地址：VA <code>0xffff_ffff_8020_0000</code> -&gt; PA <code>0x8020_0000</code>。
 此时 <code>va = pa + KERNEL_OFFSET</code>。</p>
@@ -2110,11 +2037,19 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <blockquote>
 <p>code: <code>os/kvm.c</code></p>
 </blockquote>
-<p>在完成 Relocation 后，我们在 <code>bootcpu_relocating</code> 中调用 <code>kvm_init()</code> 来构造最终的内核页表，并切换到该页表上。</p>
-<p>Relocation 时，我们会在 Direct Mapping 区间先借用一个 2M 的区域，即 <code>e_kernel</code> (0x802x_0000) 对齐到 2MiB (0x8040_0000) 后的下一个 2MiB 区域 <code>[0x8040_0000, 0x8060_0000)</code>。
-在构建内核页表时，我们会需要申请物理页面来放置次级页表，我们称之为 <code>boot-stage page allocator</code>，这些页面的生命周期是持久的，永远不会被释放。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>[INFO  0,-1] kvm_init: boot-stage page allocator: base 0xffffffc080400000, end 0xffffffc080600000
+<p>在完成 Relocation 后，我们的 pc 位于高地址，sp 位于 <code>boot_stack</code> 的高地址：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Mapping Identity: 0x0000000080200000 to 0x0000000080200000
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>Mapping kernel image: 0xffffffff80200000 to 0x0000000080200000
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Mapping Direct Mapping: 0xffffffc080400000 to 0x0000000080400000
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>Enable SATP on temporary pagetable.
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>Boot HART Relocated. We are at high address now! PC: 0xffffffff80203d68, SP: 0xffffffff80223ff0
 </code></pre></div>
+<p>我们在 <code>bootcpu_relocating</code> 中调用 <code>kvm_init()</code> 来构造最终的内核页表，并切换到该页表上。</p>
+<p>在构建内核页表时，我们会需要申请物理页面来放置页表，我们称之为 <code>boot-stage page allocator</code>，这些页面的生命周期是持久的，永远不会被释放。
+但是后续我们会需要访问这些页表，所以我们可以令它的物理地址区域位于 Direct Mapping 区间上，并且以后能通过 Direct Mapping 的虚拟地址进行访问。
+Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区域，即 <code>e_kernel</code> (0x802x_0000) 对齐到 2MiB (0x8040_0000) 后的下一个 2MiB 区域 <code>[0x8040_0000, 0x8060_0000)</code>。
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>[INFO  0,-1] kvm_init: boot-stage page allocator: base 0xffffffc080400000, end 0xffffffc080600000
+</code></pre></div></p>
 <p><code>kvmmake</code> 函数会调用 <code>kvmmap</code> 依次映射每个区域。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">static</span><span class="w"> </span><span class="n">pagetable_t</span><span class="w"> </span><span class="nf">kvmmake</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">kpgtbl</span><span class="p">;</span>
@@ -2130,7 +2065,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 </code></pre></div>
 <p><code>kvmmap</code> 的原型为 <code>void kvmmap(pagetable_t kpgtbl, uint64 va, uint64 pa, uint64 sz, int perm)</code>，表示将 <code>[va, va+sz)</code> 映射到 <code>[pa, pa+sz)</code> 的区域上。</p>
 <ol>
-<li>对于 Kernel Image，我们映射三个分区：<code>.text</code> (RX), <code>.rodata</code> (RO), <code>.data (.bss)</code> (RW)。我们可以引用在 <code>kernel.ld</code> 中导出的地址符号 <code>e_text</code> 等来得到每个分区的起始地址和结束地址。注意我们直接引用符号 <code>s_text</code> 时，我们会解析得到它的虚拟地址；而它的物理地址则可以通过 <code>KIVA_TO_PA</code> 转换得到。</li>
+<li>对于 Kernel Image，我们映射三个分区：<code>.text</code> (RX), <code>.rodata</code> (RO), <code>.data (.bss)</code> (RW)。我们可以引用在 <code>kernel.ld</code> 中导出的地址符号 <code>e_text</code> 等来得到每个分区的起始地址和结束地址。注意我们直接引用符号 <code>s_text</code> 时，我们会通过 auipc 指令得到它的虚拟地址；而它的物理地址则可以通过 <code>KIVA_TO_PA</code> 转换得到。</li>
 </ol>
 <p>在 <code>kernel.ld</code> 中的 <code>.text</code> 存在另一个特殊的页面，称为 trampoline，我们会在下一节课讲到它。我们将它映射到虚拟地址 <code>0x3f_ffff_f000</code> 上。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="w">    </span><span class="c1">// map kernel text executable and read-only.</span>
@@ -2191,7 +2126,7 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="w">        </span><span class="n">sched_stack</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">KERNEL_STACK_SIZE</span><span class="p">;</span>
 <a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="w">    </span><span class="p">}</span>
 </code></pre></div>
-<p>内核 scheduler 栈的结构如下所示，尽管所分配的页面在物理地址上是连续的，但是在虚拟地址上我们可以故意令它不连续。</p>
+<p>内核 scheduler 栈的结构如下所示，尽管所分配的页面在物理地址大概率是连续的，但是在虚拟地址上我们可以故意令它不连续。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>[1ff], pte[0xffffffc080400ff8]: 0xffffffffc0000000 -&gt; 0x0000000080405000 -------V
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>  [1f8], pte[0xffffffc080405fc0]: 0xffffffffff000000 -&gt; 0x0000000080408000 -------V
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>    [0], pte[0xffffffc080408000]: 0xffffffffff000000 -&gt; 0x0000000080407000 DA---WRV
@@ -2206,25 +2141,11 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <ol>
 <li>最后，计算系统中所有应该被 Direct Mapping 管理的页面，即 <code>kernel_image_end_2M</code> 开始到物理内存空间的结束，从 <code>0xffffffc0_80400000 -&gt; 0x00000000_80400000</code> 处开始映射。注意到 <code>boot-stage page allocator</code> 所用的区域（<code>[0x8040_0000, 0x8060_0000)</code>）也会在这个映射范围之内。</li>
 </ol>
-<p>之后，将剩下的空间交给 <code>kalloc.c</code> 中的 <code>kpgmgr</code> 管理：</p>
+<p>之后，将剩下的空间交给 <code>kalloc.c</code> 中的 <code>kpgmgr</code> 管理，注意 <code>boot-stage page allocator</code> 的区域不在 <code>kpgmgr</code> 管理范围内：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="w">    </span><span class="c1">// So page allocator should starts after these used pages.</span>
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="n">kpage_allocator_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">init_page_allocator</span><span class="p">;</span>
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="n">kpage_allocator_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">available_mems</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">init_page_allocator</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">init_page_allocator_base</span><span class="p">);</span>
 </code></pre></div>
-<h2 id="_9">建立页表的相关函数<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
-<h3 id="kalloc">kalloc 模块<a class="headerlink" href="#kalloc" title="Permanent link">&para;</a></h3>
-<p><code>kalloc.c</code> 会在启动后接管 Direct Mapping，其负责两个功能：</p>
-<ol>
-<li>对剩余可分配的物理页面的管理</li>
-<li>对固定大小对象的动态分配和回收 (对象分配器管理)</li>
-</ol>
-<p>在 kalloc 接管内核启动后剩余的物理内存（即上图紫色部分）后，我们需要从它分配：</p>
-<ol>
-<li>每个 object allocator（对象分配器）的内存池</li>
-<li>每个 process 的 kernel stack</li>
-<li>每个 cpu scheduler 的 kernel stack</li>
-</ol>
-<p>随后，用户空间所需要的页面和配置页表所需要的页面均由 <code>kalloc</code> 模块管理。</p>
 <h3 id="kvmmap">kvmmap<a class="headerlink" href="#kvmmap" title="Permanent link">&para;</a></h3>
 <p><code>kvmmap</code> 负责按照 Sv39 的三级页表格式对 <code>vaddr</code> 逐级展开，分配相应的物理页作为页表，并填充对应的页表项。当遇到未被分配的次级页表时，从 <code>allockernelpage</code> 处分配一个，并设置上级到次级的 PTE (<code>RWX=000</code>) 即可。最后，在最后一级按照给定的 <code>perm</code> 设置 PTE ：<code>pgtbl_level0[vpn0] = MAKE_PTE(paddr, perm)</code>。</p>
 <p>当然，当我们映射一大片对齐到 2MiB 的内存区域时，我们可以使用一个 2MiB 的大页映射，而不是多个 4KiB 的映射。这需要满足大页映射的条件： <code>IS_ALIGNED(vaddr, PGSIZE_2M) &amp;&amp; IS_ALIGNED(paddr, PGSIZE_2M) &amp;&amp; sz &gt;= PGSIZE_2M</code>。</p>
@@ -2296,6 +2217,19 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
 <a id="__codelineno-23-66" name="__codelineno-23-66" href="#__codelineno-23-66"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">sz</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 <a id="__codelineno-23-67" name="__codelineno-23-67" href="#__codelineno-23-67"></a><span class="p">}</span>
 </code></pre></div>
+<h2 id="kalloc">kalloc 模块<a class="headerlink" href="#kalloc" title="Permanent link">&para;</a></h2>
+<p><code>kalloc.c</code> 会在启动后接管 Direct Mapping 区域的物理页面，其负责两个功能：</p>
+<ol>
+<li>分配物理页面：<code>void *__pa kallocpage()</code>, <code>void kfreepage(void *__pa pa)</code></li>
+<li>对固定类型对象的动态分配和回收 (对象分配器管理)：<code>allocator_init</code>, <code>kalloc</code>, <code>kfree</code>。</li>
+</ol>
+<p>在 kalloc 接管内核启动后剩余的物理内存（即上图紫色部分）后，我们需要从它分配：</p>
+<ol>
+<li>每个 object allocator（对象分配器）所用的内存池</li>
+<li>每个 process 的 kernel stack</li>
+<li>每个 cpu scheduler 的 kernel stack</li>
+</ol>
+<p>随后，用户空间所需要的页面，和配置页表所需要的页面均由 <code>kalloc</code> 模块管理。</p>
 
 
 
@@ -2335,8 +2269,8 @@ OpenSBI 被加载到 DRAM 空间开始的 <code>0x8000_0000</code>。（这也�
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/6f41c1ca, 2025-03-24 00:43:09+08:00" target="_blank" rel="noopener">
-            6f41c1ca, 2025-03-24 00:43:09+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/92ab2210, 2025-03-24 11:51:09+08:00" target="_blank" rel="noopener">
+            92ab2210, 2025-03-24 11:51:09+08:00
         </a>
     </div>
 </div>
