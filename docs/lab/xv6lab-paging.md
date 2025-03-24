@@ -258,7 +258,7 @@ See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process
    | ----------------------- | ---- | ---- | ---- | ------ |
    | `0x0000_0000_8020_1234` |      |      |      |        |
    | `0x0000_003f_ffff_f000` |      |      |      |        |
-   | `0xffff_fd01_dead_beef` |      |      |      |        |
+   | `0xffff_ffd1_dead_beef` |      |      |      |        |
 
    Hint: 你可以使用 Windows 中自带的计算器，切换到 Programmer 模式，即可快速在16、10、2进制间转换。或者可以使用 python3 自带的  `bin(0x1122_3344)` 函数转换数字到二进制。
 
