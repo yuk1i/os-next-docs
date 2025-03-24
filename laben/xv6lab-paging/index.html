@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../xv6lab-contextswitch/">
-      
-      
-        <link rel="next" href="../xv6lab-userspace/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +16,7 @@
     
     
       
-        <title>Week 6 - 内核页表 Kernel Paging - 操作系统实验文档</title>
+        <title>RISC-V Page Table Model & xv6 Kernel Page Tables - 操作系统实验文档</title>
       
     
     
@@ -62,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#risc-v-xv6" class="md-skip">
+        <a href="#risc-v-page-table-model-xv6-kernel-page-tables" class="md-skip">
           跳转至
         </a>
       
@@ -97,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Week 6 - 内核页表 Kernel Paging
+              RISC-V Page Table Model &amp; xv6 Kernel Page Tables
             
           </span>
         </div>
@@ -205,13 +201,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../lab1/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../lab/lab1/" class="md-tabs__link">
           
   
   每周实验
@@ -229,7 +223,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../laben/lab2/" class="md-tabs__link">
+        <a href="../lab2/" class="md-tabs__link">
           
   
   Weekly Lab Material
@@ -570,28 +564,23 @@
       
   
   
-    
   
   
-  
     
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -602,7 +591,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             每周实验
@@ -616,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lab1/" class="md-nav__link">
+      <a href="../../lab/lab1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -637,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../lab2/" class="md-nav__link">
+      <a href="../../lab/lab2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -658,7 +647,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../xv6lab-baremetal/" class="md-nav__link">
+      <a href="../../lab/xv6lab-baremetal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -679,7 +668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../xv6lab-interrupts/" class="md-nav__link">
+      <a href="../../lab/xv6lab-interrupts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -700,7 +689,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../xv6lab-contextswitch/" class="md-nav__link">
+      <a href="../../lab/xv6lab-contextswitch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -718,30 +707,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Week 6 - 内核页表 Kernel Paging
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../lab/xv6lab-paging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -750,272 +719,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      实验目的
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#segmentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Segmentation
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#paging" class="md-nav__link">
-    <span class="md-ellipsis">
-      Paging
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      虚拟地址 =&gt; 物理地址
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="虚拟地址 => 物理地址">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      一级页表
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      多级页表
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tlb" class="md-nav__link">
-    <span class="md-ellipsis">
-      快表 TLB
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#risc-v-sv39" class="md-nav__link">
-    <span class="md-ellipsis">
-      RISC-V 的 Sv39 分页机制
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="RISC-V 的 Sv39 分页机制">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#satp" class="md-nav__link">
-    <span class="md-ellipsis">
-      satp
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sv39" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sv39
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#flags" class="md-nav__link">
-    <span class="md-ellipsis">
-      Flags
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Flags">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-d" class="md-nav__link">
-    <span class="md-ellipsis">
-      A &amp; D
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      权限检查
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      大页映射
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lab" class="md-nav__link">
-    <span class="md-ellipsis">
-      Lab 课堂报告
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      实验场景
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#risc-v" class="md-nav__link">
-    <span class="md-ellipsis">
-      RISC-V 物理地址布局
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#xv6" class="md-nav__link">
-    <span class="md-ellipsis">
-      xv6 内核内存布局
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#relocation" class="md-nav__link">
-    <span class="md-ellipsis">
-      重定位（Relocation）
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="重定位（Relocation）">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#relocation_start" class="md-nav__link">
-    <span class="md-ellipsis">
-      relocation_start 代码解释
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      内核页表
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="内核页表">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#kvmmap" class="md-nav__link">
-    <span class="md-ellipsis">
-      kvmmap
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kalloc" class="md-nav__link">
-    <span class="md-ellipsis">
-      kalloc 模块
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
-      实验部分思考题
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1028,7 +731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../xv6lab-userspace/" class="md-nav__link">
+      <a href="../../lab/xv6lab-userspace/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1094,7 +797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laben/lab2/" class="md-nav__link">
+      <a href="../lab2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1115,7 +818,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laben/xv6lab-baremetal/" class="md-nav__link">
+      <a href="../xv6lab-baremetal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1136,7 +839,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laben/xv6lab-interrupts/" class="md-nav__link">
+      <a href="../xv6lab-interrupts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1157,7 +860,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laben/xv6lab-contextswitch/" class="md-nav__link">
+      <a href="../xv6lab-contextswitch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1313,9 +1016,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#experiment-objectives" class="md-nav__link">
     <span class="md-ellipsis">
-      实验目的
+      Experiment Objectives
     </span>
   </a>
   
@@ -1340,37 +1043,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#virtual-address-physical-address" class="md-nav__link">
     <span class="md-ellipsis">
-      虚拟地址 =&gt; 物理地址
+      Virtual Address =&gt; Physical Address
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="虚拟地址 => 物理地址">
+    <nav class="md-nav" aria-label="Virtual Address => Physical Address">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#single-level-page-table" class="md-nav__link">
     <span class="md-ellipsis">
-      一级页表
+      Single-Level Page Table
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#multi-level-page-table" class="md-nav__link">
     <span class="md-ellipsis">
-      多级页表
+      Multi-Level Page Table
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#tlb" class="md-nav__link">
+  <a href="#translation-lookaside-buffer-tlb" class="md-nav__link">
     <span class="md-ellipsis">
-      快表 TLB
+      Translation Lookaside Buffer (TLB)
     </span>
   </a>
   
@@ -1382,13 +1085,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#risc-v-sv39" class="md-nav__link">
+  <a href="#risc-v-sv39-paging-mechanism" class="md-nav__link">
     <span class="md-ellipsis">
-      RISC-V 的 Sv39 分页机制
+      RISC-V Sv39 Paging Mechanism
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="RISC-V 的 Sv39 分页机制">
+    <nav class="md-nav" aria-label="RISC-V Sv39 Paging Mechanism">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1429,9 +1132,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#permission-checks" class="md-nav__link">
     <span class="md-ellipsis">
-      权限检查
+      Permission Checks
     </span>
   </a>
   
@@ -1443,9 +1146,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#huge-page-mapping" class="md-nav__link">
     <span class="md-ellipsis">
-      大页映射
+      Huge Page Mapping
     </span>
   </a>
   
@@ -1457,36 +1160,36 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lab" class="md-nav__link">
+  <a href="#lab-classroom-report" class="md-nav__link">
     <span class="md-ellipsis">
-      Lab 课堂报告
+      Lab Classroom Report
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#experiment-scenario" class="md-nav__link">
     <span class="md-ellipsis">
-      实验场景
+      Experiment Scenario
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#risc-v" class="md-nav__link">
+  <a href="#risc-v-physical-address-layout" class="md-nav__link">
     <span class="md-ellipsis">
-      RISC-V 物理地址布局
+      RISC-V Physical Address Layout
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#xv6" class="md-nav__link">
+  <a href="#xv6-kernel-memory-layout" class="md-nav__link">
     <span class="md-ellipsis">
-      xv6 内核内存布局
+      xv6 Kernel Memory Layout
     </span>
   </a>
   
@@ -1495,17 +1198,17 @@
         <li class="md-nav__item">
   <a href="#relocation" class="md-nav__link">
     <span class="md-ellipsis">
-      重定位（Relocation）
+      Relocation
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="重定位（Relocation）">
+    <nav class="md-nav" aria-label="Relocation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#relocation_start" class="md-nav__link">
+  <a href="#relocation_start-code-explanation" class="md-nav__link">
     <span class="md-ellipsis">
-      relocation_start 代码解释
+      relocation_start Code Explanation
     </span>
   </a>
   
@@ -1517,13 +1220,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#kernel-page-table" class="md-nav__link">
     <span class="md-ellipsis">
-      内核页表
+      Kernel Page Table
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="内核页表">
+    <nav class="md-nav" aria-label="Kernel Page Table">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1541,18 +1244,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#kalloc" class="md-nav__link">
+  <a href="#kalloc-module" class="md-nav__link">
     <span class="md-ellipsis">
-      kalloc 模块
+      kalloc Module
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#experiment-reflection-questions" class="md-nav__link">
     <span class="md-ellipsis">
-      实验部分思考题
+      Experiment Reflection Questions
     </span>
   </a>
   
@@ -1576,189 +1279,189 @@
   
 
 
-<h1 id="risc-v-xv6">RISC-V 页表模型 &amp; xv6 内核页表<a class="headerlink" href="#risc-v-xv6" title="Permanent link">&para;</a></h1>
-<h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h1 id="risc-v-page-table-model-xv6-kernel-page-tables">RISC-V Page Table Model &amp; xv6 Kernel Page Tables<a class="headerlink" href="#risc-v-page-table-model-xv6-kernel-page-tables" title="Permanent link">&para;</a></h1>
+<h2 id="experiment-objectives">Experiment Objectives<a class="headerlink" href="#experiment-objectives" title="Permanent link">&para;</a></h2>
 <ol>
-<li>了解RISC-V页表模型SV39</li>
-<li>掌握虚拟地址到物理地址的转换机制</li>
-<li>掌握XV6如何管理内存并创建页表</li>
+<li>Understand the RISC-V SV39 page table model.</li>
+<li>Master the mechanism of virtual address to physical address translation.</li>
+<li>Understand how XV6 manages memory and creates page tables.</li>
 </ol>
 <h2 id="segmentation">Segmentation<a class="headerlink" href="#segmentation" title="Permanent link">&para;</a></h2>
-<p>从对内存访问保护而言，我们希望对内存的访问是带有权限保护的。这包括两个层面：</p>
+<p>From the perspective of memory access protection, we desire memory access to be permission-protected. This involves two aspects:</p>
 <ol>
-<li>该内存地址是否可读、可写、可执行。</li>
-<li>该内存地址是否允许低特权级访问。</li>
+<li>Whether the memory address is readable, writable, or executable.</li>
+<li>Whether the memory address allows access from lower privilege levels.</li>
 </ol>
-<p>也就是说，对于每个内存地址，我们都希望能检查它的操作权限是否符合原先的程序设计。</p>
-<p>在 CPU 实现上，内存是以字节为单位来寻址的。如果要实现对每个字节的访问权限都能进行管理，这样的代价是难以现象的。
-但是，我们可以让相同权限的代码、数据排布在一起，这样即可将整个程序的内存空间分为几个大块，每个块均有自己的起始地址(Base)和大小限制(Limit)，以及权限设置，这就是使用 Segmentation 进行内存保护的方式。 </p>
-<p>Segmentation 在内存空间的管理上有着诸多劣势，例如要求物理内存连续、难以动态调节大小、存在碎片化的问题。所以，现代 CPU 和操作系统均使用页表（Paging）机制来实现内存管理。</p>
+<p>In other words, for each memory address, we want to verify that its operational permissions align with the original program design.</p>
+<p>In CPU implementations, memory is addressed in byte units. Managing access permissions for every single byte would incur an unimaginable cost. 
+However, we can group code and data with the same permissions together, dividing the program's memory space into several large segments. Each segment has its own base address (Base), size limit (Limit), and permission settings. This is the approach of using <em>Segmentation</em> for memory protection.</p>
+<p>Segmentation has several disadvantages in memory space management, such as requiring contiguous physical memory, difficulty in dynamically resizing, and fragmentation issues. Therefore, modern CPUs and operating systems use the <em>Paging</em> mechanism for memory management.</p>
 <h2 id="paging">Paging<a class="headerlink" href="#paging" title="Permanent link">&para;</a></h2>
-<p>分页机制，是将程序空间（虚拟地址）切割成相同大小的若干个页面，同时将物理内存也切割成同样大小的多个页面，从而可以在物理地址不连续的情况下，给进程分配足够的内存空间，并且从虚拟地址的角度看这个空间是连续的。</p>
+<p>The paging mechanism divides the program space (virtual address space) into fixed-size pages and similarly splits physical memory into pages of the same size. This allows sufficient memory allocation for a process even when physical addresses are non-contiguous, while appearing contiguous from the virtual address perspective.</p>
 <div class="admonition note">
-<p class="admonition-title">为什么需要虚拟地址空间？</p>
-<p>如果我们只有物理内存空间，那么我们也可以写程序，但是所有的程序，包括内核，包括用户程序，都在同一个地址空间里，用户程序访问的 <code>0x80200000</code> 和内核访问的 <code>0x80200000</code> 是同一个地址。这样好不好？如果只有一个程序在运行，那也无所谓。但很多程序使用同一个内存空间，就会有问题：怎样防止程序之间互相干扰，甚至互相搞破坏？</p>
-<p>比较粗暴的方式就是，我让用户程序访问的<code>0x80200000</code>和内核访问的<code>0x80200000</code>不是一个地址。但是我们只有一块内存，为了创造两个不同的地址空间，我们可以引入一个”翻译“机制：程序使用的地址（虚拟地址）需要经过一步”翻译“才能变成真正的内存的物理地址。这个”翻译“过程，我们用一个”词典“（页表）实现---给出翻译之前的地址，可以在词典里查找翻译后的地址。</p>
-<p>每个程序都有唯一的一本”词典“，而它能使用的内存也就只有他的”词典“所包含的。</p>
-<p>"词典"是否对能使用的每个字节都进行翻译？我们可以想象，存储每个字节翻译的结果至少需要一个字节，那么使用1MB的内存将至少需要构造1MB的”词典“，这效率太低了。观察到，一个程序使用内存的数量级通常远大于字节，至少以KB为单位（所以上古时代的人说的是"640K对每个人都够了"而不是"640B对每个人都够了"）。那么我们可以考虑，把连续的很多字节合在一起翻译，让他们翻译前后的数值之差相同，这就是"页"。</p>
+<p class="admonition-title">Why do we need a virtual address space?</p>
+<p>If we only had physical memory space, we could still write programs, but all programs—including the kernel and user programs—would operate in the same address space. The address <code>0x80200000</code> accessed by a user program would be the same as <code>0x80200000</code> accessed by the kernel. Is this a problem? If only one program is running, it’s fine. But when multiple programs share the same memory space, issues arise: how do we prevent programs from interfering with or even sabotaging each other?</p>
+<p>A straightforward solution is to ensure that <code>0x80200000</code> accessed by a user program and <code>0x80200000</code> accessed by the kernel are not the same address. Since we only have one physical memory, we can introduce a "translation" mechanism to create distinct address spaces: the addresses used by programs (virtual addresses) must be "translated" into actual physical memory addresses. This "translation" process is implemented using a "dictionary" (page table)—given an address before translation, the corresponding translated address can be looked up in the dictionary.</p>
+<p>Each program has its own unique "dictionary," and the memory it can use is limited to what’s defined in its dictionary.</p>
+<p>Does the "dictionary" translate every usable byte? Imagine that storing the translation result for each byte requires at least one byte. For 1MB of memory, we’d need at least a 1MB "dictionary," which is highly inefficient. In practice, a program’s memory usage is typically orders of magnitude larger than bytes—often in KB units (hence the ancient saying, "640K ought to be enough for anybody," not "640B ought to be enough for anybody"). Thus, we can group many contiguous bytes together for translation, ensuring the difference between pre- and post-translation values is consistent. This is the concept of a "page."</p>
 </div>
-<h2 id="_2">虚拟地址 =&gt; 物理地址<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>分页机制很重要的一点是如何建立和解析虚拟地址到物理地址的映射，下面我们从“如何从虚拟地址获得相应的物理地址”的角度进行介绍：</p>
-<h3 id="_3">一级页表<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p>如图所示是一个一级页表分页机制（一级对应于后面的多级，一级页表只需要查询一层页表即可得到物理地址，下称"单级页表"）：</p>
+<h2 id="virtual-address-physical-address">Virtual Address =&gt; Physical Address<a class="headerlink" href="#virtual-address-physical-address" title="Permanent link">&para;</a></h2>
+<p>A critical aspect of the paging mechanism is how to establish and resolve the mapping from virtual addresses to physical addresses. Below, we explain this from the perspective of "how to obtain the corresponding physical address from a virtual address":</p>
+<h3 id="single-level-page-table">Single-Level Page Table<a class="headerlink" href="#single-level-page-table" title="Permanent link">&para;</a></h3>
+<p>The figure below illustrates a single-level page table paging mechanism (single-level refers to requiring only one layer of page table lookup to obtain the physical address, hereafter called a "single-level page table"):</p>
 <p><img alt="1648542681894" src="../../assets/xv6lab-paging/1648542681894.png" /></p>
-<p>以上图为例，我们首先得到一个 <strong>虚拟地址</strong>（ <strong>Virtual Address</strong>），这个地址长度为6位，其中 5 ~ 4 位（高2位）为 <strong>页号（VPN，Virtual Page Number）</strong> ， 3 ~ 0 位（低4位）为 <strong>偏移量（Offset）</strong> 。</p>
-<p>通过虚拟地址，我们可以查询 <strong>页表</strong> （ <strong>Page Table</strong> ），页表存在于 <strong>页表基地址</strong>（ <strong>PageTablePtr,Page Table Pointer</strong> ，是个物理地址）所指向的内存空间中，由连续存储的若干个 <strong>页表项（PTE，Page Table Entry）</strong> 构成。在一级页表中，每个页表项内容即为 <strong>物理页号（Page Frame #）+部分标志位</strong> 。尽管图中每个页表项看似包含 <strong>页号（Page #）</strong> 但是在实际的设计中， <strong>页号(VPN)并不写在页表项(PTE)中</strong> ，由于页表项是连续分布的，我们只需要知道页表项的大小（有多少位）以及虚拟地址页号（VPN，代表要查询第几个页表项），就可以通过 <code>页表首地址+页号×页表项大小</code> 得到对应的页表项地址，查询该地址对应内容即可得到物理页号。页表首地址是存储在架构指定的寄存器中的。</p>
-<p>得到物理页号后，通过 <code>物理页号×页面大小</code> 即可得到所在页的物理地址（物理空间首地址为0x0）。一页可能很大，如何得到一页中具体某个字节的地址呢？通过偏移量， <code>页物理地址+偏移量</code> 即可得到具体虚拟地址对应的具体物理地址。</p>
+<p>Using the figure as an example, we start with a <strong>virtual address</strong> ( <strong>Virtual Address</strong> ), which is 6 bits long. Bits 5–4 (the top 2 bits) represent the <strong>page number (VPN, Virtual Page Number)</strong>, while bits 3–0 (the bottom 4 bits) represent the <strong>offset (Offset)</strong>.</p>
+<p>Using the virtual address, we can query the <strong>page table</strong> ( <strong>Page Table</strong> ), which resides in the memory space pointed to by the <strong>page table base address</strong> ( <strong>PageTablePtr, Page Table Pointer</strong> , a physical address). The page table consists of several consecutively stored <strong>page table entries (PTE, Page Table Entry)</strong>. In a single-level page table, each PTE contains the <strong>physical page number (Page Frame #) + some flag bits</strong>. Although the figure shows each PTE seemingly containing a <strong>page number (Page #)</strong>, in actual designs, <strong>the page number (VPN) is not stored in the PTE</strong>. Since PTEs are stored contiguously, knowing the PTE size (in bits) and the virtual page number (VPN, indicating which PTE to query) allows us to calculate the PTE address as <code>page table base address + page number × PTE size</code>. The content at this address yields the physical page number. The page table base address is stored in an architecture-specified register.</p>
+<p>After obtaining the physical page number, the physical address of the page can be calculated as <code>physical page number × page size</code> (assuming the physical space starts at 0x0). A page can be large—how do we get the address of a specific byte within it? Using the offset, the specific physical address corresponding to the virtual address is <code>page physical address + offset</code>.</p>
 <div class="admonition note">
-<p class="admonition-title">一个例子</p>
-<p>假设页面大小为 4KiB ，如果想要定位到页面的每一个 Byte ，我们的偏移量则需能表示 4096 个不同的位置，因此对于 4KiB 大小的页面来说，偏移量的位数为12位（2<sup>12</sup>=4096）。或者说，偏移量的位数为12位可以推出页面大小为 2<sup>12</sup> 个 Byte 。</p>
-<p>在图片的一级页表中， Offset 为4位，可以得知页面大小为2<sup>4</sup>=16B。如果给定虚拟地址100100<sub>2</sub>，可以得出其页号为10<sub>2</sub>，即2<sub>10</sub>，通过页号2<sub>10</sub>可以查到对应的页表项内容为5<sub>10</sub>。5是物理页号，可以求得物理页面地址： 物理首地址+物理页号×页面大小=0+5×16=80<sub>10</sub>。100100中低四位偏移量为0100，因此查询的是该页面的第5个字节对应的地址（地址0也是一个字节），则该物理地址为80+4=84<sub>10</sub>（5*16+4=0101左移四位+0100=0101 0100<sub>2</sub>）。需要注意运算过程中是2进制还是10进制还是16进制数（存储肯定是2进制）。</p>
+<p class="admonition-title">An Example</p>
+<p>Suppose the page size is 4KiB. To locate each byte within a page, the offset must represent 4096 distinct positions, requiring 12 bits (2<sup>12</sup> = 4096). Alternatively, if the offset is 12 bits, the page size can be deduced as 2<sup>12</sup> bytes.</p>
+<p>In the single-level page table from the figure, the offset is 4 bits, indicating a page size of 2<sup>4</sup> = 16B. Given a virtual address <code>100100</code> (binary), the page number is <code>10</code> (binary, i.e., 2 in decimal). Using page number 2, we look up the PTE content, which is <code>5</code> (binary). The physical page number is 5, and the physical page address is: physical base address + physical page number × page size = 0 + 5 × 16 = 80 (decimal). The offset from the virtual address <code>100100</code> is <code>0100</code> (4 in decimal), querying the 5<sup>th</sup> byte of the page (address 0 counts as one byte). Thus, the physical address is 80 + 4 = 84 (decimal) (5 × 16 + 4 = 0101 shifted left 4 bits + 0100 = 0101 0100 in binary). Pay attention to whether calculations use binary, decimal, or hexadecimal (storage is always binary).</p>
 </div>
-<h3 id="_4">多级页表<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>系统中，通常页面大小是 4KiB。假设 32 位系统中，虚拟地址空间长度为 32bits，即 <code>2^32 = 4GiB</code>，那么在单级页表模式下，就需要1M个页表项来对应不同的物理页。假设一个页表项为4B，则一个页表就有 4MiB 。由于虚拟地址是连续的（相当于高位 VPN 是连续的），而PTE的存储方式也是相当于数组的连续存储方式，因此即使进程实际使用的空间非常小，它也需要连续完整的页表来进行地址转换（不能移除中间不使用的 PTE ）。而操作系统中除了内核页表，为每个进程还会分配自己的页表，进程多的情况下，存储所有页表的开销就变得很大。</p>
-<p>因此需要用到多级页表，如图所示，是一个二级页表分页机制（Sv32）：</p>
+<h3 id="multi-level-page-table">Multi-Level Page Table<a class="headerlink" href="#multi-level-page-table" title="Permanent link">&para;</a></h3>
+<p>In systems, the page size is typically 4KiB. In a 32-bit system with a 32-bit virtual address space (2^32 = 4GiB), a single-level page table would require 1M PTEs to map all physical pages. Assuming each PTE is 4B, the page table size would be 4MiB. Since virtual addresses are contiguous (i.e., high-order VPNs are contiguous) and PTEs are stored consecutively like an array, even if a process uses minimal space, a complete, contiguous page table is needed for address translation (unused intermediate PTEs cannot be omitted). In an OS, beyond the kernel page table, each process gets its own page table, and with many processes, the overhead of storing all page tables becomes significant.</p>
+<p>This necessitates multi-level page tables, as shown below in a two-level page table mechanism (Sv32):</p>
 <p><img alt="1648548797416" src="../../assets/xv6lab-paging/1648548797416.png" /></p>
-<p>与单级页表不同的是，Sv32 将虚拟地址分割成了三个部分：<code>VPN[1], VPN[0], offset</code>。Sv32 中，每个页面大小 4KiB，每个 PTE 4 Bytes，每个页表中有 <code>2^10 = 1024</code> 个 PTE。</p>
-<p>图中，32位虚拟地址的翻译过程变成了如下流程：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>    1. 通过 `PageTablePtr + VPN1 * 4` 得到第一级PTE地址（`PageTablePtr`存储于指定寄存器中）。
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    2. 取得第一级 PTE 中的PFN，它代表着第二级页表的基地址，通过 `PFN * 4Ki` 得到第二级页表的基地址。
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    3. 通过 `第二级页表基地址+ VPN0 * 4` 可以得到第二级PTE的地址
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    4. 取得第二级 PTE 中的PFN，它代表着最终的物理页面。通过 `PFN * 4Ki + offset` 可以得到最终的物理地址。
+<p>Unlike a single-level page table, Sv32 splits the virtual address into three parts: <code>VPN[1], VPN[0], offset</code>. In Sv32, each page is 4KiB, each PTE is 4 bytes, and each page table contains <code>2^10 = 1024</code> PTEs.</p>
+<p>The translation process for a 32-bit virtual address in the figure is as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>    1. Use `PageTablePtr + VPN1 * 4` to get the first-level PTE address (`PageTablePtr` is stored in a designated register).
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    2. Retrieve the PFN from the first-level PTE, representing the base address of the second-level page table. Compute the second-level page table base address as `PFN * 4Ki`.
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    3. Use `second-level page table base address + VPN0 * 4` to get the second-level PTE address.
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    4. Retrieve the PFN from the second-level PTE, representing the final physical page. Compute the final physical address as `PFN * 4Ki + offset`.
 </code></pre></div>
 <div class="admonition note">
-<p class="admonition-title">思考</p>
-<p>为什么多级页表相比单级页表可以节省页面开销呢？</p>
-<p>假设我们有一个 4GiB 的内存空间，页面大小为 4KiB，且每个页表项（PTE）的大小为 4Byte。如果一个进程只需要使用高虚拟地址空间 (0xffff_f000) 的 1 页 4KiB 空间和低虚拟地址空间 (0x0000_0000) 的 1 页 4KiB 空间，我们可以通过以下计算，比较单级页表和二级页表机制下，进程所需的页表空间。</p>
-<p><strong>单级页表：</strong>
-在单级页表的情况下，尽管我们只需要第0个和最后一个PTE，但是还是需要 4GiB / 4KiB = 1M 个 <strong>连续的</strong> 页表项来映射整个虚拟地址空间。因此，单级页表机制所需要的页表大小是 1M * 4Byte = 4MiB。</p>
-<p><strong>多级页表：</strong>
-在多级页表机制中，每小一级页表所能表示的地址空间大小是逐级增加的。
-以 Sv32 为例，第二级页表中的每个 PTE 管理着 <code>4KiB</code> 的空间，那么整个第二级页表能管理 <code>1024 * 4KiB = 4 MiB</code> 的空间；第一级页表中的每个 PTE 管理着一张第二级页表，也就是说，第一级中的每个 PTE 实际上能管理 <code>4 MiB</code> 的空间。</p>
-<p>对于地址空间中大片的、连续的空洞，我们可以直接不为他分配二级页表，这就是为什么多级页表可以节约空间。</p>
-<p>对于上述情况，我们只需要在一级页表中分配两个 PTE，分别管理两个第二级页表；在第一个第二级页表中，我们用第0个 PTE 映射虚拟地址 <code>0x0000_0000</code>；在第二个第二级页表中，我们用第 1023 个 PTE 映射虚拟地址 <code>0xffff_f000</code>。</p>
-<p>总结：
-为了管理这两个虚拟页面，二级页表需要 2 个二级页表和 1 个第一级页表（其余未用到的二级页表的 PTE 可以标记为不可用，无需分配空间）。由于第一级和第二级页表的大小均为 4KB，因此总共需要 2 * 4KB + 4KB = 12KB 的页表空间。</p>
-<p>通过这个例子可以看出，二级页表机制通过层级化的管理，显著减少了页表的空间开销，尤其是在只需要映射少量内存时。</p>
+<p class="admonition-title">Thinking</p>
+<p>Why does a multi-level page table save space compared to a single-level page table?</p>
+<p>Consider a 4GiB memory space with a 4KiB page size and 4-byte PTEs. If a process only needs one 4KiB page at the high virtual address (0xffff_f000) and one at the low virtual address (0x0000_0000), we can compare the page table space required under single-level and two-level mechanisms.</p>
+<p><strong>Single-Level Page Table:</strong>
+Despite needing only the 0<sup>th</sup> and last PTEs, a single-level page table requires 4GiB / 4KiB = 1M <strong>contiguous</strong> PTEs to map the entire virtual address space. Thus, the page table size is 1M * 4B = 4MiB.</p>
+<p><strong>Multi-Level Page Table:</strong>
+In a multi-level mechanism, the address space managed by each lower-level page table increases hierarchically. 
+In Sv32, each PTE in the second-level page table manages <code>4KiB</code>, so the entire second-level table manages <code>1024 * 4KiB = 4MiB</code>. Each PTE in the first-level page table manages a second-level page table, meaning each first-level PTE effectively manages <code>4MiB</code>.</p>
+<p>For large, contiguous unused regions, we can avoid allocating second-level page tables, which is why multi-level page tables save space.</p>
+<p>In this case, we allocate two PTEs in the first-level page table to manage two second-level page tables. In the first second-level table, the 0<sup>th</sup> PTE maps virtual address <code>0x0000_0000</code>. In the second, the 1023<sup>rd</sup> PTE maps <code>0xffff_f000</code>.</p>
+<p>Summary:
+To manage these two virtual pages, the two-level page table requires 2 second-level tables and 1 first-level table (unused second-level PTEs can be marked invalid without allocation). Since both levels’ page tables are 4KB, the total space is 2 * 4KB + 4KB = 12KB.</p>
+<p>This example shows that the hierarchical management of a two-level page table significantly reduces space overhead, especially when mapping sparse memory.</p>
 </div>
 <div class="admonition warning">
-<p class="admonition-title">注意</p>
-<p>将虚拟地址翻译成物理地址的工作是由 CPU 的内存管理单元（MMU，Memory Management Unit）完成的，并不需要我们编写代码进行操作。</p>
-<p>我们需要在操作系统中完成的是"词典"也就是页表的编写工作，为词条分配页表空间并填写页表项才是我们的工作。</p>
+<p class="admonition-title">Note</p>
+<p>The translation of virtual to physical addresses is performed by the CPU’s Memory Management Unit (MMU) and does not require us to write code for it.</p>
+<p>Our task in the OS is to construct the "dictionary"—the page table—by allocating page table space and filling in PTEs.</p>
 </div>
-<h3 id="tlb">快表 TLB<a class="headerlink" href="#tlb" title="Permanent link">&para;</a></h3>
-<p>物理内存的访问速度要比 CPU 的运行速度慢很多, 去访问一次物理内存可能需要几百个时钟周期（带来所谓的“冯诺依曼瓶颈”）。</p>
-<p>而我们的页表都是存放在物理内存中。如果我们按照页表机制一步步走，将一个虚拟地址转化为物理地址需要访问 3 次物理内存，得到物理地址之后还要再访问一次物理内存，才能读到我们想要的数据。这很大程度上降低了效率。</p>
-<p>好在，实践表明虚拟地址的访问具有时间局部性和空间局部性。</p>
+<h3 id="translation-lookaside-buffer-tlb">Translation Lookaside Buffer (TLB)<a class="headerlink" href="#translation-lookaside-buffer-tlb" title="Permanent link">&para;</a></h3>
+<p>Physical memory access is much slower than CPU execution, often requiring hundreds of clock cycles per access (known as the "von Neumann bottleneck").</p>
+<p>Page tables are stored in physical memory. Following the page table mechanism step-by-step, translating a virtual address to a physical one requires 3 physical memory accesses, followed by another to fetch the desired data, significantly reducing efficiency.</p>
+<p>Fortunately, virtual address access exhibits <em>temporal locality</em> and <em>spatial locality</em>:</p>
 <ul>
-<li>时间局部性是指，被访问过一次的地址很有可能不远的将来再次被访问；</li>
-<li>空间局部性是指，如果一个地址被访问，则这个地址附近的地址很有可能在不远的将来被访问。</li>
+<li><em>Temporal locality</em>: An address accessed once is likely to be accessed again soon.</li>
+<li><em>Spatial locality</em>: If an address is accessed, nearby addresses are likely to be accessed soon.</li>
 </ul>
-<p>​因此，在 CPU 内部，我们使用 <strong>快表 (TLB, Translation Lookaside Buffer)</strong> 来记录近期已完成的虚拟页号到物理页号的映射。由于局部性，当我们要做一个映射时，会有很大可能这个映射在近期被完成过，所以我们可以先到 TLB 里面去查一下，如果有的话我们就可以直接完成映射，而不用访问那么多次内存了。</p>
-<p>但是，我们如果修改了根页表寄存器的值，比如将上面的 PPN 字段进行了修改，说明我们切换到了一个与先前映射方式完全不同的页表。此时快表里面存储的映射结果就跟不上时代了，很可能是错误的。这种情况下我们要使用特定的指令刷新整个 TLB 。在 RISC-V 中这个指令是 <code>sfence.vma</code> 。</p>
-<p>同样的，如果我们手动修改一个页表项，也等于修改了映射，但 TLB 并不会自动刷新，我们也需要使用特定的指令刷新 TLB 。</p>
-<p>在 RISC-V 中，如果不加参数， <code>sfence.vma</code> 会刷新整个 TLB 。如果加上一个虚拟地址，则 <code>sfence.vma</code> 只会刷新这个虚拟地址的映射。</p>
-<h2 id="risc-v-sv39">RISC-V 的 Sv39 分页机制<a class="headerlink" href="#risc-v-sv39" title="Permanent link">&para;</a></h2>
+<p>Thus, CPUs use a <strong>Translation Lookaside Buffer (TLB)</strong> to cache recently completed virtual-to-physical page mappings. Due to locality, a mapping is likely to have been recently performed, so checking the TLB first can bypass multiple memory accesses if the mapping is found.</p>
+<p>However, if we modify the root page table register (e.g., changing the PPN field), switching to a completely different page table, the TLB’s cached mappings become outdated and potentially incorrect. In this case, we must use a specific instruction to flush the TLB. In RISC-V, this is <code>sfence.vma</code>.</p>
+<p>Similarly, manually modifying a PTE alters the mapping, but the TLB doesn’t automatically refresh. We must explicitly flush it.</p>
+<p>In RISC-V, <code>sfence.vma</code> without parameters flushes the entire TLB. With a virtual address parameter, it flushes only that address’s mapping.</p>
+<h2 id="risc-v-sv39-paging-mechanism">RISC-V Sv39 Paging Mechanism<a class="headerlink" href="#risc-v-sv39-paging-mechanism" title="Permanent link">&para;</a></h2>
 <h3 id="satp">satp<a class="headerlink" href="#satp" title="Permanent link">&para;</a></h3>
-<p>satp (Supervisor Address Translation and Protection) 寄存器是控制 S mode 和 U mode 下地址翻译的寄存器，其中包含三个属性：<code>MODE</code>, <code>ASID</code> 和 <code>PPN</code>。</p>
+<p>The <em>satp</em> (Supervisor Address Translation and Protection) register controls address translation in S-mode and U-mode, with three fields: <code>MODE</code>, <code>ASID</code>, and <code>PPN</code>.</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/satp.png" /></p>
-<p>Mode 表示使用的地址翻译模式，0 则表示禁用地址翻译，所有请求的地址均作为物理地址看待，<code>PPN</code> 表示 <strong>根页表的基地址</strong> 。在我们的课程中，我们将使用 <strong>Sv39</strong> 作为页表模式。</p>
-<p>我们暂且不需要理解 ASID 的作用。</p>
+<p><em>Mode</em> specifies the address translation mode. A value of 0 disables translation, treating all requested addresses as physical, while <code>PPN</code> denotes the <strong>root page table’s base address</strong>. In this course, we use <strong>Sv39</strong> as the page table mode.</p>
+<p>We can ignore ASID for now.</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/satp-mode.png" /></p>
 <h3 id="sv39">Sv39<a class="headerlink" href="#sv39" title="Permanent link">&para;</a></h3>
-<p>RISC-V 的 Sv39 模式支持了 39-bit 的虚拟地址空间，每个页面大小 4KiB，每个 PTE 8 bytes，即每个页面中有 <code>2^9=512</code> 个 PTE。Sv39 要求每个页表是一个对齐的页面，即其基地址对齐到 4KiB。</p>
-<p>RISC-V CPU 的虚拟地址为64位。Sv39模式下，有效的虚拟地址为 39 位，并规定虚拟地址的 63-39 位必须与第 38 位相同，即符号扩展(Signed-Extension)，否则是一个非法的虚拟地址。所以，Sv39 的虚拟地址空间一共为 <code>(1 &lt;&lt; 39) = 512 GiB</code> 的空间，其中分为高地址和低地址各 <code>256 GiB</code> 的空间，低地址空间为 <code>0x0000_0000_0000_0000</code> - <code>0x0000_003f_xxxx_xxxx</code> ，而高地址空间为 <code>0xffff_ffc0_0000_0000</code> - <code>0xffff_ffff_xxxx_xxxx</code>。</p>
+<p>RISC-V’s Sv39 mode supports a 39-bit virtual address space, with each page being 4KiB and each PTE 8 bytes, meaning each page table has <code>2^9 = 512</code> PTEs. Sv39 requires each page table to be a page-aligned, i.e., its base address aligns to 4KiB.</p>
+<p>RISC-V CPUs use 64-bit virtual addresses. In Sv39, only 39 bits are effective, and bits 63–39 must match bit 38 (sign-extension). Otherwise, the virtual address is illegal. Thus, Sv39’s virtual address space totals <code>(1 &lt;&lt; 39) = 512 GiB</code>, split into 256 GiB of low addresses (<code>0x0000_0000_0000_0000</code> - <code>0x0000_003f_xxxx_xxxx</code>) and 256 GiB of high addresses (<code>0xffff_ffc0_0000_0000</code> - <code>0xffff_ffff_xxxx_xxxx</code>).</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/sv39-pgt-structure.png" /></p>
-<p>虚拟地址分为四部分：VPN[2-0] (Virtual Page Number) 和 page offset。三级 VPN 表示在三级页表中的 index, 而 page offset 表示当前地址在被翻译的页面中的偏移量。</p>
-<p>Sv39 中的 PTE 长度为 8-byte，分为两部分：PPN 和 Flags。PPN (Physical Page Number) 和虚拟地址中的 page offset 组成最终的物理地址，Flags 则表示该虚拟地址页面的访问权限等信息。</p>
+<p>The virtual address is divided into four parts: VPN[2-0] (Virtual Page Number) and page offset. The three-level VPNs serve as indices in the three-level page table, while the page offset indicates the address’s offset within the translated page.</p>
+<p>An Sv39 PTE is 8 bytes, split into PPN (Physical Page Number) and Flags. The PPN, combined with the virtual address’s page offset, forms the final physical address, while Flags specify access permissions and other details.</p>
 <h3 id="flags">Flags<a class="headerlink" href="#flags" title="Permanent link">&para;</a></h3>
-<p>Flags 定义如下：</p>
+<p>Flags are defined as follows:</p>
 <ul>
-<li>D, A: Dirty, Accessed。表示该页面最近被访问 / 写入过。</li>
-<li>G: Global。表示该映射关系在所有页表中均存在。</li>
-<li>U: User。表示该映射关系允许在用户权限下访问。</li>
-<li>V: Valid。该 bit 表示此 PTE 为有效 PTE，否则整个 PTE 视为无效。</li>
-<li>R, W, X: Read, Write, Executable 权限</li>
+<li><em>D, A</em>: Dirty, Accessed. Indicate if the page was recently accessed/written.</li>
+<li><em>G</em>: Global. Indicates the mapping exists in all page tables.</li>
+<li><em>U</em>: User. Allows access in user privilege mode.</li>
+<li><em>V</em>: Valid. Marks the PTE as valid; otherwise, the entire PTE is invalid.</li>
+<li><em>R, W, X</em>: Read, Write, Executable permissions.</li>
 </ul>
-<p>RWX 定义如下图所示：
-注意 <code>XWR == 3'b000</code> 的情况表示物理地址 [PPN: 12b0] 为下一级页表的基地址，否则，该PTE为 Leaf PTE.</p>
+<p>RWX is defined as shown below:
+Note that <code>XWR == 3'b000</code> indicates the physical address [PPN: 12b0] is the base address of the next-level page table; otherwise, the PTE is a leaf PTE.</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/pte-rwx-encoding.png" /></p>
 <h4 id="a-d">A &amp; D<a class="headerlink" href="#a-d" title="Permanent link">&para;</a></h4>
-<p>每个页 PTE 包含 Accessed 和 Dirty 两个 bits：</p>
+<p>Each page PTE includes Accessed (A) and Dirty (D) bits:</p>
 <ul>
-<li>A 表示：自从上次 A bit 被清零，该虚拟页面曾经被读取、写入、取指 （Instruction Fetch）。</li>
-<li>D 表示：自从上次 D bit 被清零，该虚拟页面曾经被写入。</li>
+<li><em>A</em>: Set if the virtual page was read, written, or fetched (instruction fetch) since the last A-bit clear.</li>
+<li><em>D</em>: Set if the virtual page was written since the last D-bit clear.</li>
 </ul>
-<p>当访问的虚拟页面被访问时，A bit 是 0、或被写入时，D bit 是 0 是，RISC-V 规范实现允许两种方式来更新 A &amp; D bits：</p>
+<p>When accessing a virtual page with A=0 or writing with D=0, RISC-V allows two update methods:</p>
 <ol>
-<li>发出 PageFault，Supervisor 的异常处理函数需要手动设置 A / D bits.</li>
-<li>由硬件设置 A / D bits.</li>
+<li>Trigger a PageFault, requiring the Supervisor exception handler to manually set A/D bits.</li>
+<li>Hardware automatically sets A/D bits.</li>
 </ol>
-<p>Supervisor 软件应当正确处理以上两种情况。</p>
-<h4 id="_5">权限检查<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
-<p>凭直觉的，读取的页面要带有 R bit，写入的页面要带有 W bit，执行的页面要带有 X bit。</p>
-<p>但是，如果一个页面的权限带有 U bit，并且现在 CPU 核心运行在 S mode 下，我们需要对 SUM (permit Supervisor User Memory access) bit 进行额外检查：如果 <code>sstatus.SUM == 1</code> 则访问被允许，否则导致 Page Fault.</p>
-<p>通常来说，S mode 一般运行在 <code>sstatus.SUM == 0</code> 的情况下，如果我们需要通过页表去访问用户数据时，我们会将该 flag 置 1，并在访问结束后清零。该过程一般被称为 <strong>uaccess</strong> 原语 (primitive).</p>
+<p>Supervisor software must handle both cases correctly.</p>
+<h4 id="permission-checks">Permission Checks<a class="headerlink" href="#permission-checks" title="Permanent link">&para;</a></h4>
+<p>Intuitively, a readable page needs the R bit, a writable page needs the W bit, and an executable page needs the X bit.</p>
+<p>However, if a page has the U bit and the CPU is in S-mode, we must check the SUM (Supervisor User Memory access) bit in <code>sstatus</code>. If <code>sstatus.SUM == 1</code>, access is permitted; otherwise, it causes a Page Fault.</p>
+<p>Typically, S-mode runs with <code>sstatus.SUM == 0</code>. To access user data via the page table, we set this flag to 1 and clear it afterward. This process is often called the <strong>uaccess</strong> primitive.</p>
 <p>See also: <a href="https://github.com/torvalds/linux/blob/master/arch/riscv/include/asm/uaccess.h">https://github.com/torvalds/linux/blob/master/arch/riscv/include/asm/uaccess.h</a></p>
-<!-- !!!questions "AArch64 架构下的虚拟内存模型"
+<!-- !!!questions "Virtual Memory Model under AArch64 Architecture"
 
-    AArch64 显著地将虚拟地址分为低地址部分和高地址部分。（简单理解就是 0x0000_xxxx 开头的地址，和 0xffff_xxxx 开头的地址）
+    AArch64 distinctly divides virtual addresses into a low-address portion and a high-address portion. (Simply put, addresses starting with `0x0000_xxxx` and those starting with `0xffff_xxxx`.)
 
-    对于低地址，使用 `TTBR0_EL1` (Translation Table Base Register 0 (EL1)) 寄存器作为类似 satp 寄存器的基地址寄存器进行地址翻译。
-    对于高地址，使用 `TTBR1_EL1` 进行地址翻译。
+    For low addresses, the `TTBR0_EL1` (Translation Table Base Register 0 (EL1)) register is used as a base address register, similar to the `satp` register, for address translation.  
+    For high addresses, `TTBR1_EL1` is used for address translation.
 
-    显然，这一种模型天生适合将内核页表和用户页表隔离。 -->
+    Clearly, this model is inherently suited for isolating the kernel page table from the user page table. -->
 
-<p>Sv39 地址翻译的过程如下图所示：（L2, L1, L0 分别代表 VPN2, VPN1, VPN0，图中的 Page Directory 中，下方为低地址，上方为高地址）</p>
+<p>The Sv39 address translation process is shown below (L2, L1, L0 represent VPN2, VPN1, VPN0, with lower addresses at the bottom and higher at the top in the Page Directory):</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/riscv-address-translation.png" /></p>
 <p>See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process</p>
-<p>文字描述，以下 <code>{xx | yy}</code> 表示在 <code>xx</code> bit 右边并上 <code>yy</code> bit，类似于 Verilog 的写法。</p>
+<p>Text description: <code>{xx | yy}</code> denotes concatenating <code>yy</code> bits to the right of <code>xx</code> bits, similar to Verilog syntax.</p>
 <ol>
-<li>分解 Virtual Address: <code>{ 25'signed_ext, 9'VPN2, 9'VPN1, 9'VPN0, 12'pgoff} = 64'VirtualAddress</code></li>
-<li>将 satp 寄存器中的 PPN 作为第一级页表的基地址</li>
-<li>使用 VPN2 作为 index 在第一级页表中找到 pte2。</li>
+<li>Decompose Virtual Address: <code>{ 25'signed_ext, 9'VPN2, 9'VPN1, 9'VPN0, 12'pgoff} = 64'VirtualAddress</code></li>
+<li>Use the PPN from the satp register as the first-level page table’s base address.</li>
+<li>Use VPN2 as the index to find pte2 in the first-level page table.</li>
 </ol>
-<p>这一步等效于 C 代码：<code>uint64 pte2 = *(uint64*)(satp.base + VPN2 * 8);</code></p>
+<p>Equivalent C code: <code>uint64 pte2 = *(uint64*)(satp.base + VPN2 * 8);</code></p>
 <ol>
-<li>如果 <code>pte2.WXR != 3'b000</code>，则表示该 PTE 为 1GiB 大页映射。</li>
+<li>If <code>pte2.WXR != 3'b000</code>, it’s a 1GiB huge page mapping.</li>
 </ol>
-<p>检查 PPN 是否对齐到 1GiB，aka：<code>pte2.PPN1 == 9'b0 &amp;&amp; pte2.PPN0 == 9'b0</code>。如果满足，则跳转至 10，否则 Page Fault。</p>
+<p>Check if PPN is 1GiB-aligned: <code>pte2.PPN1 == 9'b0 &amp;&amp; pte2.PPN0 == 9'b0</code>. If true, go to step 10; otherwise, Page Fault.</p>
 <ol>
-<li><code>{pte2.PPN, 12'b0}</code> 为第二级页表的基地址</li>
-<li>使用 VPN1 作为 index 在第二级页表中找到 pte1。</li>
+<li><code>{pte2.PPN, 12'b0}</code> is the second-level page table’s base address.</li>
+<li>Use VPN1 as the index to find pte1 in the second-level page table.</li>
 </ol>
-<p>这一步等效于 C 代码：<code>uint64 pte1 = *(uint64*)((pte2.ppn &lt;&lt; 12) + VPN1 * 8);</code></p>
+<p>Equivalent C code: <code>uint64 pte1 = *(uint64*)((pte2.ppn &lt;&lt; 12) + VPN1 * 8);</code></p>
 <ol>
-<li>如果 <code>pte1.WXR != 3'b000</code>，则表示该 PTE 为 2MiB 大页映射。</li>
+<li>If <code>pte1.WXR != 3'b000</code>, it’s a 2MiB huge page mapping.</li>
 </ol>
-<p>检查 PPN 是否对齐到 2MiB，aka：<code>pte2.PPN0 == 9'b0</code>。如果满足，则跳转至 10，否则 Page Fault。</p>
+<p>Check if PPN is 2MiB-aligned: <code>pte2.PPN0 == 9'b0</code>. If true, go to step 10; otherwise, Page Fault.</p>
 <ol>
-<li>否则，<code>{pte1.PPN | 12'b0}</code> 为第三级页表的基地址</li>
-<li>使用 VPN0 作为 index 在第三级页表中找到 PTE。</li>
+<li>Otherwise, <code>{pte1.PPN | 12'b0}</code> is the third-level page table’s base address.</li>
+<li>Use VPN0 as the index to find PTE in the third-level page table.</li>
 </ol>
-<p>这一步等效于 C 代码：<code>uint64 pte0 = *(uint64*)((pte1.ppn &lt;&lt; 12) + VPN0 * 8);</code></p>
+<p>Equivalent C code: <code>uint64 pte0 = *(uint64*)((pte1.ppn &lt;&lt; 12) + VPN0 * 8);</code></p>
 <ol>
 <li>
-<p>得到最终的物理地址：<code>PA = (leaf_pte.ppn &lt;&lt; 12) | final_page_offset</code>，</p>
-<p>如果为 2MiB 大页映射，<code>final_page_offset = {9'VPN0, 12'pgoff}</code>。</p>
-<p>如果为 1GiB 大页映射，<code>final_page_offset = {9'VPN1, 9'VPN0, 12'pgoff}</code></p>
-<p>否则，<code>final_page_offset = 12'pgoff</code></p>
+<p>Compute the final physical address: <code>PA = (leaf_pte.ppn &lt;&lt; 12) | final_page_offset</code>,</p>
+<p>For 2MiB huge pages: <code>final_page_offset = {9'VPN0, 12'pgoff}</code>.</p>
+<p>For 1GiB huge pages: <code>final_page_offset = {9'VPN1, 9'VPN0, 12'pgoff}</code>.</p>
+<p>Otherwise: <code>final_page_offset = 12'pgoff</code>.</p>
 </li>
 <li>
-<p>权限检查：检查 <code>leaf_pte.rwx</code> 是否与访存请求相同。</p>
+<p>Permission check: Verify <code>leaf_pte.rwx</code> matches the memory access request.</p>
 </li>
 </ol>
-<h3 id="_6">大页映射<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>可以注意到当 Flags 中的 XWR 取值均为0时，该 PTE 是指向下一级页表的指针，而当这 XWR 中存在非0位时，则该PTE是页表树的一个叶节点，也就是此时该PTE的PPN值代表了 <strong>物理页</strong> 的基地址而非 <strong>页表</strong> 的物理基址。</p>
-<p>比如，Sv39中给定一个虚拟地址VA[38:0]，然后我们根据 <code>satp.PPN×4096+VPN2</code> 求得一级页表中的PTE的地址，假设该PTE的XWR为001，则该PTE为叶节点页表项，我们称之为大页映射。此时，由于一级页表中的页表项就是叶节点页表项，虚拟地址的含义就从原本的</p>
+<h3 id="huge-page-mapping">Huge Page Mapping<a class="headerlink" href="#huge-page-mapping" title="Permanent link">&para;</a></h3>
+<p>When all XWR bits in Flags are 0, the PTE points to the next-level page table. If any XWR bit is non-zero, the PTE is a leaf node, meaning its PPN represents the <strong>physical page’s</strong> base address, not a <strong>page table’s</strong> base address.</p>
+<p>For example, in Sv39, given a virtual address VA[38:0], we compute the first-level PTE address using <code>satp.PPN × 4096 + VPN2</code>. If the PTE’s XWR is 001, it’s a leaf PTE (huge page mapping). Since the first-level PTE is a leaf, the virtual address interpretation changes from:</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/vpn_origin.png" /></p>
-<p>变成了</p>
+<p>to:</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/vpn_gigapage.png" /></p>
-<p>而物理地址的计算则变成了 <code>PTE.PPN×4096+VA[29:0]</code>。此时可以发现30位偏移量可以表示从PTE.PPN×4096开始的一个很大的空间（空间大小为2<sup>30</sup>Byte即1GiB），我们称之为 <strong>吉页</strong>。（注意常见支持大页机制的架构中，大页基地址必须对齐自己的大页空间，即吉页基地址必须对齐1GB，PTE.PPN*4096的低30位需要为0。）</p>
-<p>相应的，如果第二级页表的页表项为叶节点页表项，则该页表项的 <code>[20:0]</code> 位将表示一个整体的偏移量，代表一个小于吉页的页，我们称之为 <strong>巨页</strong> 。一般情况下三级页表项是叶节点页表项，指向一个 <strong>基页</strong> （4KB）。</p>
-<h2 id="lab">Lab 课堂报告<a class="headerlink" href="#lab" title="Permanent link">&para;</a></h2>
+<p>The physical address becomes <code>PTE.PPN × 4096 + VA[29:0]</code>. Here, the 30-bit offset represents a large space (2<sup>30</sup> bytes = 1GiB) starting from PTE.PPN × 4096, called a <strong>giga-page</strong>. (Note: In architectures supporting huge pages, the base address must align to its size, e.g., giga-page base addresses must align to 1GB, meaning the lower 30 bits of PTE.PPN * 4096 must be 0.)</p>
+<p>Similarly, if a second-level PTE is a leaf, its <code>[20:0]</code> bits represent a combined offset for a smaller huge page, called a <strong>mega-page</strong>. Typically, third-level PTEs are leaves, pointing to a <strong>base page</strong> (4KB).</p>
+<h2 id="lab-classroom-report">Lab Classroom Report<a class="headerlink" href="#lab-classroom-report" title="Permanent link">&para;</a></h2>
 <ol>
-<li>请参照 Sv39 地址翻译模式，解码以下虚拟地址，写出其 VPN[2-0] 和 offset 的二进制值。<strong>注意：请用二进制表示！</strong></li>
+<li>Referring to the Sv39 address translation mode, decode the following virtual addresses and write their VPN[2-0] and offset in binary. <strong>Note: Use binary representation!</strong></li>
 </ol>
 <table>
 <thead>
@@ -1794,12 +1497,12 @@
 </tr>
 </tbody>
 </table>
-<p>Hint: 你可以使用 Windows 中自带的计算器，切换到 Programmer 模式，即可快速在16、10、2进制间转换。或者可以使用 python3 自带的  <code>bin(0x1122_3344)</code> 函数转换数字到二进制。</p>
+<p>Hint: Use the Windows Calculator in Programmer mode to convert between hex, decimal, and binary, or use Python3’s <code>bin(0x1122_3344)</code> to convert to binary.</p>
 <ol>
-<li>请你参照 Sv39 模式手动进行地址翻译，请你写出该页表中所有有效的映射。</li>
+<li>Referring to Sv39 mode, manually perform address translation and list all valid mappings in the page table.</li>
 </ol>
 <p><code>satp: 0x8000000000080400</code></p>
-<p>部分内存的 hexdump 如下，冒号左侧代表地址，右侧代表该地址和该地址+0x8处的两个 <code>uint64_t</code> 的16进制表示。未指定的内存均为0。hexdump已经转换为小端序，你不需要考虑端序问题。</p>
+<p>Hexdump of partial memory is shown below. The left side of the colon is the address; the right side shows two <code>uint64_t</code> values in hex at that address and address + 0x8. Unspecified memory is all 0s. The hexdump is in little-endian order, so no endianness adjustment is needed.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>0x8040_0000:
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>0x0000000080400000:     0x0000000020100401
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>0x00000000804004a8:     0x0000000020101401
@@ -1821,7 +1524,7 @@
 <a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>0x8040_5000:
 <a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>0x00000000804056f0:     0x00000037ab400043
 </code></pre></div>
-<p><strong>注意：所有数字均以16进制表示，请参照表格中第一条的格式。</strong></p>
+<p><strong>Note: All numbers are in hexadecimal; follow the format of the first row in the table.</strong></p>
 <table>
 <thead>
 <tr>
@@ -1841,19 +1544,19 @@
 </tbody>
 </table>
 <ol>
-<li>在 RISC-V 平台上，页面大小为 <code>4KiB</code>。在 32 位下我们可用 Sv32，在 64 位下我们可用 Sv39。已知 Sv32 中 PTE 的大小为 4 Bytes，Sv39 中 PTE 的大小为 8 Bytes。</li>
+<li>On the RISC-V platform, the page size is <code>4KiB</code>. In 32-bit mode, we use Sv32; in 64-bit mode, we use Sv39. Given that Sv32 PTEs are 4 bytes and Sv39 PTEs are 8 bytes:</li>
 </ol>
 <blockquote>
 <p>Sv32 page tables consist of 2^10 page-table entries (PTEs), each of four bytes. A page table is exactly the size of a page and must always be aligned to a page boundary. The physical page number of the root page table is stored in the satp register.</p>
 <p>Sv39 page tables contain 2^9 page table entries (PTEs), eight bytes each. A page table is exactly the size of a page and must always be aligned to a page boundary. The physical page number of the root page table is stored in the satp register’s PPN field.</p>
 </blockquote>
-<p>请你简要解释为什么 Sv32 中每个 VPN 的长度是 10 bits，而 Sv39 中每个 VPN 的长度是 9 bits。</p>
-<h2 id="_7">实验场景<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>Briefly explain why each VPN in Sv32 is 10 bits, while each VPN in Sv39 is 9 bits.</p>
+<h2 id="experiment-scenario">Experiment Scenario<a class="headerlink" href="#experiment-scenario" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
-<p class="admonition-title">xv6-lab4 代码分支</p>
+<p class="admonition-title">xv6-lab4 Code Branch</p>
 <p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab4">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab4</a></p>
-<p>使用命令 <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab4 xv6lab4</code> 下载 xv6-lab4 代码。</p>
-<p>使用 <code>make run</code> 运行本次 Lab 的内核，内核会进行重定位启动，最终，它会运行在高地址的 pc 和 sp 上。</p>
+<p>Use <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab4 xv6lab4</code> to download the xv6-lab4 code.</p>
+<p>Run <code>make run</code> to start the kernel for this lab. The kernel will perform relocation and boot, eventually running with a high-address PC and SP.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Kernel Starts Relocating...
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Kernel size: 0x000000000002e000, Rounded to 2MiB: 0x0000000000200000
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>[INFO  0,-1] bootcpu_start_relocation: Kernel phy_base: 0x0000000080200000, phy_end_4k:0x000000008022e000, phy_end_2M 0x0000000080400000
@@ -1869,30 +1572,30 @@
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>Relocated. Boot halt sp at 0xffffffffff001fb0
 </code></pre></div>
 </div>
-<p>在本次的实验代码中，我们会为内核构建虚拟地址空间，并将操作系统从运行在物理地址空间跳转到运行在虚拟地址空间。</p>
-<p>代码的具体执行流程如下：</p>
+<p>In this lab’s code, we will construct a virtual address space for the kernel and transition the OS from running in physical address space to virtual address space.</p>
+<p>The code execution flow is as follows:</p>
 <ol>
 <li>
-<p>entry.S 的 <code>_entry</code> ：操作系统入口</p>
+<p><code>entry.S</code>’s <code>_entry</code>: OS entry point.</p>
 </li>
 <li>
-<p>main.c 的 <code>bootcpu_entry</code> ：C语言入口</p>
+<p><code>main.c</code>’s <code>bootcpu_entry</code>: C language entry point.</p>
 </li>
 <li>
-<p>main.c 的 <code>bootcpu_start_relocation</code> ：将 PC 和 satp 进行重定位，设置临时页表</p>
+<p><code>main.c</code>’s <code>bootcpu_start_relocation</code>: Relocate PC and satp, setting a temporary page table.</p>
 </li>
 <li>
-<p>main.c 的 <code>bootcpu_relocating</code> ：调用 <code>kvm_init</code> 完成对内核页表的设置与切换</p>
+<p><code>main.c</code>’s <code>bootcpu_relocating</code>: Call <code>kvm_init</code> to complete kernel page table setup and switch.</p>
 </li>
 <li>
-<p>main.c 的 <code>bootcpu_init</code> ：内核初始化，跳转 <code>scheduler</code></p>
+<p><code>main.c</code>’s <code>bootcpu_init</code>: Kernel initialization, jumping to <code>scheduler</code>.</p>
 </li>
 </ol>
-<p>要将运行在物理地址空间改为运行在虚拟地址空间，我们首先需要了解内核放置在物理空间的什么区域：</p>
-<h2 id="risc-v">RISC-V 物理地址布局<a class="headerlink" href="#risc-v" title="Permanent link">&para;</a></h2>
-<p>首先，RISC-V 将物理内存 (DDR / DRAM) 的起始地址映射在物理地址 <code>0x8000_0000</code> 上，而不是物理地址 <code>0x0000_0000</code> 处。</p>
-<p>也就是说，如果我们有 128 MiB (0x0800_0000) 的 DRAM 大小，RISC-V 核心会将 DRAM 空间映射到 <code>[0x8000_0000, 0x8800_0000)</code> 上面。</p>
-<p>对于 QEMU 的 virt 机子，我们可以翻阅 qemu 的源代码找到其物理地址的映射：</p>
+<p>To switch from running in physical address space to virtual address space, we first need to understand where the kernel resides in physical space:</p>
+<h2 id="risc-v-physical-address-layout">RISC-V Physical Address Layout<a class="headerlink" href="#risc-v-physical-address-layout" title="Permanent link">&para;</a></h2>
+<p>RISC-V maps physical memory (DDR/DRAM) starting at physical address <code>0x8000_0000</code>, not <code>0x0000_0000</code>.</p>
+<p>For example, with 128 MiB (0x0800_0000) of DRAM, a RISC-V core maps it to <code>[0x8000_0000, 0x8800_0000)</code>.</p>
+<p>For QEMU’s virt machine, we can examine the source code for its physical address mappings:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">MemMapEntry</span><span class="w"> </span><span class="n">virt_memmap</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_DEBUG</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">        </span><span class="p">{</span><span class="w">        </span><span class="mh">0x0</span><span class="p">,</span><span class="w">         </span><span class="mh">0x100</span><span class="w"> </span><span class="p">},</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_MROM</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="p">{</span><span class="w">     </span><span class="mh">0x1000</span><span class="p">,</span><span class="w">        </span><span class="mh">0xf000</span><span class="w"> </span><span class="p">},</span>
@@ -1916,7 +1619,7 @@
 <a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">    </span><span class="p">[</span><span class="n">VIRT_DRAM</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="p">{</span><span class="w"> </span><span class="mh">0x80000000</span><span class="p">,</span><span class="w">           </span><span class="mh">0x0</span><span class="w"> </span><span class="p">},</span>
 <a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="p">};</span>
 </code></pre></div>
-<p>不过，在我们的操作系统实验中，我们只需要关注 DRAM 空间和一些外设(PLIC, UART)即可</p>
+<p>For our OS experiments, we only need to focus on DRAM and some peripherals (PLIC, UART):</p>
 <table>
 <thead>
 <tr>
@@ -1949,9 +1652,9 @@
 </tbody>
 </table>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/xv6lab-paging-phymemlayout.png" /></p>
-<p>接着，我们需要设计一个内存布局，它将决定对于内核，我们将建立怎么样的地址映射。</p>
-<h2 id="xv6">xv6 内核内存布局<a class="headerlink" href="#xv6" title="Permanent link">&para;</a></h2>
-<p>Sv39 虚拟地址的高位是 Sign-Extension 的，在 <code>&lt; 256 GiB</code> 和 <code>256 GiB ~ 512 GiB</code> 之间有着巨大的 gap，我们利用此特性在地址上区分用户地址（低，以 <code>0x0000</code> 开头）和内核地址（高，以 <code>0xffff</code> 开头）。</p>
+<p>Next, we need to design a memory layout determining how we establish address mappings for the kernel.</p>
+<h2 id="xv6-kernel-memory-layout">xv6 Kernel Memory Layout<a class="headerlink" href="#xv6-kernel-memory-layout" title="Permanent link">&para;</a></h2>
+<p>Sv39 virtual addresses use sign-extension for high bits, creating a large gap between <code>&lt; 256 GiB</code> and <code>256 GiB ~ 512 GiB</code>. We leverage this to distinguish user addresses (low, starting with <code>0x0000</code>) from kernel addresses (high, starting with <code>0xffff</code>).</p>
 <table>
 <thead>
 <tr>
@@ -1999,28 +1702,28 @@
 </tbody>
 </table>
 <ul>
-<li>Trampoline (n. 蹦床) 是用户空间和内核空间的跳板，我们将它放在低 128 GiB 的最高处。</li>
-<li>然后，我们将内核的镜像，即 <code>build/kernel</code> ELF 文件，我们令它映射到虚拟地址 <code>0xffff_ffff_8020_0000</code>，与实际的物理地址 <code>0x8020_0000</code> 相差一个常数 <code>0xffff_ffff_0000_0000</code>。</li>
-<li>其次，映射一些内核所需要的页面，如每个 CPU 的 scheduler 所用的栈，以及外设所需要的 MMIO。</li>
-<li>最后，剩下的所有可用的物理页面将被 Direct Mapping 到 <code>0xffff_ffc0_80xx_xxxx</code>，并交给 kalloc 管理。</li>
+<li><em>Trampoline</em> serves as a bridge between user and kernel space, placed at the top of the lower 128 GiB.</li>
+<li>The kernel image (<code>build/kernel</code> ELF file) is mapped to virtual address <code>0xffff_ffff_8020_0000</code>, offset from its physical address <code>0x8020_0000</code> by a constant <code>0xffff_ffff_0000_0000</code>.</li>
+<li>Additional pages needed by the kernel, such as per-CPU scheduler stacks and MMIO for peripherals, are mapped.</li>
+<li>All remaining available physical pages are direct-mapped to <code>0xffff_ffc0_80xx_xxxx</code> and managed by <code>kalloc</code>.</li>
 </ul>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/xv6lab-paging-kmemlayout.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Direct Mapping</p>
-<p>对于可用的物理内存空间，我们使用 Direct Mapping 的方式建立地址映射，即 <code>虚拟地址 = 物理地址 + 常数偏移量</code> 。</p>
-</div>
-<p>Direct Mapping 的作用是让 Kernel 能直接操纵所有可用的物理内存，但是除了内核本身镜像以外。</p>
-<p>如果没有 Direct Mapping，我们每次都需要将新分配的页面映射到内核虚拟地址空间上，才能通过虚拟地址去访问该物理页面。而有了 Direct Mapping 后，我们可以直接将物理地址加上一个常量偏移量，即可得到一个内核可访问的虚拟地址：</p>
+<p>For available physical memory, we use Direct Mapping: <code>virtual address = physical address + constant offset</code>.</p>
+<p>Direct Mapping allows the kernel to directly manipulate all available physical memory, except the kernel image itself.</p>
+<p>Without Direct Mapping, we’d need to map newly allocated pages into the kernel’s virtual address space to access them. With it, adding a constant offset to a physical address yields a kernel-accessible virtual address:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#define KERNEL_DIRECT_MAPPING_BASE  0xffffffc000000000ull</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#define KVA_TO_PA(x) (((uint64)(x)) - KERNEL_DIRECT_MAPPING_BASE)</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="cp">#define PA_TO_KVA(x) (((uint64)(x)) + KERNEL_DIRECT_MAPPING_BASE)</span>
 </code></pre></div>
-<p>在设计完内核内存布局后，我们需要令内核从物理地址切换到虚拟地址继续运行，这一步需要首先做一个重定位的操作：</p>
-<h2 id="relocation">重定位（Relocation）<a class="headerlink" href="#relocation" title="Permanent link">&para;</a></h2>
-<p>对于内核本身（即编译出来的 ELF 文件：<code>build/kernel</code>，也称为内核镜像），一直是放置在 <code>0x8020_0000</code> 的物理地址上的。现在，我们需要把它映射到高地址上。我们将采用固定偏移量来映射整个 ELF 文件。</p>
-<p>也就是说，内核中定义 (Defined) 的符号（变量、函数），它们会被 OpenSBI 加载到指定的物理地址 <code>0x0000_0000_8020_abcd</code>，而我们最终会将该符号加载到虚拟地址 <code>0xffff_ffff_8020_abcd</code> 上。对于所有符号，这两个地址之间永远相差一个固定的值。我们将该值定义为内核偏移量 (kernel offset)。</p>
-<p>我们将该值定义为宏 <code>KERNEL_OFFSET</code>，并定义宏 <code>KIVA_TO_PA</code> 和 <code>PA_TO_KIVA</code> 在便于两者之间转换。(KIAV: Kernel Image Virtual Address)</p>
+</div>
+<p>After designing the kernel memory layout, we need to transition the kernel from physical to virtual address space, starting with relocation:</p>
+<h2 id="relocation">Relocation<a class="headerlink" href="#relocation" title="Permanent link">&para;</a></h2>
+<p>The kernel image (<code>build/kernel</code> ELF file) is initially placed at physical address <code>0x8020_0000</code>. Now, we need to map it to a high address using a fixed offset.</p>
+<p>Symbols (variables, functions) defined in the kernel are loaded by OpenSBI to physical addresses like <code>0x0000_0000_8020_abcd</code>, and we map them to virtual addresses like <code>0xffff_ffff_8020_abcd</code>. The difference between these addresses is always a fixed value, defined as the <em>kernel offset</em>.</p>
+<p>We define this as the macro <code>KERNEL_OFFSET</code> and provide macros <code>KIVA_TO_PA</code> and <code>PA_TO_KIVA</code> for conversion (KIVA: Kernel Image Virtual Address):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#define KERNEL_VIRT_BASE 0xffffffff80200000ull</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="cp">#define KERNEL_PHYS_BASE 0x80200000ull</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="cp">#define KERNEL_OFFSET    ((uint64)(KERNEL_VIRT_BASE - KERNEL_PHYS_BASE))</span>
@@ -2029,26 +1732,26 @@
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="cp">#define KIVA_TO_PA(x) (((uint64)(x)) - KERNEL_OFFSET)</span>
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="cp">#define PA_TO_KIVA(x) (((uint64)(x)) + KERNEL_OFFSET)</span>
 </code></pre></div>
-<p>我们注意到，偏移整个镜像文件加载的基地址并不会改变两个符号之间的距离，也就是说：</p>
+<p>Shifting the base address of the entire image doesn’t alter the distance between symbols:</p>
 <ol>
-<li>符号 a 被加载到 PA_a <code>0x0000_0000_8020_dead</code>，符号 b 被加载到 PA_b <code>0x0000_0000_8020_beef</code>。</li>
-<li>符号 a 将会被映射到 VA_a <code>0xffff_ffff_8020_dead</code>，符号 b 将会被映射到 VA_b <code>0xffff_ffff_8020_beef</code></li>
-<li><code>PA_a - PA_b = VA_a - VA_b</code></li>
+<li>Symbol <em>a</em> loads to PA_a <code>0x0000_0000_8020_dead</code>, symbol <em>b</em> to PA_b <code>0x0000_0000_8020_beef</code>.</li>
+<li>Symbol <em>a</em> maps to VA_a <code>0xffff_ffff_8020_dead</code>, symbol <em>b</em> to VA_b <code>0xffff_ffff_8020_beef</code>.</li>
+<li><code>PA_a - PA_b = VA_a - VA_b</code>.</li>
 </ol>
-<p>这个性质允许我们在使用 <code>PC-relative</code> 寻址时，对整个内核镜像进行重定位。使用 <code>PC-relative</code> 寻址时，我们会通过当前 PC 与目标符号的偏移量来计算目标符号的地址，具体而言，在汇编上使用 <code>auipc</code> 和 <code>addi</code> 来计算 <code>target = pc + offset</code>，而不是 <code>target = immediate</code>（立即数寻址）。
-所以，我们可以将整个内核镜像整体重定位到任何起始地址，只需要保证所有符号之间的偏移量在编译期间和被加载时是固定的即可。这一条性质也是 Linux Kernel 能实现对自身镜像的 KASLR (Kernel address space layout randomization, See also: <a href="https://lwn.net/Articles/569635/">https://lwn.net/Articles/569635/</a>) 的原理。</p>
-<p>因此，我们只需要完成两步即可实现内核镜像的重定位：</p>
+<p>This property allows relocation of the kernel image using <em>PC-relative</em> addressing. With PC-relative addressing, we calculate a target symbol’s address using the current PC plus an offset (<code>target = pc + offset</code>, via <code>auipc</code> and <code>addi</code> in assembly), rather than absolute addressing (<code>target = immediate</code>). 
+Thus, we can relocate the entire kernel image to any base address, as long as symbol offsets remain fixed during compilation and loading. This is also the principle behind Linux’s KASLR (Kernel Address Space Layout Randomization, see: <a href="https://lwn.net/Articles/569635/">https://lwn.net/Articles/569635/</a>).</p>
+<p>To relocate the kernel image, we:</p>
 <ol>
-<li>将内核镜像映射到虚拟地址 <code>0xffff_ffff_8020_0000</code> 上。</li>
-<li>将 PC 跳转到 <code>0xffff_ffff_8020_xxxx</code> 的高地址上。</li>
+<li>Map the kernel image to virtual address <code>0xffff_ffff_8020_0000</code>.</li>
+<li>Jump the PC to a high address like <code>0xffff_ffff_8020_xxxx</code>.</li>
 </ol>
-<p>我们预期内核会运行在 <code>0xffff_ffff_8020_0000</code> 的高地址上。所以，我们需要修改 <code>kernel.ld</code> 使链接器能正确链接内核。</p>
+<p>We expect the kernel to run at <code>0xffff_ffff_8020_0000</code>, so we modify <code>kernel.ld</code> to ensure the linker aligns it correctly:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>OUTPUT_ARCH(riscv)
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>ENTRY(_entry)
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>BASE_ADDRESS = 0xffffffff80200000;
 </code></pre></div>
-<p>但是，此时 OpenSBI 无法正确加载 kernel ELF 到物理地址上，因为 kernel ELF 的 Program Header 的预计加载的物理地址 (PhysAddr) 是 <code>0xffff_ffff_8020_0000</code> 的高地址，然而这个地址在 OpenSBI 加载内核时是非法的。</p>
-<p>所以，我们在第一个段 <code>.text</code> 后面注明 <code>AT(0x80200000)</code>，表示这个段应该被加载到物理地址 <code>0x8020_0000</code>。这样能使链接器产生的 ELF 的 Program Headers 拥有 <code>VirtAddr = 0xffff_ffff_8020_0000</code>，以及 <code>PhysAddr = 0x8020_0000</code>。</p>
+<p>However, OpenSBI cannot load the kernel ELF to a physical address if the Program Header’s expected physical address (PhysAddr) is the high address <code>0xffff_ffff_8020_0000</code>, which is invalid during loading. </p>
+<p>Thus, we specify <code>AT(0x80200000)</code> after the <code>.text</code> section to indicate it should load to physical address <code>0x8020_0000</code>. This ensures the ELF’s Program Headers have <code>VirtAddr = 0xffff_ffff_8020_0000</code> and <code>PhysAddr = 0x8020_0000</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>BASE_ADDRESS = 0xffffffff80200000;
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>SECTIONS
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>{
@@ -2063,7 +1766,7 @@
 <a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    // ...
 <a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>}
 </code></pre></div>
-<p>此时再 <code>make run</code> 运行内核，我们可以发现 OpenSBI 正确找到了我们内核的入口点：</p>
+<p>Running <code>make run</code> now shows OpenSBI correctly locating the kernel’s entry point:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Domain0 Next Address      : 0x0000000080200000
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Domain0 Next Arg1         : 0x000000009fe00000
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Domain0 Next Mode         : S-mode
@@ -2071,32 +1774,32 @@
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>clean bss: 0x00000000802ac000 - 0x00000000802b3000
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Kernel is Relocating...
 </code></pre></div>
-<p>接着，我们需要构建页表来让MMU可以按照我们设计的布局翻译我们的虚拟地址。</p>
-<p>如果我们直接按照设计好的内核内存布局构建页表，我们将需要如下两条或更多指令来完成切换页表+跳转到高地址：</p>
+<p>Next, we build page tables to enable the MMU to translate virtual addresses per our layout.</p>
+<p>If we directly build the kernel memory layout’s page table, switching would require instructions like:</p>
 <ol>
-<li><code>csrw satp</code>: 设置 satp 寄存器，启用 Sv39 地址翻译</li>
+<li><code>csrw satp</code>: Set the satp register to enable Sv39 translation.</li>
 <li><code>...</code></li>
 </ol>
-<p>但是，当执行第一条指令时，我们的 PC 指向在 <code>0x8020_xxxx</code> 的物理地址上。
-可是，当我们执行完第 1 条指令设置完 satp 后，马上将开始执行第二条指令，而我们的 PC 还指向第二条指令的物理地址，而这个物理地址的 PC 在当前的页表中是非法的。
-所以，我们的第二条指令就会触发 Instruction Page Fault 异常。</p>
-<p>也就是说，在我们设置完内核页表后，我们并不能直接切换到仅包含高地址的页表上，因为此时我们的 PC 指针还指向低地址，而我们无法在同时完成切换 PC + 切换 satp 两件事情。
-所以，我们需要一个临时页表，其中包含了两部份映射：</p>
+<p>After executing the first instruction, the PC is at a physical address <code>0x8020_xxxx</code>.
+However, after we execute the first instruction to set the <code>satp</code> register, the second instruction will immediately begin to execute. At this point, our PC still points to the physical address of the second instruction, and this physical address is invalid in the current page table.<br />
+As a result, our second instruction will trigger an <strong>Instruction Page Fault</strong> exception.</p>
+<p>In other words, after setting up the kernel page table, we cannot directly switch to a page table containing only high addresses because, at that moment, our PC pointer still points to a low address. We cannot simultaneously perform both the PC switch and the <code>satp</code> switch.<br />
+Therefore, we need a temporary page table that includes two parts of mappings:</p>
 <ol>
 <li>VA <code>0x0000_0000_8020_0000</code> -&gt; PA <code>0x8020_0000</code></li>
 <li>VA <code>0xffff_ffff_8020_0000</code> -&gt; PA <code>0x8020_0000</code></li>
 </ol>
-<p>当执行完上述第一条指令启用 Sv39 后，我们目前的 PC 虽然是下一条指令的物理地址，但是它是一个合法的虚拟地址。我们可以加载一个立即数到寄存器中，然后使用 <code>jr</code> 指令跳转到该寄存器的值，从而进入到高地址。</p>
-<p>我们将这一系列步骤称为 Relocate (重定位)。</p>
+<p>After enabling Sv39 with the first instruction, the PC (next instruction’s physical address) remains a valid virtual address. We load an immediate value into a register and use <code>jr</code> to jump to the high address.</p>
+<p>This process is called <em>Relocation</em>.</p>
 <p>See also: <a href="https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-6.html">https://0xax.gitbooks.io/linux-insides/content/Booting/linux-bootstrap-6.html</a></p>
-<h3 id="relocation_start"><code>relocation_start</code> 代码解释<a class="headerlink" href="#relocation_start" title="Permanent link">&para;</a></h3>
-<p>在 relocation_start 的临时页表中，我们使用 2 MiB 的大页映射。我们先开辟四个对齐的物理页面：</p>
+<h3 id="relocation_start-code-explanation"><code>relocation_start</code> Code Explanation<a class="headerlink" href="#relocation_start-code-explanation" title="Permanent link">&para;</a></h3>
+<p>In the temporary page table for <code>relocation_start</code>, we use 2 MiB huge page mappings. We allocate four aligned physical pages:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_ident</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_direct_mapping</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="k">static</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">relocate_pagetable_level1_high</span><span class="p">[</span><span class="n">PGSIZE</span><span class="p">]</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="n">PGSIZE</span><span class="p">)));</span>
 </code></pre></div>
-<p>我们计算内核镜像的终止点 <code>ekernel</code> 向上对齐到 2MiB 的大小。这是因为 2 MiB 的大页映射要求虚拟地址和物理地址同时对齐到 2MiB 上。</p>
+<p>We compute the kernel image’s end (<code>ekernel</code>) and round it up to 2MiB, as 2 MiB huge pages require both virtual and physical addresses to be 2MiB-aligned:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// Kernel Start Point must be aligned to 2MiB</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">assert</span><span class="p">(</span><span class="n">IS_ALIGNED</span><span class="p">(</span><span class="n">KERNEL_PHYS_BASE</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">));</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
@@ -2110,7 +1813,7 @@
 <a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
 <a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Kernel size: %p, Rounded to 2MiB: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">);</span>
 </code></pre></div>
-<p>在 <code>kernel_image_end_2M</code> 后面，我们再开辟一个 2MiB 的页面作为 Kernel Direct Mapping 的第一个内存池，我们会在后续讲到为什么会这么做。</p>
+<p>After <code>kernel_image_end_2M</code>, we allocate another 2MiB page as the first memory pool for Kernel Direct Mapping (explained later):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// Calculate Kernel Mapping Base &amp; End</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_PHYS_BASE</span><span class="p">;</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_phys_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_phys_base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_size_2M</span><span class="p">;</span>
@@ -2122,12 +1825,12 @@
 <a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_la_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_DIRECT_MAPPING_BASE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">kernel_la_phy_base</span><span class="p">;</span>
 <a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_la_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_la_base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">PGSIZE_2M</span><span class="p">;</span>
 </code></pre></div>
-<p>然后，我们开始映射：VA <code>0x0000_0000_8020_0000</code> -&gt; PA <code>0x8020_0000</code></p>
+<p>We then map: VA <code>0x0000_0000_8020_0000</code> -&gt; PA <code>0x8020_0000</code>:</p>
 <ol>
-<li>在 <code>pgt_root</code> 上添加一条 PTE，使其指向第一级页表 <code>pgt_ident</code>。</li>
-<li>从 <code>kernel_phys_base</code> 到 <code>kernel_phys_end</code>，每 2 MiB 添加一个 PTE 映射</li>
-<li>计算该物理地址应该被映射到哪个虚拟地址上，在这个映射中，<code>va = pa</code>。</li>
-<li>计算 <code>VPN1</code>，并在 <code>pgt_ident</code> 中添加映射。</li>
+<li>Add a PTE to <code>pgt_root</code> pointing to the first-level page table <code>pgt_ident</code>.</li>
+<li>From <code>kernel_phys_base</code> to <code>kernel_phys_end</code>, add a PTE every 2 MiB.</li>
+<li>Compute the virtual address (here, <code>va = pa</code>).</li>
+<li>Compute <code>VPN1</code> and add the mapping to <code>pgt_ident</code>.</li>
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// We will still have some instructions executed on pc 0x8020xxxx before jumping to KIVA.</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1">// Step 2. Setup Identity Mapping for 0x80200000 -&gt; 0x80200000, using 2MiB huge page.</span>
@@ -2143,27 +1846,27 @@
 <a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="p">}</span>
 </code></pre></div>
-<p>然后，我们开始映射内核 ELF 的虚拟地址：VA <code>0xffff_ffff_8020_0000</code> -&gt; PA <code>0x8020_0000</code>。
-此时 <code>va = pa + KERNEL_OFFSET</code>。</p>
-<p>最后，我们映射第一块 Direct Mapping：VA <code>0xffff_ffc0_80xx_0000</code> -&gt; 第一个空闲的 2 MiB 物理页 <code>0x80xx_0000</code>。</p>
-<h2 id="_8">内核页表<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>Next, map the kernel ELF’s virtual address: VA <code>0xffff_ffff_8020_0000</code> -&gt; PA <code>0x8020_0000</code>
+Now <code>va = pa + KERNEL_OFFSET</code>.</p>
+<p>Finally, map the first Direct Mapping block: VA <code>0xffff_ffc0_80xx_0000</code> -&gt; the first free 2 MiB physical page <code>0x80xx_0000</code>.</p>
+<h2 id="kernel-page-table">Kernel Page Table<a class="headerlink" href="#kernel-page-table" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>code: <code>os/kvm.c</code></p>
 </blockquote>
-<p>在完成 Relocation 后，我们的 pc 位于高地址，sp 位于 <code>boot_stack</code> 的高地址：</p>
+<p>After relocation, the PC is at a high address, and the SP is at a high address in <code>boot_stack</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Mapping Identity: 0x0000000080200000 to 0x0000000080200000
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>Mapping kernel image: 0xffffffff80200000 to 0x0000000080200000
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>Mapping Direct Mapping: 0xffffffc080400000 to 0x0000000080400000
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>Enable SATP on temporary pagetable.
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>Boot HART Relocated. We are at high address now! PC: 0xffffffff80203d68, SP: 0xffffffff80223ff0
 </code></pre></div>
-<p>我们在 <code>bootcpu_relocating</code> 中调用 <code>kvm_init()</code> 来构造最终的内核页表，并切换到该页表上。</p>
-<p>在构建内核页表时，我们会需要申请物理页面来放置页表，我们称之为 <code>boot-stage page allocator</code>，这些页面的生命周期是持久的，永远不会被释放。
-但是后续我们会需要访问这些页表，所以我们可以令它的物理地址区域位于 Direct Mapping 区间上，并且以后能通过 Direct Mapping 的虚拟地址进行访问。
-Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区域，即 <code>e_kernel</code> (0x802x_0000) 对齐到 2MiB (0x8040_0000) 后的下一个 2MiB 区域 <code>[0x8040_0000, 0x8060_0000)</code>。
+<p>In <code>bootcpu_relocating</code>, we call <code>kvm_init()</code> to construct the final kernel page table and switch to it.</p>
+<p>Building the kernel page table requires allocating physical pages for the tables, called the <em>boot-stage page allocator</em>. These pages are persistent and never freed.
+Since we’ll need to access them later, we place their physical addresses in the Direct Mapping range, accessible via Direct Mapping virtual addresses.
+During relocation, we borrow a 2MiB region in the Direct Mapping range: <code>[0x8040_0000, 0x8060_0000)</code> after aligning <code>e_kernel</code> (0x802x_0000) to 2MiB (0x8040_0000).
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>[INFO  0,-1] kvm_init: boot-stage page allocator: base 0xffffffc080400000, end 0xffffffc080600000
 </code></pre></div></p>
-<p><code>kvmmake</code> 函数会调用 <code>kvmmap</code> 依次映射每个区域。</p>
+<p>The <code>kvmmake</code> function calls <code>kvmmap</code> to map each region sequentially:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">static</span><span class="w"> </span><span class="n">pagetable_t</span><span class="w"> </span><span class="nf">kvmmake</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">kpgtbl</span><span class="p">;</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="n">kpgtbl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pagetable_t</span><span class="p">)</span><span class="n">allocsetuppage</span><span class="p">();</span>
@@ -2176,11 +1879,11 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
 <a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">    </span><span class="c1">// Step.5 : Kernel Direct Mapping</span>
 <a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>kvmmap</code> 的原型为 <code>void kvmmap(pagetable_t kpgtbl, uint64 va, uint64 pa, uint64 sz, int perm)</code>，表示将 <code>[va, va+sz)</code> 映射到 <code>[pa, pa+sz)</code> 的区域上。</p>
+<p><code>kvmmap</code>’s prototype is <code>void kvmmap(pagetable_t kpgtbl, uint64 va, uint64 pa, uint64 sz, int perm)</code>, mapping <code>[va, va+sz)</code> to <code>[pa, pa+sz)</code>.</p>
 <ol>
-<li>对于 Kernel Image，我们映射三个分区：<code>.text</code> (RX), <code>.rodata</code> (RO), <code>.data (.bss)</code> (RW)。我们可以引用在 <code>kernel.ld</code> 中导出的地址符号 <code>e_text</code> 等来得到每个分区的起始地址和结束地址。注意我们直接引用符号 <code>s_text</code> 时，我们会通过 auipc 指令得到它的虚拟地址；而它的物理地址则可以通过 <code>KIVA_TO_PA</code> 转换得到。</li>
+<li>For the Kernel Image, we map three sections: <code>.text</code> (RX), <code>.rodata</code> (RO), <code>.data (.bss)</code> (RW). We use symbols like <code>e_text</code> from <code>kernel.ld</code> to determine start and end addresses. Referencing <code>s_text</code> directly yields its virtual address via <code>auipc</code>, convertible to physical via <code>KIVA_TO_PA</code>.</li>
 </ol>
-<p>在 <code>kernel.ld</code> 中的 <code>.text</code> 存在另一个特殊的页面，称为 trampoline，我们会在下一节课讲到它。我们将它映射到虚拟地址 <code>0x3f_ffff_f000</code> 上。</p>
+<p>A special page in <code>.text</code>, the <em>trampoline</em>, is mapped to <code>0x3f_ffff_f000</code> (covered in the next lesson):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="w">    </span><span class="c1">// map kernel text executable and read-only.</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="c1">// 0xffff_ffff_8020_0000 -&gt; 0x8020_0000</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">s_text</span><span class="p">,</span><span class="w"> </span><span class="n">KIVA_TO_PA</span><span class="p">(</span><span class="n">s_text</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">e_text</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">s_text</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_X</span><span class="p">);</span>
@@ -2195,7 +1898,7 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
 <a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="c1">// map trampoline</span>
 <a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">    </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="p">)</span><span class="n">TRAMPOLINE</span><span class="p">,</span><span class="w"> </span><span class="n">KIVA_TO_PA</span><span class="p">(</span><span class="n">trampoline</span><span class="p">),</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_X</span><span class="p">);</span>
 </code></pre></div>
-<p>此时，<code>kernel_pagetable</code> 的结构如下所示：</p>
+<p>The <code>kernel_pagetable</code> structure looks like:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>=== PageTable at 0xffffffc080400000 ===
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>[ff], pte[0xffffffc0804007f8]: 0x0000003fc0000000 -&gt; 0x0000000080403000 -------V
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>  [1ff], pte[0xffffffc080403ff8]: 0x0000003fffe00000 -&gt; 0x0000000080404000 -------V
@@ -2214,14 +1917,14 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
 <a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>=== END ===
 </code></pre></div>
 <ol>
-<li>然后，我们映射外设的 MMIO 区域，目前我们会使用到 PLIC 和 UART0 两个外设。</li>
+<li>Map MMIO regions for peripherals (PLIC and UART0):</li>
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="w">    </span><span class="c1">// Step.3 : Kernel Device MMIO :</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="n">KERNEL_PLIC_BASE</span><span class="p">,</span><span class="w"> </span><span class="n">PLIC_PHYS</span><span class="p">,</span><span class="w"> </span><span class="n">KERNEL_PLIC_SIZE</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_D</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_W</span><span class="p">);</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="n">kvmmap</span><span class="p">(</span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="n">KERNEL_UART0_BASE</span><span class="p">,</span><span class="w"> </span><span class="n">UART0_PHYS</span><span class="p">,</span><span class="w"> </span><span class="n">KERNEL_UART0_SIZE</span><span class="p">,</span><span class="w"> </span><span class="n">PTE_A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_D</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_R</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_W</span><span class="p">);</span>
 </code></pre></div>
 <ol>
-<li>然后，我们映射每个 cpu 的 scheduler 所用的栈。我们令每个 scheduler 的内核为两个 <code>PGSIZE</code>，并且相邻的两个栈空间相隔一段非法的地址，我们称之为 <code>guard page</code>。如果我们在内核栈上发生栈溢出，我们会得到一个 Page Fault 而不是内核带着错误悄无声息的继续运行。</li>
+<li>Map each CPU’s scheduler stack, with each stack spanning two <code>PGSIZE</code> pages and separated by a <em>guard page</em> (unmapped address). Stack overflow triggers a Page Fault rather than silent errors:</li>
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="w">    </span><span class="c1">// Step.4 : Kernel Scheduler stack:</span>
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">sched_stack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KERNEL_STACK_SCHED</span><span class="p">;</span>
@@ -2239,7 +1942,7 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
 <a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">        </span><span class="n">sched_stack</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">KERNEL_STACK_SIZE</span><span class="p">;</span>
 <a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="w">    </span><span class="p">}</span>
 </code></pre></div>
-<p>内核 scheduler 栈的结构如下所示，尽管所分配的页面在物理地址大概率是连续的，但是在虚拟地址上我们可以故意令它不连续。</p>
+<p>The scheduler stack structure is:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>[1ff], pte[0xffffffc080400ff8]: 0xffffffffc0000000 -&gt; 0x0000000080405000 -------V
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>  [1f8], pte[0xffffffc080405fc0]: 0xffffffffff000000 -&gt; 0x0000000080408000 -------V
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>    [0], pte[0xffffffc080408000]: 0xffffffffff000000 -&gt; 0x0000000080407000 DA---WRV
@@ -2252,16 +1955,16 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
 <a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>    [d], pte[0xffffffc080408068]: 0xffffffffff00d000 -&gt; 0x000000008040f000 DA---WRV
 </code></pre></div>
 <ol>
-<li>最后，计算系统中所有应该被 Direct Mapping 管理的页面，即 <code>kernel_image_end_2M</code> 开始到物理内存空间的结束，从 <code>0xffffffc0_80400000 -&gt; 0x00000000_80400000</code> 处开始映射。注意到 <code>boot-stage page allocator</code> 所用的区域（<code>[0x8040_0000, 0x8060_0000)</code>）也会在这个映射范围之内。</li>
+<li>Map all Direct Mapping-managed pages from <code>kernel_image_end_2M</code> to the end of physical memory, starting at <code>0xffffffc0_80400000 -&gt; 0x00000000_80400000</code>. The <code>boot-stage page allocator</code> region (<code>[0x8040_0000, 0x8060_0000)</code>) is included. </li>
 </ol>
-<p>之后，将剩下的空间交给 <code>kalloc.c</code> 中的 <code>kpgmgr</code> 管理，注意 <code>boot-stage page allocator</code> 的区域不在 <code>kpgmgr</code> 管理范围内：</p>
+<p>Remaining space is managed by <code>kalloc.c</code>'s <code>kpgmgr</code>, excluding the boot-stage allocator region:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="w">    </span><span class="c1">// So page allocator should starts after these used pages.</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="n">kpage_allocator_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">init_page_allocator</span><span class="p">;</span>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="n">kpage_allocator_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">available_mems</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">init_page_allocator</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">init_page_allocator_base</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="kvmmap">kvmmap<a class="headerlink" href="#kvmmap" title="Permanent link">&para;</a></h3>
-<p><code>kvmmap</code> 负责按照 Sv39 的三级页表格式对 <code>vaddr</code> 逐级展开，分配相应的物理页作为页表，并填充对应的页表项。当遇到未被分配的次级页表时，从 <code>allockernelpage</code> 处分配一个，并设置上级到次级的 PTE (<code>RWX=000</code>) 即可。最后，在最后一级按照给定的 <code>perm</code> 设置 PTE ：<code>pgtbl_level0[vpn0] = MAKE_PTE(paddr, perm)</code>。</p>
-<p>当然，当我们映射一大片对齐到 2MiB 的内存区域时，我们可以使用一个 2MiB 的大页映射，而不是多个 4KiB 的映射。这需要满足大页映射的条件： <code>IS_ALIGNED(vaddr, PGSIZE_2M) &amp;&amp; IS_ALIGNED(paddr, PGSIZE_2M) &amp;&amp; sz &gt;= PGSIZE_2M</code>。</p>
+<p><code>kvmmap</code> constructs Sv39’s three-level page tables for <code>vaddr</code>, allocating physical pages and filling PTEs. For unallocated lower-level tables, it allocates a page from <code>allockernelpage</code> and sets the parent PTE (<code>RWX=000</code>). At the final level, it sets <code>pgtbl_level0[vpn0] = MAKE_PTE(paddr, perm)</code>.</p>
+<p>For 2MiB-aligned regions, it uses a 2MiB huge page if <code>IS_ALIGNED(vaddr, PGSIZE_2M) &amp;&amp; IS_ALIGNED(paddr, PGSIZE_2M) &amp;&amp; sz &gt;= PGSIZE_2M</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">kvmmap</span><span class="p">(</span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">kpgtbl</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">sz</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">perm</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">PGALIGNED</span><span class="p">(</span><span class="n">va</span><span class="p">));</span>
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">PGALIGNED</span><span class="p">(</span><span class="n">pa</span><span class="p">));</span>
@@ -2330,24 +2033,24 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
 <a id="__codelineno-22-66" name="__codelineno-22-66" href="#__codelineno-22-66"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">sz</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 <a id="__codelineno-22-67" name="__codelineno-22-67" href="#__codelineno-22-67"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="kalloc">kalloc 模块<a class="headerlink" href="#kalloc" title="Permanent link">&para;</a></h2>
-<p><code>kalloc.c</code> 会在启动后接管 Direct Mapping 区域的物理页面，其负责两个功能：</p>
+<h2 id="kalloc-module">kalloc Module<a class="headerlink" href="#kalloc-module" title="Permanent link">&para;</a></h2>
+<p><code>kalloc.c</code> manages Direct Mapping region physical pages after boot, with two functions:</p>
 <ol>
-<li>分配物理页面：<code>void *__pa kallocpage()</code>, <code>void kfreepage(void *__pa pa)</code></li>
-<li>对固定类型对象的动态分配和回收 (对象分配器管理)：<code>allocator_init</code>, <code>kalloc</code>, <code>kfree</code>。</li>
+<li>Physical page allocation: <code>void *__pa kallocpage()</code>, <code>void kfreepage(void *__pa pa)</code>.</li>
+<li>Dynamic allocation/recycling of fixed-type objects: <code>allocator_init</code>, <code>kalloc</code>, <code>kfree</code>.</li>
 </ol>
-<p>在 kalloc 接管内核启动后剩余的物理内存（即上图紫色部分）后，我们需要从它分配：</p>
+<p>After taking over remaining physical memory (purple section in the diagram), <code>kalloc</code> allocates:</p>
 <ol>
-<li>每个 object allocator（对象分配器）所用的内存池</li>
-<li>每个 process 的 kernel stack</li>
-<li>每个 cpu scheduler 的 kernel stack</li>
+<li>Memory pools for each object allocator.</li>
+<li>Kernel stacks for each process.</li>
+<li>Kernel stacks for each CPU scheduler.</li>
 </ol>
-<p>随后，用户空间所需要的页面，和配置页表所需要的页面均由 <code>kalloc</code> 模块管理。</p>
-<h2 id="_9">实验部分思考题<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
-<p>注：这部分不要求在课堂实验报告上提交。</p>
+<p>Subsequently, user-space pages and page table configuration pages are managed by <code>kalloc</code>.</p>
+<h2 id="experiment-reflection-questions">Experiment Reflection Questions<a class="headerlink" href="#experiment-reflection-questions" title="Permanent link">&para;</a></h2>
+<p>Note: These are not required for the classroom report.</p>
 <div class="admonition warning">
 <p class="admonition-title">Question</p>
-<p>我们在 <code>kernel.ld</code> 里面为 <code>_entry</code> 符号指定的虚拟地址是 <code>0xffff_ffff_8020_0000</code>，<code>entry.S</code> 中使用如下代码进行跳转</p>
+<p>In <code>kernel.ld</code>, the virtual address for <code>_entry</code> is <code>0xffff_ffff_8020_0000</code>. <code>entry.S</code> uses this code to jump:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>────────────────────────────────────────────────────────────────────────── code:riscv:RISCV ────
 <a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>●→  0x80200000 &lt;skernel+0000&gt;   auipc  sp, 0xac
 <a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>    0x80200004 &lt;skernel+0004&gt;   mv     sp, sp
@@ -2358,12 +2061,12 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
 <a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>→   4      lla sp, boot_stack_top
 <a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>    5      call bootcpu_entry
 </code></pre></div>
-<p>请思考：为什么在程序运行在 <code>0x0000_0000_8020_0000</code> 的地址上时，使用 <code>lla</code> 加载符号 <code>boot_stack_top</code> 和 <code>call bootcpu_entry</code> 跳转时 <strong>能找到正确的物理地址 <code>0x8020_416c</code>，而不是在此时为非法的虚拟地址 <code>0xffff_ffff_8020_416c</code></strong>？</p>
-<p>Hint: 我们是如何寻址的？回忆计算机组成原理课上学习的寻址模式。</p>
+<p>Why, when running at <code>0x0000_0000_8020_0000</code>, can <code>lla</code> load <code>boot_stack_top</code> and <code>call bootcpu_entry</code> find the correct physical address <code>0x8020_416c</code>, instead of the invalid virtual address <code>0xffff_ffff_8020_416c</code>?</p>
+<p>Hint: How do we address? Recall addressing modes from computer architecture.</p>
 </div>
 <div class="admonition note">
-<p class="admonition-title">页表与内存保护</p>
-<p>在 <code>main.c</code> 的 <code>bootcpu_init</code> 函数中，<code>infof("start scheduler!");</code> 前插入以下代码：</p>
+<p class="admonition-title">Page Tables and Memory Protection</p>
+<p>In <code>main.c</code>’s <code>bootcpu_init</code>, before <code>infof("start scheduler!");</code>, insert:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">static</span><span class="w"> </span><span class="k">volatile</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xdeadbeefaabbccdd</span><span class="p">;</span>
 <a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="n">printf</span><span class="p">(</span><span class="s">&quot;addr  of number: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">number</span><span class="p">);</span>
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="n">printf</span><span class="p">(</span><span class="s">&quot;value of number: %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">);</span>
@@ -2372,16 +2075,16 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
 <a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="p">((</span><span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="p">)())</span><span class="o">&amp;</span><span class="n">number</span><span class="p">)();</span><span class="w"> </span><span class="c1">// execute a function, which address is &amp;number</span>
 <a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="n">panic</span><span class="p">(</span><span class="s">&quot;qwq&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p><code>make run</code> 运行内核，你应该会遇到 Kernel Panic，Code = 12, 查阅手册理解为什么会产生该异常。</p>
-<p>回到上次lab的实验目录 <code>xv6lab3</code>，<code>git reset --hard da5eb84e</code>，然后做出一样的修改，<code>make clean &amp;&amp; make run</code> 运行内核，你应该还会遇到 Kernel Panic，但是 Code = 3，这表示 ebreak 指令被执行了。</p>
-<p>这即是在同一特权级下使用页表进行内存保护的意义：它可以阻止执行预期之外的行为。</p>
-<p>如果将 <code>number</code> 的类型修改为 <code>const static volatile</code>，你应该会收获一个 Code = 15 的 Kernel Panic，这是因为 const 修饰符会使得它被分配在 <code>.rodata</code> 段，而这个段在页表映射中是 <code>R--</code> 的。</p>
-<p>类似的，你也可以尝试修改 <code>scheduler</code> 函数的内容：</p>
+<p>Run <code>make run</code>. You should encounter a Kernel Panic with Code = 12. Consult the manual to understand why.</p>
+<p>Return to the <code>xv6lab3</code> directory, run <code>git reset --hard da5eb84e</code>, make the same changes, and run <code>make clean &amp;&amp; make run</code>. You’ll get a Kernel Panic with Code = 3, indicating the <code>ebreak</code> instruction executed.</p>
+<p>This demonstrates memory protection via page tables at the same privilege level: it prevents unintended behavior.</p>
+<p>If you change <code>number</code> to <code>const static volatile</code>, you’ll get a Code = 15 panic, as <code>const</code> places it in <code>.rodata</code> (mapped <code>R--</code>).</p>
+<p>Similarly, try modifying <code>scheduler</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="o">*</span><span class="p">(</span><span class="n">uint32</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">scheduler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x00100073</span><span class="p">;</span><span class="w"> </span><span class="c1">// 00100073: ebreak</span>
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">infof</span><span class="p">(</span><span class="s">&quot;start scheduler!&quot;</span><span class="p">);</span>
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="n">scheduler</span><span class="p">();</span>
 </code></pre></div>
-<p>你可以对比在两次 lab 的代码仓库下，这样的行为会有怎样的差距。</p>
+<p>Compare the behavior across both lab repositories.</p>
 </div>
 
 
