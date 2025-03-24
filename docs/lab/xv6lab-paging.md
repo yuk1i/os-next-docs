@@ -250,6 +250,61 @@ See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process
 
 相应的，如果第二级页表的页表项为叶节点页表项，则该页表项的 `[20:0]` 位将表示一个整体的偏移量，代表一个小于吉页的页，我们称之为 **巨页** 。一般情况下三级页表项是叶节点页表项，指向一个 **基页** （4KB）。
 
+## Lab 课堂报告
+
+1. 请参照 Sv39 地址翻译模式，解码以下虚拟地址，写出其 VPN[2-0] 和 offset 的二进制值。**注意：请用二进制表示！**
+
+   | vaddr                   | VPN2 | VPN1 | VPN0 | offset |
+   | ----------------------- | ---- | ---- | ---- | ------ |
+   | `0x0000_0000_8020_1234` |      |      |      |        |
+   | `0x0000_003f_ffff_f000` |      |      |      |        |
+   | `0xffff_fd01_dead_beef` |      |      |      |        |
+
+   Hint: 你可以使用 Windows 中自带的计算器，切换到 Programmer 模式，即可快速在16、10、2进制间转换。或者可以使用 python3 自带的  `bin(0x1122_3344)` 函数转换数字到二进制。
+
+2. 请你参照 Sv39 模式手动进行地址翻译，请你写出该页表中所有有效的映射。
+
+`satp: 0x8000000000080400`
+
+部分内存的 hexdump 如下，冒号左侧代表地址，右侧代表该地址和该地址+0x8处的两个 `uint64_t` 的16进制表示。未指定的内存均为0。hexdump已经转换为小端序，你不需要考虑端序问题。
+
+```
+0x8040_0000:                       +0x0   |                +0x8   |
+0x0000000080400000:     0x0000000020100401      0x0000000000000000
+0x00000000804004a0:     0x0000000000000000      0x0000000020101401
+0x00000000804007f0:     0x0000000000000000      0x0000000020100c01
+
+0x8040_1000:
+0x0000000080401000:     0x0000000020100801      0x0000000000000000
+
+0x8040_2000:
+0x0000000080402000:     0x0000000000000000      0x000000002000001f
+0x0000000080402010:     0x000000002000041f      0x0000000000000000
+
+0x8040_3000:
+0x0000000080403ff0:     0x0000000000000000      0x0000000020101001
+
+0x8040_4000:
+0x0000000080404ff0:     0x0000000000000000      0x000000003777400b
+
+0x8040_5000:
+0x00000000804056f0:     0x00000037ab400043      0x0000000000000000
+```
+
+   **注意：所有数字均以16进制表示，请参照表格中第一条的格式。**
+
+| Virtual Address         | Size     | PPN  | Flags(DAGUXWRV) |
+| ----------------------- | -------- | ---- | --------------- |
+| `0xdead_beef_aabb_ccdd` | `0x00aa_eeff` | `0x8899_0000`     | `DA-UWXRV`     |
+
+3. 在 RISC-V 平台上，页面大小为 `4KiB`。在 32 位下我们可用 Sv32，在 64 位下我们可用 Sv39。已知 Sv32 中 PTE 的大小为 4 Bytes，Sv39 中 PTE 的大小为 8 Bytes。
+
+   > Sv32 page tables consist of 2^10 page-table entries (PTEs), each of four bytes. A page table is exactly the size of a page and must always be aligned to a page boundary. The physical page number of the root page table is stored in the satp register.
+   >
+   > Sv39 page tables contain 2^9 page table entries (PTEs), eight bytes each. A page table is exactly the size of a page and must always be aligned to a page boundary. The physical page number of the root page table is stored in the satp register’s PPN field.
+
+   请你简要解释为什么 Sv32 中每个 VPN 的长度是 10 bits，而 Sv39 中每个 VPN 的长度是 9 bits。
+
 ## 实验场景
 
 
@@ -448,33 +503,6 @@ Domain0 Next Mode         : S-mode
 clean bss: 0x00000000802ac000 - 0x00000000802b3000
 Kernel is Relocating...
 ```
-
-!!!warning "Question"
-    我们在 `kernel.ld` 里面指定的虚拟地址是 `0xffff_ffff_8020_0000`，但是 `entry.S` 中仍然使用的是
-
-    ```
-    _entry:
-        lla sp, boot_stack_top
-        call main
-    ```
-
-    请思考：为什么在程序运行在 `0x0000_0000_8020_0000` 的地址上时，使用 `lla` 加载符号和 `call main` 跳转 main **能找到正确的物理地址，而不是在此时为非法的虚拟地址** `0xffff_ffff_8020_0000`？
-
-    Hint: 我们是如何寻址的？回忆计算机组成原理课上学习的寻址模式。
-
-    上述 `_entry` 中两行汇编代码被编译后的汇编是：
-
-    ```
-    ────────────────────────────────────────────────────────────────────────── code:riscv:RISCV ────
-    ●→  0x80200000 <skernel+0000>   auipc  sp, 0xac
-        0x80200004 <skernel+0004>   mv     sp, sp
-        0x80200008 <skernel+0008>   auipc  ra, 0x2
-        0x8020000c <skernel+000c>   jalr   488(ra)
-    ─────────────────────────────────────────────────────────────────────── source:os/entry.S+4 ────
-        3  _entry:
-    →   4      lla sp, boot_stack_top
-        5      call main
-    ```
 
 接着，我们需要构建页表来让MMU可以按照我们设计的布局翻译我们的虚拟地址。
 
@@ -795,3 +823,57 @@ void kvmmap(pagetable_t kpgtbl, uint64 va, uint64 pa, uint64 sz, int perm) {
 3. 每个 cpu scheduler 的 kernel stack
 
 随后，用户空间所需要的页面，和配置页表所需要的页面均由 `kalloc` 模块管理。
+
+## 实验部分思考题
+
+注：这部分不要求在课堂实验报告上提交。
+
+!!!warning "Question"
+    我们在 `kernel.ld` 里面为 `_entry` 符号指定的虚拟地址是 `0xffff_ffff_8020_0000`，`entry.S` 中使用如下代码进行跳转
+
+    ```
+    ────────────────────────────────────────────────────────────────────────── code:riscv:RISCV ────
+    ●→  0x80200000 <skernel+0000>   auipc  sp, 0xac
+        0x80200004 <skernel+0004>   mv     sp, sp
+        0x80200008 <skernel+0008>   auipc  ra, 0x2
+        0x8020000c <skernel+000c>   jalr   488(ra)
+    ─────────────────────────────────────────────────────────────────────── source:os/entry.S+4 ────
+        3  _entry:
+    →   4      lla sp, boot_stack_top
+        5      call bootcpu_entry
+    ```
+
+    请思考：为什么在程序运行在 `0x0000_0000_8020_0000` 的地址上时，使用 `lla` 加载符号 `boot_stack_top` 和 `call bootcpu_entry` 跳转时 **能找到正确的物理地址 `0x8020_416c`，而不是在此时为非法的虚拟地址 `0xffff_ffff_8020_416c`**？
+
+    Hint: 我们是如何寻址的？回忆计算机组成原理课上学习的寻址模式。
+
+!!!note "页表与内存保护"
+    在 `main.c` 的 `bootcpu_init` 函数中，`infof("start scheduler!");` 前插入以下代码：
+
+    ```c
+    static volatile uint64 number = 0xdeadbeefaabbccdd;
+    printf("addr  of number: %p\n", &number);
+    printf("value of number: %p\n", number);
+    *(uint64*)&number = 0xdeadbeef00100073; // 00100073 is an ebreak instruction.
+    printf("changed value of number: %p\n", number);
+    ((void(*)())&number)(); // execute a function, which address is &number
+    panic("qwq");
+    ```
+
+    `make run` 运行内核，你应该会遇到 Kernel Panic，Code = 12, 查阅手册理解为什么会产生该异常。
+
+    回到上次lab的实验目录 `xv6lab3`，`git reset --hard da5eb84e`，然后做出一样的修改，`make clean && make run` 运行内核，你应该还会遇到 Kernel Panic，但是 Code = 3，这表示 ebreak 指令被执行了。
+
+    这即是在同一特权级下使用页表进行内存保护的意义：它可以阻止执行预期之外的行为。
+
+    如果将 `number` 的类型修改为 `const static volatile`，你应该会收获一个 Code = 15 的 Kernel Panic，这是因为 const 修饰符会使得它被分配在 `.rodata` 段，而这个段在页表映射中是 `R--` 的。
+
+    类似的，你也可以尝试修改 `scheduler` 函数的内容：
+
+    ```c
+    *(uint32*)&scheduler = 0x00100073; // 00100073: ebreak
+    infof("start scheduler!");
+    scheduler();
+    ```
+
+    你可以对比在两次 lab 的代码仓库下，这样的行为会有怎样的差距。
