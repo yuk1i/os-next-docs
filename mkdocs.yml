@@ -42,6 +42,7 @@ nav:
     - Week 3 - Bare Metal: laben/xv6lab-baremetal.md
     - Week 4 - Trap & Interrupt: laben/xv6lab-interrupts.md
     - Week 5 - Context Switch: laben/xv6lab-contextswitch.md
+    - Week 6 - Kernel Paging: laben/xv6lab-paging.md
   - 快速参考手册:
     - 目录: qrh/nav.md
     - VisionFive2 板子教程: qrh/vf2.md
