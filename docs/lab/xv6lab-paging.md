@@ -266,7 +266,7 @@ See also: riscv-privilege.pdf, 4.3.2 Virtual Address Translation Process
 
 `satp: 0x8000000000080400`
 
-部分内存的 hexdump 如下，冒号左侧代表地址，右侧代表该地址和该地址+0x8处的两个 `uint64_t` 的16进制表示。未指定的内存均为0。hexdump已经转换为小端序，你不需要考虑端序问题。
+部分内存的 hexdump 如下，冒号左侧代表内存地址，右侧代表该地址处的值的16进制表示。未指定的内存均为0。hexdump已经转换为小端序，你不需要考虑端序问题。
 
 ```
 0x8040_0000:
