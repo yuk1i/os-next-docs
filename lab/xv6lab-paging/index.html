@@ -776,6 +776,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      概览
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#segmentation" class="md-nav__link">
     <span class="md-ellipsis">
       Segmentation
@@ -794,7 +803,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       虚拟地址 =&gt; 物理地址
     </span>
@@ -804,7 +813,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       一级页表
     </span>
@@ -813,7 +822,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       多级页表
     </span>
@@ -883,7 +892,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -897,7 +906,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       大页映射
     </span>
@@ -920,7 +929,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       实验场景
     </span>
@@ -971,7 +980,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
       内核页表
     </span>
@@ -1004,7 +1013,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       实验部分思考题
     </span>
@@ -1343,6 +1352,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      概览
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#segmentation" class="md-nav__link">
     <span class="md-ellipsis">
       Segmentation
@@ -1361,7 +1379,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       虚拟地址 =&gt; 物理地址
     </span>
@@ -1371,7 +1389,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       一级页表
     </span>
@@ -1380,7 +1398,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       多级页表
     </span>
@@ -1450,7 +1468,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       权限检查
     </span>
@@ -1464,7 +1482,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       大页映射
     </span>
@@ -1487,7 +1505,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       实验场景
     </span>
@@ -1538,7 +1556,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
       内核页表
     </span>
@@ -1571,7 +1589,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       实验部分思考题
     </span>
@@ -1604,6 +1622,33 @@
 <li>掌握虚拟地址到物理地址的转换机制</li>
 <li>掌握XV6如何管理内存并创建页表</li>
 </ol>
+<h2 id="_2">概览<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>为什么我们需要页表？在理解页表前，我们需要了解我们为什么需要地址翻译，地址翻译希望能做到两件事情：隔离 (Isolation) 和保护 (Protection)。</p>
+<p>我们在理论课讲 Process 时提到，每个进程有自己独立的地址空间。如果有两个进程 P1 和 P2 都能访问地址 <code>0x8000</code>，那么它们俩所能看到的 <code>0x8000</code>，背后应该是两个不同内存区域。</p>
+<p>我们将进程所能看到的地址称为虚拟地址 (Virtual Address)，在对 DRAM 访问时所用的地址称为物理地址 (Physical Address)。</p>
+<p>理论上来说，我们能够建立一个 <strong>地址映射关系</strong> f，将每个合法的 VA 都映射到一个 PA，即 f(VA) = PA。并且，对于不同的进程 P1 和 P2，我们令它们拥有不同的映射关系 f<sub>1</sub> 和 f<sub>2</sub>，这样即可做到让 P1 和 P2 看到的 VA <code>0x8000</code> 不是同一个 PA。</p>
+<p>理论很美好，但是在真实 CPU 电路上实现这样的地址映射关系，我们就得考虑电路上的复杂度、实现成本和性能等因素。</p>
+<p><strong>Segmentation</strong> 我们可以对理论进行简化。注意到程序所需要的内存空间一般都是几个连续的大块，例如编译产生的 <code>.text</code> 段、<code>.data</code> 段等。所以，我们将连续的物理地址空间分为几个段 (Segment)，并分配给不同的进程。对于 CPU 而言，它需要看到一张描述了多个 Segment 的大表 (GDT/LDT)，其中每个 Segment 描述了段的基地址 (Base)、长度 (Limit)、和权限 (Flags)。</p>
+<p>每个进程在访问内存时需要带上段选择器 (Segment Selector)，表示自己访问的地址属于这张大表的第几个 Segment，以及在该段中的偏移量 (Offset)。CPU 会对内存访问重新计算它实际引用的物理地址。</p>
+<p><img alt="alt text" src="../../assets/xv6lab-paging/image.png" /></p>
+<p>但是，Segmentation 在物理内存管理上有着不够灵活的缺点，所以我们需要页面机制。</p>
+<p><strong>Page</strong> 页面机制将虚拟地址空间和物理地址空间切分为 <strong>等大、对齐</strong> 的块，我们称之为 <strong>页面</strong>，大小通常为 4KiB (4096 bytes)。这样一来，地址映射关系就变成了 <strong>页面映射关系</strong>。</p>
+<p>我们将地址按照 12 bits (2^^12=4096) 为边界切分，后 12 bits 表示该地址在某个页面中的偏移量(offset)，而剩余的地址则表示哪个页面。（这也是为什么不论在什么平台上，页面大小都是 2 的整数次方，如 512、4096、16384，对 CPU 而言，位运算永远是最快最简洁的）</p>
+<p>我们令 <code>VA = {x'VPN, 12'offset}</code>, <code>PA = {x'PPN, 12'offset}</code>。这样，我们之前定义的 <code>f(VA) = PA</code> 就只需要实现 <code>f(VPN) = PPN</code> 即可，剩下的 offset 可以照搬过来。</p>
+<p>页面机制解决了内存分配导致的碎片化问题。当用户程序要求一块连续的内存时，操作系统不再需要分配 <strong>连续的物理地址</strong> 空间，而是可以在 <strong>页面映射关系</strong> 中令虚拟地址空间连续，而其对应的物理页面则可以不连续。</p>
+<p>那么，我们该如何实现一个对 CPU 硬件电路友好的页面映射关系呢？</p>
+<p><strong>Page Table</strong> 对 CPU 而言，基地址+偏移量的地址计算模式是非常简单的。就像我们在 C 语言中定义一个数组 <code>int a[10]</code>，编译器会为我们分配 <code>sizeof(int) * 10 = 40 bytes</code> 的空间，然后通过 <code>a</code> 的基地址加上元素索引计算目标元素的地址。例如，当我们访问 <code>a[6]</code> 时，编译器会计算 <code>a[6]</code> 的内存地址：<code>&amp;a + 6 * sizeof(int)</code>，然后对该内存地址发起访存。</p>
+<p>页面映射关系也是类似。我们可以创建一个超级大的数组，它的索引表示 VPN，它的每个元素(PTE)表示 PPN。对于 CPU 而言，z在汇编指令发起访存请求（虚拟地址）时，它先按照上述格式将 <code>VA</code> 解码为 <code>VPN | offset</code> ，然后按照 <code>base + VPN * sizeof(PTE)</code> 格式计算出这条 PTE 的地址，并发起对一次内存读取，即可得到 PPN 的值，最后拼接 offset 后，CPU 就得到了最终的物理地址！最后才对这个物理地址进行访存。</p>
+<p>我们发现，这样的地址计算方式简直和访问数组一模一样！我们将这个超大的数组称为 <strong>页表 (Page Table)</strong>，这个数组的基地址则称为页表基地址。</p>
+<p>那么，古尔丹，代价是什么呢？页表的索引需要和 <code>VPN</code> 一样大！假设虚拟地址和物理地址的长度均为 32 bits，则 VPN 和 PPN 的长度都是 20 bits，那么页表（数组）就需要有 <code>2^20^ = 1Mi</code> 个元素。由于数组元素要对齐到2的整数次幂大小，那么每个 PTE 就是 4 bytes。我们惊奇的发现，每个页表居然要 4MiB 的空间，这在以前内存价格和容量还没降下来的时代是难以想象的。</p>
+<p><strong>Multi-level Page Table</strong></p>
+<p>所以，我们就不再用一个简单的一维数组表示页表，而是采用多级的、树状的数组。</p>
+<p>我们令页表的大小严格等于页面大小。假设虚拟地址和物理地址的长度均大于 32 bits，PTE 大小为 8 bytes，那么每个页表中就能装下 <code>4096 / 8 = 512 = 2^9^</code> 个 PTE。一张页表即能表示 <code>512 * 4KiB = 2MiB</code> 的内存区域。</p>
+<p>然后，我们令 PTE 可以指向页表的基地址，而不一定是最终PA的 PPN！页表就此分了等级，高一级的页表中包含指向下一级页表的指针。我们规定最后一级的页表是页表的终点，即它只能包含最终的物理地址。</p>
+<p>那么，倒数第二级页表中可以包含 512 个倒数第一级页表的指针，那么它就能管理 <code>512 * 2MiB = 1 GiB</code> 的空间了。那么，怎么在这两级页表（数组）中进行索引呢？</p>
+<p>我们也将 VPN 拆成多级的。假设我们使用三级页表。与之前类似，VPN 将作为页表数组的索引，只不过我们这次有三个页表，那么 VPN 应该也被拆成三块：<code>VPN = {VPN2, VPN1, VPN0}</code>，每一个 VPNx 都在每一级页表中做索引！</p>
+<p>额外的，我们强制规定页表大小为页面大小，所以每一个 VPNx 应该为 9 bits。因此 VA 的长度应该是 <code>9+9+9+12 = 39</code>。恭喜你，你重新发明了 RISC-V 中的 Sv39！假如我们需要四级页表，那么 VA 的长度则是 48 bits，这就是 Sv48 模式！</p>
+<p><strong>TLB</strong> </p>
 <h2 id="segmentation">Segmentation<a class="headerlink" href="#segmentation" title="Permanent link">&para;</a></h2>
 <p>从对内存访问保护而言，我们希望对内存的访问是带有权限保护的。这包括两个层面：</p>
 <ol>
@@ -1613,6 +1658,7 @@
 <p>也就是说，对于每个内存地址，我们都希望能检查它的操作权限是否符合原先的程序设计。</p>
 <p>在 CPU 实现上，内存是以字节为单位来寻址的。如果要实现对每个字节的访问权限都能进行管理，这样的代价是难以现象的。
 但是，我们可以让相同权限的代码、数据排布在一起，这样即可将整个程序的内存空间分为几个大块，每个块均有自己的起始地址(Base)和大小限制(Limit)，以及权限设置，这就是使用 Segmentation 进行内存保护的方式。 </p>
+<p><img alt="segment" src="../../assets/xv6lab-paging/multi-segment.png" /></p>
 <p>Segmentation 在内存空间的管理上有着诸多劣势，例如要求物理内存连续、难以动态调节大小、存在碎片化的问题。所以，现代 CPU 和操作系统均使用页表（Paging）机制来实现内存管理。</p>
 <h2 id="paging">Paging<a class="headerlink" href="#paging" title="Permanent link">&para;</a></h2>
 <p>分页机制，是将程序空间（虚拟地址）切割成相同大小的若干个页面，同时将物理内存也切割成同样大小的多个页面，从而可以在物理地址不连续的情况下，给进程分配足够的内存空间，并且从虚拟地址的角度看这个空间是连续的。</p>
@@ -1623,9 +1669,9 @@
 <p>每个程序都有唯一的一本”词典“，而它能使用的内存也就只有他的”词典“所包含的。</p>
 <p>"词典"是否对能使用的每个字节都进行翻译？我们可以想象，存储每个字节翻译的结果至少需要一个字节，那么使用1MB的内存将至少需要构造1MB的”词典“，这效率太低了。观察到，一个程序使用内存的数量级通常远大于字节，至少以KB为单位（所以上古时代的人说的是"640K对每个人都够了"而不是"640B对每个人都够了"）。那么我们可以考虑，把连续的很多字节合在一起翻译，让他们翻译前后的数值之差相同，这就是"页"。</p>
 </div>
-<h2 id="_2">虚拟地址 =&gt; 物理地址<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_3">虚拟地址 =&gt; 物理地址<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>分页机制很重要的一点是如何建立和解析虚拟地址到物理地址的映射，下面我们从“如何从虚拟地址获得相应的物理地址”的角度进行介绍：</p>
-<h3 id="_3">一级页表<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_4">一级页表<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>如图所示是一个一级页表分页机制（一级对应于后面的多级，一级页表只需要查询一层页表即可得到物理地址，下称"单级页表"）：</p>
 <p><img alt="1648542681894" src="../../assets/xv6lab-paging/1648542681894.png" /></p>
 <p>以上图为例，我们首先得到一个 <strong>虚拟地址</strong>（ <strong>Virtual Address</strong>），这个地址长度为6位，其中 5 ~ 4 位（高2位）为 <strong>页号（VPN，Virtual Page Number）</strong> ， 3 ~ 0 位（低4位）为 <strong>偏移量（Offset）</strong> 。</p>
@@ -1636,7 +1682,7 @@
 <p>假设页面大小为 4KiB ，如果想要定位到页面的每一个 Byte ，我们的偏移量则需能表示 4096 个不同的位置，因此对于 4KiB 大小的页面来说，偏移量的位数为12位（2<sup>12</sup>=4096）。或者说，偏移量的位数为12位可以推出页面大小为 2<sup>12</sup> 个 Byte 。</p>
 <p>在图片的一级页表中， Offset 为4位，可以得知页面大小为2<sup>4</sup>=16B。如果给定虚拟地址100100<sub>2</sub>，可以得出其页号为10<sub>2</sub>，即2<sub>10</sub>，通过页号2<sub>10</sub>可以查到对应的页表项内容为5<sub>10</sub>。5是物理页号，可以求得物理页面地址： 物理首地址+物理页号×页面大小=0+5×16=80<sub>10</sub>。100100中低四位偏移量为0100，因此查询的是该页面的第5个字节对应的地址（地址0也是一个字节），则该物理地址为80+4=84<sub>10</sub>（5*16+4=0101左移四位+0100=0101 0100<sub>2</sub>）。需要注意运算过程中是2进制还是10进制还是16进制数（存储肯定是2进制）。</p>
 </div>
-<h3 id="_4">多级页表<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h3 id="_5">多级页表<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>系统中，通常页面大小是 4KiB。假设 32 位系统中，虚拟地址空间长度为 32bits，即 <code>2^32 = 4GiB</code>，那么在单级页表模式下，就需要1M个页表项来对应不同的物理页。假设一个页表项为4B，则一个页表就有 4MiB 。由于虚拟地址是连续的（相当于高位 VPN 是连续的），而PTE的存储方式也是相当于数组的连续存储方式，因此即使进程实际使用的空间非常小，它也需要连续完整的页表来进行地址转换（不能移除中间不使用的 PTE ）。而操作系统中除了内核页表，为每个进程还会分配自己的页表，进程多的情况下，存储所有页表的开销就变得很大。</p>
 <p>因此需要用到多级页表，如图所示，是一个二级页表分页机制（Sv32）：</p>
 <p><img alt="1648548797416" src="../../assets/xv6lab-paging/1648548797416.png" /></p>
@@ -1716,7 +1762,7 @@
 <li>由硬件设置 A / D bits.</li>
 </ol>
 <p>Supervisor 软件应当正确处理以上两种情况。</p>
-<h4 id="_5">权限检查<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<h4 id="_6">权限检查<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
 <p>凭直觉的，读取的页面要带有 R bit，写入的页面要带有 W bit，执行的页面要带有 X bit。</p>
 <p>但是，如果一个页面的权限带有 U bit，并且现在 CPU 核心运行在 S mode 下，我们需要对 SUM (permit Supervisor User Memory access) bit 进行额外检查：如果 <code>sstatus.SUM == 1</code> 则访问被允许，否则导致 Page Fault.</p>
 <p>通常来说，S mode 一般运行在 <code>sstatus.SUM == 0</code> 的情况下，如果我们需要通过页表去访问用户数据时，我们会将该 flag 置 1，并在访问结束后清零。该过程一般被称为 <strong>uaccess</strong> 原语 (primitive).</p>
@@ -1769,7 +1815,7 @@
 <p>权限检查：检查 <code>leaf_pte.rwx</code> 是否与访存请求相同。</p>
 </li>
 </ol>
-<h3 id="_6">大页映射<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<h3 id="_7">大页映射<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p>可以注意到当 Flags 中的 XWR 取值均为0时，该 PTE 是指向下一级页表的指针，而当这 XWR 中存在非0位时，则该PTE是页表树的一个叶节点，也就是此时该PTE的PPN值代表了 <strong>物理页</strong> 的基地址而非 <strong>页表</strong> 的物理基址。</p>
 <p>比如，Sv39中给定一个虚拟地址VA[38:0]，然后我们根据 <code>satp.PPN×4096+VPN2</code> 求得一级页表中的PTE的地址，假设该PTE的XWR为001，则该PTE为叶节点页表项，我们称之为大页映射。此时，由于一级页表中的页表项就是叶节点页表项，虚拟地址的含义就从原本的</p>
 <p><img alt="alt text" src="../../assets/xv6lab-paging/vpn_origin.png" /></p>
@@ -1842,13 +1888,13 @@
 <a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>0x8040_5000:
 <a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>0x00000000804056f0:     0x00000037ab400043
 </code></pre></div>
-<p><strong>注意：所有数字均以16进制表示，请参照表格中第一条的格式。</strong></p>
+<p><strong>注：答题纸上第三列 PPN 是写错了，请按照 Physical Address 填写。所有数字均以16进制表示，请参照表格中第一条的格式。</strong></p>
 <table>
 <thead>
 <tr>
 <th>Virtual Address</th>
 <th>Size</th>
-<th>PPN</th>
+<th>Physical Address</th>
 <th>Flags(DAGUXWRV)</th>
 </tr>
 </thead>
@@ -1869,7 +1915,7 @@
 <p>Sv39 page tables contain 2^9 page table entries (PTEs), eight bytes each. A page table is exactly the size of a page and must always be aligned to a page boundary. The physical page number of the root page table is stored in the satp register’s PPN field.</p>
 </blockquote>
 <p>请你简要解释为什么 Sv32 中每个 VPN 的长度是 10 bits，而 Sv39 中每个 VPN 的长度是 9 bits。</p>
-<h2 id="_7">实验场景<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h2 id="_8">实验场景<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">xv6-lab4 代码分支</p>
 <p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab4">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab4</a></p>
@@ -2167,7 +2213,7 @@
 <p>然后，我们开始映射内核 ELF 的虚拟地址：VA <code>0xffff_ffff_8020_0000</code> -&gt; PA <code>0x8020_0000</code>。
 此时 <code>va = pa + KERNEL_OFFSET</code>。</p>
 <p>最后，我们映射第一块 Direct Mapping：VA <code>0xffff_ffc0_80xx_0000</code> -&gt; 第一个空闲的 2 MiB 物理页 <code>0x80xx_0000</code>。</p>
-<h2 id="_8">内核页表<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h2 id="_9">内核页表<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>code: <code>os/kvm.c</code></p>
 </blockquote>
@@ -2364,7 +2410,7 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
 <li>每个 cpu scheduler 的 kernel stack</li>
 </ol>
 <p>随后，用户空间所需要的页面，和配置页表所需要的页面均由 <code>kalloc</code> 模块管理。</p>
-<h2 id="_9">实验部分思考题<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h2 id="_10">实验部分思考题<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
 <p>注：这部分不要求在课堂实验报告上提交。</p>
 <div class="admonition warning">
 <p class="admonition-title">Question</p>
@@ -2443,8 +2489,8 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/df2d8e6a, 2025-03-25 20:48:52+08:00" target="_blank" rel="noopener">
-            df2d8e6a, 2025-03-25 20:48:52+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/e5ee95dd, 2025-03-25 23:29:54+08:00" target="_blank" rel="noopener">
+            e5ee95dd, 2025-03-25 23:29:54+08:00
         </a>
     </div>
 </div>
