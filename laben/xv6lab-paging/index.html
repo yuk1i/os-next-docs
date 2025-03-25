@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../xv6lab-contextswitch/">
+      
+      
+        <link rel="next" href="../../qrh/nav/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -16,7 +20,7 @@
     
     
       
-        <title>RISC-V Page Table Model & xv6 Kernel Page Tables - 操作系统实验文档</title>
+        <title>Week 6 - Kernel Paging - 操作系统实验文档</title>
       
     
     
@@ -93,7 +97,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              RISC-V Page Table Model &amp; xv6 Kernel Page Tables
+              Week 6 - Kernel Paging
             
           </span>
         </div>
@@ -219,10 +223,12 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../lab2/" class="md-tabs__link">
           
   
@@ -756,23 +762,28 @@
       
   
   
+    
   
   
+  
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -783,7 +794,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Weekly Lab Material
@@ -869,6 +880,313 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Week 6 - Kernel Paging
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Week 6 - Kernel Paging
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#experiment-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiment Objectives
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#segmentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Segmentation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paging
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtual-address-physical-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      Virtual Address =&gt; Physical Address
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Virtual Address => Physical Address">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-level-page-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Single-Level Page Table
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-level-page-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Level Page Table
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translation-lookaside-buffer-tlb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Translation Lookaside Buffer (TLB)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risc-v-sv39-paging-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      RISC-V Sv39 Paging Mechanism
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RISC-V Sv39 Paging Mechanism">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#satp" class="md-nav__link">
+    <span class="md-ellipsis">
+      satp
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sv39" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sv39
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flags
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Flags">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-d" class="md-nav__link">
+    <span class="md-ellipsis">
+      A &amp; D
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Checks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#huge-page-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Huge Page Mapping
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-classroom-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab Classroom Report
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experiment-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiment Scenario
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risc-v-physical-address-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      RISC-V Physical Address Layout
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xv6-kernel-memory-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      xv6 Kernel Memory Layout
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Relocation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relocation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relocation_start-code-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      relocation_start Code Explanation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kernel-page-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kernel Page Table
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kernel Page Table">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kvmmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      kvmmap
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kalloc-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      kalloc Module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experiment-reflection-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiment Reflection Questions
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2125,8 +2443,8 @@ During relocation, we borrow a 2MiB region in the Direct Mapping range: <code>[0
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/386b7673, 2025-03-25 14:40:51+08:00" target="_blank" rel="noopener">
-            386b7673, 2025-03-25 14:40:51+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/c476a06b, 2025-03-25 14:41:56+08:00" target="_blank" rel="noopener">
+            c476a06b, 2025-03-25 14:41:56+08:00
         </a>
     </div>
 </div>
