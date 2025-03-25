@@ -1820,7 +1820,7 @@
 <li>请你参照 Sv39 模式手动进行地址翻译，请你写出该页表中所有有效的映射。</li>
 </ol>
 <p><code>satp: 0x8000000000080400</code></p>
-<p>部分内存的 hexdump 如下，冒号左侧代表地址，右侧代表该地址和该地址+0x8处的两个 <code>uint64_t</code> 的16进制表示。未指定的内存均为0。hexdump已经转换为小端序，你不需要考虑端序问题。</p>
+<p>部分内存的 hexdump 如下，冒号左侧代表内存地址，右侧代表该地址处的值的16进制表示。未指定的内存均为0。hexdump已经转换为小端序，你不需要考虑端序问题。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>0x8040_0000:
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>0x0000000080400000:     0x0000000020100401
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>0x00000000804004a8:     0x0000000020101401
@@ -2443,8 +2443,8 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/c476a06b, 2025-03-25 14:41:56+08:00" target="_blank" rel="noopener">
-            c476a06b, 2025-03-25 14:41:56+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/df2d8e6a, 2025-03-25 20:48:52+08:00" target="_blank" rel="noopener">
+            df2d8e6a, 2025-03-25 20:48:52+08:00
         </a>
     </div>
 </div>
