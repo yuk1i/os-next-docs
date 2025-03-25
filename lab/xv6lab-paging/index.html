@@ -1649,6 +1649,8 @@
 <p>我们也将 VPN 拆成多级的。假设我们使用三级页表。与之前类似，VPN 将作为页表数组的索引，只不过我们这次有三个页表，那么 VPN 应该也被拆成三块：<code>VPN = {VPN2, VPN1, VPN0}</code>，每一个 VPNx 都在每一级页表中做索引！</p>
 <p>额外的，我们强制规定页表大小为页面大小，所以每一个 VPNx 应该为 9 bits。因此 VA 的长度应该是 <code>9+9+9+12 = 39</code>。恭喜你，你重新发明了 RISC-V 中的 Sv39！假如我们需要四级页表，那么 VA 的长度则是 48 bits，这就是 Sv48 模式！</p>
 <p><strong>TLB</strong> </p>
+<p>那么，我们还有什么代价呢？</p>
+<p>--- 以下为正文</p>
 <h2 id="segmentation">Segmentation<a class="headerlink" href="#segmentation" title="Permanent link">&para;</a></h2>
 <p>从对内存访问保护而言，我们希望对内存的访问是带有权限保护的。这包括两个层面：</p>
 <ol>
@@ -2489,8 +2491,8 @@ Relocation 时，我们会在 Direct Mapping 区间先借用一个 2MiB 的区�
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/e5ee95dd, 2025-03-25 23:29:54+08:00" target="_blank" rel="noopener">
-            e5ee95dd, 2025-03-25 23:29:54+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/05dd2f30, 2025-03-25 23:32:35+08:00" target="_blank" rel="noopener">
+            05dd2f30, 2025-03-25 23:32:35+08:00
         </a>
     </div>
 </div>
