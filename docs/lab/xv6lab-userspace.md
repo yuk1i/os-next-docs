@@ -3,7 +3,24 @@
 用户空间 (Userspace) 是操作系统为用户程序提供的一个受限制的运行环境。操作系统通过 CPU 的硬件功能辅助来实现隔离，这通常包括：
 
 - 特权级的隔离。用户空间一般使用低特权级运行，使用高特权级指令会触发异常。
-- 内存空间的隔离。用户空间下可见的地址是操作系统为其设置的，而用户空间不能直接访问内核地址。
+- 内存空间的隔离。内核通过页表为用户空间设置地址空间，而用户空间不能直接访问内核地址。
+
+## 概览
+
+本次 Lab 中，我们将第一次把 CPU 运行在 U-mode，并运行第一个用户程序。
+
+在第一次作业中，我们亲自实验发现，如果 CPU 在执行 `sret` 时 `sstatus.SPP == 0`，那么 CPU 将降级到 U-mode。
+当 CPU 降级到 U-mode 后，CPU 只能通过 Trap 回到 S-mode。而 Trap 分为两种：异常（Exception）和中断（Interrupt）。
+
+- 用户程序可以主动地使用 `ecall` 发起一种异常 Exception: Code 8 (Environment call from U-mode)，这就是 RISC-V 平台上实现系统调用（syscall）的方式。
+- U-mode 下，**中断永远是开启的**。回顾 `Trap, Exception and Interrupt` 一章中，我们对 `中断到来时，能否进入 Trap` 这件事情的描述：（当前运行在 S 模式，且 `sstatus.SIE` == 1） 或者 当前运行在 U 模式。
+
+当你完成这节 Lab 中所描述的细节后，你可以通过该图理解 xv6 中的 userspace 结构。
+
+下图中，蓝色方块表示由 `kallocpage` 分配的页面，黄色方块表示内核中的代码，绿色方块表示 Trampoline 中的代码。该图展示了内核中的众多数据结构之间的指针关系（黑色箭头），以及内核态用户态之间进行切换时的代码调用过程（红色虚线箭头）。
+
+![alt](../assets/xv6lab-userspace/userspace-kernel-trampoline.png)
+
 
 ## 用户态和内核态的切换
 
@@ -27,7 +44,7 @@ The SPP bit indicates the privilege level at which a hart was executing before e
 When a trap is taken, SPP is set to 0 if the trap originated from user mode, or 1 otherwise.
 When an SRET instruction (see Section 3.3.2) is executed to return from the trap handler, the privilege level is set to user mode if the SPP bit is 0, or supervisor mode if the SPP bit is 1; SPP is then set to 0.
 
-所以说，只要在 `sret` 执行时，`sstatus.SPP` 为 0，我们即可降级到 U mode 下。（这并不要求我们一定处于 Trap Handler 中）
+所以说，只要在 `sret` 执行时，`sstatus.SPP` 为 0，我们即可降级到 U mode 下。（这其实并不要求我们一定处于 Trap Handler 中）
 
 ### User -> Kernel
 
@@ -66,7 +83,7 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 
 在 xv6 中，Trampoline 是两段特殊的代码 `uservec` 和 `userret`，用于从用户态切换回内核态（即用户态下的 `stvec`），和从内核切换到用户态。
 
-Trampoline 的虚拟地址 `0x0000_003f_ffff_f000` 在内核页表和每个用户页表中都是存在的，所以我们可以放心的切换用户和内核的 `satp` 而不用担心当前 pc 会变得非法了。
+Trampoline 的虚拟地址 `0x0000_003f_ffff_f000` 在内核页表和每个用户页表中都是存在的，所以我们可以放心的切换用户和内核的 `satp` 而不用担心当前 pc 会变得非法了（回忆我们在上一章 Relocation 中遇到的问题）。
 
 ### uservec
 
@@ -103,7 +120,7 @@ uservec:
         csrr t1, sepc
         sd t1, 24(a0)
 
-        # load kernel's satp, sp, usertrap handler, tp(hartid)
+        # load kernel's satp, sp, usertrap handler, tp(cpuid)
         ld t1, 0(a0)
         ld sp, 8(a0)
         ld t0, 16(a0)
@@ -149,8 +166,8 @@ struct trapframe {
     内核栈有如下几种：
 
     - `boot_stack`：内核启动时所用的栈。
-    - `sched_kstack`：每个 scheduler 所用的栈
-    - `p->kstack`: 每个进程的内核栈
+    - `sched_kstack`：每个 CPU 的 scheduler 所用的栈。
+    - `p->kstack`: 每个进程的 **内核线程** 的内核栈。当从 U-mode 来到 S-mode 时，用户模式下的 sp 是不可用的，我们需要切换到该进程的内核栈。
 
 ### usertrap
 
@@ -177,6 +194,8 @@ void usertrap() {
 ### usertrapret
 
 `usertrapret` 先将内核的信息保存到 `trapframe`，修改 `sepc`，设置 `sstatus` 返回 U mode，计算出用户页表的 `satp` 和 `stvec` 值，并跳转到 Trampoline 中的 `userret` 函数。
+
+在调用 `userret` 时，我们传入了3个参数，分别是用户的 trapframe 地址，用户页表 `satp` 值，和 `stvec` 值。在汇编中，我们可以使用 a0, a1, a2 引用它们。
 
 ```c
 //
@@ -210,8 +229,6 @@ void usertrapret() {
     ((void (*)(uint64, uint64, uint64))fn)(TRAPFRAME, satp, stvec);
 }
 ```
-
-在调用 `userret` 时，我们传入了3个参数，分别是用户的 trapframe 地址，用户页表 `satp` 值，和 `stvec` 值。在汇编中，我们可以使用 a0, a1, a2 引用它们。
 
 ### userret
 
@@ -257,7 +274,7 @@ userret:
 
 ## 第一个用户进程
 
-在 `loader.c` 中的 `load_init_app` 函数会加载第一个用户进程，我们称之为 `init` 进程。`allocproc` 会创建并初始化 init 进程的 PCB，`load_user_elf` 会将加载 init 进程的 ELF 文件到 `p` 中，`add_task` 将它丢进 `scheduler` 的队列中，等待第一次调度。
+在 `loader.c` 中的 `load_init_app` 函数会加载第一个用户进程，我们称之为 `init` 进程。`allocproc` 会创建并初始化 init 进程的 PCB，`load_user_elf` 会将加载 init 进程的 ELF 文件到 PCB `p` 中，`add_task` 将它丢进 `scheduler` 的队列中，等待第一次调度。
 
 ```c
 int load_init_app() {
@@ -346,7 +363,11 @@ int mm_copy(struct mm* old, struct mm* new);
 struct vma* mm_find_vma(struct mm* mm, uint64 va);
 ```
 
-当我们要为用户映射一段空间时，我们首先使用 `mm_create_vma` 新建一个 `struct vma` 结构体，然后填充它的 `vma_start`, `vma_end` 和 `pte_flags` 字段。随后，我们使用 `mm_mappages` 映射该 vma。如果我们要对该地址进行访问，我们可以使用 `walkaddr` 将其转换为物理地址。由于用户所用的物理页面均是由 `kallocpage` 动态分配的，我们可以使用 `PA_TO_KVA` 宏将其转换为 KVA 即可正常访问该虚拟地址。
+当我们要为用户映射一段空间时：
+
+1. 使用 `mm_create_vma` 新建一个 `struct vma` 结构体，然后填充它的 `vma_start`, `vma_end` 和 `pte_flags` 字段。
+2. 使用 `mm_mappages` 映射该 vma。
+3. 如果要对该地址进行访问，使用 `walkaddr` 将其转换为物理地址。由于用户所用的物理页面均是由 `kallocpage` 动态分配的，我们可以使用 `PA_TO_KVA` 宏将其转换为 KVA 即可正常访问该虚拟地址。
 
 ```c
 // loader.c, load_user_elf
@@ -364,16 +385,69 @@ for (uint64 va = vma_ustack->vm_start; va < vma_ustack->vm_end; va += PGSIZE) {
 }
 ```
 
+### mm_mappages
+
+函数原型：`int mm_mappages(struct vma *vma)`。
+
+该函数会在页表 `vma->owner->pgt`中，映射 `vma` 中的虚拟地址范围。注意到，该页表就是用户进程的页表 `p->mm->pgt`。
+
+具体而言，对于每个页面：从 `kallocpage()` 分配页面，并在 `mm->pgt` 页表中映射它。
+
+```c
+int mm_mappages(struct vma *vma) {  // simplified
+    // sanity checking
+    struct mm *mm = vma->owner;
+    for (uint64 va = vma->vm_start; va < vma->vm_end; va += PGSIZE) {
+        pte_t *pte = walk(mm, va, 1);
+        void* pa = kallocpage();
+        *pte = PA2PTE(pa) | vma->pte_flags | PTE_V;
+    }
+}
+```
+
+`mm_mappages` 会使用 `walk` 函数，得到 `mm->pgt` 中虚拟地址 va 所对应的 PTE 的地址，并构造 PTE。
+
+### walk
+
+`walk` 函数会返回在页表中的 PTE 地址。如果指定了 `alloc`，则会对中间缺少的页表进行分配。
+
+```c
+// Return the address of the PTE in page table pagetable
+// that corresponds to virtual address va.  
+// If alloc!=0, create any required page-table pages.
+pte_t *walk(struct mm *mm, uint64 va, int alloc) {
+    assert(holding(&mm->lock));
+
+    pagetable_t pagetable = mm->pgt;
+
+    if (!IS_USER_VA(va))
+        return NULL;
+
+    for (int level = 2; level > 0; level--) {
+        pte_t *pte = &pagetable[PX(level, va)];
+        if (*pte & PTE_V) {
+            pagetable = (pagetable_t)PA_TO_KVA(PTE2PA(*pte));
+        } else {
+            if (!alloc)
+                return 0;
+            void *pa = kallocpage();
+            if (!pa)
+                return 0;
+            pagetable = (pagetable_t)PA_TO_KVA(pa);
+            memset(pagetable, 0, PGSIZE);
+            *pte = PA2PTE(KVA_TO_PA(pagetable)) | PTE_V;
+        }
+    }
+    return &pagetable[PX(0, va)];
+}
+```
+
 ### 程序的加载
 
-`loader.c` 的 `load_user_elf` 实现了加载一个ELF文件到用户空间。
-
-用户空间的程序位于 `user/` 目录下，`make user` 会编译所有用户程序，编译产物位于 `user/build/stripped/` 目录下。内核的 Makefile 会调用 `scripts/pack.py` 脚本生成一个 `link_app.S`，而它负责最终将所有用户的 ELF 打包进内核的 rodata 段。
-
-`load_user_elf` 会根据 ELF 的 Program Header 进行加载，每个 LOAD 段会包含：
+`loader.c` 的 `load_user_elf` 实现了加载一个ELF文件到用户空间。`load_user_elf` 会根据 ELF 的 Program Header 进行加载，每个 LOAD 段会包含：
 
 - p_vaddr：这个段应该被加载到哪个虚拟地址
-- p_paddr：这个段应该被加载到哪个物理地址，该值在加载用户程序时不起作用，因为用户的页面是从内核动态分配的。
+- p_paddr：这个段应该被加载到哪个物理地址，该值在加载用户程序时不起作用，因为用户只能看到虚拟地址，并且用户的页面是由内核动态分配的。
 - p_memsz：这个段应该占用多少内存空间
 - p_filesz：这个段在 ELF 文件中占据多少空间
 - p_offset：这个段的开始地址在 ELF 文件中哪个位置
@@ -394,6 +468,11 @@ Program Headers:
   LOAD           0x003000 0x0000000000405000 0x0000000000405000 0x000028 0x000440 RW  0x1000
 ```
 
+!!!info "内核是怎么找到用户 ELF 文件的"
+    用户空间的程序位于 `user/` 目录下，`make user` 会编译所有用户程序，编译产物位于 `user/build/stripped/` 目录下。
+    
+    内核的 Makefile 会调用 `scripts/pack.py` 脚本生成一个 `link_app.S`，而它负责最终将所有用户的 ELF 打包进内核镜像的 rodata 段。
+
 ### 第一次到用户空间
 
 与 Context Switch 章节中类似，`first_sched_ret` 是一个进程第一次被 scheduler 调度到时执行的函数，它会按照 scheduler 规范释放 `p->lock`，并且跳转到 `usertrapret` 开始跳转到用户空间。
@@ -401,6 +480,8 @@ Program Headers:
 ### 用户空间的第一条代码
 
 `user/lib/user.ld` 定义了用户程序的 Linker Script，里面指定了 ELF 入口 entry 是 `__start_main` 函数，该函数在 `user/lib/start_main.c` 中被定义。
+
+该函数会调用 main 函数，并将其返回值作为 exit 的退出状态码，这允许我们在 main 函数中使用 `return` 来退出程序。
 
 ```c
 #include "syscall.h"
@@ -414,18 +495,6 @@ __attribute__((section(".text.entry"))) int __start_main(int argc, char *argv[])
 }
 ```
 
-该函数会调用 main 函数，并将其返回值作为 exit 的退出状态码。
-
-### Lab 练习
-
-TODO: 列出用户进程的起始状态
-
-### 概览
-
-下图展示了内核中的众多数据结构之间的指针关系（黑色箭头），以及内核态用户态之间切换的步骤（红色虚线箭头）。
-
-![alt](../assets/xv6lab-userspace/userspace-kernel-trampoline.png)
-
 ## 系统调用 Syscall
 
 系统调用（System Call）是操作系统提供给应用程序的接口，允许用户程序请求操作系统内核的服务。系统调用也有自己的调用规定（calling convention），你可以使用 `man 2 syscall` 查看不同平台上 Linux 的 syscall 调用规约。
@@ -437,24 +506,24 @@ RISC-V 上，系统调用由 `ecall` 指令发起，syscall number 即调用哪�
 ```c
 void usertrap() {
     // ...
+    struct proc *p              = curr_proc();
+    struct trapframe *trapframe = p->trapframe;
 
     uint64 cause = r_scause();
-    uint64 code  = cause & SCAUSE_EXCEPTION_CODE_MASK;
     if (cause & SCAUSE_INTERRUPT) {
         // handle interrupt
-    } else {
-        switch (code) {
-            case UserEnvCall:
-                trapframe->epc += 4;
-                intr_on();
-                syscall();
-                intr_off();
-                break;
-            default:
-                unknown_trap();
-                break;
-        }
+    } else if (cause == UserEnvCall) {
+        // sepc points to the ecall instruction,
+        // but we want to return to the next instruction.
+        trapframe->epc += 4;
+
+        // an interrupt will change sepc, scause, and sstatus,
+        // so enable only now that we're done with those registers.
+        intr_on();
+        syscall();
+        intr_off();
     }
+    // ...
     assert(!intr_get());
     usertrapret();
 }
@@ -493,3 +562,56 @@ ssize_t read(int fd, void buf[.count], size_t count);
 ssize_t write(int fd, const void buf[.count], size_t count);
 ```
 
+read 表示用户程序希望从内核读取数据，它负责从 fd （文件描述符，File Descriptor）读取 **至多** count 字节，写入到 buf中，并返回读取了多少字节。
+而 write 则表示用户程序希望往内核写入数据，它负责将 **至多** count 字节的数据从 buf 写入到 fd 中。
+
+在我们这节课所用的 xv6 上，我们还尚未引入文件的概念。所以，我们假定 read & write 系统调用即是对标准输入输出的 read & write，这两个系统调用最终会被 `user_console_write` 和 `user_console_read` 处理。
+
+所以，在目前的 xv6 中，read 和 write 的语义也很简单了：write 即是从用户空间将 `buf` 中的数据打印到串口，read 即是等待串口的数据并拷贝到 `buf` 中。
+
+这两个系统调用背后均有一个问题：**操作系统如何对用户内存进行读写？**
+
+### uaccess
+
+在内核下访问用户进程是一种非常常见的需求，以至于我们为此专门创建了一系列函数，我们将这系列函数称为 **用户访问原语** (uaccess primitive)。
+
+在考虑 uaccess 如何实现“在内核读写用户内存”前，我们似乎已经干过这件事了：在 `loader.c` 中的 `load_user_elf` 通过 ELF 加载用户程序时，我们就是在修改用户内存。
+
+我们重新回顾一下，在 `load_user_elf` 中是如何分配并写入用户内存的：
+
+1. 对于每个 `PT_LOAD` 段，我们得到它要加载的起始地址和范围，并使用一个 `struct vma` 来表示这个范围。
+
+```c
+    Elf64_Phdr *phdr = &phdr_base[i];
+
+    struct vma *vma = mm_create_vma(p->mm);
+    vma->vm_start   = PGROUNDDOWN(phdr->p_vaddr);  // The ELF requests this phdr loaded to p_vaddr;
+    vma->vm_end     = PGROUNDUP(vma->vm_start + phdr->p_memsz);
+    vma->pte_flags  = pte_perm;
+```
+
+2. 我们使用 `mm_mappages` 映射该 vma 区域。`mm_mappages` 会对 vma 中的每个页面使用 `kallocpage()` 分配物理页面。
+
+```c
+mm_mappages(vma);
+```
+
+3. 使用 `walkaddr` 在页表结构上找到 va 所对应的 pa。注意到 `kallocpage` 返回的页面是 Kernel Direct Mapping 区域中的页面，所以我们可以使用 `PA_TO_KVA` 转换地址为 KVA 并直接对用户内存背后的物理页面进行访问。
+
+```c
+void *__kva pa = (void *)PA_TO_KVA(walkaddr(p->mm, va));
+void *src      = (void *)(app->elf_address + phdr->p_offset + file_off);
+uint64 copy_size = MIN(file_remains, PGSIZE);
+
+memmove(pa, src, copy_size);
+```
+
+所以，uaccess 也是完全在做同样的事情，它通过 `walk` 系列函数 `walkaddr` ，通过 `p->mm->pgt` 将用户地址转换为物理地址，然后通过物理地址来进行内存访问。
+
+我们定义了如下三种原语：
+
+```c
+int copy_to_user(struct mm *mm, uint64 __user dstva, char *src, uint64 len);
+int copy_from_user(struct mm *mm, char *dst, uint64 __user srcva, uint64 len);
+int copystr_from_user(struct mm *mm, char *dst, uint64 __user srcva, uint64 max);
+```
