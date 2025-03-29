@@ -991,6 +991,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab 练习
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1516,6 +1525,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab 练习
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1555,7 +1573,7 @@
 <p class="admonition-title">xv6-lab5 代码分支</p>
 <p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab5">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab5</a></p>
 <p>使用命令 <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab5 xv6lab5</code> 下载 xv6-lab5 代码。</p>
-<p>使用 <code>make run</code> 运行本次 Lab 的内核，它会启动第一个用户进程 <code>init</code>。</p>
+<p>使用 <code>make run</code> 运行本次 Lab 的内核，它会启动第一个用户进程 <code>init</code>，其源代码为 <code>user/src/init.c</code>。</p>
 </div>
 <h2 id="_3">用户态和内核态的切换<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>RISC-V CPU 运行时会处于某个特权级状态。操作系统运行在 S mode，而用户模式处于 U mode。</p>
@@ -1929,10 +1947,10 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
 <a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>Program Headers:
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>  Type           Offset   VirtAddr           PhysAddr           FileSiz  MemSiz   Flg Align
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>  ATTRIBUTES     0x0076ac 0x0000000000000000 0x0000000000000000 0x000061 0x000000 R   0x1
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>  LOAD           0x000400 0x0000000000402400 0x0000000000402400 0x000fd8 0x000fd8 R E 0x1000
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>  LOAD           0x002000 0x0000000000404000 0x0000000000404000 0x000129 0x000129 R   0x1000
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>  LOAD           0x003000 0x0000000000405000 0x0000000000405000 0x000028 0x000440 RW  0x1000
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>  ATTRIBUTES     0x0074ed 0x0000000000000000 0x0000000000000000 0x000061 0x000000 R   0x1
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>  LOAD           0x001000 0x0000000000402000 0x0000000000402000 0x000f30 0x000f30 R E 0x1000
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>  LOAD           0x002000 0x0000000000403000 0x0000000000403000 0x0000b9 0x0000b9 R   0x1000
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>  LOAD           0x003000 0x0000000000404000 0x0000000000404000 0x000028 0x000440 RW  0x1000
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">内核是怎么找到用户 ELF 文件的</p>
@@ -2047,6 +2065,27 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">copy_from_user</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">__user</span><span class="w"> </span><span class="n">srcva</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
 <a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">copystr_from_user</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">__user</span><span class="w"> </span><span class="n">srcva</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">max</span><span class="p">);</span>
 </code></pre></div>
+<h2 id="lab">Lab 练习<a class="headerlink" href="#lab" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>在 <code>first_sched_ret</code> 中，<code>usertrapret</code> 前，找出用户进程中所有寄存器的初始值。填充以下表格，列出所有非0的寄存器值。</p>
+</li>
+<li>
+<p>在 <code>loader.c</code> 的 <code>load_init_app</code> 中，将 <code>lab5_trace_kallocpage = 1</code> 取消注释：</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="w">    </span><span class="c1">// Lab5 Report: </span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="n">lab5_trace_kallocpage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>使用 `make run` 运行内核。内核会打印在初始化第一个进程 `init` 时分配了哪些页面，并且打印 `init` 的用户页表。
+
+全局搜索 `lab5_trace_kallocpage`，查看该变量会在哪些函数中打印信息。
+
+请你画出页表结构，其中包含：虚拟地址、权限、所映射的物理地址，每一级页面的基地址，每一级页面中每个 PTE 的偏移量。
+</code></pre></div>
+<ol>
+<li>Trapframe 和 Trampoline 是两个页面，这两个页面应该允许 U-mode 访问吗？即用户页表中，这两个页面的 PTE 的 Flags 中是否应该拥有 <code>PTE_U</code>。请解释你的答案，不超过 50 字。</li>
+</ol>
 
 
 
@@ -2086,8 +2125,8 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/bdbeec0b, 2025-03-29 18:23:13+08:00" target="_blank" rel="noopener">
-            bdbeec0b, 2025-03-29 18:23:13+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/20b4e472, 2025-03-29 18:42:48+08:00" target="_blank" rel="noopener">
+            20b4e472, 2025-03-29 18:42:48+08:00
         </a>
     </div>
 </div>
