@@ -790,6 +790,15 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
+      概览
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
       用户态和内核态的切换
     </span>
   </a>
@@ -821,7 +830,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       用户页表 / 内核页表
     </span>
@@ -881,7 +890,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       第一个用户进程
     </span>
@@ -900,9 +909,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#mm_mappages" class="md-nav__link">
     <span class="md-ellipsis">
-      程序的加载
+      mm_mappages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#walk" class="md-nav__link">
+    <span class="md-ellipsis">
+      walk
     </span>
   </a>
   
@@ -911,7 +929,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      第一次到用户空间
+      程序的加载
     </span>
   </a>
   
@@ -920,16 +938,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      用户空间的第一条代码
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#lab" class="md-nav__link">
-    <span class="md-ellipsis">
-      Lab 练习
+      第一次到用户空间
     </span>
   </a>
   
@@ -938,7 +947,7 @@
           <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      概览
+      用户空间的第一条代码
     </span>
   </a>
   
@@ -963,6 +972,15 @@
   <a href="#read-write" class="md-nav__link">
     <span class="md-ellipsis">
       read &amp; write
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      uaccess
     </span>
   </a>
   
@@ -1132,6 +1150,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../laben/xv6lab-userspace.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Week 7 - Userspace
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1276,6 +1315,15 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
+      概览
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
       用户态和内核态的切换
     </span>
   </a>
@@ -1307,7 +1355,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       用户页表 / 内核页表
     </span>
@@ -1367,7 +1415,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       第一个用户进程
     </span>
@@ -1386,9 +1434,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#mm_mappages" class="md-nav__link">
     <span class="md-ellipsis">
-      程序的加载
+      mm_mappages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#walk" class="md-nav__link">
+    <span class="md-ellipsis">
+      walk
     </span>
   </a>
   
@@ -1397,7 +1454,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      第一次到用户空间
+      程序的加载
     </span>
   </a>
   
@@ -1406,16 +1463,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      用户空间的第一条代码
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#lab" class="md-nav__link">
-    <span class="md-ellipsis">
-      Lab 练习
+      第一次到用户空间
     </span>
   </a>
   
@@ -1424,7 +1472,7 @@
           <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      概览
+      用户空间的第一条代码
     </span>
   </a>
   
@@ -1449,6 +1497,15 @@
   <a href="#read-write" class="md-nav__link">
     <span class="md-ellipsis">
       read &amp; write
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      uaccess
     </span>
   </a>
   
@@ -1481,9 +1538,20 @@
 <p>用户空间 (Userspace) 是操作系统为用户程序提供的一个受限制的运行环境。操作系统通过 CPU 的硬件功能辅助来实现隔离，这通常包括：</p>
 <ul>
 <li>特权级的隔离。用户空间一般使用低特权级运行，使用高特权级指令会触发异常。</li>
-<li>内存空间的隔离。用户空间下可见的地址是操作系统为其设置的，而用户空间不能直接访问内核地址。</li>
+<li>内存空间的隔离。内核通过页表为用户空间设置地址空间，而用户空间不能直接访问内核地址。</li>
 </ul>
-<h2 id="_2">用户态和内核态的切换<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">概览<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>本次 Lab 中，我们将第一次把 CPU 运行在 U-mode，并运行第一个用户程序。</p>
+<p>在第一次作业中，我们亲自实验发现，如果 CPU 在执行 <code>sret</code> 时 <code>sstatus.SPP == 0</code>，那么 CPU 将降级到 U-mode。
+当 CPU 降级到 U-mode 后，CPU 只能通过 Trap 回到 S-mode。而 Trap 分为两种：异常（Exception）和中断（Interrupt）。</p>
+<ul>
+<li>用户程序可以主动地使用 <code>ecall</code> 发起一种异常 Exception: Code 8 (Environment call from U-mode)，这就是 RISC-V 平台上实现系统调用（syscall）的方式。</li>
+<li>U-mode 下，<strong>中断永远是开启的</strong>。回顾 <code>Trap, Exception and Interrupt</code> 一章中，我们对 <code>中断到来时，能否进入 Trap</code> 这件事情的描述：（当前运行在 S 模式，且 <code>sstatus.SIE</code> == 1） 或者 当前运行在 U 模式。</li>
+</ul>
+<p>当你完成这节 Lab 中所描述的细节后，你可以通过该图理解 xv6 中的 userspace 结构。</p>
+<p>下图中，蓝色方块表示由 <code>kallocpage</code> 分配的页面，黄色方块表示内核中的代码，绿色方块表示 Trampoline 中的代码。该图展示了内核中的众多数据结构之间的指针关系（黑色箭头），以及内核态用户态之间进行切换时的代码调用过程（红色虚线箭头）。</p>
+<p><img alt="alt" src="../../assets/xv6lab-userspace/userspace-kernel-trampoline.png" /></p>
+<h2 id="_3">用户态和内核态的切换<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>RISC-V CPU 运行时会处于某个特权级状态。操作系统运行在 S mode，而用户模式处于 U mode。</p>
 <p>我们将分别讲解如何从 S mode 降级到 U mode，以及如何从 U mode 回到 S mode。</p>
 <h3 id="kernel-user">Kernel -&gt; User<a class="headerlink" href="#kernel-user" title="Permanent link">&para;</a></h3>
@@ -1498,7 +1566,7 @@
 <p>The SPP bit indicates the privilege level at which a hart was executing before entering supervisor mode.
 When a trap is taken, SPP is set to 0 if the trap originated from user mode, or 1 otherwise.
 When an SRET instruction (see Section 3.3.2) is executed to return from the trap handler, the privilege level is set to user mode if the SPP bit is 0, or supervisor mode if the SPP bit is 1; SPP is then set to 0.</p>
-<p>所以说，只要在 <code>sret</code> 执行时，<code>sstatus.SPP</code> 为 0，我们即可降级到 U mode 下。（这并不要求我们一定处于 Trap Handler 中）</p>
+<p>所以说，只要在 <code>sret</code> 执行时，<code>sstatus.SPP</code> 为 0，我们即可降级到 U mode 下。（这其实并不要求我们一定处于 Trap Handler 中）</p>
 <h3 id="user-kernel">User -&gt; Kernel<a class="headerlink" href="#user-kernel" title="Permanent link">&para;</a></h3>
 <p>若 CPU 运行在 U mode 下，CPU 通过触发 Trap 来回到 S mode，这通常包括：</p>
 <ul>
@@ -1513,7 +1581,7 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 </li>
 </ul>
 <p>当需要进行系统调用时，用户程序可以使用 <code>ecall</code> 指令主动触发一次 Trap，而这将使 CPU 通过 Trap 回到 S mode.</p>
-<h2 id="_3">用户页表 / 内核页表<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_4">用户页表 / 内核页表<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>在上一节 Lab 中，我们介绍了 RISC-V 的页表模型，并且为内核设置了页表。在 PTE 中的第 4 个 bit U 表示该映射关系是否允许在用户模式下访问。</p>
 <p>我们将 512 GiB 的地址切分为用户地址（低地址）和内核地址（高地址），用户地址为 <code>0x0000_00</code> 开头，而内核地址以 <code>0xffff_ff</code> 开头。</p>
 <p>每一个用户进程都有自己独立的地址空间，所以，对于每一个用户程序，我们都为它创建一个单独的页表。我们将其称为 <strong>用户页表</strong> 。</p>
@@ -1528,7 +1596,7 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <p>Trampoline n. 蹦床</p>
 </blockquote>
 <p>在 xv6 中，Trampoline 是两段特殊的代码 <code>uservec</code> 和 <code>userret</code>，用于从用户态切换回内核态（即用户态下的 <code>stvec</code>），和从内核切换到用户态。</p>
-<p>Trampoline 的虚拟地址 <code>0x0000_003f_ffff_f000</code> 在内核页表和每个用户页表中都是存在的，所以我们可以放心的切换用户和内核的 <code>satp</code> 而不用担心当前 pc 会变得非法了。</p>
+<p>Trampoline 的虚拟地址 <code>0x0000_003f_ffff_f000</code> 在内核页表和每个用户页表中都是存在的，所以我们可以放心的切换用户和内核的 <code>satp</code> 而不用担心当前 pc 会变得非法了（回忆我们在上一章 Relocation 中遇到的问题）。</p>
 <h3 id="uservec">uservec<a class="headerlink" href="#uservec" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">    </span><span class="na">.section</span><span class="w"> </span><span class="no">trampsec</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="na">.globl</span><span class="w"> </span><span class="no">trampoline</span>
@@ -1562,7 +1630,7 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">        </span><span class="nf">csrr</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="no">sepc</span>
 <a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">        </span><span class="nf">sd</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">        </span><span class="c1"># load kernel&#39;s satp, sp, usertrap handler, tp(hartid)</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">        </span><span class="c1"># load kernel&#39;s satp, sp, usertrap handler, tp(cpuid)</span>
 <a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
 <a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">        </span><span class="nf">ld</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">(</span><span class="no">a0</span><span class="p">)</span>
@@ -1600,8 +1668,8 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <p>内核栈有如下几种：</p>
 <ul>
 <li><code>boot_stack</code>：内核启动时所用的栈。</li>
-<li><code>sched_kstack</code>：每个 scheduler 所用的栈</li>
-<li><code>p-&gt;kstack</code>: 每个进程的内核栈</li>
+<li><code>sched_kstack</code>：每个 CPU 的 scheduler 所用的栈。</li>
+<li><code>p-&gt;kstack</code>: 每个进程的 <strong>内核线程</strong> 的内核栈。当从 U-mode 来到 S-mode 时，用户模式下的 sp 是不可用的，我们需要切换到该进程的内核栈。</li>
 </ul>
 </div>
 <h3 id="usertrap">usertrap<a class="headerlink" href="#usertrap" title="Permanent link">&para;</a></h3>
@@ -1624,6 +1692,7 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 </code></pre></div>
 <h3 id="usertrapret">usertrapret<a class="headerlink" href="#usertrapret" title="Permanent link">&para;</a></h3>
 <p><code>usertrapret</code> 先将内核的信息保存到 <code>trapframe</code>，修改 <code>sepc</code>，设置 <code>sstatus</code> 返回 U mode，计算出用户页表的 <code>satp</code> 和 <code>stvec</code> 值，并跳转到 Trampoline 中的 <code>userret</code> 函数。</p>
+<p>在调用 <code>userret</code> 时，我们传入了3个参数，分别是用户的 trapframe 地址，用户页表 <code>satp</code> 值，和 <code>stvec</code> 值。在汇编中，我们可以使用 a0, a1, a2 引用它们。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">//</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// return to user space</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">//</span>
@@ -1655,7 +1724,6 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">    </span><span class="p">((</span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="n">uint64</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="p">))</span><span class="n">fn</span><span class="p">)(</span><span class="n">TRAPFRAME</span><span class="p">,</span><span class="w"> </span><span class="n">satp</span><span class="p">,</span><span class="w"> </span><span class="n">stvec</span><span class="p">);</span>
 <a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="p">}</span>
 </code></pre></div>
-<p>在调用 <code>userret</code> 时，我们传入了3个参数，分别是用户的 trapframe 地址，用户页表 <code>satp</code> 值，和 <code>stvec</code> 值。在汇编中，我们可以使用 a0, a1, a2 引用它们。</p>
 <h3 id="userret">userret<a class="headerlink" href="#userret" title="Permanent link">&para;</a></h3>
 <p>我们首先换回用户页表，此时我们即可使用 <code>0x0000_003f_ffff_e000</code> 访问到 trapframe，然后设置用户的 stvec。</p>
 <p>我们先将用户的 a0 存入 <code>sscratch</code>，然后从 trapframe 中恢复了其他用户寄存器。最后，我们使用 <code>csrrw a0, sscratch, a0</code> 交换 a0 和 <code>sscratch</code>，此时 a0 为用户的 a0，<code>sscratch</code> 是 trapframe 的虚拟地址 <code>0x0000_003f_ffff_e000</code>。</p>
@@ -1693,8 +1761,8 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">        </span><span class="c1"># usertrapret() set up sstatus and sepc.</span>
 <a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="w">        </span><span class="nf">sret</span>
 </code></pre></div>
-<h2 id="_4">第一个用户进程<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>在 <code>loader.c</code> 中的 <code>load_init_app</code> 函数会加载第一个用户进程，我们称之为 <code>init</code> 进程。<code>allocproc</code> 会创建并初始化 init 进程的 PCB，<code>load_user_elf</code> 会将加载 init 进程的 ELF 文件到 <code>p</code> 中，<code>add_task</code> 将它丢进 <code>scheduler</code> 的队列中，等待第一次调度。</p>
+<h2 id="_5">第一个用户进程<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>在 <code>loader.c</code> 中的 <code>load_init_app</code> 函数会加载第一个用户进程，我们称之为 <code>init</code> 进程。<code>allocproc</code> 会创建并初始化 init 进程的 PCB，<code>load_user_elf</code> 会将加载 init 进程的 ELF 文件到 PCB <code>p</code> 中，<code>add_task</code> 将它丢进 <code>scheduler</code> 的队列中，等待第一次调度。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">load_init_app</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">user_app</span><span class="w"> </span><span class="o">*</span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_elf</span><span class="p">(</span><span class="n">INIT_PROC</span><span class="p">);</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">allocproc</span><span class="p">();</span>
@@ -1772,7 +1840,12 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="kt">int</span><span class="w"> </span><span class="nf">mm_copy</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="o">*</span><span class="w"> </span><span class="n">old</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="o">*</span><span class="w"> </span><span class="n">new</span><span class="p">);</span>
 <a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="o">*</span><span class="w"> </span><span class="n">mm_find_vma</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="o">*</span><span class="w"> </span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">va</span><span class="p">);</span>
 </code></pre></div>
-<p>当我们要为用户映射一段空间时，我们首先使用 <code>mm_create_vma</code> 新建一个 <code>struct vma</code> 结构体，然后填充它的 <code>vma_start</code>, <code>vma_end</code> 和 <code>pte_flags</code> 字段。随后，我们使用 <code>mm_mappages</code> 映射该 vma。如果我们要对该地址进行访问，我们可以使用 <code>walkaddr</code> 将其转换为物理地址。由于用户所用的物理页面均是由 <code>kallocpage</code> 动态分配的，我们可以使用 <code>PA_TO_KVA</code> 宏将其转换为 KVA 即可正常访问该虚拟地址。</p>
+<p>当我们要为用户映射一段空间时：</p>
+<ol>
+<li>使用 <code>mm_create_vma</code> 新建一个 <code>struct vma</code> 结构体，然后填充它的 <code>vma_start</code>, <code>vma_end</code> 和 <code>pte_flags</code> 字段。</li>
+<li>使用 <code>mm_mappages</code> 映射该 vma。</li>
+<li>如果要对该地址进行访问，使用 <code>walkaddr</code> 将其转换为物理地址。由于用户所用的物理页面均是由 <code>kallocpage</code> 动态分配的，我们可以使用 <code>PA_TO_KVA</code> 宏将其转换为 KVA 即可正常访问该虚拟地址。</li>
+</ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">// loader.c, load_user_elf</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1">// setup stack</span>
@@ -1787,103 +1860,186 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 <a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
 <a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="p">}</span>
 </code></pre></div>
-<h3 id="_5">程序的加载<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p><code>loader.c</code> 的 <code>load_user_elf</code> 实现了加载一个ELF文件到用户空间。</p>
-<p>用户空间的程序位于 <code>user/</code> 目录下，<code>make user</code> 会编译所有用户程序，编译产物位于 <code>user/build/stripped/</code> 目录下。内核的 Makefile 会调用 <code>scripts/pack.py</code> 脚本生成一个 <code>link_app.S</code>，而它负责最终将所有用户的 ELF 打包进内核的 rodata 段。</p>
-<p><code>load_user_elf</code> 会根据 ELF 的 Program Header 进行加载，每个 LOAD 段会包含：</p>
+<h3 id="mm_mappages">mm_mappages<a class="headerlink" href="#mm_mappages" title="Permanent link">&para;</a></h3>
+<p>函数原型：<code>int mm_mappages(struct vma *vma)</code>。</p>
+<p>该函数会在页表 <code>vma-&gt;owner-&gt;pgt</code>中，映射 <code>vma</code> 中的虚拟地址范围。注意到，该页表就是用户进程的页表 <code>p-&gt;mm-&gt;pgt</code>。</p>
+<p>具体而言，对于每个页面：从 <code>kallocpage()</code> 分配页面，并在 <code>mm-&gt;pgt</code> 页表中映射它。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">mm_mappages</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="w"> </span><span class="o">*</span><span class="n">vma</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// simplified</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="c1">// sanity checking</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">owner</span><span class="p">;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">uint64</span><span class="w"> </span><span class="n">va</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_start</span><span class="p">;</span><span class="w"> </span><span class="n">va</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_end</span><span class="p">;</span><span class="w"> </span><span class="n">va</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">        </span><span class="n">pte_t</span><span class="w"> </span><span class="o">*</span><span class="n">pte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">walk</span><span class="p">(</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">        </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">pa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kallocpage</span><span class="p">();</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">        </span><span class="o">*</span><span class="n">pte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PA2PTE</span><span class="p">(</span><span class="n">pa</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">pte_flags</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_V</span><span class="p">;</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>mm_mappages</code> 会使用 <code>walk</code> 函数，得到 <code>mm-&gt;pgt</code> 中虚拟地址 va 所对应的 PTE 的地址，并构造 PTE。</p>
+<h3 id="walk">walk<a class="headerlink" href="#walk" title="Permanent link">&para;</a></h3>
+<p><code>walk</code> 函数会返回在页表中的 PTE 地址。如果指定了 <code>alloc</code>，则会对中间缺少的页表进行分配。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// Return the address of the PTE in page table pagetable</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1">// that corresponds to virtual address va.  </span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1">// If alloc!=0, create any required page-table pages.</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">pte_t</span><span class="w"> </span><span class="o">*</span><span class="nf">walk</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">va</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">alloc</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">holding</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mm</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">));</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">pagetable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mm</span><span class="o">-&gt;</span><span class="n">pgt</span><span class="p">;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">IS_USER_VA</span><span class="p">(</span><span class="n">va</span><span class="p">))</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">level</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">        </span><span class="n">pte_t</span><span class="w"> </span><span class="o">*</span><span class="n">pte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pagetable</span><span class="p">[</span><span class="n">PX</span><span class="p">(</span><span class="n">level</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">)];</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_V</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">            </span><span class="n">pagetable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pagetable_t</span><span class="p">)</span><span class="n">PA_TO_KVA</span><span class="p">(</span><span class="n">PTE2PA</span><span class="p">(</span><span class="o">*</span><span class="n">pte</span><span class="p">));</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">alloc</span><span class="p">)</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">            </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kallocpage</span><span class="p">();</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">pa</span><span class="p">)</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">            </span><span class="n">pagetable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pagetable_t</span><span class="p">)</span><span class="n">PA_TO_KVA</span><span class="p">(</span><span class="n">pa</span><span class="p">);</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="w">            </span><span class="n">memset</span><span class="p">(</span><span class="n">pagetable</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="w">            </span><span class="o">*</span><span class="n">pte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PA2PTE</span><span class="p">(</span><span class="n">KVA_TO_PA</span><span class="p">(</span><span class="n">pagetable</span><span class="p">))</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PTE_V</span><span class="p">;</span>
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pagetable</span><span class="p">[</span><span class="n">PX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">)];</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_6">程序的加载<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><code>loader.c</code> 的 <code>load_user_elf</code> 实现了加载一个ELF文件到用户空间。<code>load_user_elf</code> 会根据 ELF 的 Program Header 进行加载，每个 LOAD 段会包含：</p>
 <ul>
 <li>p_vaddr：这个段应该被加载到哪个虚拟地址</li>
-<li>p_paddr：这个段应该被加载到哪个物理地址，该值在加载用户程序时不起作用，因为用户的页面是从内核动态分配的。</li>
+<li>p_paddr：这个段应该被加载到哪个物理地址，该值在加载用户程序时不起作用，因为用户只能看到虚拟地址，并且用户的页面是由内核动态分配的。</li>
 <li>p_memsz：这个段应该占用多少内存空间</li>
 <li>p_filesz：这个段在 ELF 文件中占据多少空间</li>
 <li>p_offset：这个段的开始地址在 ELF 文件中哪个位置</li>
 <li>p_flags：段的权限</li>
 </ul>
 <p>以下是 <code>init</code> 的 ELF 文件中的 phdr:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Elf file type is EXEC (Executable file)
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Entry point 0x402400
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>There are 4 program headers, starting at offset 64
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>Program Headers:
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  Type           Offset   VirtAddr           PhysAddr           FileSiz  MemSiz   Flg Align
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>  ATTRIBUTES     0x0076ac 0x0000000000000000 0x0000000000000000 0x000061 0x000000 R   0x1
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>  LOAD           0x000400 0x0000000000402400 0x0000000000402400 0x000fd8 0x000fd8 R E 0x1000
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>  LOAD           0x002000 0x0000000000404000 0x0000000000404000 0x000129 0x000129 R   0x1000
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>  LOAD           0x003000 0x0000000000405000 0x0000000000405000 0x000028 0x000440 RW  0x1000
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Elf file type is EXEC (Executable file)
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Entry point 0x402400
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>There are 4 program headers, starting at offset 64
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>Program Headers:
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>  Type           Offset   VirtAddr           PhysAddr           FileSiz  MemSiz   Flg Align
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>  ATTRIBUTES     0x0076ac 0x0000000000000000 0x0000000000000000 0x000061 0x000000 R   0x1
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>  LOAD           0x000400 0x0000000000402400 0x0000000000402400 0x000fd8 0x000fd8 R E 0x1000
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>  LOAD           0x002000 0x0000000000404000 0x0000000000404000 0x000129 0x000129 R   0x1000
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>  LOAD           0x003000 0x0000000000405000 0x0000000000405000 0x000028 0x000440 RW  0x1000
 </code></pre></div>
-<h3 id="_6">第一次到用户空间<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">内核是怎么找到用户 ELF 文件的</p>
+<p>用户空间的程序位于 <code>user/</code> 目录下，<code>make user</code> 会编译所有用户程序，编译产物位于 <code>user/build/stripped/</code> 目录下。</p>
+<p>内核的 Makefile 会调用 <code>scripts/pack.py</code> 脚本生成一个 <code>link_app.S</code>，而它负责最终将所有用户的 ELF 打包进内核镜像的 rodata 段。</p>
+</div>
+<h3 id="_7">第一次到用户空间<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p>与 Context Switch 章节中类似，<code>first_sched_ret</code> 是一个进程第一次被 scheduler 调度到时执行的函数，它会按照 scheduler 规范释放 <code>p-&gt;lock</code>，并且跳转到 <code>usertrapret</code> 开始跳转到用户空间。</p>
-<h3 id="_7">用户空间的第一条代码<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<h3 id="_8">用户空间的第一条代码<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p><code>user/lib/user.ld</code> 定义了用户程序的 Linker Script，里面指定了 ELF 入口 entry 是 <code>__start_main</code> 函数，该函数在 <code>user/lib/start_main.c</code> 中被定义。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;syscall.h&quot;</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">extern</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="p">);</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">__attribute__</span><span class="p">((</span><span class="n">section</span><span class="p">(</span><span class="s">&quot;.text.entry&quot;</span><span class="p">)))</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__start_main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">{</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">));</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="p">}</span>
+<p>该函数会调用 main 函数，并将其返回值作为 exit 的退出状态码，这允许我们在 main 函数中使用 <code>return</code> 来退出程序。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;syscall.h&quot;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="k">extern</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="p">);</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">__attribute__</span><span class="p">((</span><span class="n">section</span><span class="p">(</span><span class="s">&quot;.text.entry&quot;</span><span class="p">)))</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__start_main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">{</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">));</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="p">}</span>
 </code></pre></div>
-<p>该函数会调用 main 函数，并将其返回值作为 exit 的退出状态码。</p>
-<h3 id="lab">Lab 练习<a class="headerlink" href="#lab" title="Permanent link">&para;</a></h3>
-<p>TODO: 列出用户进程的起始状态</p>
-<h3 id="_8">概览<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
-<p>下图展示了内核中的众多数据结构之间的指针关系（黑色箭头），以及内核态用户态之间切换的步骤（红色虚线箭头）。</p>
-<p><img alt="alt" src="../../assets/xv6lab-userspace/userspace-kernel-trampoline.png" /></p>
 <h2 id="syscall">系统调用 Syscall<a class="headerlink" href="#syscall" title="Permanent link">&para;</a></h2>
 <p>系统调用（System Call）是操作系统提供给应用程序的接口，允许用户程序请求操作系统内核的服务。系统调用也有自己的调用规定（calling convention），你可以使用 <code>man 2 syscall</code> 查看不同平台上 Linux 的 syscall 调用规约。</p>
 <p>RISC-V 上，系统调用由 <code>ecall</code> 指令发起，syscall number 即调用哪个 syscall 在 a7 寄存器中指定，6个参数在 a0-a5 中指定，系统调用的返回值则在 a0 与 a1 中。</p>
 <p><code>ecall</code> 指令会发起一个异常，导致 CPU 进入 Trap，其 trap cause (scause) 为 8 (ecall from U-mode)。我们在 <code>usertrap</code> 中处理这种异常，并转交 <code>syscall.c</code> 中的 <code>syscall</code> 函数处理。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">usertrap</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="c1">// ...</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_scause</span><span class="p">();</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">code</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SCAUSE_EXCEPTION_CODE_MASK</span><span class="p">;</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cause</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SCAUSE_INTERRUPT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">        </span><span class="c1">// handle interrupt</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">        </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="no">UserEnvCall</span><span class="p">:</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">                </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">epc</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">                </span><span class="n">intr_on</span><span class="p">();</span>
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">                </span><span class="n">syscall</span><span class="p">();</span>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">                </span><span class="n">intr_off</span><span class="p">();</span>
-<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
-<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">            </span><span class="k">default</span><span class="o">:</span>
-<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">                </span><span class="n">unknown_trap</span><span class="p">();</span>
-<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
-<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">        </span><span class="p">}</span>
-<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">intr_get</span><span class="p">());</span>
-<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="w">    </span><span class="n">usertrapret</span><span class="p">();</span>
-<a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">usertrap</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">();</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">trapframe</span><span class="w"> </span><span class="o">*</span><span class="n">trapframe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="p">;</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_scause</span><span class="p">();</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cause</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">SCAUSE_INTERRUPT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">        </span><span class="c1">// handle interrupt</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UserEnvCall</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">        </span><span class="c1">// sepc points to the ecall instruction,</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">        </span><span class="c1">// but we want to return to the next instruction.</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">        </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">epc</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">        </span><span class="c1">// an interrupt will change sepc, scause, and sstatus,</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">        </span><span class="c1">// so enable only now that we&#39;re done with those registers.</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="w">        </span><span class="n">intr_on</span><span class="p">();</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="w">        </span><span class="n">syscall</span><span class="p">();</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="w">        </span><span class="n">intr_off</span><span class="p">();</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="o">!</span><span class="n">intr_get</span><span class="p">());</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="w">    </span><span class="n">usertrapret</span><span class="p">();</span>
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="p">}</span>
 </code></pre></div>
 <p><code>syscall</code> 函数从当前进程的 Trapframe 中读取用户执行 <code>ecall</code> 时的寄存器值，并调用对应的 syscall 处理函数。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">syscall</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">trapframe</span><span class="w"> </span><span class="o">*</span><span class="n">trapframe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="p">;</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="w">                      </span><span class="o">=</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a7</span><span class="p">;</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a0</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a2</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a3</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a4</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a5</span><span class="p">};</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">SYS_read</span><span class="p">:</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">            </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_read</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">SYS_write</span><span class="p">:</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">            </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_write</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">        </span><span class="k">default</span><span class="o">:</span>
-<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">            </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
-<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">            </span><span class="n">errorf</span><span class="p">(</span><span class="s">&quot;unknown syscall %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
-<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="w">    </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
-<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="w">    </span><span class="n">tracef</span><span class="p">(</span><span class="s">&quot;syscall ret %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ret</span><span class="p">);</span>
-<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">syscall</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">trapframe</span><span class="w"> </span><span class="o">*</span><span class="n">trapframe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="p">;</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="w">                      </span><span class="o">=</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a7</span><span class="p">;</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a0</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a2</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a3</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a4</span><span class="p">,</span><span class="w"> </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a5</span><span class="p">};</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">SYS_read</span><span class="p">:</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">            </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_read</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">SYS_write</span><span class="p">:</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">            </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sys_write</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">        </span><span class="k">default</span><span class="o">:</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">            </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">            </span><span class="n">errorf</span><span class="p">(</span><span class="s">&quot;unknown syscall %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="w">    </span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="w">    </span><span class="n">tracef</span><span class="p">(</span><span class="s">&quot;syscall ret %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ret</span><span class="p">);</span>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="read-write">read &amp; write<a class="headerlink" href="#read-write" title="Permanent link">&para;</a></h3>
 <p><code>read</code> 和 <code>write</code> 是 Linux 下重要的两个系统调用，它们的原型如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+</code></pre></div>
+<p>read 表示用户程序希望从内核读取数据，它负责从 fd （文件描述符，File Descriptor）读取 <strong>至多</strong> count 字节，写入到 buf中，并返回读取了多少字节。
+而 write 则表示用户程序希望往内核写入数据，它负责将 <strong>至多</strong> count 字节的数据从 buf 写入到 fd 中。</p>
+<p>在我们这节课所用的 xv6 上，我们还尚未引入文件的概念。所以，我们假定 read &amp; write 系统调用即是对标准输入输出的 read &amp; write，这两个系统调用最终会被 <code>user_console_write</code> 和 <code>user_console_read</code> 处理。</p>
+<p>所以，在目前的 xv6 中，read 和 write 的语义也很简单了：write 即是从用户空间将 <code>buf</code> 中的数据打印到串口，read 即是等待串口的数据并拷贝到 <code>buf</code> 中。</p>
+<p>这两个系统调用背后均有一个问题：<strong>操作系统如何对用户内存进行读写？</strong></p>
+<h3 id="uaccess">uaccess<a class="headerlink" href="#uaccess" title="Permanent link">&para;</a></h3>
+<p>在内核下访问用户进程是一种非常常见的需求，以至于我们为此专门创建了一系列函数，我们将这系列函数称为 <strong>用户访问原语</strong> (uaccess primitive)。</p>
+<p>在考虑 uaccess 如何实现“在内核读写用户内存”前，我们似乎已经干过这件事了：在 <code>loader.c</code> 中的 <code>load_user_elf</code> 通过 ELF 加载用户程序时，我们就是在修改用户内存。</p>
+<p>我们重新回顾一下，在 <code>load_user_elf</code> 中是如何分配并写入用户内存的：</p>
+<ol>
+<li>对于每个 <code>PT_LOAD</code> 段，我们得到它要加载的起始地址和范围，并使用一个 <code>struct vma</code> 来表示这个范围。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="w">    </span><span class="n">Elf64_Phdr</span><span class="w"> </span><span class="o">*</span><span class="n">phdr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">phdr_base</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="w"> </span><span class="o">*</span><span class="n">vma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mm_create_vma</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">);</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_start</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">PGROUNDDOWN</span><span class="p">(</span><span class="n">phdr</span><span class="o">-&gt;</span><span class="n">p_vaddr</span><span class="p">);</span><span class="w">  </span><span class="c1">// The ELF requests this phdr loaded to p_vaddr;</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_end</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">PGROUNDUP</span><span class="p">(</span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">vm_start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">phdr</span><span class="o">-&gt;</span><span class="n">p_memsz</span><span class="p">);</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="n">vma</span><span class="o">-&gt;</span><span class="n">pte_flags</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">pte_perm</span><span class="p">;</span>
+</code></pre></div>
+<ol>
+<li>我们使用 <code>mm_mappages</code> 映射该 vma 区域。<code>mm_mappages</code> 会对 vma 中的每个页面使用 <code>kallocpage()</code> 分配物理页面。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">mm_mappages</span><span class="p">(</span><span class="n">vma</span><span class="p">);</span>
+</code></pre></div>
+<ol>
+<li>使用 <code>walkaddr</code> 在页表结构上找到 va 所对应的 pa。注意到 <code>kallocpage</code> 返回的页面是 Kernel Direct Mapping 区域中的页面，所以我们可以使用 <code>PA_TO_KVA</code> 转换地址为 KVA 并直接对用户内存背后的物理页面进行访问。</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">__kva</span><span class="w"> </span><span class="n">pa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">PA_TO_KVA</span><span class="p">(</span><span class="n">walkaddr</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="n">va</span><span class="p">));</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">src</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">app</span><span class="o">-&gt;</span><span class="n">elf_address</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">phdr</span><span class="o">-&gt;</span><span class="n">p_offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">file_off</span><span class="p">);</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="n">uint64</span><span class="w"> </span><span class="n">copy_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MIN</span><span class="p">(</span><span class="n">file_remains</span><span class="p">,</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">);</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="n">memmove</span><span class="p">(</span><span class="n">pa</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">copy_size</span><span class="p">);</span>
+</code></pre></div>
+<p>所以，uaccess 也是完全在做同样的事情，它通过 <code>walk</code> 系列函数 <code>walkaddr</code> ，通过 <code>p-&gt;mm-&gt;pgt</code> 将用户地址转换为物理地址，然后通过物理地址来进行内存访问。</p>
+<p>我们定义了如下三种原语：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">copy_to_user</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">__user</span><span class="w"> </span><span class="n">dstva</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">copy_from_user</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">__user</span><span class="w"> </span><span class="n">srcva</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">copystr_from_user</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">__user</span><span class="w"> </span><span class="n">srcva</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">max</span><span class="p">);</span>
 </code></pre></div>
 
 
@@ -1924,8 +2080,8 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/05dd2f30, 2025-03-25 23:32:35+08:00" target="_blank" rel="noopener">
-            05dd2f30, 2025-03-25 23:32:35+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/6bec7336, 2025-03-29 18:13:47+08:00" target="_blank" rel="noopener">
+            6bec7336, 2025-03-29 18:13:47+08:00
         </a>
     </div>
 </div>
