@@ -27,7 +27,7 @@
 
     使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab5 xv6lab5` 下载 xv6-lab5 代码。
 
-    使用 `make run` 运行本次 Lab 的内核，它会启动第一个用户进程 `init`。
+    使用 `make run` 运行本次 Lab 的内核，它会启动第一个用户进程 `init`，其源代码为 `user/src/init.c`。
 
 ## 用户态和内核态的切换
 
@@ -469,10 +469,10 @@ There are 4 program headers, starting at offset 64
 
 Program Headers:
   Type           Offset   VirtAddr           PhysAddr           FileSiz  MemSiz   Flg Align
-  ATTRIBUTES     0x0076ac 0x0000000000000000 0x0000000000000000 0x000061 0x000000 R   0x1
-  LOAD           0x000400 0x0000000000402400 0x0000000000402400 0x000fd8 0x000fd8 R E 0x1000
-  LOAD           0x002000 0x0000000000404000 0x0000000000404000 0x000129 0x000129 R   0x1000
-  LOAD           0x003000 0x0000000000405000 0x0000000000405000 0x000028 0x000440 RW  0x1000
+  ATTRIBUTES     0x0074ed 0x0000000000000000 0x0000000000000000 0x000061 0x000000 R   0x1
+  LOAD           0x001000 0x0000000000402000 0x0000000000402000 0x000f30 0x000f30 R E 0x1000
+  LOAD           0x002000 0x0000000000403000 0x0000000000403000 0x0000b9 0x0000b9 R   0x1000
+  LOAD           0x003000 0x0000000000404000 0x0000000000404000 0x000028 0x000440 RW  0x1000
 ```
 
 !!!info "内核是怎么找到用户 ELF 文件的"
@@ -622,3 +622,23 @@ int copy_to_user(struct mm *mm, uint64 __user dstva, char *src, uint64 len);
 int copy_from_user(struct mm *mm, char *dst, uint64 __user srcva, uint64 len);
 int copystr_from_user(struct mm *mm, char *dst, uint64 __user srcva, uint64 max);
 ```
+
+## Lab 练习
+
+1. 在 `first_sched_ret` 中，`usertrapret` 前，找出用户进程中所有寄存器的初始值。填充以下表格，列出所有非0的寄存器值。
+
+2. 在 `loader.c` 的 `load_init_app` 中，将 `lab5_trace_kallocpage = 1` 取消注释：
+
+```c
+    // Lab5 Report: 
+    lab5_trace_kallocpage = 1;
+```
+
+    使用 `make run` 运行内核。内核会打印在初始化第一个进程 `init` 时分配了哪些页面，并且打印 `init` 的用户页表。
+
+    全局搜索 `lab5_trace_kallocpage`，查看该变量会在哪些函数中打印信息。
+
+    请你画出页表结构，其中包含：虚拟地址、权限、所映射的物理地址，每一级页面的基地址，每一级页面中每个 PTE 的偏移量。
+
+3. Trapframe 和 Trampoline 是两个页面，这两个页面应该允许 U-mode 访问吗？即用户页表中，这两个页面的 PTE 的 Flags 中是否应该拥有 `PTE_U`。请解释你的答案，不超过 50 字。
+
