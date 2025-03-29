@@ -21,6 +21,13 @@
 
 ![alt](../assets/xv6lab-userspace/userspace-kernel-trampoline.png)
 
+!!!warning "xv6-lab5 代码分支"
+    
+    https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab5
+
+    使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab5 xv6lab5` 下载 xv6-lab5 代码。
+
+    使用 `make run` 运行本次 Lab 的内核，它会启动第一个用户进程 `init`。
 
 ## 用户态和内核态的切换
 
