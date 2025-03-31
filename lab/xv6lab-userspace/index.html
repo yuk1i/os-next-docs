@@ -2160,6 +2160,7 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 </li>
 <li>
 <p>Trapframe 和 Trampoline 是两个页面，这两个页面应该允许 U-mode 访问吗？即用户页表中，这两个页面的 PTE 的 Flags 中是否应该拥有 <code>PTE_U</code>。请解释你的答案，不超过 50 字。</p>
+<p>Hint: 我们在 <code>proc.c</code> 中的 <code>allocproc</code> 对这两个页面进行映射，使用函数 <code>mm_mappageat</code>。</p>
 </li>
 </ol>
 <h2 id="_11">相关阅读<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
@@ -2331,8 +2332,8 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/f423bae2, 2025-03-31 11:14:16+08:00" target="_blank" rel="noopener">
-            f423bae2, 2025-03-31 11:14:16+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/b4e66135, 2025-03-31 11:17:26+08:00" target="_blank" rel="noopener">
+            b4e66135, 2025-03-31 11:17:26+08:00
         </a>
     </div>
 </div>
