@@ -2155,7 +2155,7 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
 </li>
 <li>
 <p>在 <code>user/src/init.c</code> 中，取消注释：<code>asm volatile(" csrw stvec, %0" : : "r"(0x80000000));</code>。</p>
-<p><code>make run</code> 运行内核，<code>init</code> 应该触发异常并导致 <code>[PANIC 0,1] os/proc.c:337: init process exited</code>。</p>
+<p><code>make run</code> 运行内核，<code>init</code> 应该触发异常并退出。</p>
 <p>请你写出 <code>init</code> 触发了什么异常，以及为什么会触发异常。</p>
 </li>
 <li>
@@ -2332,8 +2332,8 @@ When an SRET instruction (see Section 3.3.2) is executed to return from the trap
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/b4e66135, 2025-03-31 11:17:26+08:00" target="_blank" rel="noopener">
-            b4e66135, 2025-03-31 11:17:26+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/bcc5384f, 2025-03-31 11:32:05+08:00" target="_blank" rel="noopener">
+            bcc5384f, 2025-03-31 11:32:05+08:00
         </a>
     </div>
 </div>
