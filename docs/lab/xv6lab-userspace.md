@@ -540,6 +540,8 @@ int copystr_from_user(struct mm *mm, char *dst, uint64 __user srcva, uint64 max)
 
 3. Trapframe 和 Trampoline 是两个页面，这两个页面应该允许 U-mode 访问吗？即用户页表中，这两个页面的 PTE 的 Flags 中是否应该拥有 `PTE_U`。请解释你的答案，不超过 50 字。
 
+    Hint: 我们在 `proc.c` 中的 `allocproc` 对这两个页面进行映射，使用函数 `mm_mappageat`。
+
 ## 相关阅读
 
 ### `struct mm`
