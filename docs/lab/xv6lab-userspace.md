@@ -528,20 +528,15 @@ int copystr_from_user(struct mm *mm, char *dst, uint64 __user srcva, uint64 max)
 
 ## Lab 练习
 
-1. 在 `first_sched_ret` 中，`usertrapret` 前，找出用户进程中所有寄存器的初始值。填充以下表格，列出所有非0的寄存器值。
+1. 请你写出：当 `init` 进程第一次回退到用户模式时，它的所有寄存器状态（包含 pc，只列出值不为0的）
 
-2. 在 `loader.c` 的 `load_init_app` 中，将 `lab5_trace_kallocpage = 1` 取消注释：
+    Hint: 在 `first_sched_ret` 中，`usertrapret` 前，使用 `print_trapframe` 打印 `curr_proc()` 的 trapframe。
 
-```c
-    // Lab5 Report: 
-    lab5_trace_kallocpage = 1;
-```
+2. 在 `user/src/init.c` 中，取消注释：`asm volatile(" csrw stvec, %0" : : "r"(0x80000000));`。
 
-    使用 `make run` 运行内核。内核会打印在初始化第一个进程 `init` 时分配了哪些页面，并且打印 `init` 的用户页表。
+    `make run` 运行内核，`init` 应该触发异常并导致 `[PANIC 0,1] os/proc.c:337: init process exited`。
 
-    全局搜索 `lab5_trace_kallocpage`，查看该变量会在哪些函数中打印信息。
-
-    请你画出页表结构，其中包含：虚拟地址、权限、所映射的物理地址，每一级页面的基地址，每一级页面中每个 PTE 的偏移量。
+    请你写出 `init` 触发了什么异常，以及为什么会触发异常。
 
 3. Trapframe 和 Trampoline 是两个页面，这两个页面应该允许 U-mode 访问吗？即用户页表中，这两个页面的 PTE 的 Flags 中是否应该拥有 `PTE_U`。请解释你的答案，不超过 50 字。
 
