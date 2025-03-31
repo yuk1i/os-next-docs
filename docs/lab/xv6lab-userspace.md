@@ -534,7 +534,7 @@ int copystr_from_user(struct mm *mm, char *dst, uint64 __user srcva, uint64 max)
 
 2. 在 `user/src/init.c` 中，取消注释：`asm volatile(" csrw stvec, %0" : : "r"(0x80000000));`。
 
-    `make run` 运行内核，`init` 应该触发异常并导致 `[PANIC 0,1] os/proc.c:337: init process exited`。
+    `make run` 运行内核，`init` 应该触发异常并退出。
 
     请你写出 `init` 触发了什么异常，以及为什么会触发异常。
 
