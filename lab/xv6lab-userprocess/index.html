@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../xv6lab-userspace/">
+      
+      
+        <link rel="next" href="../../laben/lab2/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -16,7 +20,7 @@
     
     
       
-        <title>fork - 操作系统实验文档</title>
+        <title>Week 8 - 进程 Process - 操作系统实验文档</title>
       
     
     
@@ -58,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#fork" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -93,7 +97,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              fork
+              Week 8 - 进程 Process
             
           </span>
         </div>
@@ -201,10 +205,12 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../lab1/" class="md-tabs__link">
           
   
@@ -564,23 +570,28 @@
       
   
   
+    
   
   
+  
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -591,7 +602,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             每周实验
@@ -749,10 +760,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../xv6lab-userprocess/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Week 8 - 进程 Process
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -761,6 +792,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#address-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      Address Space
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fork" class="md-nav__link">
+    <span class="md-ellipsis">
+      fork
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exec" class="md-nav__link">
+    <span class="md-ellipsis">
+      exec
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wait" class="md-nav__link">
+    <span class="md-ellipsis">
+      wait
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1072,6 +1159,50 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#address-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      Address Space
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fork" class="md-nav__link">
+    <span class="md-ellipsis">
+      fork
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exec" class="md-nav__link">
+    <span class="md-ellipsis">
+      exec
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wait" class="md-nav__link">
+    <span class="md-ellipsis">
+      wait
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1088,12 +1219,120 @@
   
 
 
-<h1 id="fork">fork<a class="headerlink" href="#fork" title="Permanent link">&para;</a></h1>
-<p>fork &amp; exec &amp; wait</p>
-<p>argv, env</p>
-<p>how to check fork duplicate memory &amp; file?</p>
-<p>process tree, parent process, how does wait work</p>
-<p>reparent</p>
+<h1 id="_1">用户进程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="address-space">Address Space<a class="headerlink" href="#address-space" title="Permanent link">&para;</a></h2>
+<p>我们首先回顾一下，在内核和 CPU 的视角下 U-mode 下的地址空间是如何进行描述的。</p>
+<p>对于 CPU 而言，U-mode 下的所有访存，包括取指 (IF)、内存读 (LD)、内存写 (ST) 都是要通过页表进行地址翻译的。而 CPU 是通过 CSR <code>satp</code> 作为页表基地址来进行地址翻译的。</p>
+<p>所以，内核需要为用户进程设置页表结构。在内核中，我们使用 <code>struct mm</code> 管理用户内存，每个 PCB <code>struct proc</code> 中均有一个指向 <code>struct mm</code> 的指针 <code>*mm</code>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// os/vm.h</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">spinlock_t</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">__kva</span><span class="w"> </span><span class="n">pgt</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="o">*</span><span class="w"> </span><span class="n">vma</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">};</span>
+</code></pre></div>
+<p>每个 <code>struct mm</code> 中有一张页表 <code>pgt</code>，它就是用户进程使用的 <code>satp</code>，我们可以在 <code>usertrapret</code> 和 trampoline 中观察到这一点：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// os/trap.c</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">usertrapret</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="c1">// tell trampoline.S the user page table to switch to.</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">satp</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">MAKE_SATP</span><span class="p">(</span><span class="n">KVA_TO_PA</span><span class="p">(</span><span class="n">curr_proc</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">mm</span><span class="o">-&gt;</span><span class="n">pgt</span><span class="p">));</span><span class="w">      </span><span class="c1">// &lt;--</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">stvec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">TRAMPOLINE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">uservec</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">trampoline</span><span class="p">))</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">~</span><span class="mh">0x3</span><span class="p">;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="c1">// jump to userret in trampoline.S at the top of memory, which</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="c1">// switches to the user page table, restores user registers,</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="c1">// and switches to user mode with sret.</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">fn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TRAMPOLINE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">userret</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">trampoline</span><span class="p">);</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="p">((</span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="n">uint64</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="p">,</span><span class="w"> </span><span class="n">uint64</span><span class="p">))</span><span class="n">fn</span><span class="p">)(</span><span class="n">TRAPFRAME</span><span class="p">,</span><span class="w"> </span><span class="n">satp</span><span class="p">,</span><span class="w"> </span><span class="n">stvec</span><span class="p">);</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="p">}</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1">// os/trampoline.S</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">.</span><span class="n">globl</span><span class="w"> </span><span class="n">userret</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="nl">userret</span><span class="p">:</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">        </span><span class="cp"># userret(TRAPFRAME, pagetable, stvec)</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">        </span><span class="cp"># switch from kernel to user.</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">        </span><span class="cp"># usertrapret() calls here.</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">        </span><span class="cp"># a0: TRAPFRAME, in user page table.</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">        </span><span class="cp"># a1: user page table, for satp.</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">        </span><span class="cp"># a2: uservec</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">        </span><span class="cp"># switch to the user page table.</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">        </span><span class="n">csrw</span><span class="w"> </span><span class="n">satp</span><span class="p">,</span><span class="w"> </span><span class="n">a1</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">        </span><span class="n">sfence</span><span class="p">.</span><span class="n">vma</span><span class="w"> </span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">zero</span>
+</code></pre></div>
+<p>在内核的视角下，用户的内存空间是以页面为单位的几个连续的虚拟地址区域。我们将每个连续的区域用 <code>struct vma</code> (Virtual Memory Area) 结构体表示，并使用链表将它们串起来。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// os/vm.h</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="o">*</span><span class="w"> </span><span class="n">owner</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="o">*</span><span class="w"> </span><span class="n">next</span><span class="p">;</span><span class="w">   </span><span class="c1">// linked list   </span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">vm_start</span><span class="p">;</span><span class="w">    </span><span class="c1">// start address (user virtual address)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">vm_end</span><span class="p">;</span><span class="w">      </span><span class="c1">// end address   (user virtual address)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">pte_flags</span><span class="p">;</span><span class="w">   </span><span class="c1">// flags</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">};</span>
+</code></pre></div>
+<p>用户 <strong>程序</strong> 会指定它在加载时，需要加载哪几个连续的区域（也成为段 Segment）。
+以下是 <code>llvm-readelf-19 -a user/build/sh</code> 的输出，表示 <code>sh</code> 程序加载（LOAD）时会需要三个连续的区域：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Elf file type is EXEC (Executable file)
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Entry point 0x402000
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>There are 4 program headers, starting at offset 64
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Program Headers:
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  Type           Offset   VirtAddr           PhysAddr           FileSiz  MemSiz   Flg Align
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>  ATTRIBUTES     0x00c3dc 0x0000000000000000 0x0000000000000000 0x000061 0x000000 R   0x1
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  LOAD           0x001000 0x0000000000402000 0x0000000000402000 0x0011f4 0x0011f4 R E 0x1000
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>  LOAD           0x003000 0x0000000000404000 0x0000000000404000 0x0000cd 0x0000cd R   0x1000
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>  LOAD           0x004000 0x0000000000405000 0x0000000000405000 0x000020 0x0007d0 RW  0x1000
+</code></pre></div>
+<p>我们可以在 <code>os/proc.c</code> 中的 <code>exec</code> 函数中，使用 <code>mm_print</code> 打印 <code>sh</code> 加载完成后 <strong>进程</strong> 的 <code>struct mm</code> 结构以及 <code>pgt</code> 页表。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mm 0xfffffffd000fff88:
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  pgt: 0xffffffc080b14000
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  ref: 1
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  vma: 0xfffffffd010bfe28
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    [0x00000000fffe8000, 0x00000000ffff0000), flags: ---U-WR-
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    [0x0000000000406000, 0x0000000000406000), flags: ---U-WR-
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    [0x0000000000405000, 0x0000000000406000), flags: ---U-WR-
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    [0x0000000000404000, 0x0000000000405000), flags: ---U--R-
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    [0x0000000000402000, 0x0000000000404000), flags: ---UX-R-
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>=== PageTable at 0xffffffc080b14000 ===
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>[0], pte[0xffffffc080b14000]: 0x0000000000000000 -&gt; 0x0000000080b22000 -------V
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>  [2], pte[0xffffffc080b22010]: 0x0000000000400000 -&gt; 0x0000000080b23000 -------V
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    [2], pte[0xffffffc080b23010]: 0x0000000000402000 -&gt; 0x0000000080b21000 ---UX-RV
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    [3], pte[0xffffffc080b23018]: 0x0000000000403000 -&gt; 0x0000000080b20000 ---UX-RV
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    [4], pte[0xffffffc080b23020]: 0x0000000000404000 -&gt; 0x0000000080b1f000 ---U--RV
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    [5], pte[0xffffffc080b23028]: 0x0000000000405000 -&gt; 0x0000000080b1e000 ---U-WRV
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>[3], pte[0xffffffc080b14018]: 0x00000000c0000000 -&gt; 0x0000000080b18000 -------V
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>  [1ff], pte[0xffffffc080b18ff8]: 0x00000000ffe00000 -&gt; 0x0000000080b19000 -------V
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    [1e8], pte[0xffffffc080b19f40]: 0x00000000fffe8000 -&gt; 0x0000000080b1d000 ---U-WRV
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    [1e9], pte[0xffffffc080b19f48]: 0x00000000fffe9000 -&gt; 0x0000000080b1c000 ---U-WRV
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>    [1ea], pte[0xffffffc080b19f50]: 0x00000000fffea000 -&gt; 0x0000000080b1b000 ---U-WRV
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    [1eb], pte[0xffffffc080b19f58]: 0x00000000fffeb000 -&gt; 0x0000000080b1a000 ---U-WRV
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    [1ec], pte[0xffffffc080b19f60]: 0x00000000fffec000 -&gt; 0x0000000080b24000 ---U-WRV
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    [1ed], pte[0xffffffc080b19f68]: 0x00000000fffed000 -&gt; 0x0000000080b25000 ---U-WRV
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    [1ee], pte[0xffffffc080b19f70]: 0x00000000fffee000 -&gt; 0x0000000080b26000 ---U-WRV
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    [1ef], pte[0xffffffc080b19f78]: 0x00000000fffef000 -&gt; 0x0000000080b27000 ---U-WRV
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>[ff], pte[0xffffffc080b147f8]: 0x0000003fc0000000 -&gt; 0x0000000080b15000 -------V
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>  [1ff], pte[0xffffffc080b15ff8]: 0x0000003fffe00000 -&gt; 0x0000000080b16000 -------V
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>    [1fe], pte[0xffffffc080b16ff0]: 0x0000003fffffe000 -&gt; 0x0000000080b17000 DA---WRV
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>    [1ff], pte[0xffffffc080b16ff8]: 0x0000003ffffff000 -&gt; 0x000000008020b000 -A--X-RV
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>=== END === 
+</code></pre></div>
+<p>我们可以发现，在 vma 链表中，有三个区域是和 ELF 中的 LOAD 段相同的，它们分别是 <code>.text</code>, <code>.rodata</code>, <code>.data/.bss</code> 段。
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>    [0x0000000000402000, 0x0000000000404000), flags: ---UX-R-
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    [0x0000000000404000, 0x0000000000405000), flags: ---U--R-
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    [0x0000000000405000, 0x0000000000406000), flags: ---U-WR-
+</code></pre></div></p>
+<p>另一个以 <code>0xfffe</code> 开始的地址则是进程的栈区。
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>    [0x00000000fffe8000, 0x00000000ffff0000), flags: ---U-WR-
+</code></pre></div></p>
+<p>此外，还有一个大小为0的区域，它跟随在所有 LOAD 段后面，这是进程的堆区 (<code>break</code>)。进程需要使用 <code>sbrk</code> 系统调用来扩展或收缩堆区。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>    [0x0000000000406000, 0x0000000000406000), flags: ---U-WR-
+</code></pre></div>
+<p><img alt="alt" src="../../assets/xv6lab-userprocess/userprocess-vma.png" /></p>
+<h2 id="fork">fork<a class="headerlink" href="#fork" title="Permanent link">&para;</a></h2>
+<h2 id="exec">exec<a class="headerlink" href="#exec" title="Permanent link">&para;</a></h2>
+<h2 id="wait">wait<a class="headerlink" href="#wait" title="Permanent link">&para;</a></h2>
 
 
 
