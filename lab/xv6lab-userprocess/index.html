@@ -815,6 +815,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Address Space">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loading
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      概览图
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -836,9 +860,60 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      生命周期
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit" class="md-nav__link">
+    <span class="md-ellipsis">
+      exit
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="exit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reparent" class="md-nav__link">
+    <span class="md-ellipsis">
+      reparent
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#wait" class="md-nav__link">
     <span class="md-ellipsis">
       wait
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      课堂报告
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      推荐阅读
     </span>
   </a>
   
@@ -1172,6 +1247,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Address Space">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loading
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      概览图
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1193,9 +1292,60 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      生命周期
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit" class="md-nav__link">
+    <span class="md-ellipsis">
+      exit
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="exit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reparent" class="md-nav__link">
+    <span class="md-ellipsis">
+      reparent
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#wait" class="md-nav__link">
     <span class="md-ellipsis">
       wait
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      课堂报告
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      推荐阅读
     </span>
   </a>
   
@@ -1220,6 +1370,13 @@
 
 
 <h1 id="_1">用户进程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">xv6-lab6 代码分支</p>
+<p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab6">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab6</a></p>
+<p>使用命令 <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab6 xv6lab6</code> 下载 xv6-lab6 代码。</p>
+<p>使用 <code>make run</code> 运行本次 Lab 的内核，它会启动第一个用户进程 <code>init</code>，其源代码为 <code>user/src/init.c</code>。</p>
+<p><strong>注：</strong> 本次 Lab 的 <code>struct mm</code> 初始化代码和上次 Lab 代码中有所变动。</p>
+</div>
 <h2 id="address-space">Address Space<a class="headerlink" href="#address-space" title="Permanent link">&para;</a></h2>
 <p>我们首先回顾一下，在内核和 CPU 的视角下 U-mode 下的地址空间是如何进行描述的。</p>
 <p>对于 CPU 而言，U-mode 下的所有访存，包括取指 (IF)、内存读 (LD)、内存写 (ST) 都是要通过页表进行地址翻译的。而 CPU 是通过 CSR <code>satp</code> 作为页表基地址来进行地址翻译的。</p>
@@ -1262,7 +1419,7 @@
 <a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">        </span><span class="n">csrw</span><span class="w"> </span><span class="n">satp</span><span class="p">,</span><span class="w"> </span><span class="n">a1</span>
 <a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">        </span><span class="n">sfence</span><span class="p">.</span><span class="n">vma</span><span class="w"> </span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">zero</span>
 </code></pre></div>
-<p>在内核的视角下，用户的内存空间是以页面为单位的几个连续的虚拟地址区域。我们将每个连续的区域用 <code>struct vma</code> (Virtual Memory Area) 结构体表示，并使用链表将它们串起来。</p>
+<p>在内核的视角下， <strong>用户的内存空间是几个连续的虚拟地址区域</strong>。我们将每个连续的区域用 <code>struct vma</code> (Virtual Memory Area) 结构体表示，并使用链表将它们串起来。每个 <code>vma</code> 中有这一个区域的起始地址和结束地址（要求对齐到页边界），以及该区域的权限。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// os/vm.h</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="o">*</span><span class="w"> </span><span class="n">owner</span><span class="p">;</span>
@@ -1272,6 +1429,8 @@
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">uint64</span><span class="w"> </span><span class="n">pte_flags</span><span class="p">;</span><span class="w">   </span><span class="c1">// flags</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">};</span>
 </code></pre></div>
+<p>注意到 <code>struct vma</code> 中有一个 <code>struct mm*</code> 指针，这表示每个 VMA 都下属于某个 <code>struct mm</code>。</p>
+<h3 id="loading">Loading<a class="headerlink" href="#loading" title="Permanent link">&para;</a></h3>
 <p>用户 <strong>程序</strong> 会指定它在加载时，需要加载哪几个连续的区域（也成为段 Segment）。
 以下是 <code>llvm-readelf-19 -a user/build/sh</code> 的输出，表示 <code>sh</code> 程序加载（LOAD）时会需要三个连续的区域：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Elf file type is EXEC (Executable file)
@@ -1326,13 +1485,182 @@
 <p>另一个以 <code>0xfffe</code> 开始的地址则是进程的栈区。
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>    [0x00000000fffe8000, 0x00000000ffff0000), flags: ---U-WR-
 </code></pre></div></p>
-<p>此外，还有一个大小为0的区域，它跟随在所有 LOAD 段后面，这是进程的堆区 (<code>break</code>)。进程需要使用 <code>sbrk</code> 系统调用来扩展或收缩堆区。</p>
+<p>此外，还有一个大小为0的区域，它跟随在所有 LOAD 段后面，这是进程的堆区 (Heap，在远古的操作系统上我们称之为 <code>Program Break</code>)。进程需要使用 <code>sbrk</code> 系统调用来扩展或收缩堆区。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>    [0x0000000000406000, 0x0000000000406000), flags: ---U-WR-
 </code></pre></div>
+<h3 id="_2">概览图<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>该图展示了内核中用于管理 <code>sh</code> 进程的用户地址空间的数据结构。</p>
 <p><img alt="alt" src="../../assets/xv6lab-userprocess/userprocess-vma.png" /></p>
 <h2 id="fork">fork<a class="headerlink" href="#fork" title="Permanent link">&para;</a></h2>
+<p>fork 系统调用是操作系统中用于创建一个新进程的函数。当一个进程调用 fork 时，它会创建一个与父进程几乎完全相同的新进程（称为子进程）。子进程会复制父进程的地址空间、所有寄存器值。唯一不同的是，fork 调用返回的值：</p>
+<ul>
+<li>
+<p>父进程：fork 返回子进程的 PID（进程ID）。</p>
+</li>
+<li>
+<p>子进程：fork 返回 0。</p>
+</li>
+</ul>
+<p>xv6 中的 <code>fork</code> 实现位于 <code>os/proc.c</code> 中的 <code>fork</code> 函数。以下为简化版本：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">fork</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">allocproc</span><span class="p">();</span><span class="w">  </span><span class="c1">// child process</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">();</span><span class="w">   </span><span class="c1">// parent process</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="c1">// create a new struct mm for child process</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="n">np</span><span class="o">-&gt;</span><span class="n">mm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mm_create</span><span class="p">(</span><span class="n">np</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="p">);</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="c1">// Copy user memory from parent to child.</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="n">mm_copy</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">,</span><span class="w"> </span><span class="n">np</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">);</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="c1">// copy saved user registers.</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="p">);</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="c1">// Cause fork to return 0 in the child.</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="n">np</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">    </span><span class="n">np</span><span class="o">-&gt;</span><span class="n">parent</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">;</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">    </span><span class="c1">// add the child process to scheduler</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">    </span><span class="n">np</span><span class="o">-&gt;</span><span class="n">state</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">RUNNABLE</span><span class="p">;</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">    </span><span class="n">add_task</span><span class="p">(</span><span class="n">np</span><span class="p">);</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">np</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">;</span><span class="w"> </span><span class="c1">// return value for the parent process</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>fork</code> 的调用者即为父进程，其中用 <code>allocproc</code> 申请的新 PCB 即为子进程。我们通过修改 <code>np</code> 的 trapframe 来实现两者拥有不同的返回值。注意到我们并没有改 <code>p</code> 的 trapframe，这是因为 <code>syscall</code> 函数在分发系统调用时，会为我们将 <code>fork</code> 函数的返回值写入 trapframe 中的 <code>a0</code>，我们只需让 <code>fork</code> 返回子进程的 PID 即可。</p>
+<p><code>mm_copy</code> (位于 <code>os/vm.c</code>) 函数最终实现了对所有 <code>vma</code> 的复制：实际上就是在新的 <code>mm</code> 下面创建新的 <code>struct vma</code>，赋值 <code>vma</code> 中的属性，调用 <code>mm_mappages</code> 映射该 <code>vma</code>，最后复制实际的内存数据。</p>
+<div class="admonition warning">
+<p class="admonition-title">Trapframe 和 Trampoline</p>
+<p>在概览图中我们可以发现，用户页表中包含 Trapframe 和 Trampoline，而 <code>vma</code> 链表中并不包含这两个页面。这样的设计是刻意的而非bug。</p>
+<p>考虑 <code>vma</code> （用户的 Virtual Memory Area） 的 <strong>生命周期</strong> (Lifecycle)，<code>exec</code> 系统调用会删除所有现有的用户内存映射并替换为新的，但是 PCB (即 <code>struct proc</code>) 对象是不需要销毁重建的，Trapframe 似乎也不需要重新分配物理页面。</p>
+<p>所以，Trapframe 和 Trampoline 的生命周期实际上与该进程一致，而不是与任何一个 <code>vma</code> 条目一致。</p>
+<p>在实现上，我们在系统初始化时，即 <code>proc_init</code> 中申请 Trapframe 页面，在 <code>create_mm</code> 中映射 Trampoline 和 Trapframe.</p>
+</div>
 <h2 id="exec">exec<a class="headerlink" href="#exec" title="Permanent link">&para;</a></h2>
+<p>exec 系统调用用于执行一个新的程序，并用新的程序替换当前进程的内存空间。与 fork 不同，exec 不会创建一个新的进程，而是用一个新程序替换当前进程的代码、数据和堆栈。</p>
+<p>调用 exec 时，当前进程的地址空间会被新的程序的代码和数据替换掉。原先进程的代码、数据、堆栈都会被清空，并且加载新的程序。随后，当前进程的执行流将跳转到新程序的入口点，继续执行新的程序代码。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">exec</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">args</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">user_app</span><span class="w"> </span><span class="o">*</span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_elf</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">();</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="c1">// execve does NOT preserve memory mappings:</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="c1">//  free VMAs including program_brk, and ustack</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="c1">// load_user_elf() will create a new mm for the new process and free the old one</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="c1">//  , if page allocations all succeed.</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="c1">// Otherwise, we will return to the old process.</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="c1">// However, keep the phys page of trapframe, because it belongs to struct proc.</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="n">load_user_elf</span><span class="p">(</span><span class="n">app</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">);</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="c1">// syscall() will overwrite trapframe-&gt;a0 to the return value.</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a0</span><span class="p">;</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>load_user_elf</code> 函数相较于上次 Lab 有所变动。我们需要注意到， <strong>申请物理页面是有可能失败的</strong>。在系统没有足够的内存时，<code>exec</code> 函数执行失败，我们需要回到原来的进程中继续执行，并且要释放掉分配到一半的内存。</p>
+<p>所以，我们创建一个新的 <code>struct mm</code>，并向其中加载 ELF 中的段和进程栈等。只有不再需要进行内存分配后 (<code>mm_mappages</code>)，我们才将 <code>p-&gt;mm</code> 给清空并覆盖掉。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// os/loader.c, Simpilfied version.</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">load_user_elf</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">user_app</span><span class="w"> </span><span class="o">*</span><span class="n">app</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">args</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="c1">// create a new mm for the process, including trapframe and trampoline mappings</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm</span><span class="w"> </span><span class="o">*</span><span class="n">new_mm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mm_create</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="p">);</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="n">Elf64_Ehdr</span><span class="w"> </span><span class="o">*</span><span class="n">ehdr</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Elf64_Ehdr</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">app</span><span class="o">-&gt;</span><span class="n">elf_address</span><span class="p">;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">ehdr</span><span class="o">-&gt;</span><span class="n">e_phnum</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">vma</span><span class="w"> </span><span class="o">*</span><span class="n">vma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mm_create_vma</span><span class="p">(</span><span class="n">new_mm</span><span class="p">);</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">        </span><span class="c1">// Load Segment from phdr.</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mm_mappages</span><span class="p">(</span><span class="n">vma</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">   </span><span class="c1">// if page allocation fails, jump to bad.</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="n">bad</span><span class="p">;</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">    </span><span class="c1">// setup brk: zero</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">    </span><span class="n">mm_mappages</span><span class="p">(</span><span class="n">vma_brk</span><span class="p">);</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">    </span><span class="c1">// setup stack</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">    </span><span class="n">mm_mappages</span><span class="p">(</span><span class="n">vma_ustack</span><span class="p">);</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">    </span><span class="c1">// from here, we are done with all page allocation </span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="w">    </span><span class="c1">// (including pagetable allocation during mapping the trampoline and trapframe).</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">    </span><span class="c1">// free the old mm.</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">)</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="w">        </span><span class="n">mm_free</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">mm</span><span class="p">);</span><span class="w">    </span>
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">    </span><span class="c1">// we can modify p&#39;s fields because we will return to the new exec-ed process.</span>
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">mm</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">new_mm</span><span class="p">;</span>
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="w">    </span><span class="c1">// setup trapframe</span>
+<a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">epc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ehdr</span><span class="o">-&gt;</span><span class="n">e_entry</span><span class="p">;</span>
+<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a>
+<a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a>
+<a id="__codelineno-10-33" name="__codelineno-10-33" href="#__codelineno-10-33"></a><span class="w">    </span><span class="c1">// otherwise, page allocations fails. we will return to the old process.</span>
+<a id="__codelineno-10-34" name="__codelineno-10-34" href="#__codelineno-10-34"></a><span class="nl">bad</span><span class="p">:</span>
+<a id="__codelineno-10-35" name="__codelineno-10-35" href="#__codelineno-10-35"></a><span class="w">    </span><span class="n">warnf</span><span class="p">(</span><span class="s">&quot;load (%s) failed: %d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">app</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">ret</span><span class="p">);</span>
+<a id="__codelineno-10-36" name="__codelineno-10-36" href="#__codelineno-10-36"></a><span class="w">    </span><span class="n">mm_free</span><span class="p">(</span><span class="n">new_mm</span><span class="p">);</span>
+<a id="__codelineno-10-37" name="__codelineno-10-37" href="#__codelineno-10-37"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<a id="__codelineno-10-38" name="__codelineno-10-38" href="#__codelineno-10-38"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="_3">生命周期<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="exit">exit<a class="headerlink" href="#exit" title="Permanent link">&para;</a></h2>
+<p><code>exit</code> 系统调用用于终止当前进程，并返回一个退出状态给操作系统。<code>exit</code> 系统调用永远不会返回。调用 <code>exit</code> 后，进程的 <strong>一些资源不会被操作系统立刻回收</strong>。并且，<code>exit</code> 不会使其立刻从父进程的视野中消失。它仍然存在于“僵尸进程”状态，直到父进程通过 <code>wait</code> 系统调用获取到子进程的退出状态并回收该进程。</p>
+<p>以下是简化版本的 <code>exit</code>。注意到在这里面我们并没有回收用户资源：到目前的 Lab 为止，我们只介绍过一种用户资源，即用户内存。</p>
+<p>在 <code>exit</code> 中，我们只将自己的状态设为 <code>ZOMBIE</code>，并把退出代码保存到 <code>p-&gt;exit_code</code> 中。然后，我们使用 <code>wakeup</code> <strong>唤醒</strong> 自己的父进程。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// Exit the current process.</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">exit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">wakeinit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">();</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_lock</span><span class="p">);</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="c1">// reparent</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="c1">// wakeup wait-ing parent.</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span><span class="n">wakeup</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">);</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">    </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">exit_code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">code</span><span class="p">;</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">ZOMBIE</span><span class="p">;</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">    </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_lock</span><span class="p">);</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">    </span><span class="n">sched</span><span class="p">();</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">    </span><span class="n">panic_never_reach</span><span class="p">();</span>
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="p">}</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">wakeup</p>
+<p>我们会在后续的同步 Lab 具体讲解锁和同步，以及上述代码中的 <code>wait_lock</code> 是什么。</p>
+<p>在这节 Lab，我们只需要知道父进程在 <code>wait</code> 找不到处于 <code>ZOMBIE</code> 的子进程时会陷入 <strong>睡眠</strong>。而子进程 <code>exit</code> 会把自己设为 <code>ZOMBIE</code>，这打破了 <strong>父进程陷入 Sleeping 的条件</strong>，所以我们唤醒父进程使其不再睡眠。</p>
+</div>
+<h3 id="reparent">reparent<a class="headerlink" href="#reparent" title="Permanent link">&para;</a></h3>
+<p>"reparent"是指当一个进程的父进程终止时，操作系统会将该进程的父进程更改为 init 进程（PID 为 1 的进程）。这是一个系统级的管理机制，用于确保在父进程终止时，子进程仍然有一个父进程来进行资源回收、进程管理等必要操作。</p>
+<p>reparent 机制主要是为了避免“孤儿进程”问题，并确保系统资源得到适当回收。在 xv6 中，<code>init</code> 就像是一个"孤儿院"，负责回收子进程们创建的孙子进程。</p>
 <h2 id="wait">wait<a class="headerlink" href="#wait" title="Permanent link">&para;</a></h2>
+<p>TODO</p>
+<h2 id="_4">课堂报告<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>请你参照 概览图，画出第一个用户进程，即 <code>init</code> 的内存结构。</p>
+</li>
+<li>
+<p>Trampoline 和 Trapframe 的物理页面是哪里来的？在不同的进程中，它们的 Trapframe 及 Trampoline 是同一张物理页面吗？</p>
+</li>
+</ol>
+<p>参照上述我们打印的用户页表，注意其中最后两条映射的物理地址：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>[ff], pte[0xffffffc080b147f8]: 0x0000003fc0000000 -&gt; 0x0000000080b15000 -------V
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>  [1ff], pte[0xffffffc080b15ff8]: 0x0000003fffe00000 -&gt; 0x0000000080b16000 -------V
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    [1fe], pte[0xffffffc080b16ff0]: 0x0000003fffffe000 -&gt; 0x0000000080b17000 DA---WRV
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    [1ff], pte[0xffffffc080b16ff8]: 0x0000003ffffff000 -&gt; 0x000000008020b000 -A--X-RV
+</code></pre></div>
+<p>参照 "Week 6 - 内核页表 Kernel Paging" 中的 "xv6 内核内存布局" 一章，找出这两个物理地址分别位于哪个物理地址区域。</p>
+<p>参照内核的 linker script <code>os/kernel.ld</code>，以及内核页表的构建函数 <code>kvm.c:kvmmake</code> 日志，验证你的答案。</p>
+<ol>
+<li>在使用 <code>exec</code> 系统调用时，我们会传入进程的参数，即 <code>int exec(char *path, char *argv[])</code>。我们会在 <code>main</code> 函数中收到 <code>argv</code> 数组：<code>int main(int argc, char *argv[])</code>，其中 <code>argv</code> 是一个 <code>char*</code> （字符串指针）的数组，它的最后一项是 NULL，<code>argc</code> 表示这个数组中有多少个字符串指针。</li>
+</ol>
+<p>我们知道 <code>exec</code> 会删除所有内存映射。那么，旧进程进行 <code>exec</code> 系统调用时传入的 <code>argv</code> 是怎么传入到新进程的？</p>
+<p>Hint: 在 <code>make run</code> 后，applists 中有 <code>test_arg</code>。你可以在 <code>sh &gt;&gt;</code> 中测试它。</p>
+<p>TODO：Debugger。</p>
+<h2 id="_5">推荐阅读<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>回顾上周的课堂报告问题：Trapframe 和 Trampoline 是两个页面，这两个页面应该允许 U-mode 访问吗？</p>
+<p>请你亲自做实验验证。</p>
+<p>对于 Trampoline，修改 <code>kvm.c</code> 中 <code>kvmmake</code> 函数，调用 <code>kvmmap</code> 映射 trampoline 处，在权限中 OR 上 PTE_U。</p>
+<p>对于 Trapframe，修改 <code>proc.c</code> 中 <code>allocproc</code> 中，调用 <code>mm_mappage_at</code> 函数处，在权限中 OR 上 PTE_U。：</p>
+<p>使用 <code>make debug</code> 以及 <code>gdb-multiarch</code> 挂载调试器。使用 <code>b kernel_trap_entry</code> 和 <code>b *0x3ffffff000</code> 在内核 Trap 入口处和 <code>uservec</code> 处打断点，使用 <code>print $scause</code> 手动查看 CSR 状态。</p>
 
 
 
@@ -1372,8 +1700,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/fcaf406d, 2025-04-04 17:07:12+08:00" target="_blank" rel="noopener">
-            fcaf406d, 2025-04-04 17:07:12+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/9fe1867f, 2025-04-05 22:06:06+08:00" target="_blank" rel="noopener">
+            9fe1867f, 2025-04-05 22:06:06+08:00
         </a>
     </div>
 </div>
