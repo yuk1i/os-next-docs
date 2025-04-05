@@ -6,7 +6,25 @@
 
     使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab6 xv6lab6` 下载 xv6-lab6 代码。
 
-    使用 `make run` 运行本次 Lab 的内核，它会启动第一个用户进程 `init`，其源代码为 `user/src/init.c`。
+    使用 `make run` 运行本次 Lab 的内核，它会启动第一个用户进程 `init`，`init` 会启动 Shell 进程 `sh`。
+
+    你会看到 `sh` 进程的用户空间结构。
+
+    ```
+    init: starting sh
+    [INFO  0,2] exec: exec-ed sh, mm structure:
+    mm 0xfffffffd000fff48:
+    pgt: 0xffffffc080d25000
+    ref: 1
+    vma: 0xfffffffd010bfd38
+        [0x00000000fffe8000, 0x00000000ffff0000), flags: ---U-WR-
+        [0x0000000000406000, 0x0000000000406000), flags: ---U-WR-
+        [0x0000000000405000, 0x0000000000406000), flags: ---U-WR-
+        [0x0000000000404000, 0x0000000000405000), flags: ---U--R-
+        [0x0000000000402000, 0x0000000000404000), flags: ---UX-R-
+    === PageTable at 0xffffffc080d25000 ===
+    ...
+    ```
 
     **注：** 本次 Lab 的 `struct mm` 初始化代码和上次 Lab 代码中有所变动。
 
@@ -324,30 +342,30 @@ TODO
 
 ## 课堂报告
 
-1. 请你参照 概览图，画出第一个用户进程，即 `init` 的内存结构。
+1. Trampoline 和 Trapframe 的物理页面是哪里来的？
 
-2. Trampoline 和 Trapframe 的物理页面是哪里来的？在不同的进程中，它们的 Trapframe 及 Trampoline 是同一张物理页面吗？
+    参照上述我们打印的 `sh` 进程的用户页表，注意其中最后两条映射的物理地址：
 
-参照上述我们打印的用户页表，注意其中最后两条映射的物理地址：
+    ```
+    [ff], pte[0xffffffc080b147f8]: 0x0000003fc0000000 -> 0x0000000080b15000 -------V
+    [1ff], pte[0xffffffc080b15ff8]: 0x0000003fffe00000 -> 0x0000000080b16000 -------V
+        [1fe], pte[0xffffffc080b16ff0]: 0x0000003fffffe000 -> 0x0000000080b17000 DA---WRV
+        [1ff], pte[0xffffffc080b16ff8]: 0x0000003ffffff000 -> 0x000000008020b000 -A--X-RV
+    ```
 
-```
-[ff], pte[0xffffffc080b147f8]: 0x0000003fc0000000 -> 0x0000000080b15000 -------V
-  [1ff], pte[0xffffffc080b15ff8]: 0x0000003fffe00000 -> 0x0000000080b16000 -------V
-    [1fe], pte[0xffffffc080b16ff0]: 0x0000003fffffe000 -> 0x0000000080b17000 DA---WRV
-    [1ff], pte[0xffffffc080b16ff8]: 0x0000003ffffff000 -> 0x000000008020b000 -A--X-RV
-```
+    参照 "Week 6 - 内核页表 Kernel Paging" 中的 "xv6 内核内存布局" 一章，找出这两个物理地址分别位于哪个物理地址区域。对照源代码 `trampoline.S` 和 linker script `os/kernel.ld` 验证你的答案。
 
-参照 "Week 6 - 内核页表 Kernel Paging" 中的 "xv6 内核内存布局" 一章，找出这两个物理地址分别位于哪个物理地址区域。
+2. 在不同的进程中，它们的 Trapframe 及 Trampoline 是同一张物理页面吗？
 
-参照内核的 linker script `os/kernel.ld`，以及内核页表的构建函数 `kvm.c:kvmmake` 日志，验证你的答案。
+    在 `sh >>` 下执行命令 `test_arg 123 asd`，`sh` 会 fork&exec 启动 `test_arg` 程序。内核也会打印 `test_arg` 的页表。观察它的页表和 `sh` 的页表中的 Trapframe 和 Trampoline。
 
 3. 在使用 `exec` 系统调用时，我们会传入进程的参数，即 `int exec(char *path, char *argv[])`。我们会在 `main` 函数中收到 `argv` 数组：`int main(int argc, char *argv[])`，其中 `argv` 是一个 `char*` （字符串指针）的数组，它的最后一项是 NULL，`argc` 表示这个数组中有多少个字符串指针。
 
-我们知道 `exec` 会删除所有内存映射。那么，旧进程进行 `exec` 系统调用时传入的 `argv` 是怎么传入到新进程的？
+    我们知道 `exec` 会删除所有内存映射。那么，旧进程进行 `exec` 系统调用时传入的 `argv` 是怎么传入到新进程的？
 
-Hint: 在 `make run` 后，applists 中有 `test_arg`。你可以在 `sh >> ` 中测试它。
+    Hint: 在 `make run` 后，applists 中有 `test_arg`。你可以在 `sh >> ` 中测试它。
 
-TODO：Debugger。
+    TODO：Debugger。
 
 ## 推荐阅读
 
@@ -359,4 +377,4 @@ TODO：Debugger。
 
 对于 Trapframe，修改 `proc.c` 中 `allocproc` 中，调用 `mm_mappage_at` 函数处，在权限中 OR 上 PTE_U。：
 
-使用 `make debug` 以及 `gdb-multiarch` 挂载调试器。使用 `b kernel_trap_entry` 和 `b *0x3ffffff000` 在内核 Trap 入口处和 `uservec` 处打断点，使用 `print $scause` 手动查看 CSR 状态。
+使用 `make debug` 以及 `gdb-multiarch` 挂载调试器。使用 `b kernel_trap_entry` 和 `b *0x3ffffff000` 在内核 Trap 入口处和 `uservec` 处打断点，使用 `print $scause` 手动查看 Trap 相关的 CSR。
