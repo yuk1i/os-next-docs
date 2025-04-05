@@ -1,5 +1,15 @@
 # 用户进程
 
+!!!warning "xv6-lab6 代码分支"
+    
+    https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab6
+
+    使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab6 xv6lab6` 下载 xv6-lab6 代码。
+
+    使用 `make run` 运行本次 Lab 的内核，它会启动第一个用户进程 `init`，其源代码为 `user/src/init.c`。
+
+    **注：** 本次 Lab 的 `struct mm` 初始化代码和上次 Lab 代码中有所变动。
+
 ## Address Space
 
 我们首先回顾一下，在内核和 CPU 的视角下 U-mode 下的地址空间是如何进行描述的。
@@ -63,6 +73,10 @@ struct vma {
     uint64 pte_flags;   // flags
 };
 ```
+
+注意到 `struct vma` 中有一个 `struct mm*` 指针，这表示每个 VMA 都下属于某个 `struct mm`。
+
+### Loading
 
 用户 **程序** 会指定它在加载时，需要加载哪几个连续的区域（也成为段 Segment）。
 以下是 `llvm-readelf-19 -a user/build/sh` 的输出，表示 `sh` 程序加载（LOAD）时会需要三个连续的区域：
@@ -136,11 +150,13 @@ mm 0xfffffffd000fff88:
 
 ### 概览图
 
+该图展示了内核中用于管理 `sh` 进程的用户地址空间的数据结构。
+
 ![alt](../assets/xv6lab-userprocess/userprocess-vma.png)
 
 ## fork
 
-fork 系统调用是操作系统中用于创建一个新进程的函数。当一个进程调用 fork 时，它会创建一个与父进程几乎完全相同的新进程（称为子进程）。子进程会复制父进程的地址空间、打开的文件描述符等信息。唯一不同的是，fork 调用返回的值：
+fork 系统调用是操作系统中用于创建一个新进程的函数。当一个进程调用 fork 时，它会创建一个与父进程几乎完全相同的新进程（称为子进程）。子进程会复制父进程的地址空间、所有寄存器值。唯一不同的是，fork 调用返回的值：
 
 - 父进程：fork 返回子进程的 PID（进程ID）。
 
@@ -154,12 +170,11 @@ int fork() {
     struct proc *np = allocproc();  // child process
     struct proc *p = curr_proc();   // parent process
 
+    // create a new struct mm for child process
+    np->mm = mm_create(np->trapframe);
+
     // Copy user memory from parent to child.
     mm_copy(p->mm, np->mm);
-
-    // Set child's vma_brk
-    np->vma_brk = mm_find_vma(np->mm, p->vma_brk->vm_start);
-    np->brk     = p->brk;
 
     // copy saved user registers.
     *(np->trapframe) = *(p->trapframe);
@@ -168,7 +183,7 @@ int fork() {
     np->trapframe->a0 = 0;
     np->parent        = p;
 
-    // add child process to scheduler
+    // add the child process to scheduler
     np->state         = RUNNABLE;
     add_task(np);
 
@@ -176,47 +191,136 @@ int fork() {
 }
 ```
 
-`fork` 的调用者即为父进程，其中用 `allocproc` 申请的新 PCB 即为子进程。我们通过修改 `np` 的 trapframe 来实现两者拥有不同的返回值。注意到我们并没有改 `p` 的 trapframe，这是因为 `syscall` 函数会为我们将 `fork` 函数的返回值写入 trapframe 中的 `a0`，我们只需让 `fork` 返回子进程的 PID 即可。
+`fork` 的调用者即为父进程，其中用 `allocproc` 申请的新 PCB 即为子进程。我们通过修改 `np` 的 trapframe 来实现两者拥有不同的返回值。注意到我们并没有改 `p` 的 trapframe，这是因为 `syscall` 函数在分发系统调用时，会为我们将 `fork` 函数的返回值写入 trapframe 中的 `a0`，我们只需让 `fork` 返回子进程的 PID 即可。
 
-`mm_copy` 函数最终实现了对所有 `vma` 的复制：实际上就是在新的 `mm` 下面创建新的 `struct vma`，赋值 `vma` 中的属性，调用 `mm_mappages` 映射该 `vma`，最后复制实际的内存数据。
-
-```c
-// Used in fork.
-// Copy the pagetable page and all the user pages.
-// Return 0 on success, negative on error.
-int mm_copy(struct mm *old, struct mm *new) {
-    struct vma *vma = old->vma;
-
-    while (vma) {
-        struct vma *new_vma = mm_create_vma(new);
-        new_vma->vm_start   = vma->vm_start;
-        new_vma->vm_end     = vma->vm_end;
-        new_vma->pte_flags  = vma->pte_flags;
-        mm_mappages(new_vma);
-        for (uint64 va = vma->vm_start; va < vma->vm_end; va += PGSIZE) {
-            void *__kva pa_old = (void *)PA_TO_KVA(walkaddr(old, va));
-            void *__kva pa_new = (void *)PA_TO_KVA(walkaddr(new, va));
-            memmove(pa_new, pa_old, PGSIZE);
-        }
-        vma = vma->next;
-    }
-
-    return 0;
-}
-```
+`mm_copy` (位于 `os/vm.c`) 函数最终实现了对所有 `vma` 的复制：实际上就是在新的 `mm` 下面创建新的 `struct vma`，赋值 `vma` 中的属性，调用 `mm_mappages` 映射该 `vma`，最后复制实际的内存数据。
 
 !!!warning "Trapframe 和 Trampoline"
     在概览图中我们可以发现，用户页表中包含 Trapframe 和 Trampoline，而 `vma` 链表中并不包含这两个页面。这样的设计是刻意的而非bug。
 
-    考虑 `vma` （用户的 Virtual Memory Area） 的 **生命周期** (Lifecycle)，`exec` 系统调用会删除所有现有的用户内存映射并替换为新的，但是 PCB (即 `struct proc`) 对象是不需要销毁重建的，Trapframe 似乎也不需要重建。
+    考虑 `vma` （用户的 Virtual Memory Area） 的 **生命周期** (Lifecycle)，`exec` 系统调用会删除所有现有的用户内存映射并替换为新的，但是 PCB (即 `struct proc`) 对象是不需要销毁重建的，Trapframe 似乎也不需要重新分配物理页面。
     
-    实际上，Trapframe 和 Trampoline 的生命周期实际上与该进程一致，而不是与任何一个 `vma` 条目一致。
+    所以，Trapframe 和 Trampoline 的生命周期实际上与该进程一致，而不是与任何一个 `vma` 条目一致。
 
-    所以，我们在 `allocproc` 中映射 Trampoline、申请 Trapframe 页面、并映射 Trapframe，在 `freeproc` 释放 Trapframe 页面。
+    在实现上，我们在系统初始化时，即 `proc_init` 中申请 Trapframe 页面，在 `create_mm` 中映射 Trampoline 和 Trapframe.
 
 ## exec
 
+exec 系统调用用于执行一个新的程序，并用新的程序替换当前进程的内存空间。与 fork 不同，exec 不会创建一个新的进程，而是用一个新程序替换当前进程的代码、数据和堆栈。
+
+调用 exec 时，当前进程的地址空间会被新的程序的代码和数据替换掉。原先进程的代码、数据、堆栈都会被清空，并且加载新的程序。随后，当前进程的执行流将跳转到新程序的入口点，继续执行新的程序代码。
+
+```c
+int exec(char *name, char *args[]) {
+    struct user_app *app = get_elf(name);
+
+    struct proc *p = curr_proc();
+
+    // execve does NOT preserve memory mappings:
+    //  free VMAs including program_brk, and ustack
+    // load_user_elf() will create a new mm for the new process and free the old one
+    //  , if page allocations all succeed.
+    // Otherwise, we will return to the old process.
+    // However, keep the phys page of trapframe, because it belongs to struct proc.
+    load_user_elf(app, p, args);
+
+    // syscall() will overwrite trapframe->a0 to the return value.
+    return p->trapframe->a0;
+}
+```
+
+`load_user_elf` 函数相较于上次 Lab 有所变动。我们需要注意到， **申请物理页面是有可能失败的**。在系统没有足够的内存时，`exec` 函数执行失败，我们需要回到原来的进程中继续执行，并且要释放掉分配到一半的内存。
+
+所以，我们创建一个新的 `struct mm`，并向其中加载 ELF 中的段和进程栈等。只有不再需要进行内存分配后 (`mm_mappages`)，我们才将 `p->mm` 给清空并覆盖掉。
+
+```c
+// os/loader.c, Simpilfied version.
+int load_user_elf(struct user_app *app, struct proc *p, char *args[]) {
+
+    // create a new mm for the process, including trapframe and trampoline mappings
+    struct mm *new_mm = mm_create(p->trapframe);
+    
+    Elf64_Ehdr *ehdr      = (Elf64_Ehdr *)app->elf_address;
+    for (int i = 0; i < ehdr->e_phnum; i++) {
+        struct vma *vma = mm_create_vma(new_mm);
+        // Load Segment from phdr.
+        if (mm_mappages(vma) < 0)   // if page allocation fails, jump to bad.
+            goto bad;
+    }
+    // setup brk: zero
+    mm_mappages(vma_brk);
+    // setup stack
+    mm_mappages(vma_ustack);
+
+    // from here, we are done with all page allocation 
+    // (including pagetable allocation during mapping the trampoline and trapframe).
+
+    // free the old mm.
+    if (p->mm)
+        mm_free(p->mm);    
+    
+    // we can modify p's fields because we will return to the new exec-ed process.
+    p->mm      = new_mm;
+    // setup trapframe
+    p->trapframe->epc = ehdr->e_entry;
+    
+    return 0;
+
+    // otherwise, page allocations fails. we will return to the old process.
+bad:
+    warnf("load (%s) failed: %d", app->name, ret);
+    mm_free(new_mm);
+    return ret;
+}
+```
+
+## 生命周期
+
+## exit
+
+`exit` 系统调用用于终止当前进程，并返回一个退出状态给操作系统。`exit` 系统调用永远不会返回。调用 `exit` 后，进程的 **一些资源不会被操作系统立刻回收**。并且，`exit` 不会使其立刻从父进程的视野中消失。它仍然存在于“僵尸进程”状态，直到父进程通过 `wait` 系统调用获取到子进程的退出状态并回收该进程。
+
+以下是简化版本的 `exit`。注意到在这里面我们并没有回收用户资源：到目前的 Lab 为止，我们只介绍过一种用户资源，即用户内存。
+
+在 `exit` 中，我们只将自己的状态设为 `ZOMBIE`，并把退出代码保存到 `p->exit_code` 中。然后，我们使用 `wakeup` **唤醒** 自己的父进程。
+
+```c
+// Exit the current process.
+void exit(int code) {
+    int wakeinit = 0;
+    struct proc *p = curr_proc();
+
+    acquire(&wait_lock);
+    // reparent
+
+    // wakeup wait-ing parent.
+    wakeup(p->parent);
+
+    acquire(&p->lock);
+    p->exit_code = code;
+    p->state     = ZOMBIE;
+    release(&wait_lock);
+
+    sched();
+    panic_never_reach();
+}
+```
+
+!!!warning "wakeup"
+    我们会在后续的同步 Lab 具体讲解锁和同步，以及上述代码中的 `wait_lock` 是什么。
+
+    在这节 Lab，我们只需要知道父进程在 `wait` 找不到处于 `ZOMBIE` 的子进程时会陷入 **睡眠**。而子进程 `exit` 会把自己设为 `ZOMBIE`，这打破了 **父进程陷入 Sleeping 的条件**，所以我们唤醒父进程使其不再睡眠。
+
+
+### reparent
+
+"reparent"是指当一个进程的父进程终止时，操作系统会将该进程的父进程更改为 init 进程（PID 为 1 的进程）。这是一个系统级的管理机制，用于确保在父进程终止时，子进程仍然有一个父进程来进行资源回收、进程管理等必要操作。
+
+reparent 机制主要是为了避免“孤儿进程”问题，并确保系统资源得到适当回收。在 xv6 中，`init` 就像是一个"孤儿院"，负责回收子进程们创建的孙子进程。
+
 ## wait
+
+TODO
 
 ## 课堂报告
 
@@ -236,6 +340,14 @@ int mm_copy(struct mm *old, struct mm *new) {
 参照 "Week 6 - 内核页表 Kernel Paging" 中的 "xv6 内核内存布局" 一章，找出这两个物理地址分别位于哪个物理地址区域。
 
 参照内核的 linker script `os/kernel.ld`，以及内核页表的构建函数 `kvm.c:kvmmake` 日志，验证你的答案。
+
+3. 在使用 `exec` 系统调用时，我们会传入进程的参数，即 `int exec(char *path, char *argv[])`。我们会在 `main` 函数中收到 `argv` 数组：`int main(int argc, char *argv[])`，其中 `argv` 是一个 `char*` （字符串指针）的数组，它的最后一项是 NULL，`argc` 表示这个数组中有多少个字符串指针。
+
+我们知道 `exec` 会删除所有内存映射。那么，旧进程进行 `exec` 系统调用时传入的 `argv` 是怎么传入到新进程的？
+
+Hint: 在 `make run` 后，applists 中有 `test_arg`。你可以在 `sh >> ` 中测试它。
+
+TODO：Debugger。
 
 ## 推荐阅读
 
