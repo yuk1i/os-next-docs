@@ -1,5 +1,10 @@
 # 用户进程
 
+## 实验目的
+
+1. 了解用户地址空间
+2. 掌握fork\exec\exit\wait的实现原理
+
 !!!warning "xv6-lab6 代码分支"
     
     https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab6
