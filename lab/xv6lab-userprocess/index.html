@@ -1668,19 +1668,32 @@
 <h3 id="reparent">reparent<a class="headerlink" href="#reparent" title="Permanent link">&para;</a></h3>
 <p>"reparent"是指当一个进程的父进程终止时，操作系统会将该进程的父进程更改为 init 进程（PID 为 1 的进程）。这是一个系统级的管理机制，用于确保在父进程终止时，子进程仍然有一个父进程来进行资源回收、进程管理等必要操作。</p>
 <p>reparent 机制主要是为了避免“孤儿进程”问题，并确保系统资源得到适当回收。在 xv6 中，<code>init</code> 就像是一个"孤儿院"，负责回收子进程们创建的孙子进程。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// user/src/init.c</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="k">for</span><span class="w"> </span><span class="p">(;;)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="c1">// this call to wait() returns if the shell exits,</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="c1">// or if a parentless process exits.</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="n">wpid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wait</span><span class="p">(</span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">wpid</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">        </span><span class="c1">// the shell exited; restart it.</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;init: sh exited, restarting...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">        </span><span class="c1">// it was a parentless process; do nothing.</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;init: wait a parentless process %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">wpid</span><span class="p">);</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="p">}</span>
+</code></pre></div>
 <h2 id="wait">wait<a class="headerlink" href="#wait" title="Permanent link">&para;</a></h2>
 <p>TODO</p>
 <h2 id="_5">课堂报告<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
-<p>Trampoline 和 Trapframe 的物理页面是哪里来的？</p>
-<p>参照上述我们打印的 <code>sh</code> 进程的用户页表，注意其中最后两条映射的物理地址：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>[ff], pte[0xffffffc080b147f8]: 0x0000003fc0000000 -&gt; 0x0000000080b15000 -------V
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>[1ff], pte[0xffffffc080b15ff8]: 0x0000003fffe00000 -&gt; 0x0000000080b16000 -------V
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    [1fe], pte[0xffffffc080b16ff0]: 0x0000003fffffe000 -&gt; 0x0000000080b17000 DA---WRV
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    [1ff], pte[0xffffffc080b16ff8]: 0x0000003ffffff000 -&gt; 0x000000008020b000 -A--X-RV
-</code></pre></div>
-<p>参照 "Week 6 - 内核页表 Kernel Paging" 中的 "xv6 内核内存布局" 一章，找出这两个物理地址分别位于哪个物理地址区域。对照源代码 <code>trampoline.S</code> 和 linker script <code>os/kernel.ld</code> 验证你的答案。</p>
+<p>参照 xv6 内核，从用户程序调用 <code>fork</code> 系统调用开始，列出之后操作系统会执行哪些重要函数，直到子进程从 <code>fork</code> 中返回 0 为止。这些"重要函数"为管理以下子系统（或功能）的函数：PCB (Process Control Block)，User Address Space (only vm.c)，Trap，CPU Scheduler，Context Switch。</p>
+</li>
+<li>
+<p>以状态机的格式，画出一个进程的生命周期 (Life Cycle)。</p>
+<p>TODO: 给一个例图，和开始。</p>
 </li>
 <li>
 <p>在不同的进程中，它们的 Trapframe 及 Trampoline 是同一张物理页面吗？</p>
@@ -1690,15 +1703,57 @@
 <p>在使用 <code>exec</code> 系统调用时，我们会传入进程的参数，即 <code>int exec(char *path, char *argv[])</code>。我们会在 <code>main</code> 函数中收到 <code>argv</code> 数组：<code>int main(int argc, char *argv[])</code>，其中 <code>argv</code> 是一个 <code>char*</code> （字符串指针）的数组，它的最后一项是 NULL，<code>argc</code> 表示这个数组中有多少个字符串指针。</p>
 <p>我们知道 <code>exec</code> 会删除所有内存映射。那么，旧进程进行 <code>exec</code> 系统调用时传入的 <code>argv</code> 是怎么传入到新进程的？</p>
 <p>Hint: 在 <code>make run</code> 后，applists 中有 <code>test_arg</code>。你可以在 <code>sh &gt;&gt;</code> 中测试它。</p>
-<p>TODO：Debugger。</p>
+<p>Debugger 教程：使用 <code>make debug</code> 运行带调试器的 QEMU，使用 <code>gdb-multiarch</code> 连接 QEMU，先使用两次 <code>continue</code> 使内核运行到 <code>sh &gt;&gt;</code> 提示符。</p>
+<p><img alt="alt text" src="../../assets/xv6lab-userprocess/gdb-tutorial-image-1.png" /></p>
+<p>在 gdb 中按 Ctrl+C 中断，使用 <code>add-symbol-file user/build/test_arg</code> 添加用户程序的调试符号，执行 <code>b main</code> 在用户程序的 <code>main</code> 函数打断点。</p>
+<p><img alt="alt text" src="../../assets/xv6lab-userprocess/gdb-tutorial-image-3.png" /></p>
+<p>执行 <code>continue</code> 继续运行内核。在内核命令行输入 <code>test_arg asdf asfkjls asf</code>（后面内容随便敲）然后回车执行，你应该能在 gdb 中收到位于用户进程的断点。</p>
+<p><img alt="alt text" src="../../assets/xv6lab-userprocess/gdb-tutorial-image-4.png" /></p>
+<p>使用 <code>stack -l 20</code> 观察此时栈上的内容。（注意 <code>0xffff0000</code> 往后的地址是未映射的），右侧 <code>a1</code> 表示 <code>a1</code> 寄存器的值为该地址 <code>0x00000000fffefff0</code>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>(qemu) gef➤  stack -l 20
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>0x00000000fffeff70│+0x0000: 0x00000000fffeffd0  →  0x0000000000006466  →  0x0000000000006466     ← $sp
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>0x00000000fffeff78│+0x0008: 0x000000000040234c  →  0x02813c8303813b83  →  0x02813c8303813b83
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>0x00000000fffeff80│+0x0010: 0x00000000fffefff0  →  0x6772615f74736574  →  0x6772615f74736574     ← $fp, $a1
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>0x00000000fffeff88│+0x0018: 0x00000000fffeffe8  →  0x0000343135343131  →  0x0000343135343131
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>0x00000000fffeff90│+0x0020: 0x00000000fffeffe0  →  0x0030313839313931  →  0x0030313839313931
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>0x00000000fffeff98│+0x0028: 0x00000000fffeffd8  →  0x0066647361667361  →  0x0066647361667361
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>0x00000000fffeffa0│+0x0030: 0x00000000fffeffc8  →  0x7361667361667361  →  0x7361667361667361
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>0x00000000fffeffa8│+0x0038: 0x00000000fffeffb8  →  0x7769756168667361  →  0x7769756168667361
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>0x00000000fffeffb0│+0x0040: 0x0000000000000000  →  0x0000000000000000
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>0x00000000fffeffb8│+0x0048: 0x7769756168667361  →  0x7769756168667361
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>0x00000000fffeffc0│+0x0050: 0x000000006b666265  →  0x000000006b666265
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>0x00000000fffeffc8│+0x0058: 0x7361667361667361  →  0x7361667361667361
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>0x00000000fffeffd0│+0x0060: 0x0000000000006466  →  0x0000000000006466
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>0x00000000fffeffd8│+0x0068: 0x0066647361667361  →  0x0066647361667361
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>0x00000000fffeffe0│+0x0070: 0x0030313839313931  →  0x0030313839313931
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>0x00000000fffeffe8│+0x0078: 0x0000343135343131  →  0x0000343135343131
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>0x00000000fffefff0│+0x0080: 0x6772615f74736574  →  0x6772615f74736574
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>0x00000000fffefff8│+0x0088: 0x0000000000000000  →  0x0000000000000000
+</code></pre></div>
+<p>注意到 <code>0x7769756168667361</code> 这样的数字像是 ASCII 码，使用 <code>x/60s $sp</code> 打印栈上像是字符串的东西。</p>
+<p>注：在计算机底层中，“字符串” 是以 0x00 结尾的一串字节。</p>
 </li>
 </ol>
 <h2 id="_6">推荐阅读<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Trampoline 和 Trapframe 的物理页面是哪里来的？</p>
+<p>参照上述我们打印的 <code>sh</code> 进程的用户页表，注意其中最后两条映射的物理地址：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>[ff], pte[0xffffffc080b147f8]: 0x0000003fc0000000 -&gt; 0x0000000080b15000 -------V
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>[1ff], pte[0xffffffc080b15ff8]: 0x0000003fffe00000 -&gt; 0x0000000080b16000 -------V
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    [1fe], pte[0xffffffc080b16ff0]: 0x0000003fffffe000 -&gt; 0x0000000080b17000 DA---WRV
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    [1ff], pte[0xffffffc080b16ff8]: 0x0000003ffffff000 -&gt; 0x000000008020b000 -A--X-RV
+</code></pre></div>
+<p>参照 "Week 6 - 内核页表 Kernel Paging" 中的 "xv6 内核内存布局" 一章，找出这两个物理地址分别位于哪个物理地址区域。对照源代码 <code>trampoline.S</code> 和 linker script <code>os/kernel.ld</code> 验证你的答案。</p>
+</li>
+<li>
 <p>回顾上周的课堂报告问题：Trapframe 和 Trampoline 是两个页面，这两个页面应该允许 U-mode 访问吗？</p>
 <p>请你亲自做实验验证。</p>
 <p>对于 Trampoline，修改 <code>kvm.c</code> 中 <code>kvmmake</code> 函数，调用 <code>kvmmap</code> 映射 trampoline 处，在权限中 OR 上 PTE_U。</p>
 <p>对于 Trapframe，修改 <code>proc.c</code> 中 <code>allocproc</code> 中，调用 <code>mm_mappage_at</code> 函数处，在权限中 OR 上 PTE_U。：</p>
 <p>使用 <code>make debug</code> 以及 <code>gdb-multiarch</code> 挂载调试器。使用 <code>b kernel_trap_entry</code> 和 <code>b *0x3ffffff000</code> 在内核 Trap 入口处和 <code>uservec</code> 处打断点，使用 <code>print $scause</code> 手动查看 Trap 相关的 CSR。</p>
+</li>
+</ol>
 
 
 
@@ -1738,8 +1793,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/3a83b7dc, 2025-04-06 18:19:05+08:00" target="_blank" rel="noopener">
-            3a83b7dc, 2025-04-06 18:19:05+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/e3321472, 2025-04-06 22:19:04+08:00" target="_blank" rel="noopener">
+            e3321472, 2025-04-06 22:19:04+08:00
         </a>
     </div>
 </div>
