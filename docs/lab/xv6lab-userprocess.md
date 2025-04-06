@@ -341,11 +341,88 @@ void exit(int code) {
 
 reparent 机制主要是为了避免“孤儿进程”问题，并确保系统资源得到适当回收。在 xv6 中，`init` 就像是一个"孤儿院"，负责回收子进程们创建的孙子进程。
 
+```c
+// user/src/init.c
+
+for (;;) {
+    // this call to wait() returns if the shell exits,
+    // or if a parentless process exits.
+    wpid = wait(-1, NULL);
+    if (wpid == pid) {
+        // the shell exited; restart it.
+        printf("init: sh exited, restarting...\n");
+        break;
+    } else {
+        // it was a parentless process; do nothing.
+        printf("init: wait a parentless process %d\n", wpid);
+    }
+}
+```
+
 ## wait
 
 TODO
 
 ## 课堂报告
+
+1. 参照 xv6 内核，从用户程序调用 `fork` 系统调用开始，列出之后操作系统会执行哪些重要函数，直到子进程从 `fork` 中返回 0 为止。这些"重要函数"为管理以下子系统（或功能）的函数：PCB (Process Control Block)，User Address Space (only vm.c)，Trap，CPU Scheduler，Context Switch。
+
+2. 以状态机的格式，画出一个进程的生命周期 (Life Cycle)。
+
+    TODO: 给一个例图，和开始。
+
+3. 在不同的进程中，它们的 Trapframe 及 Trampoline 是同一张物理页面吗？
+
+    在 `sh >>` 下执行命令 `test_arg 123 asd`，`sh` 会 fork&exec 启动 `test_arg` 程序。内核也会打印 `test_arg` 的页表。观察它的页表和 `sh` 的页表中的 Trapframe 和 Trampoline。
+
+4. 在使用 `exec` 系统调用时，我们会传入进程的参数，即 `int exec(char *path, char *argv[])`。我们会在 `main` 函数中收到 `argv` 数组：`int main(int argc, char *argv[])`，其中 `argv` 是一个 `char*` （字符串指针）的数组，它的最后一项是 NULL，`argc` 表示这个数组中有多少个字符串指针。
+
+    我们知道 `exec` 会删除所有内存映射。那么，旧进程进行 `exec` 系统调用时传入的 `argv` 是怎么传入到新进程的？
+
+    Hint: 在 `make run` 后，applists 中有 `test_arg`。你可以在 `sh >> ` 中测试它。
+
+    Debugger 教程：使用 `make debug` 运行带调试器的 QEMU，使用 `gdb-multiarch` 连接 QEMU，先使用两次 `continue` 使内核运行到 `sh >>` 提示符。
+
+    ![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-1.png)
+
+    在 gdb 中按 Ctrl+C 中断，使用 `add-symbol-file user/build/test_arg` 添加用户程序的调试符号，执行 `b main` 在用户程序的 `main` 函数打断点。
+
+    ![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-3.png)
+
+    执行 `continue` 继续运行内核。在内核命令行输入 `test_arg asdf asfkjls asf`（后面内容随便敲）然后回车执行，你应该能在 gdb 中收到位于用户进程的断点。
+
+    ![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-4.png)
+
+    使用 `stack -l 20` 观察此时栈上的内容。（注意 `0xffff0000` 往后的地址是未映射的），右侧 `a1` 表示 `a1` 寄存器的值为该地址 `0x00000000fffefff0`。
+
+    ```
+    (qemu) gef➤  stack -l 20
+    0x00000000fffeff70│+0x0000: 0x00000000fffeffd0  →  0x0000000000006466  →  0x0000000000006466     ← $sp
+    0x00000000fffeff78│+0x0008: 0x000000000040234c  →  0x02813c8303813b83  →  0x02813c8303813b83
+    0x00000000fffeff80│+0x0010: 0x00000000fffefff0  →  0x6772615f74736574  →  0x6772615f74736574     ← $fp, $a1
+    0x00000000fffeff88│+0x0018: 0x00000000fffeffe8  →  0x0000343135343131  →  0x0000343135343131
+    0x00000000fffeff90│+0x0020: 0x00000000fffeffe0  →  0x0030313839313931  →  0x0030313839313931
+    0x00000000fffeff98│+0x0028: 0x00000000fffeffd8  →  0x0066647361667361  →  0x0066647361667361
+    0x00000000fffeffa0│+0x0030: 0x00000000fffeffc8  →  0x7361667361667361  →  0x7361667361667361
+    0x00000000fffeffa8│+0x0038: 0x00000000fffeffb8  →  0x7769756168667361  →  0x7769756168667361
+    0x00000000fffeffb0│+0x0040: 0x0000000000000000  →  0x0000000000000000
+    0x00000000fffeffb8│+0x0048: 0x7769756168667361  →  0x7769756168667361
+    0x00000000fffeffc0│+0x0050: 0x000000006b666265  →  0x000000006b666265
+    0x00000000fffeffc8│+0x0058: 0x7361667361667361  →  0x7361667361667361
+    0x00000000fffeffd0│+0x0060: 0x0000000000006466  →  0x0000000000006466
+    0x00000000fffeffd8│+0x0068: 0x0066647361667361  →  0x0066647361667361
+    0x00000000fffeffe0│+0x0070: 0x0030313839313931  →  0x0030313839313931
+    0x00000000fffeffe8│+0x0078: 0x0000343135343131  →  0x0000343135343131
+    0x00000000fffefff0│+0x0080: 0x6772615f74736574  →  0x6772615f74736574
+    0x00000000fffefff8│+0x0088: 0x0000000000000000  →  0x0000000000000000
+    ```
+
+    注意到 `0x7769756168667361` 这样的数字像是 ASCII 码，使用 `x/60s $sp` 打印栈上像是字符串的东西。
+
+    注：在计算机底层中，“字符串” 是以 0x00 结尾的一串字节。
+
+## 推荐阅读
+
 
 1. Trampoline 和 Trapframe 的物理页面是哪里来的？
 
@@ -360,26 +437,12 @@ TODO
 
     参照 "Week 6 - 内核页表 Kernel Paging" 中的 "xv6 内核内存布局" 一章，找出这两个物理地址分别位于哪个物理地址区域。对照源代码 `trampoline.S` 和 linker script `os/kernel.ld` 验证你的答案。
 
-2. 在不同的进程中，它们的 Trapframe 及 Trampoline 是同一张物理页面吗？
+2. 回顾上周的课堂报告问题：Trapframe 和 Trampoline 是两个页面，这两个页面应该允许 U-mode 访问吗？
 
-    在 `sh >>` 下执行命令 `test_arg 123 asd`，`sh` 会 fork&exec 启动 `test_arg` 程序。内核也会打印 `test_arg` 的页表。观察它的页表和 `sh` 的页表中的 Trapframe 和 Trampoline。
+    请你亲自做实验验证。
 
-3. 在使用 `exec` 系统调用时，我们会传入进程的参数，即 `int exec(char *path, char *argv[])`。我们会在 `main` 函数中收到 `argv` 数组：`int main(int argc, char *argv[])`，其中 `argv` 是一个 `char*` （字符串指针）的数组，它的最后一项是 NULL，`argc` 表示这个数组中有多少个字符串指针。
+    对于 Trampoline，修改 `kvm.c` 中 `kvmmake` 函数，调用 `kvmmap` 映射 trampoline 处，在权限中 OR 上 PTE_U。
 
-    我们知道 `exec` 会删除所有内存映射。那么，旧进程进行 `exec` 系统调用时传入的 `argv` 是怎么传入到新进程的？
+    对于 Trapframe，修改 `proc.c` 中 `allocproc` 中，调用 `mm_mappage_at` 函数处，在权限中 OR 上 PTE_U。：
 
-    Hint: 在 `make run` 后，applists 中有 `test_arg`。你可以在 `sh >> ` 中测试它。
-
-    TODO：Debugger。
-
-## 推荐阅读
-
-回顾上周的课堂报告问题：Trapframe 和 Trampoline 是两个页面，这两个页面应该允许 U-mode 访问吗？
-
-请你亲自做实验验证。
-
-对于 Trampoline，修改 `kvm.c` 中 `kvmmake` 函数，调用 `kvmmap` 映射 trampoline 处，在权限中 OR 上 PTE_U。
-
-对于 Trapframe，修改 `proc.c` 中 `allocproc` 中，调用 `mm_mappage_at` 函数处，在权限中 OR 上 PTE_U。：
-
-使用 `make debug` 以及 `gdb-multiarch` 挂载调试器。使用 `b kernel_trap_entry` 和 `b *0x3ffffff000` 在内核 Trap 入口处和 `uservec` 处打断点，使用 `print $scause` 手动查看 Trap 相关的 CSR。
+    使用 `make debug` 以及 `gdb-multiarch` 挂载调试器。使用 `b kernel_trap_entry` 和 `b *0x3ffffff000` 在内核 Trap 入口处和 `uservec` 处打断点，使用 `print $scause` 手动查看 Trap 相关的 CSR。
