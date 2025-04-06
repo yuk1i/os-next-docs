@@ -809,6 +809,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#address-space" class="md-nav__link">
     <span class="md-ellipsis">
       Address Space
@@ -828,7 +837,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       概览图
     </span>
@@ -860,7 +869,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       生命周期
     </span>
@@ -902,7 +911,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       课堂报告
     </span>
@@ -911,7 +920,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       推荐阅读
     </span>
@@ -1241,6 +1250,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#address-space" class="md-nav__link">
     <span class="md-ellipsis">
       Address Space
@@ -1260,7 +1278,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       概览图
     </span>
@@ -1292,7 +1310,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       生命周期
     </span>
@@ -1334,7 +1352,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       课堂报告
     </span>
@@ -1343,7 +1361,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       推荐阅读
     </span>
@@ -1370,6 +1388,11 @@
 
 
 <h1 id="_1">用户进程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">实验目的<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ol>
+<li>了解用户地址空间</li>
+<li>掌握fork\exec\exit\wait的实现原理</li>
+</ol>
 <div class="admonition warning">
 <p class="admonition-title">xv6-lab6 代码分支</p>
 <p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab6">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab6</a></p>
@@ -1503,7 +1526,7 @@
 <p>此外，还有一个大小为0的区域，它跟随在所有 LOAD 段后面，这是进程的堆区 (Heap，在远古的操作系统上我们称之为 <code>Program Break</code>)。进程需要使用 <code>sbrk</code> 系统调用来扩展或收缩堆区。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>    [0x0000000000406000, 0x0000000000406000), flags: ---U-WR-
 </code></pre></div>
-<h3 id="_2">概览图<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h3 id="_3">概览图<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>该图展示了内核中用于管理 <code>sh</code> 进程的用户地址空间的数据结构。</p>
 <p><img alt="alt" src="../../assets/xv6lab-userprocess/userprocess-vma.png" /></p>
 <h2 id="fork">fork<a class="headerlink" href="#fork" title="Permanent link">&para;</a></h2>
@@ -1612,7 +1635,7 @@
 <a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
 <a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a><span class="p">}</span>
 </code></pre></div>
-<h2 id="_3">生命周期<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_4">生命周期<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <h2 id="exit">exit<a class="headerlink" href="#exit" title="Permanent link">&para;</a></h2>
 <p><code>exit</code> 系统调用用于终止当前进程，并返回一个退出状态给操作系统。<code>exit</code> 系统调用永远不会返回。调用 <code>exit</code> 后，进程的 <strong>一些资源不会被操作系统立刻回收</strong>。并且，<code>exit</code> 不会使其立刻从父进程的视野中消失。它仍然存在于“僵尸进程”状态，直到父进程通过 <code>wait</code> 系统调用获取到子进程的退出状态并回收该进程。</p>
 <p>以下是简化版本的 <code>exit</code>。注意到在这里面我们并没有回收用户资源：到目前的 Lab 为止，我们只介绍过一种用户资源，即用户内存。</p>
@@ -1647,7 +1670,7 @@
 <p>reparent 机制主要是为了避免“孤儿进程”问题，并确保系统资源得到适当回收。在 xv6 中，<code>init</code> 就像是一个"孤儿院"，负责回收子进程们创建的孙子进程。</p>
 <h2 id="wait">wait<a class="headerlink" href="#wait" title="Permanent link">&para;</a></h2>
 <p>TODO</p>
-<h2 id="_4">课堂报告<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_5">课堂报告<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
 <p>Trampoline 和 Trapframe 的物理页面是哪里来的？</p>
@@ -1670,7 +1693,7 @@
 <p>TODO：Debugger。</p>
 </li>
 </ol>
-<h2 id="_5">推荐阅读<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_6">推荐阅读<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>回顾上周的课堂报告问题：Trapframe 和 Trampoline 是两个页面，这两个页面应该允许 U-mode 访问吗？</p>
 <p>请你亲自做实验验证。</p>
 <p>对于 Trampoline，修改 <code>kvm.c</code> 中 <code>kvmmake</code> 函数，调用 <code>kvmmap</code> 映射 trampoline 处，在权限中 OR 上 PTE_U。</p>
@@ -1715,8 +1738,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/3af985a3, 2025-04-05 22:24:17+08:00" target="_blank" rel="noopener">
-            3af985a3, 2025-04-05 22:24:17+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/3a83b7dc, 2025-04-06 18:19:05+08:00" target="_blank" rel="noopener">
+            3a83b7dc, 2025-04-06 18:19:05+08:00
         </a>
     </div>
 </div>
