@@ -252,7 +252,7 @@ int exec(char *name, char *args[]) {
 }
 ```
 
-`load_user_elf` 函数相较于上次 Lab 有所变动。我们需要注意到， **申请物理页面是有可能失败的**。在系统没有足够的内存时，`exec` 函数执行失败，我们需要回到原来的进程中继续执行，并且要释放掉分配到一半的内存。
+`load_user_elf` 函数相较于上次 Lab 有所变动。我们需要注意到， **申请物理页面是有可能失败的**。在系统没有足够的内存时，`exec` 函数执行失败，我们需要回到原来的进程中继续执行，并且要释放掉分配到一半的内存（即不要漏内存）。
 
 所以，我们创建一个新的 `struct mm`，并向其中加载 ELF 中的段和进程栈等。只有不再需要进行内存分配后 (`mm_mappages`)，我们才将 `p->mm` 给清空并覆盖掉。
 
@@ -301,7 +301,7 @@ bad:
 
 ## exit
 
-`exit` 系统调用用于终止当前进程，并返回一个退出状态给操作系统。`exit` 系统调用永远不会返回。调用 `exit` 后，进程的 **一些资源不会被操作系统立刻回收**。并且，`exit` 不会使其立刻从父进程的视野中消失。它仍然存在于“僵尸进程”状态，直到父进程通过 `wait` 系统调用获取到子进程的退出状态并回收该进程。
+`exit` 系统调用用于终止当前进程，并返回一个退出状态给操作系统。`exit` 系统调用永远不会返回。调用 `exit` 后，进程的一些资源 **不会被操作系统立刻回收**。并且，`exit` 不会使其立刻从父进程的视野中消失。它仍然存在于“僵尸进程”状态，直到父进程通过 `wait` 系统调用获取到子进程的退出状态并回收该进程。
 
 以下是简化版本的 `exit`。注意到在这里面我们并没有回收用户资源：到目前的 Lab 为止，我们只介绍过一种用户资源，即用户内存。
 
@@ -341,6 +341,8 @@ void exit(int code) {
 
 reparent 机制主要是为了避免“孤儿进程”问题，并确保系统资源得到适当回收。在 xv6 中，`init` 就像是一个"孤儿院"，负责回收子进程们创建的孙子进程。
 
+![alt](../assets/xv6lab-userprocess/xv6lab-userprocess-wait-reparent.png)
+
 ```c
 // user/src/init.c
 
@@ -361,15 +363,71 @@ for (;;) {
 
 ## wait
 
-TODO
+wait 系统调用是操作系统中用于进程控制的一个重要函数。它的主要作用是允许一个父进程等待其子进程的状态变化（在 xv6 中只有结束这一种情况），并且将子进程的退出代码返回给父进程。
+
+在 xv6 中，`wait` 的原型更像是 Linux 中的 `waitpid(2)`。传入的 `pid` 可以为一个负值，表示 wait 任何一个子进程，否则表示 wait 特定的子进程。
+
+在 xv6 中，为了实现简单，表示父进程和子进程之间的关系使用的是子进程 PCB 中的 `parent` 指针，而并没有一个反向的 `children` 列表用于遍历。所以，我们遍历所有的进程，试图找到一个 child 的 `parent` 指针为当前进程 (`curr_proc()`)。
+
+当我们能找到这样的进程，并且它是 `ZOMBIE` 状态时，我们即可对它进行资源回收，以及从 wait 系统调用中返回。
+
+```c
+int wait(int pid, int *code) {
+    struct proc *child;
+    int havekids;
+    struct proc *p = curr_proc();
+
+    acquire(&wait_lock);
+
+    for (;;) {
+        // Scan through table looking for exited children.
+        havekids = 0;
+        for (int i = 0; i < NPROC; i++) {
+            child = pool[i];
+            if (child == p)
+                continue;
+
+            acquire(&child->lock);
+            if (child->parent == p) {
+                havekids = 1;
+                if (child->state == ZOMBIE && (pid <= 0 || child->pid == pid)) {    // condition for matching a child process
+                    int cpid = child->pid;
+                    // Found one.
+                    if (code)
+                        *code = child->exit_code;
+                    freeproc(child);
+                    release(&child->lock);
+                    release(&wait_lock);
+                    return cpid;
+                }
+            }
+            release(&child->lock);
+        }
+
+        // No waiting if we don't have any children.
+        if (!havekids || p->killed) {
+            release(&wait_lock);
+            return -ECHILD;
+        }
+
+        debugf("pid %d sleeps for wait", p->pid);
+        // Wait for a child to exit.
+        sleep(p, &wait_lock);  // DOC: wait-sleep
+    }
+}
+```
+
+`freeproc` 函数会释放 child 的 PCB（将其标记为 UNUSED），并回收用户内存（`mm_free`）。
+
+<!-- ## Sleep 机制 -->
 
 ## 课堂报告
 
-1. 参照 xv6 内核，从用户程序调用 `fork` 系统调用开始，列出之后操作系统会执行哪些重要函数，直到子进程从 `fork` 中返回 0 为止。这些"重要函数"为管理以下子系统（或功能）的函数：PCB (Process Control Block)，User Address Space (only vm.c)，Trap，CPU Scheduler，Context Switch。
+1. 参照 xv6 内核，从用户程序调用 `fork` 系统调用开始，依次列出之后操作系统会执行哪些重要函数，直到子进程从 `fork` 中返回 0 为止。这些"重要函数"为管理以下子系统（或功能）的函数：PCB (Process Control Block)，User Address Space (only vm.c)，Trap，CPU Scheduler，Context Switch。你可以假设函数调用永远返回成功，不需要考虑错误处理的路径。
 
-2. 以状态机的格式，画出一个进程的生命周期 (Life Cycle)。
+2. 列出一个进程 (PCB) 的状态 (`struct proc, state`) 会在哪些系统调用时发生转变：从 `allocproc` 返回一个 PCB (state: `USED`) 开始，到这个进程被父进程 `wait` 回收。
 
-    TODO: 给一个例图，和开始。
+    例如：fork: USED -> 
 
 3. 在不同的进程中，它们的 Trapframe 及 Trampoline 是同一张物理页面吗？
 
