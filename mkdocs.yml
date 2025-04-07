@@ -45,6 +45,7 @@ nav:
     - Week 5 - Context Switch: laben/xv6lab-contextswitch.md
     - Week 6 - Kernel Paging: laben/xv6lab-paging.md
     - Week 7 - Userspace: laben/xv6lab-userspace.md
+    - Week 8 - User Process: laben/xv6lab-userprocess.md
   - 快速参考手册:
     - 目录: qrh/nav.md
     - VisionFive2 板子教程: qrh/vf2.md
