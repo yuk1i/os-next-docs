@@ -419,15 +419,84 @@ int wait(int pid, int *code) {
 
 `freeproc` 函数会释放 child 的 PCB（将其标记为 UNUSED），并回收用户内存（`mm_free`）。
 
-<!-- ## Sleep 机制 -->
+## Sleep 机制
+
+想象一下，一个进程正在使用 `read` 系统调用从 stdin (即控制台) 上读取数据，但是此时用户还没有输入任何内容。操作系统有两种途径处理这种情况：
+
+1. 暂时让该进程停止，等到控制台上有数据了再返回。
+2. 一直轮询控制台输入，有输入了就立刻从 `read` 中返回。
+
+显然的，第二种情况对 CPU 这种宝贵的资源而言是不高效的。控制台等 Input/Output 操作是没有响应时间上的上限。与其让 CPU 空转，不如先将 CPU 出让给其他进程来执行，等到控制台有数据了再唤醒原来的进程。这即是我们为什么需要让进程陷入睡眠：因为我们缺乏某些条件继续执行下去；与其浪费 CPU，不如等满足条件时再被唤醒。
+
+对于 Console 这样的例子而言，缺乏的条件就是用户没有输入内容；那么如何在 Console 上有输入时被唤醒呢：回想我们之前的课程，我们应该让 Console 在有数据时向 CPU 发出中断。
+
+![alt text](202dad0f32e1fe935d6597a0292d6df.png)
+
+### sleep & wakeup
+
+`sleep` 和 `wakeup` 函数的实现如下，我们使用一个 `void*` 指针表示一个任意数据，它表示当前进程因为什么原因陷入 `SLEEPING`。
+
+`sleep` 会将 `curr_proc()->state` 设为 `SLEEPING`，并调用 `sched()` 函数切换到 scheduler。注意到 scheduler 只会挑选 `RUNNABLE` 的进程来执行，所以当前进程再也不会被 scheduler 调度到了，即它再也不会继续执行了。
+
+`wakeup` 则遍历所有进程，如果它的睡眠原因 `sleep_chan` 和传入的 `chan` 相同，则将其重新设为 `RUNNABLE`，并使它能被 scheduler 继续执行到。
+
+```c
+void sleep(void *chan, spinlock_t *lk) {
+    struct proc *p = curr_proc();
+
+    acquire(&p->lock);  // DOC: sleeplock1
+    // Go to sleep.
+    p->sleep_chan = chan;
+    p->state      = SLEEPING;
+
+    sched();
+    // p get waking up, Tidy up.
+    p->sleep_chan = 0;
+
+    release(&p->lock);
+}
+void wakeup(void *chan) {
+    for (int i = 0; i < NPROC; i++) {
+        struct proc *p = pool[i];
+        acquire(&p->lock);
+        if (p->state == SLEEPING && p->sleep_chan == chan) {
+            p->state = RUNNABLE;
+            add_task(p);
+        }
+        release(&p->lock);
+    }
+}
+```
+
+!!!info "lock"
+    注意到 `sleep` 函数会传入一把自旋锁 `spinlock_t *lk`，在这节课上我们暂且不需要理解为什么要这样设计。
+
+### Console
+
+以控制台为例，`read` 系统调用会最终来到 `os/console.c: user_console_read` 函数。如果内核中的缓冲区 `cons.buffer` 为空 (`cons.r == cons.w`)，则令当前进程在 `&cons` 上陷入睡眠。
+
+当控制台设备上有可以读取的数据时，Console 会通过 PLIC 向 CPU 发起中断，在 `trap.c: plic_handle()` 中，我们通过 `irq` 判断中断是否来自于 Console (UART)。如果是，则分发到 `uart_intr` 中处理。`uart_intr` 会从 UART 设备中读取一个字节 `uartgetc`，并调用 `consintr`，在我们收到一个 `\n` 时，我们唤醒在 `&cons` 上等待的进程。
+
+```c
+static void consintr(int c) {
+    if (c == '\n' || c == C('D') || cons.e - cons.r == INPUT_BUF_SIZE) {
+        // wake up consoleread() if a whole line (or end-of-file)
+        // has arrived.
+        cons.w = cons.e;
+        wakeup(&cons);
+    }
+}
+```
 
 ## 课堂报告
 
 1. 参照 xv6 内核，从用户程序调用 `fork` 系统调用开始，依次列出之后操作系统会执行哪些重要函数，直到子进程从 `fork` 中返回 0 为止。这些"重要函数"为管理以下子系统（或功能）的函数：PCB (Process Control Block)，User Address Space (only vm.c)，Trap，CPU Scheduler，Context Switch。你可以假设函数调用永远返回成功，不需要考虑错误处理的路径。
 
-2. 列出一个进程 (PCB) 的状态 (`struct proc, state`) 会在哪些系统调用时发生转变：从 `allocproc` 返回一个 PCB (state: `USED`) 开始，到这个进程被父进程 `wait` 回收。
+2. 填写下表，将理论课上讲解的进程状态映射到 xv6 中 `enum procstate` 的取值 (`struct proc, state`)，并写出在哪些 **事件发生** 时状态会发生转变。
 
-    例如：fork: USED -> 
+    注：左上角 new 状态对应 `procstate` 中的 `USED`。
+
+    ![alt text](../assets/xv6lab-userprocess/userprocess-states.png)
 
 3. 在不同的进程中，它们的 Trapframe 及 Trampoline 是同一张物理页面吗？
 
