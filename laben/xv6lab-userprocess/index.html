@@ -1093,6 +1093,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#lab-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab Report
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1333,6 +1342,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab Report
+    </span>
+  </a>
   
 </li>
       
@@ -1651,6 +1669,67 @@ The following is the output of <code>llvm-readelf-19 -a user/build/sh</code>, sh
 <a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="p">}</span>
 </code></pre></div>
+<h2 id="lab-report">Lab Report<a class="headerlink" href="#lab-report" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Starting from a user program calling the <code>fork</code> system call in, list in sequence the important functions that the operating system will execute, until the child process returns 0 from <code>fork</code>. These "important functions" are functions that manage the following subsystems (or features): PCB (Process Control Block), User Address Space (only <code>vm.c</code>), Trap, CPU Scheduler, and Context Switch.</li>
+</ol>
+<p>Requirements: No need to consider the parent process. No need to list operations related to locks (<code>acquire</code>, <code>release</code>). For nested function calls, only write up to the first third call-depth. You can assume memory allocation always returns successfully; no need to consider error handling paths.</p>
+<ol>
+<li>Fill in the table below, mapping the process states (explained in theoretical classes) to the values of <code>enum procstate</code> (<code>os/proc.h</code>) in xv6 (<code>struct proc, state</code>), and describe the <strong>events</strong> that cause state transitions. </li>
+</ol>
+<p>Note: The upper-left "new" state corresponds to <code>USED</code> in <code>enum procstate</code>.</p>
+<div class="highlight"><pre><span></span><code>![alt text](../assets/xv6lab-userprocess/userprocess-states.png)
+</code></pre></div>
+<ol>
+<li>In different processes, is their Trampoline the same physical page? Is their Trapframe the same physical page?</li>
+</ol>
+<p>Hint: When executing the command <code>test_arg 123 asd</code> under <code>sh &gt;&gt;</code>, <code>sh</code> will fork&amp;exec to launch the <code>test_arg</code> program. The kernel will also print the page table of <code>test_arg</code>. Observe the Trapframe and Trampoline in its page table and in the page table of <code>sh</code>.</p>
+<ol>
+<li>When using the <code>exec</code> system call, we pass the process's arguments, i.e., <code>int exec(char *path, char *argv[])</code>. In the <code>main</code> function, we receive the <code>argv</code> array: <code>int main(int argc, char *argv[])</code>, where <code>argv</code> is an array of <code>char*</code> (string pointers), and its last element is <code>NULL</code>. The <code>argc</code> represents the number of string pointers in the array.</li>
+</ol>
+<p>We know that <code>exec</code> will remove all memory mappings. So, how are the <code>argv</code> values passed from the old process to the new process when the <code>exec</code> system call is invoked?</p>
+<div class="highlight"><pre><span></span><code>Hint: After running make run, `test_arg` will appear in the applists. You can test it in the `sh &gt;&gt;` prompt.
+
+Debugger Tutorial：Use `make debug` to run QEMU with a debugger, and connect to QEMU with `gdb-multiarch`. First, use `continue` twice to make the kernel run to the `sh &gt;&gt;` prompt.
+
+![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-1.png)
+
+In GDB, press Ctrl+C to interrupt, then use `add-symbol-file user/build/test_arg` to add debugging symbols for the user program. Set a breakpoint at the main function of the user program by executing `b main`.
+
+![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-3.png)
+
+Execute `continue` to resume the kernel. In the kernel command line, type `test_arg asdf asfkjls asf` (the additional arguments can be random) and press Enter. You should hit the breakpoint in GDB at the user program.
+
+![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-4.png)
+
+Use `stack -l 20` to observe the content on the stack. (Note that addresses after `0xffff0000` are unmapped.) The value a1 on the right represents the value of the a1 register, which is the address `0x00000000fffefff0`.
+
+```
+(qemu) gef➤  stack -l 20
+0x00000000fffeff70│+0x0000: 0x00000000fffeffd0  →  0x0000000000006466  →  0x0000000000006466     ← $sp
+0x00000000fffeff78│+0x0008: 0x000000000040234c  →  0x02813c8303813b83  →  0x02813c8303813b83
+0x00000000fffeff80│+0x0010: 0x00000000fffefff0  →  0x6772615f74736574  →  0x6772615f74736574     ← $fp, $a1
+0x00000000fffeff88│+0x0018: 0x00000000fffeffe8  →  0x0000343135343131  →  0x0000343135343131
+0x00000000fffeff90│+0x0020: 0x00000000fffeffe0  →  0x0030313839313931  →  0x0030313839313931
+0x00000000fffeff98│+0x0028: 0x00000000fffeffd8  →  0x0066647361667361  →  0x0066647361667361
+0x00000000fffeffa0│+0x0030: 0x00000000fffeffc8  →  0x7361667361667361  →  0x7361667361667361
+0x00000000fffeffa8│+0x0038: 0x00000000fffeffb8  →  0x7769756168667361  →  0x7769756168667361
+0x00000000fffeffb0│+0x0040: 0x0000000000000000  →  0x0000000000000000
+0x00000000fffeffb8│+0x0048: 0x7769756168667361  →  0x7769756168667361
+0x00000000fffeffc0│+0x0050: 0x000000006b666265  →  0x000000006b666265
+0x00000000fffeffc8│+0x0058: 0x7361667361667361  →  0x7361667361667361
+0x00000000fffeffd0│+0x0060: 0x0000000000006466  →  0x0000000000006466
+0x00000000fffeffd8│+0x0068: 0x0066647361667361  →  0x0066647361667361
+0x00000000fffeffe0│+0x0070: 0x0030313839313931  →  0x0030313839313931
+0x00000000fffeffe8│+0x0078: 0x0000343135343131  →  0x0000343135343131
+0x00000000fffefff0│+0x0080: 0x6772615f74736574  →  0x6772615f74736574
+0x00000000fffefff8│+0x0088: 0x0000000000000000  →  0x0000000000000000
+```
+
+Notice that numbers like `0x7769756168667361` seem like ASCII codes. You can use `x/60s $sp` to print the stack content that looks like strings.
+
+Note: At the low level of computers, &quot;strings&quot; are sequences of bytes that are terminated by 0x00.
+</code></pre></div>
 
 
 
@@ -1690,8 +1769,8 @@ The following is the output of <code>llvm-readelf-19 -a user/build/sh</code>, sh
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/5cc68bbf, 2025-04-07 19:12:00+08:00" target="_blank" rel="noopener">
-            5cc68bbf, 2025-04-07 19:12:00+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/dbba5b2e, 2025-04-07 19:35:16+08:00" target="_blank" rel="noopener">
+            dbba5b2e, 2025-04-07 19:35:16+08:00
         </a>
     </div>
 </div>

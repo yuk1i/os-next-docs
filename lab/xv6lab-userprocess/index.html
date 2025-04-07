@@ -1888,7 +1888,7 @@
 <p><img alt="alt text" src="../../assets/xv6lab-userprocess/userprocess-states.png" /></p>
 </li>
 <li>
-<p>在不同的进程中，它们的 Trapframe 及 Trampoline 是同一张物理页面吗？</p>
+<p>在不同的进程中，它们的 Trampoline 是同一张物理页面吗？它们的 Trapframe 是同一张物理页面吗？</p>
 <p>在 <code>sh &gt;&gt;</code> 下执行命令 <code>test_arg 123 asd</code>，<code>sh</code> 会 fork&amp;exec 启动 <code>test_arg</code> 程序。内核也会打印 <code>test_arg</code> 的页表。观察它的页表和 <code>sh</code> 的页表中的 Trapframe 和 Trampoline。</p>
 </li>
 <li>
@@ -1985,8 +1985,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/5cc68bbf, 2025-04-07 19:12:00+08:00" target="_blank" rel="noopener">
-            5cc68bbf, 2025-04-07 19:12:00+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/dbba5b2e, 2025-04-07 19:35:16+08:00" target="_blank" rel="noopener">
+            dbba5b2e, 2025-04-07 19:35:16+08:00
         </a>
     </div>
 </div>
