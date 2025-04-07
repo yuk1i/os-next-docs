@@ -498,7 +498,7 @@ static void consintr(int c) {
 
     ![alt text](../assets/xv6lab-userprocess/userprocess-states.png)
 
-3. 在不同的进程中，它们的 Trapframe 及 Trampoline 是同一张物理页面吗？
+3. 在不同的进程中，它们的 Trampoline 是同一张物理页面吗？它们的 Trapframe 是同一张物理页面吗？
 
     在 `sh >>` 下执行命令 `test_arg 123 asd`，`sh` 会 fork&exec 启动 `test_arg` 程序。内核也会打印 `test_arg` 的页表。观察它的页表和 `sh` 的页表中的 Trapframe 和 Trampoline。
 

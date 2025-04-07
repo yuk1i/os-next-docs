@@ -358,3 +358,67 @@ for (;;) {
     }
 }
 ```
+
+## Lab Report
+
+1. Starting from a user program calling the `fork` system call in, list in sequence the important functions that the operating system will execute, until the child process returns 0 from `fork`. These "important functions" are functions that manage the following subsystems (or features): PCB (Process Control Block), User Address Space (only `vm.c`), Trap, CPU Scheduler, and Context Switch.
+
+   Requirements: No need to consider the parent process. No need to list operations related to locks (`acquire`, `release`). For nested function calls, only write up to the first third call-depth. You can assume memory allocation always returns successfully; no need to consider error handling paths.
+
+
+2. Fill in the table below, mapping the process states (explained in theoretical classes) to the values of `enum procstate` (`os/proc.h`) in xv6 (`struct proc, state`), and describe the **events** that cause state transitions. 
+
+   Note: The upper-left "new" state corresponds to `USED` in `enum procstate`.
+
+    ![alt text](../assets/xv6lab-userprocess/userprocess-states.png)
+
+3. In different processes, is their Trampoline the same physical page? Is their Trapframe the same physical page?
+
+   Hint: When executing the command `test_arg 123 asd` under `sh >>`, `sh` will fork&exec to launch the `test_arg` program. The kernel will also print the page table of `test_arg`. Observe the Trapframe and Trampoline in its page table and in the page table of `sh`.
+
+
+4. When using the `exec` system call, we pass the process's arguments, i.e., `int exec(char *path, char *argv[])`. In the `main` function, we receive the `argv` array: `int main(int argc, char *argv[])`, where `argv` is an array of `char*` (string pointers), and its last element is `NULL`. The `argc` represents the number of string pointers in the array.
+
+   We know that `exec` will remove all memory mappings. So, how are the `argv` values passed from the old process to the new process when the `exec` system call is invoked?
+
+    Hint: After running make run, `test_arg` will appear in the applists. You can test it in the `sh >>` prompt.
+
+    Debugger Tutorial：Use `make debug` to run QEMU with a debugger, and connect to QEMU with `gdb-multiarch`. First, use `continue` twice to make the kernel run to the `sh >>` prompt.
+
+    ![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-1.png)
+
+    In GDB, press Ctrl+C to interrupt, then use `add-symbol-file user/build/test_arg` to add debugging symbols for the user program. Set a breakpoint at the main function of the user program by executing `b main`.
+
+    ![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-3.png)
+
+    Execute `continue` to resume the kernel. In the kernel command line, type `test_arg asdf asfkjls asf` (the additional arguments can be random) and press Enter. You should hit the breakpoint in GDB at the user program.
+
+    ![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-4.png)
+
+    Use `stack -l 20` to observe the content on the stack. (Note that addresses after `0xffff0000` are unmapped.) The value a1 on the right represents the value of the a1 register, which is the address `0x00000000fffefff0`.
+
+    ```
+    (qemu) gef➤  stack -l 20
+    0x00000000fffeff70│+0x0000: 0x00000000fffeffd0  →  0x0000000000006466  →  0x0000000000006466     ← $sp
+    0x00000000fffeff78│+0x0008: 0x000000000040234c  →  0x02813c8303813b83  →  0x02813c8303813b83
+    0x00000000fffeff80│+0x0010: 0x00000000fffefff0  →  0x6772615f74736574  →  0x6772615f74736574     ← $fp, $a1
+    0x00000000fffeff88│+0x0018: 0x00000000fffeffe8  →  0x0000343135343131  →  0x0000343135343131
+    0x00000000fffeff90│+0x0020: 0x00000000fffeffe0  →  0x0030313839313931  →  0x0030313839313931
+    0x00000000fffeff98│+0x0028: 0x00000000fffeffd8  →  0x0066647361667361  →  0x0066647361667361
+    0x00000000fffeffa0│+0x0030: 0x00000000fffeffc8  →  0x7361667361667361  →  0x7361667361667361
+    0x00000000fffeffa8│+0x0038: 0x00000000fffeffb8  →  0x7769756168667361  →  0x7769756168667361
+    0x00000000fffeffb0│+0x0040: 0x0000000000000000  →  0x0000000000000000
+    0x00000000fffeffb8│+0x0048: 0x7769756168667361  →  0x7769756168667361
+    0x00000000fffeffc0│+0x0050: 0x000000006b666265  →  0x000000006b666265
+    0x00000000fffeffc8│+0x0058: 0x7361667361667361  →  0x7361667361667361
+    0x00000000fffeffd0│+0x0060: 0x0000000000006466  →  0x0000000000006466
+    0x00000000fffeffd8│+0x0068: 0x0066647361667361  →  0x0066647361667361
+    0x00000000fffeffe0│+0x0070: 0x0030313839313931  →  0x0030313839313931
+    0x00000000fffeffe8│+0x0078: 0x0000343135343131  →  0x0000343135343131
+    0x00000000fffefff0│+0x0080: 0x6772615f74736574  →  0x6772615f74736574
+    0x00000000fffefff8│+0x0088: 0x0000000000000000  →  0x0000000000000000
+    ```
+
+    Notice that numbers like `0x7769756168667361` seem like ASCII codes. You can use `x/60s $sp` to print the stack content that looks like strings.
+
+    Note: At the low level of computers, "strings" are sequences of bytes that are terminated by 0x00.
