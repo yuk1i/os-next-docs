@@ -299,7 +299,7 @@ bad:
 
 ## Lifecycle
 
-### exit
+## exit
 
 The `exit` system call is used to terminate the current process and return an exit status to the operating system. The `exit` system call never returns. After calling `exit`, **some resources of the process are not immediately reclaimed by the operating system**. Moreover, `exit` does not immediately make the process disappear from the parent process's view. It remains in the "zombie process" state until the parent process obtains the child process's exit status through the `wait` system call and reclaims the process.
 
