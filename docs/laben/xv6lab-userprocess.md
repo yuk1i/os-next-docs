@@ -497,7 +497,7 @@ static void consintr(int c) {
 
 2. Fill in the table below, mapping the process states (explained in theoretical classes) to the values of `enum procstate` (`os/proc.h`) in xv6 (`struct proc, state`), and describe the **events** that cause state transitions. 
 
-   Note: The upper-left "new" state corresponds to `USED` in `enum procstate`.
+    Note: The upper-left "new" state corresponds to `USED` in `enum procstate`.
 
     ![alt text](../assets/xv6lab-userprocess/userprocess-states.png)
 
@@ -508,7 +508,7 @@ static void consintr(int c) {
 
 4. When using the `exec` system call, we pass the process's arguments, i.e., `int exec(char *path, char *argv[])`. In the `main` function, we receive the `argv` array: `int main(int argc, char *argv[])`, where `argv` is an array of `char*` (string pointers), and its last element is `NULL`. The `argc` represents the number of string pointers in the array.
 
-   We know that `exec` will remove all memory mappings. So, how are the `argv` values passed from the old process to the new process when the `exec` system call is invoked?
+    We know that `exec` will remove all memory mappings. So, how are the `argv` values passed from the old process to the new process when the `exec` system call is invoked?
 
     Hint: After running make run, `test_arg` will appear in the applists. You can test it in the `sh >>` prompt.
 
