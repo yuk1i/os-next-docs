@@ -1067,17 +1067,17 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Lifecycle">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exit" class="md-nav__link">
     <span class="md-ellipsis">
       exit
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="exit">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#reparent" class="md-nav__link">
@@ -1370,17 +1370,17 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Lifecycle">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exit" class="md-nav__link">
     <span class="md-ellipsis">
       exit
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="exit">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#reparent" class="md-nav__link">
@@ -1723,7 +1723,7 @@ The following is the output of <code>llvm-readelf-19 -a user/build/sh</code>, sh
 <a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="lifecycle">Lifecycle<a class="headerlink" href="#lifecycle" title="Permanent link">&para;</a></h2>
-<h3 id="exit">exit<a class="headerlink" href="#exit" title="Permanent link">&para;</a></h3>
+<h2 id="exit">exit<a class="headerlink" href="#exit" title="Permanent link">&para;</a></h2>
 <p>The <code>exit</code> system call is used to terminate the current process and return an exit status to the operating system. The <code>exit</code> system call never returns. After calling <code>exit</code>, <strong>some resources of the process are not immediately reclaimed by the operating system</strong>. Moreover, <code>exit</code> does not immediately make the process disappear from the parent process's view. It remains in the "zombie process" state until the parent process obtains the child process's exit status through the <code>wait</code> system call and reclaims the process.</p>
 <p>Here is a simplified version of <code>exit</code>. Note that we do not reclaim user resources here: up to this Lab, we have only introduced one type of user resource, namely user memory.</p>
 <p>In <code>exit</code>, we only set our state to <code>ZOMBIE</code> and save the exit code to <code>p-&gt;exit_code</code>. Then, we use <code>wakeup</code> to <strong>wake up</strong> our parent process.</p>
@@ -1997,8 +1997,8 @@ Note: At the low level of computers, &quot;strings&quot; are sequences of bytes 
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/0abef45e, 2025-04-08 13:04:28+08:00" target="_blank" rel="noopener">
-            0abef45e, 2025-04-08 13:04:28+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/f3e37aa5, 2025-04-08 13:42:17+08:00" target="_blank" rel="noopener">
+            f3e37aa5, 2025-04-08 13:42:17+08:00
         </a>
     </div>
 </div>
