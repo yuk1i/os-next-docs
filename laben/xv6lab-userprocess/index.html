@@ -1094,9 +1094,60 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#wait" class="md-nav__link">
+    <span class="md-ellipsis">
+      wait
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sleep-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sleep Mechanism
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sleep Mechanism">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sleep-wakeup" class="md-nav__link">
+    <span class="md-ellipsis">
+      sleep &amp; wakeup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#console" class="md-nav__link">
+    <span class="md-ellipsis">
+      Console
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#lab-report" class="md-nav__link">
     <span class="md-ellipsis">
       Lab Report
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading
     </span>
   </a>
   
@@ -1346,9 +1397,60 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#wait" class="md-nav__link">
+    <span class="md-ellipsis">
+      wait
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sleep-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sleep Mechanism
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sleep Mechanism">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sleep-wakeup" class="md-nav__link">
+    <span class="md-ellipsis">
+      sleep &amp; wakeup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#console" class="md-nav__link">
+    <span class="md-ellipsis">
+      Console
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#lab-report" class="md-nav__link">
     <span class="md-ellipsis">
       Lab Report
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading
     </span>
   </a>
   
@@ -1579,7 +1681,7 @@ The following is the output of <code>llvm-readelf-19 -a user/build/sh</code>, sh
 <a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a0</span><span class="p">;</span>
 <a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="p">}</span>
 </code></pre></div>
-<p>The <code>load_user_elf</code> function has been modified compared to the previous Lab. We need to note that <strong>allocating physical pages may fail</strong>. When the system does not have enough memory, the <code>exec</code> function fails to execute, and we need to return to the original process to continue execution, releasing the half-allocated memory.</p>
+<p>The <code>load_user_elf</code> function has been modified compared to the previous Lab. We need to note that <strong>allocating physical pages may fail</strong>. When the system does not have enough memory, the <code>exec</code> function fails to execute, and we need to return to the original process to continue execution, releasing the half-allocated memory.(Avoid memory leaks)</p>
 <p>Therefore, we create a new <code>struct mm</code> and load the segments from the ELF file and the process stack into it. Only after we no longer need to allocate memory (<code>mm_mappages</code>) do we clear and overwrite <code>p-&gt;mm</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// os/loader.c, Simpilfied version.</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">load_user_elf</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">user_app</span><span class="w"> </span><span class="o">*</span><span class="n">app</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">args</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
@@ -1653,6 +1755,7 @@ The following is the output of <code>llvm-readelf-19 -a user/build/sh</code>, sh
 <h3 id="reparent">reparent<a class="headerlink" href="#reparent" title="Permanent link">&para;</a></h3>
 <p>"Reparent" refers to the operating system changing the parent process of a process to the init process (process with PID 1) when the parent process terminates. This is a system-level management mechanism to ensure that when the parent process terminates, the child process still has a parent process to perform necessary operations such as resource reclamation and process management.</p>
 <p>The reparent mechanism is mainly used to avoid the "orphan process" problem and ensure that system resources are properly reclaimed. In xv6, <code>init</code> is like an "orphanage," responsible for reclaiming the grandchild processes created by child processes.</p>
+<p><img alt="alt" src="../../assets/xv6lab-userprocess/xv6lab-userprocess-wait-reparent.png" /></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// user/src/init.c</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="k">for</span><span class="w"> </span><span class="p">(;;)</span><span class="w"> </span><span class="p">{</span>
@@ -1668,6 +1771,111 @@ The following is the output of <code>llvm-readelf-19 -a user/build/sh</code>, sh
 <a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;init: wait a parentless process %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">wpid</span><span class="p">);</span>
 <a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="wait">wait<a class="headerlink" href="#wait" title="Permanent link">&para;</a></h2>
+<p>The wait system call is a crucial function for process control in operating systems. Its primary purpose is to allow a parent process to wait for a state change in its child process (in xv6, only termination is supported) and retrieve the child's exit code.</p>
+<p>In xv6, the prototype of <code>wait</code> resembles Linux's <code>waitpid(2)</code>. The provided <code>pid</code> can be a negative value, indicating that the parent waits for ​​any​​ child process; otherwise, it waits for a specific child process.</p>
+<p>For simplicity, xv6 represents the parent-child relationship using only the <code>parent</code> pointer in the child's Process Control Block (PCB), without maintaining a reverse <code>children</code> list for traversal. Thus, to find a child, the implementation scans ​​all processes​​, checking whether any process's <code>parent</code> pointer points to the current process (<code>curr_proc()</code>).</p>
+<p>When such a child process is found ​​and​​ it is in the ZOMBIE state, the system can reclaim its resources and return from the wait system call.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">code</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">child</span><span class="p">;</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">havekids</span><span class="p">;</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">();</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_lock</span><span class="p">);</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(;;)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">        </span><span class="c1">// Scan through table looking for exited children.</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">        </span><span class="n">havekids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">NPROC</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">            </span><span class="n">child</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pool</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">child</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p</span><span class="p">)</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">                </span><span class="k">continue</span><span class="p">;</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="w">            </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">child</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">child</span><span class="o">-&gt;</span><span class="n">parent</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="w">                </span><span class="n">havekids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">child</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ZOMBIE</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">pid</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">child</span><span class="o">-&gt;</span><span class="n">pid</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pid</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">    </span><span class="c1">// condition for matching a child process</span>
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="w">                    </span><span class="kt">int</span><span class="w"> </span><span class="n">cpid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">child</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">;</span>
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="w">                    </span><span class="c1">// Found one.</span>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="w">                        </span><span class="o">*</span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">child</span><span class="o">-&gt;</span><span class="n">exit_code</span><span class="p">;</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="w">                    </span><span class="n">freeproc</span><span class="p">(</span><span class="n">child</span><span class="p">);</span>
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="w">                    </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">child</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="w">                    </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_lock</span><span class="p">);</span>
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="n">cpid</span><span class="p">;</span>
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="w">                </span><span class="p">}</span>
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a><span class="w">            </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">child</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>
+<a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a><span class="w">        </span><span class="c1">// No waiting if we don&#39;t have any children.</span>
+<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">havekids</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">killed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a><span class="w">            </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wait_lock</span><span class="p">);</span>
+<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ECHILD</span><span class="p">;</span>
+<a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>
+<a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a><span class="w">        </span><span class="n">debugf</span><span class="p">(</span><span class="s">&quot;pid %d sleeps for wait&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">);</span>
+<a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a><span class="w">        </span><span class="c1">// Wait for a child to exit.</span>
+<a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a><span class="w">        </span><span class="n">sleep</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">wait_lock</span><span class="p">);</span><span class="w">  </span><span class="c1">// DOC: wait-sleep</span>
+<a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a><span class="p">}</span>
+</code></pre></div>
+<p>The <code>freeproc</code> function releases the child's PCB (marking it as UNUSED) and reclaims its user memory (<code>mm_free</code>).</p>
+<h2 id="sleep-mechanism">Sleep Mechanism<a class="headerlink" href="#sleep-mechanism" title="Permanent link">&para;</a></h2>
+<p>Imagine a process is using the <code>read</code> system call to read data from stdin (i.e., the console), but at this moment, the user hasn’t input anything yet. The operating system has two options to handle this situation:</p>
+<ol>
+<li>Temporarily suspend the process and wait until there is data available on the console before returning.</li>
+<li>Continuously poll the console input and return from <code>read</code> as soon as there is input.</li>
+</ol>
+<p>Clearly, the second approach is inefficient for a valuable resource like the CPU. Input/Output operations, such as those involving the console, have no upper bound on response time. Instead of letting the CPU spin idly, it’s better to yield the CPU to other processes for execution and wake up the original process once data becomes available on the console. This is why we need to put a process to sleep: because it lacks certain conditions to continue executing. Rather than wasting CPU resources, it’s more efficient to wait until the conditions are met and then wake the process up.</p>
+<p>In the case of the console, the missing condition is that the user hasn’t provided any input. So, how does the process get woken up when there’s input on the console? Recalling our previous lessons, we should let the console send an interrupt to the CPU when data is available.</p>
+<p><img alt="alt text" src="202dad0f32e1fe935d6597a0292d6df.png" /></p>
+<h3 id="sleep-wakeup">sleep &amp; wakeup<a class="headerlink" href="#sleep-wakeup" title="Permanent link">&para;</a></h3>
+<p>The implementation of the <code>sleep</code> and <code>wakeup</code> functions is as follows. We use a <code>void*</code> pointer to represent arbitrary data, indicating why the current process is entering the <code>SLEEPING</code> state.</p>
+<p>The <code>sleep</code> function sets <code>curr_proc()-&gt;state</code> to <code>SLEEPING</code> and calls the <code>sched()</code> function to switch to the scheduler. Note that the scheduler only selects <code>RUNNABLE</code> processes to execute, so the current process will no longer be scheduled—meaning it won’t continue running.</p>
+<p>The <code>wakeup</code> function iterates through all processes. If a process’s sleep reason (<code>sleep_chan</code>) matches the provided <code>chan</code>, its state is set back to <code>RUNNABLE</code>, allowing it to be scheduled and executed again by the scheduler.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">sleep</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">chan</span><span class="p">,</span><span class="w"> </span><span class="n">spinlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">lk</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr_proc</span><span class="p">();</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span><span class="w">  </span><span class="c1">// DOC: sleeplock1</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="c1">// Go to sleep.</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sleep_chan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chan</span><span class="p">;</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">SLEEPING</span><span class="p">;</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span><span class="n">sched</span><span class="p">();</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">    </span><span class="c1">// p get waking up, Tidy up.</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sleep_chan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">    </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="p">}</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="kt">void</span><span class="w"> </span><span class="nf">wakeup</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">chan</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">NPROC</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pool</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">        </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SLEEPING</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">sleep_chan</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">chan</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="w">            </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RUNNABLE</span><span class="p">;</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="w">            </span><span class="n">add_task</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="w">        </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="p">}</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">lock</p>
+<p>Note that the <code>sleep</code> function takes a spinlock <code>spinlock_t *lk</code> as an argument. For this lesson, we don’t need to fully understand why it’s designed this way yet.</p>
+</div>
+<h3 id="console">Console<a class="headerlink" href="#console" title="Permanent link">&para;</a></h3>
+<p>Taking the console as an example, the <code>read</code> system call eventually reaches the <code>os/console.c: user_console_read</code> function. If the kernel’s buffer <code>cons.buffer</code> is empty (<code>cons.r == cons.w</code>), the current process is put to sleep on <code>&amp;cons</code>.</p>
+<p>When there’s readable data on the console device, the console triggers an interrupt to the CPU via the PLIC. In <code>trap.c: plic_handle()</code>, we determine whether the interrupt comes from the console (UART) based on the <code>irq</code>. If it does, the interrupt is dispatched to <code>uart_intr</code> for handling. The <code>uart_intr</code> function reads a byte from the UART device using <code>uartgetc</code> and calls <code>consintr</code>. When we receive a <code>\n</code>, we wake up the processes waiting on <code>&amp;cons</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">consintr</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">C</span><span class="p">(</span><span class="sc">&#39;D&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cons</span><span class="p">.</span><span class="n">e</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cons</span><span class="p">.</span><span class="n">r</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">INPUT_BUF_SIZE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">        </span><span class="c1">// wake up consoleread() if a whole line (or end-of-file)</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">        </span><span class="c1">// has arrived.</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">        </span><span class="n">cons</span><span class="p">.</span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cons</span><span class="p">.</span><span class="n">e</span><span class="p">;</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">        </span><span class="n">wakeup</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cons</span><span class="p">);</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="lab-report">Lab Report<a class="headerlink" href="#lab-report" title="Permanent link">&para;</a></h2>
 <ol>
@@ -1730,6 +1938,26 @@ Notice that numbers like `0x7769756168667361` seem like ASCII codes. You can use
 
 Note: At the low level of computers, &quot;strings&quot; are sequences of bytes that are terminated by 0x00.
 </code></pre></div>
+<h2 id="reading">Reading<a class="headerlink" href="#reading" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Where do the physical pages for Trampoline and Trapframe come from?</p>
+<p>Referring to the user page table of the sh process we printed above, pay attention to the physical addresses mapped in the last two entries:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>[ff], pte[0xffffffc080b147f8]: 0x0000003fc0000000 -&gt; 0x0000000080b15000 -------V
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>[1ff], pte[0xffffffc080b15ff8]: 0x0000003fffe00000 -&gt; 0x0000000080b16000 -------V
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    [1fe], pte[0xffffffc080b16ff0]: 0x0000003fffffe000 -&gt; 0x0000000080b17000 DA---WRV
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    [1ff], pte[0xffffffc080b16ff8]: 0x0000003ffffff000 -&gt; 0x000000008020b000 -A--X-RV
+</code></pre></div>
+<p>Refer to the "xv6 Kernel Memory Layout" section from "Week 6 - Kernel Paging" to determine which physical address regions these two physical addresses belong to. Cross-check your answers with the source code in <code>trampoline.S</code> and the linker script <code>os/kernel.ld</code>.</p>
+</li>
+<li>
+<p>Recalling last week's class report question: Trapframe and Trampoline are two pages. Should these two pages be accessible in U-mode?</p>
+<p>Please conduct an experiment to verify this yourself.</p>
+<p>For Trampoline, modify the <code>kvmmake</code> function in <code>kvm.c</code>. When calling <code>kvmmap</code> to map the trampoline, OR the PTE_U permission into the permissions.</p>
+<p>For Trapframe, modify the <code>allocproc</code> function in <code>proc.c</code>. At the point where mm_mappage_at is called, OR the PTE_U permission into the permissions.</p>
+<p>Use <code>make debug</code> and <code>gdb-multiarch</code> to attach a debugger. Set breakpoints at the kernel trap entry and at <code>uservec</code> with <code>b kernel_trap_entry</code> and <code>b *0x3ffffff000</code>. Use <code>print $scause</code> to manually inspect the trap-related CSR registers.</p>
+</li>
+</ol>
 
 
 
@@ -1769,8 +1997,8 @@ Note: At the low level of computers, &quot;strings&quot; are sequences of bytes 
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/dbba5b2e, 2025-04-07 19:35:16+08:00" target="_blank" rel="noopener">
-            dbba5b2e, 2025-04-07 19:35:16+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/0abef45e, 2025-04-08 13:04:28+08:00" target="_blank" rel="noopener">
+            0abef45e, 2025-04-08 13:04:28+08:00
         </a>
     </div>
 </div>
