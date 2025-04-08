@@ -1883,61 +1883,52 @@ The following is the output of <code>llvm-readelf-19 -a user/build/sh</code>, sh
 </ol>
 <p>Requirements: No need to consider the parent process. No need to list operations related to locks (<code>acquire</code>, <code>release</code>). For nested function calls, only write up to the first third call-depth. You can assume memory allocation always returns successfully; no need to consider error handling paths.</p>
 <ol>
-<li>Fill in the table below, mapping the process states (explained in theoretical classes) to the values of <code>enum procstate</code> (<code>os/proc.h</code>) in xv6 (<code>struct proc, state</code>), and describe the <strong>events</strong> that cause state transitions. </li>
-</ol>
+<li>
+<p>Fill in the table below, mapping the process states (explained in theoretical classes) to the values of <code>enum procstate</code> (<code>os/proc.h</code>) in xv6 (<code>struct proc, state</code>), and describe the <strong>events</strong> that cause state transitions. </p>
 <p>Note: The upper-left "new" state corresponds to <code>USED</code> in <code>enum procstate</code>.</p>
-<div class="highlight"><pre><span></span><code>![alt text](../assets/xv6lab-userprocess/userprocess-states.png)
-</code></pre></div>
-<ol>
-<li>In different processes, is their Trampoline the same physical page? Is their Trapframe the same physical page?</li>
+<p><img alt="alt text" src="../../assets/xv6lab-userprocess/userprocess-states.png" /></p>
+</li>
+<li>
+<p>In different processes, is their Trampoline the same physical page? Is their Trapframe the same physical page?</p>
+</li>
 </ol>
 <p>Hint: When executing the command <code>test_arg 123 asd</code> under <code>sh &gt;&gt;</code>, <code>sh</code> will fork&amp;exec to launch the <code>test_arg</code> program. The kernel will also print the page table of <code>test_arg</code>. Observe the Trapframe and Trampoline in its page table and in the page table of <code>sh</code>.</p>
 <ol>
-<li>When using the <code>exec</code> system call, we pass the process's arguments, i.e., <code>int exec(char *path, char *argv[])</code>. In the <code>main</code> function, we receive the <code>argv</code> array: <code>int main(int argc, char *argv[])</code>, where <code>argv</code> is an array of <code>char*</code> (string pointers), and its last element is <code>NULL</code>. The <code>argc</code> represents the number of string pointers in the array.</li>
-</ol>
+<li>
+<p>When using the <code>exec</code> system call, we pass the process's arguments, i.e., <code>int exec(char *path, char *argv[])</code>. In the <code>main</code> function, we receive the <code>argv</code> array: <code>int main(int argc, char *argv[])</code>, where <code>argv</code> is an array of <code>char*</code> (string pointers), and its last element is <code>NULL</code>. The <code>argc</code> represents the number of string pointers in the array.</p>
 <p>We know that <code>exec</code> will remove all memory mappings. So, how are the <code>argv</code> values passed from the old process to the new process when the <code>exec</code> system call is invoked?</p>
-<div class="highlight"><pre><span></span><code>Hint: After running make run, `test_arg` will appear in the applists. You can test it in the `sh &gt;&gt;` prompt.
-
-Debugger Tutorial：Use `make debug` to run QEMU with a debugger, and connect to QEMU with `gdb-multiarch`. First, use `continue` twice to make the kernel run to the `sh &gt;&gt;` prompt.
-
-![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-1.png)
-
-In GDB, press Ctrl+C to interrupt, then use `add-symbol-file user/build/test_arg` to add debugging symbols for the user program. Set a breakpoint at the main function of the user program by executing `b main`.
-
-![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-3.png)
-
-Execute `continue` to resume the kernel. In the kernel command line, type `test_arg asdf asfkjls asf` (the additional arguments can be random) and press Enter. You should hit the breakpoint in GDB at the user program.
-
-![alt text](../assets/xv6lab-userprocess/gdb-tutorial-image-4.png)
-
-Use `stack -l 20` to observe the content on the stack. (Note that addresses after `0xffff0000` are unmapped.) The value a1 on the right represents the value of the a1 register, which is the address `0x00000000fffefff0`.
-
-```
-(qemu) gef➤  stack -l 20
-0x00000000fffeff70│+0x0000: 0x00000000fffeffd0  →  0x0000000000006466  →  0x0000000000006466     ← $sp
-0x00000000fffeff78│+0x0008: 0x000000000040234c  →  0x02813c8303813b83  →  0x02813c8303813b83
-0x00000000fffeff80│+0x0010: 0x00000000fffefff0  →  0x6772615f74736574  →  0x6772615f74736574     ← $fp, $a1
-0x00000000fffeff88│+0x0018: 0x00000000fffeffe8  →  0x0000343135343131  →  0x0000343135343131
-0x00000000fffeff90│+0x0020: 0x00000000fffeffe0  →  0x0030313839313931  →  0x0030313839313931
-0x00000000fffeff98│+0x0028: 0x00000000fffeffd8  →  0x0066647361667361  →  0x0066647361667361
-0x00000000fffeffa0│+0x0030: 0x00000000fffeffc8  →  0x7361667361667361  →  0x7361667361667361
-0x00000000fffeffa8│+0x0038: 0x00000000fffeffb8  →  0x7769756168667361  →  0x7769756168667361
-0x00000000fffeffb0│+0x0040: 0x0000000000000000  →  0x0000000000000000
-0x00000000fffeffb8│+0x0048: 0x7769756168667361  →  0x7769756168667361
-0x00000000fffeffc0│+0x0050: 0x000000006b666265  →  0x000000006b666265
-0x00000000fffeffc8│+0x0058: 0x7361667361667361  →  0x7361667361667361
-0x00000000fffeffd0│+0x0060: 0x0000000000006466  →  0x0000000000006466
-0x00000000fffeffd8│+0x0068: 0x0066647361667361  →  0x0066647361667361
-0x00000000fffeffe0│+0x0070: 0x0030313839313931  →  0x0030313839313931
-0x00000000fffeffe8│+0x0078: 0x0000343135343131  →  0x0000343135343131
-0x00000000fffefff0│+0x0080: 0x6772615f74736574  →  0x6772615f74736574
-0x00000000fffefff8│+0x0088: 0x0000000000000000  →  0x0000000000000000
-```
-
-Notice that numbers like `0x7769756168667361` seem like ASCII codes. You can use `x/60s $sp` to print the stack content that looks like strings.
-
-Note: At the low level of computers, &quot;strings&quot; are sequences of bytes that are terminated by 0x00.
+<p>Hint: After running make run, <code>test_arg</code> will appear in the applists. You can test it in the <code>sh &gt;&gt;</code> prompt.</p>
+<p>Debugger Tutorial：Use <code>make debug</code> to run QEMU with a debugger, and connect to QEMU with <code>gdb-multiarch</code>. First, use <code>continue</code> twice to make the kernel run to the <code>sh &gt;&gt;</code> prompt.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-userprocess/gdb-tutorial-image-1.png" /></p>
+<p>In GDB, press Ctrl+C to interrupt, then use <code>add-symbol-file user/build/test_arg</code> to add debugging symbols for the user program. Set a breakpoint at the main function of the user program by executing <code>b main</code>.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-userprocess/gdb-tutorial-image-3.png" /></p>
+<p>Execute <code>continue</code> to resume the kernel. In the kernel command line, type <code>test_arg asdf asfkjls asf</code> (the additional arguments can be random) and press Enter. You should hit the breakpoint in GDB at the user program.</p>
+<p><img alt="alt text" src="../../assets/xv6lab-userprocess/gdb-tutorial-image-4.png" /></p>
+<p>Use <code>stack -l 20</code> to observe the content on the stack. (Note that addresses after <code>0xffff0000</code> are unmapped.) The value a1 on the right represents the value of the a1 register, which is the address <code>0x00000000fffefff0</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>(qemu) gef➤  stack -l 20
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>0x00000000fffeff70│+0x0000: 0x00000000fffeffd0  →  0x0000000000006466  →  0x0000000000006466     ← $sp
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>0x00000000fffeff78│+0x0008: 0x000000000040234c  →  0x02813c8303813b83  →  0x02813c8303813b83
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>0x00000000fffeff80│+0x0010: 0x00000000fffefff0  →  0x6772615f74736574  →  0x6772615f74736574     ← $fp, $a1
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>0x00000000fffeff88│+0x0018: 0x00000000fffeffe8  →  0x0000343135343131  →  0x0000343135343131
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>0x00000000fffeff90│+0x0020: 0x00000000fffeffe0  →  0x0030313839313931  →  0x0030313839313931
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>0x00000000fffeff98│+0x0028: 0x00000000fffeffd8  →  0x0066647361667361  →  0x0066647361667361
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>0x00000000fffeffa0│+0x0030: 0x00000000fffeffc8  →  0x7361667361667361  →  0x7361667361667361
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>0x00000000fffeffa8│+0x0038: 0x00000000fffeffb8  →  0x7769756168667361  →  0x7769756168667361
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>0x00000000fffeffb0│+0x0040: 0x0000000000000000  →  0x0000000000000000
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>0x00000000fffeffb8│+0x0048: 0x7769756168667361  →  0x7769756168667361
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>0x00000000fffeffc0│+0x0050: 0x000000006b666265  →  0x000000006b666265
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>0x00000000fffeffc8│+0x0058: 0x7361667361667361  →  0x7361667361667361
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>0x00000000fffeffd0│+0x0060: 0x0000000000006466  →  0x0000000000006466
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>0x00000000fffeffd8│+0x0068: 0x0066647361667361  →  0x0066647361667361
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>0x00000000fffeffe0│+0x0070: 0x0030313839313931  →  0x0030313839313931
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>0x00000000fffeffe8│+0x0078: 0x0000343135343131  →  0x0000343135343131
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>0x00000000fffefff0│+0x0080: 0x6772615f74736574  →  0x6772615f74736574
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>0x00000000fffefff8│+0x0088: 0x0000000000000000  →  0x0000000000000000
 </code></pre></div>
+<p>Notice that numbers like <code>0x7769756168667361</code> seem like ASCII codes. You can use <code>x/60s $sp</code> to print the stack content that looks like strings.</p>
+<p>Note: At the low level of computers, "strings" are sequences of bytes that are terminated by 0x00.</p>
+</li>
+</ol>
 <h2 id="reading">Reading<a class="headerlink" href="#reading" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
@@ -1997,8 +1988,8 @@ Note: At the low level of computers, &quot;strings&quot; are sequences of bytes 
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/f3e37aa5, 2025-04-08 13:42:17+08:00" target="_blank" rel="noopener">
-            f3e37aa5, 2025-04-08 13:42:17+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/7fc361bb, 2025-04-08 13:52:41+08:00" target="_blank" rel="noopener">
+            7fc361bb, 2025-04-08 13:52:41+08:00
         </a>
     </div>
 </div>
