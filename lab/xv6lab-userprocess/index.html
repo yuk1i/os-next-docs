@@ -1830,7 +1830,6 @@
 </ol>
 <p>显然的，第二种情况对 CPU 这种宝贵的资源而言是不高效的。控制台等 Input/Output 操作是没有响应时间上的上限。与其让 CPU 空转，不如先将 CPU 出让给其他进程来执行，等到控制台有数据了再唤醒原来的进程。这即是我们为什么需要让进程陷入睡眠：因为我们缺乏某些条件继续执行下去；与其浪费 CPU，不如等满足条件时再被唤醒。</p>
 <p>对于 Console 这样的例子而言，缺乏的条件就是用户没有输入内容；那么如何在 Console 上有输入时被唤醒呢：回想我们之前的课程，我们应该让 Console 在有数据时向 CPU 发出中断。</p>
-<p><img alt="alt text" src="202dad0f32e1fe935d6597a0292d6df.png" /></p>
 <h3 id="sleep-wakeup">sleep &amp; wakeup<a class="headerlink" href="#sleep-wakeup" title="Permanent link">&para;</a></h3>
 <p><code>sleep</code> 和 <code>wakeup</code> 函数的实现如下，我们使用一个 <code>void*</code> 指针表示一个任意数据，它表示当前进程因为什么原因陷入 <code>SLEEPING</code>。</p>
 <p><code>sleep</code> 会将 <code>curr_proc()-&gt;state</code> 设为 <code>SLEEPING</code>，并调用 <code>sched()</code> 函数切换到 scheduler。注意到 scheduler 只会挑选 <code>RUNNABLE</code> 的进程来执行，所以当前进程再也不会被 scheduler 调度到了，即它再也不会继续执行了。</p>
@@ -1985,8 +1984,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/7fc361bb, 2025-04-08 13:52:41+08:00" target="_blank" rel="noopener">
-            7fc361bb, 2025-04-08 13:52:41+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/1769fe48, 2025-04-08 13:54:17+08:00" target="_blank" rel="noopener">
+            1769fe48, 2025-04-08 13:54:17+08:00
         </a>
     </div>
 </div>

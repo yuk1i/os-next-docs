@@ -1830,7 +1830,6 @@ The following is the output of <code>llvm-readelf-19 -a user/build/sh</code>, sh
 </ol>
 <p>Clearly, the second approach is inefficient for a valuable resource like the CPU. Input/Output operations, such as those involving the console, have no upper bound on response time. Instead of letting the CPU spin idly, it’s better to yield the CPU to other processes for execution and wake up the original process once data becomes available on the console. This is why we need to put a process to sleep: because it lacks certain conditions to continue executing. Rather than wasting CPU resources, it’s more efficient to wait until the conditions are met and then wake the process up.</p>
 <p>In the case of the console, the missing condition is that the user hasn’t provided any input. So, how does the process get woken up when there’s input on the console? Recalling our previous lessons, we should let the console send an interrupt to the CPU when data is available.</p>
-<p><img alt="alt text" src="202dad0f32e1fe935d6597a0292d6df.png" /></p>
 <h3 id="sleep-wakeup">sleep &amp; wakeup<a class="headerlink" href="#sleep-wakeup" title="Permanent link">&para;</a></h3>
 <p>The implementation of the <code>sleep</code> and <code>wakeup</code> functions is as follows. We use a <code>void*</code> pointer to represent arbitrary data, indicating why the current process is entering the <code>SLEEPING</code> state.</p>
 <p>The <code>sleep</code> function sets <code>curr_proc()-&gt;state</code> to <code>SLEEPING</code> and calls the <code>sched()</code> function to switch to the scheduler. Note that the scheduler only selects <code>RUNNABLE</code> processes to execute, so the current process will no longer be scheduled—meaning it won’t continue running.</p>
@@ -1988,8 +1987,8 @@ The following is the output of <code>llvm-readelf-19 -a user/build/sh</code>, sh
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/7fc361bb, 2025-04-08 13:52:41+08:00" target="_blank" rel="noopener">
-            7fc361bb, 2025-04-08 13:52:41+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/1769fe48, 2025-04-08 13:54:17+08:00" target="_blank" rel="noopener">
+            1769fe48, 2025-04-08 13:54:17+08:00
         </a>
     </div>
 </div>
