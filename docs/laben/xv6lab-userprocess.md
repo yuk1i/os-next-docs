@@ -252,7 +252,7 @@ int exec(char *name, char *args[]) {
 }
 ```
 
-The `load_user_elf` function has been modified compared to the previous Lab. We need to note that **allocating physical pages may fail**. When the system does not have enough memory, the `exec` function fails to execute, and we need to return to the original process to continue execution, releasing the half-allocated memory.
+The `load_user_elf` function has been modified compared to the previous Lab. We need to note that **allocating physical pages may fail**. When the system does not have enough memory, the `exec` function fails to execute, and we need to return to the original process to continue execution, releasing the half-allocated memory.(Avoid memory leaks)
 
 Therefore, we create a new `struct mm` and load the segments from the ELF file and the process stack into it. Only after we no longer need to allocate memory (`mm_mappages`) do we clear and overwrite `p->mm`.
 
@@ -341,6 +341,8 @@ void exit(int code) {
 
 The reparent mechanism is mainly used to avoid the "orphan process" problem and ensure that system resources are properly reclaimed. In xv6, `init` is like an "orphanage," responsible for reclaiming the grandchild processes created by child processes.
 
+![alt](../assets/xv6lab-userprocess/xv6lab-userprocess-wait-reparent.png)
+
 ```c
 // user/src/init.c
 
@@ -355,6 +357,133 @@ for (;;) {
     } else {
         // it was a parentless process; do nothing.
         printf("init: wait a parentless process %d\n", wpid);
+    }
+}
+```
+
+## wait
+
+The wait system call is a crucial function for process control in operating systems. Its primary purpose is to allow a parent process to wait for a state change in its child process (in xv6, only termination is supported) and retrieve the child's exit code.
+
+In xv6, the prototype of `wait` resembles Linux's `waitpid(2)`. The provided `pid` can be a negative value, indicating that the parent waits for ​​any​​ child process; otherwise, it waits for a specific child process.
+
+For simplicity, xv6 represents the parent-child relationship using only the `parent` pointer in the child's Process Control Block (PCB), without maintaining a reverse `children` list for traversal. Thus, to find a child, the implementation scans ​​all processes​​, checking whether any process's `parent` pointer points to the current process (`curr_proc()`).
+
+When such a child process is found ​​and​​ it is in the ZOMBIE state, the system can reclaim its resources and return from the wait system call.
+
+```c
+int wait(int pid, int *code) {
+    struct proc *child;
+    int havekids;
+    struct proc *p = curr_proc();
+
+    acquire(&wait_lock);
+
+    for (;;) {
+        // Scan through table looking for exited children.
+        havekids = 0;
+        for (int i = 0; i < NPROC; i++) {
+            child = pool[i];
+            if (child == p)
+                continue;
+
+            acquire(&child->lock);
+            if (child->parent == p) {
+                havekids = 1;
+                if (child->state == ZOMBIE && (pid <= 0 || child->pid == pid)) {    // condition for matching a child process
+                    int cpid = child->pid;
+                    // Found one.
+                    if (code)
+                        *code = child->exit_code;
+                    freeproc(child);
+                    release(&child->lock);
+                    release(&wait_lock);
+                    return cpid;
+                }
+            }
+            release(&child->lock);
+        }
+
+        // No waiting if we don't have any children.
+        if (!havekids || p->killed) {
+            release(&wait_lock);
+            return -ECHILD;
+        }
+
+        debugf("pid %d sleeps for wait", p->pid);
+        // Wait for a child to exit.
+        sleep(p, &wait_lock);  // DOC: wait-sleep
+    }
+}
+```
+
+The `freeproc` function releases the child's PCB (marking it as UNUSED) and reclaims its user memory (`mm_free`).
+
+## Sleep Mechanism
+
+Imagine a process is using the `read` system call to read data from stdin (i.e., the console), but at this moment, the user hasn’t input anything yet. The operating system has two options to handle this situation:
+
+1. Temporarily suspend the process and wait until there is data available on the console before returning.
+2. Continuously poll the console input and return from `read` as soon as there is input.
+
+Clearly, the second approach is inefficient for a valuable resource like the CPU. Input/Output operations, such as those involving the console, have no upper bound on response time. Instead of letting the CPU spin idly, it’s better to yield the CPU to other processes for execution and wake up the original process once data becomes available on the console. This is why we need to put a process to sleep: because it lacks certain conditions to continue executing. Rather than wasting CPU resources, it’s more efficient to wait until the conditions are met and then wake the process up.
+
+In the case of the console, the missing condition is that the user hasn’t provided any input. So, how does the process get woken up when there’s input on the console? Recalling our previous lessons, we should let the console send an interrupt to the CPU when data is available.
+
+![alt text](202dad0f32e1fe935d6597a0292d6df.png)
+
+### sleep & wakeup
+
+The implementation of the `sleep` and `wakeup` functions is as follows. We use a `void*` pointer to represent arbitrary data, indicating why the current process is entering the `SLEEPING` state.
+
+The `sleep` function sets `curr_proc()->state` to `SLEEPING` and calls the `sched()` function to switch to the scheduler. Note that the scheduler only selects `RUNNABLE` processes to execute, so the current process will no longer be scheduled—meaning it won’t continue running.
+
+The `wakeup` function iterates through all processes. If a process’s sleep reason (`sleep_chan`) matches the provided `chan`, its state is set back to `RUNNABLE`, allowing it to be scheduled and executed again by the scheduler.
+
+```c
+void sleep(void *chan, spinlock_t *lk) {
+    struct proc *p = curr_proc();
+
+    acquire(&p->lock);  // DOC: sleeplock1
+    // Go to sleep.
+    p->sleep_chan = chan;
+    p->state      = SLEEPING;
+
+    sched();
+    // p get waking up, Tidy up.
+    p->sleep_chan = 0;
+
+    release(&p->lock);
+}
+void wakeup(void *chan) {
+    for (int i = 0; i < NPROC; i++) {
+        struct proc *p = pool[i];
+        acquire(&p->lock);
+        if (p->state == SLEEPING && p->sleep_chan == chan) {
+            p->state = RUNNABLE;
+            add_task(p);
+        }
+        release(&p->lock);
+    }
+}
+```
+
+!!!info "lock"
+    Note that the `sleep` function takes a spinlock `spinlock_t *lk` as an argument. For this lesson, we don’t need to fully understand why it’s designed this way yet.
+
+### Console
+
+Taking the console as an example, the `read` system call eventually reaches the `os/console.c: user_console_read` function. If the kernel’s buffer `cons.buffer` is empty (`cons.r == cons.w`), the current process is put to sleep on `&cons`.
+
+When there’s readable data on the console device, the console triggers an interrupt to the CPU via the PLIC. In `trap.c: plic_handle()`, we determine whether the interrupt comes from the console (UART) based on the `irq`. If it does, the interrupt is dispatched to `uart_intr` for handling. The `uart_intr` function reads a byte from the UART device using `uartgetc` and calls `consintr`. When we receive a `\n`, we wake up the processes waiting on `&cons`.
+
+```c
+static void consintr(int c) {
+    if (c == '\n' || c == C('D') || cons.e - cons.r == INPUT_BUF_SIZE) {
+        // wake up consoleread() if a whole line (or end-of-file)
+        // has arrived.
+        cons.w = cons.e;
+        wakeup(&cons);
     }
 }
 ```
@@ -422,3 +551,29 @@ for (;;) {
     Notice that numbers like `0x7769756168667361` seem like ASCII codes. You can use `x/60s $sp` to print the stack content that looks like strings.
 
     Note: At the low level of computers, "strings" are sequences of bytes that are terminated by 0x00.
+
+## Reading
+
+
+1. Where do the physical pages for Trampoline and Trapframe come from?
+
+    Referring to the user page table of the sh process we printed above, pay attention to the physical addresses mapped in the last two entries:
+
+    ```
+    [ff], pte[0xffffffc080b147f8]: 0x0000003fc0000000 -> 0x0000000080b15000 -------V
+    [1ff], pte[0xffffffc080b15ff8]: 0x0000003fffe00000 -> 0x0000000080b16000 -------V
+        [1fe], pte[0xffffffc080b16ff0]: 0x0000003fffffe000 -> 0x0000000080b17000 DA---WRV
+        [1ff], pte[0xffffffc080b16ff8]: 0x0000003ffffff000 -> 0x000000008020b000 -A--X-RV
+    ```
+
+    Refer to the "xv6 Kernel Memory Layout" section from "Week 6 - Kernel Paging" to determine which physical address regions these two physical addresses belong to. Cross-check your answers with the source code in `trampoline.S` and the linker script `os/kernel.ld`.
+
+2. Recalling last week's class report question: Trapframe and Trampoline are two pages. Should these two pages be accessible in U-mode?
+
+    Please conduct an experiment to verify this yourself.
+
+    For Trampoline, modify the `kvmmake` function in `kvm.c`. When calling `kvmmap` to map the trampoline, OR the PTE_U permission into the permissions.
+
+    For Trapframe, modify the `allocproc` function in `proc.c`. At the point where mm_mappage_at is called, OR the PTE_U permission into the permissions.
+
+    Use `make debug` and `gdb-multiarch` to attach a debugger. Set breakpoints at the kernel trap entry and at `uservec` with `b kernel_trap_entry` and `b *0x3ffffff000`. Use `print $scause` to manually inspect the trap-related CSR registers.
