@@ -430,7 +430,6 @@ int wait(int pid, int *code) {
 
 对于 Console 这样的例子而言，缺乏的条件就是用户没有输入内容；那么如何在 Console 上有输入时被唤醒呢：回想我们之前的课程，我们应该让 Console 在有数据时向 CPU 发出中断。
 
-![alt text](202dad0f32e1fe935d6597a0292d6df.png)
 
 ### sleep & wakeup
 

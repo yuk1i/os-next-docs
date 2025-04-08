@@ -430,7 +430,6 @@ Clearly, the second approach is inefficient for a valuable resource like the CPU
 
 In the case of the console, the missing condition is that the user hasn’t provided any input. So, how does the process get woken up when there’s input on the console? Recalling our previous lessons, we should let the console send an interrupt to the CPU when data is available.
 
-![alt text](202dad0f32e1fe935d6597a0292d6df.png)
 
 ### sleep & wakeup
 
