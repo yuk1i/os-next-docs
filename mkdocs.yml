@@ -38,6 +38,7 @@ nav:
     - Week 6 - 内核页表 Kernel Paging: lab/xv6lab-paging.md
     - Week 7 - 用户空间 Userspace: lab/xv6lab-userspace.md
     - Week 8 - 进程 Process: lab/xv6lab-userprocess.md
+    - Week 9 - 缺页异常 Page Fault: lab/xv6lab-pagefault.md
   - Weekly Lab Material:
     - Week 2 - C language basic & Makefile: laben/lab2.md
     - Week 3 - Bare Metal: laben/xv6lab-baremetal.md
