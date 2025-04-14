@@ -6,6 +6,16 @@
 2. 掌握三种缺页中断的处理方式
 3. 掌握页面置换的几种基础算法
 
+!!!warning "xv6-lab8 代码分支"
+    
+    https://github.com/yuk1i/SUSTechOS/tree/pgfault
+
+    注意：仓库并不是以前的 SUSTech-OS-2025。 
+
+    使用命令 `git clone https://github.com/yuk1i/SUSTechOS -b pgfault xv6lab8` 下载 xv6lab8 代码。
+
+    使用 `make run` 运行本次 Lab 的内核，运行 `pgfault` 程序，对照 `user/src/pgfault.c`，观察内核的行为。
+
 ## Page Fault
 
 Page Fault 是一种异常。若给定的虚拟地址请求（取指、读取、写入）与页表中描述的不一致，MMU 就会发起 Page Fault 异常。scause 中的 `Exception Code` 规定了三种 Page Fault：`Instruction page fault`, `Load page fault`, `Store/AMO page fault`。
