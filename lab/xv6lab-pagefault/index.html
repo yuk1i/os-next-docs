@@ -830,6 +830,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#page-fault_1" class="md-nav__link">
     <span class="md-ellipsis">
       Page Fault
@@ -849,7 +858,16 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#page-fault_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Page Fault
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       实现
     </span>
@@ -873,7 +891,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       页面置换算法
     </span>
@@ -1238,6 +1256,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#page-fault_1" class="md-nav__link">
     <span class="md-ellipsis">
       Page Fault
@@ -1257,7 +1284,16 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#page-fault_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Page Fault
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       实现
     </span>
@@ -1281,7 +1317,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       页面置换算法
     </span>
@@ -1322,6 +1358,12 @@
 
 
 <h1 id="page-fault">Page Fault<a class="headerlink" href="#page-fault" title="Permanent link">&para;</a></h1>
+<h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li>掌握什么是缺页中断</li>
+<li>掌握三种缺页中断的处理方式</li>
+<li>掌握页面置换的几种基础算法</li>
+</ol>
 <h2 id="page-fault_1">Page Fault<a class="headerlink" href="#page-fault_1" title="Permanent link">&para;</a></h2>
 <p>Page Fault 是一种异常。若给定的虚拟地址请求（取指、读取、写入）与页表中描述的不一致，MMU 就会发起 Page Fault 异常。scause 中的 <code>Exception Code</code> 规定了三种 Page Fault：<code>Instruction page fault</code>, <code>Load page fault</code>, <code>Store/AMO page fault</code>。</p>
 <p>在特权级手册中，章节 <code>4.3.2 Virtual Address Translation Process</code> 规定了在地址翻译过程中，所有可能造成 page fault 的情况。</p>
@@ -1338,7 +1380,29 @@ faulting virtual address.</p>
 <p>所以，在分配栈的时候，我们可以先只分配 2 个物理页面，等 <strong>用户进程需要剩下的页面时，我们再进行分配物理页面</strong> 。
 当用户进程访问某个虚拟地址时，CPU 会发现该地址在页表中没有映射，于是会触发一个 Page Fault 异常。</p>
 <p>尽管这个虚拟地址对 CPU 来说是非法的，但实际上，内核已经为该虚拟地址预留了空间。收到 Page Fault 异常后，内核知道用户进程确实需要使用这个页面，因此会在异常处理过程中分配相应的物理页面，并更新页表。随后，内核会让程序从发生 Page Fault 的位置继续执行，CPU 这时会发现该虚拟地址已经合法。对用户进程而言，程序执行被短暂暂停了一下，整个过程是无感知的。</p>
-<h3 id="_1">实现<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<h3 id="page-fault_2">Page Fault<a class="headerlink" href="#page-fault_2" title="Permanent link">&para;</a></h3>
+<p>前面我们提到当进程申请内存时，操作系统会为进程提供一段虚拟地址的使用权，但并没有实际分配虚拟地址对应的物理内存。而当进程访问该地址时，会发现虚拟地址并没有对应的物理地址，从而触发缺页中断（page fault），而后操作系统通过响应该中断实现物理内存的分配，并在页表中建立相应的地址映射。</p>
+<p>当cpu访问虚拟地址，而该虚拟地址找不到对应的物理内存时触发该异常。以下情况可能导致page fault被触发：</p>
+<ol>
+<li>页表中没有虚拟地址对应的PTE（虚拟地址无效或虚拟地址有效但没有分配物理内存页）</li>
+<li>现有权限无法操作对应的PTE</li>
+</ol>
+<p>linux中缺页中断分为三种类型：</p>
+<ol>
+<li><strong>major page fault (hard page fault)</strong></li>
+</ol>
+<p>访问的虚拟地址内容不在内存中，需要从外设载入。常见于内容页被置换到外设交换区中，需要将交换区中的页面重新载入内存。</p>
+<ol>
+<li><strong>minor page fault (soft page fault)</strong></li>
+</ol>
+<p>虚拟地址在页表中没有建立映射，常见于进程申请虚拟内存后初次操作内存，及多个进程访问共享内存尚未建立虚拟地址映射的情况。</p>
+<ol>
+<li><strong>invalid fault</strong></li>
+</ol>
+<p>访问的虚拟地址不合法。</p>
+<p>在XV6中，缺页中断的处理流程如下：</p>
+<p><img alt="Page Fault" src="../../assets/xv6lab-pagefault/pagefault.png" /></p>
+<h3 id="_2">实现<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>在 xv6 中，我们对 <strong>用户的虚拟地址空间</strong> 有两种表示方式：VMA 结构体和页表。后者是 CPU 进行地址翻译所需的，而前者对于操作系统代码较为友好。</p>
 <p>在给用户分配虚拟地址空间时，我们将其保存到 VMA 结构体中，但是先不给它映射物理页面；并等待用户真正用到这个地址时（即发生 Page Fault时）再映射物理页面。</p>
 <p>当 Page Fault 发生时，我们可以检查 <code>stval</code> 中的虚拟地址是否在 VMA 结构体中。如果不在，则说明该异常真的是用户程序进行了非法内存访问；否则，则说明该地址是一个合法的用户虚拟地址，我们在这时再给它分配物理页面并在页表中映射。</p>
@@ -1355,12 +1419,15 @@ faulting virtual address.</p>
 <h2 id="swap">页面置换 Swap<a class="headerlink" href="#swap" title="Permanent link">&para;</a></h2>
 <p>当需要分配物理页面时，我们需要调用 <code>kallocpage</code> 的方法。但是，当系统中没有空闲物理页面时会发生什么？</p>
 <p>对于这种资源分配失败的情况，我们可以简单地回到最开始的情况，并对调用者返回一个错误。如 <code>fork</code> 和 <code>exec</code> 在内存分配失败时会返回一个负数表示错误。</p>
-<p>有时候，我们希望内核中尽量有足够的物理页面。所以，当内核中可用物理页面过低时（理论课上，我们称之为低水位/高水位, low/high watermark），内核可以将一些页面丢出内存 (swap out)，存储到次级的存储空间（如硬盘，回顾 CSAPP: Memory Hierarchy），以此腾出空间。</p>
+<p>有时候，我们希望内核中尽量有足够的物理页面。所以，当内核中可用物理页面过低时（理论课上，我们称之为低水位/高水位, low/high watermark），内核可以将一些页面丢出内存 <strong>(swap out)</strong> ，存储到次级的存储空间（如硬盘，回顾 CSAPP: Memory Hierarchy），以此腾出空间。</p>
 <p><strong>CSAPP: Memory Hierarchy</strong></p>
 <p><img alt="memory hierarchy" src="../../assets/xv6lab-pagefault/csapp-memory-hierarchy.png" /></p>
-<p>回顾之前的 Demand Paging 思想：只有在 Page Fault 时，用户进程在真正引用了某虚拟地址。对于那些被丢出去的物理页面，我们也可以这样做，在它们遇到 Page Fault 时才从次级存储空间读取到内存 (swap in)，并重新建立页表映射。</p>
+<p>那么，丢出去的页面如果之后还需要使用怎么办？回顾之前的 Demand Paging 思想：只有在 Page Fault 时，用户进程在真正引用了某虚拟地址。对于那些被丢出去的物理页面，我们也可以这样做。在再次访问之前丢出的页面，此时因为页面已经丢出，该页对应的页表中的PTE将是一个无效PTE，从而导致 Page Fault ，遇到 Page Fault 时才从次级存储空间读取到内存 (swap in)，并重新建立页表映射。</p>
+<p>选择哪个空闲页面进行 swap out 的策略我们称为页面置换算法。</p>
+<p>以下流程图说明了何时需要页面置换：
+<img alt="swap" src="../../assets/xv6lab-pagefault/swap.png" /></p>
 <p>还是回顾 Memory Hierarchy，对于次级存储空间（硬盘），它的访问速度和访问延迟肯定是不如内存的。所以我们要尽量减少 swap 的次数。那么，我们该如何选择 <strong>被丢出去的页面</strong> ？</p>
-<h3 id="_2">页面置换算法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h3 id="_3">页面置换算法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>在对于一个总数有限、需要抽选一些项目踢出去的问题时，我们通常有两种实现上比较友好的算法：FIFO 和 LRU。（例如 CPU 中的 L1/L2/L3 Cache, TLB）</p>
 <ul>
 <li>
@@ -1419,8 +1486,8 @@ faulting virtual address.</p>
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/14c0f5c0, 2025-04-13 20:43:05+08:00" target="_blank" rel="noopener">
-            14c0f5c0, 2025-04-13 20:43:05+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/15bce3f7, 2025-04-14 12:01:52+08:00" target="_blank" rel="noopener">
+            15bce3f7, 2025-04-14 12:01:52+08:00
         </a>
     </div>
 </div>
