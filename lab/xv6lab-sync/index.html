@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../setup/">
+        <link rel="prev" href="../xv6lab-pagefault/">
       
       
-        <link rel="next" href="../helloworld/">
+        <link rel="next" href="../../laben/lab2/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>VSCode 远程配置 - 操作系统实验文档</title>
+        <title>Week 10 - 互斥与同步 Mutual Exclusion & Synchronization - 操作系统实验文档</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#mutual-exclusion-synchronization" class="md-skip">
           跳转至
         </a>
       
@@ -97,7 +97,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              VSCode 远程配置
+              Week 10 - 互斥与同步 Mutual Exclusion & Synchronization
             
           </span>
         </div>
@@ -187,13 +187,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../env/" class="md-tabs__link">
           
   
   实验环境搭建
@@ -207,11 +205,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../lab/lab1/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../lab1/" class="md-tabs__link">
           
   
   每周实验
@@ -332,28 +332,23 @@
       
   
   
-    
   
   
-  
     
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -364,7 +359,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             实验环境搭建
@@ -378,7 +373,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../env/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -437,7 +432,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../vm/windows-vmware/" class="md-nav__link">
+      <a href="../../env/vm/windows-vmware/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -458,7 +453,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../vm/wsl/" class="md-nav__link">
+      <a href="../../env/vm/wsl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -479,7 +474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../vm/macos/" class="md-nav__link">
+      <a href="../../env/vm/macos/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -508,7 +503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../setup/" class="md-nav__link">
+      <a href="../../env/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -526,28 +521,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    VSCode 远程配置
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../env/vscode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -556,33 +533,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      日常开发建议
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -595,7 +545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../helloworld/" class="md-nav__link">
+      <a href="../../env/helloworld/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -620,23 +570,28 @@
       
   
   
+    
   
   
+  
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -647,7 +602,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             每周实验
@@ -661,7 +616,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/lab1/" class="md-nav__link">
+      <a href="../lab1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -682,7 +637,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/lab2/" class="md-nav__link">
+      <a href="../lab2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -703,7 +658,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-baremetal/" class="md-nav__link">
+      <a href="../xv6lab-baremetal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -724,7 +679,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-interrupts/" class="md-nav__link">
+      <a href="../xv6lab-interrupts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -745,7 +700,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-contextswitch/" class="md-nav__link">
+      <a href="../xv6lab-contextswitch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -766,7 +721,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-paging/" class="md-nav__link">
+      <a href="../xv6lab-paging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -787,7 +742,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-userspace/" class="md-nav__link">
+      <a href="../xv6lab-userspace/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -808,7 +763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-userprocess/" class="md-nav__link">
+      <a href="../xv6lab-userprocess/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -829,7 +784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-pagefault/" class="md-nav__link">
+      <a href="../xv6lab-pagefault/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -847,10 +802,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../lab/xv6lab-sync/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Week 10 - 互斥与同步 Mutual Exclusion & Synchronization
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -859,6 +834,68 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是互斥，什么是同步：
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么需要互斥
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="为什么需要互斥">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      山寨支付宝
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      求和
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1209,6 +1246,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1219,9 +1258,42 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      日常开发建议
+      什么是互斥，什么是同步：
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      为什么需要互斥
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="为什么需要互斥">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      山寨支付宝
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      求和
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1243,9 +1315,95 @@
   
 
 
-  <h1>VSCode 远程配置</h1>
-
-<h2 id="_1">日常开发建议<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h1 id="mutual-exclusion-synchronization">互斥与同步 Mutual Exclusion &amp; Synchronization<a class="headerlink" href="#mutual-exclusion-synchronization" title="Permanent link">&para;</a></h1>
+<h2 id="_1">什么是互斥，什么是同步：<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>互斥 (Mutual Exclusion) 是指 <strong>在同一时刻，只有一个线程</strong> 可以访问共享资源。</p>
+<p>同步 (Synchronization) 是指多个进程之间的事件 <strong>按某种顺序执行</strong> ，我们称之为 happens-before。</p>
+<p>我们可以用现实的例子来描述这两件事情。</p>
+<ol>
+<li>
+<p>考虑有一个厕所单间，有许多人需要上厕所。但是，在同一时刻，只有一个人能呆在这个厕所单间里面。</p>
+<p>这个问题中，“厕所” 即是共享资源。</p>
+</li>
+<li>
+<p>考虑一个十字路口的红绿灯：每个方向上，有机动车道的红绿灯；与之垂直的，有人行斑马线的红绿灯。我们要求，在机动车道亮绿灯前，与之垂直的斑马线一定已经亮红灯。</p>
+<p>这个问题中，我们定义了 <code>斑马线亮绿灯</code> happens-before <code>机动车道亮红灯</code>。</p>
+</li>
+</ol>
+<h2 id="_2">为什么需要互斥<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">函数声明</p>
+<p>我们会在之后的代码中使用一些简化的函数来表示线程创建等问题：</p>
+<ul>
+<li>
+<p><code>create(func)</code>: 创建一个线程，它从给定的函数 <code>func</code> 起开始运行。</p>
+</li>
+<li>
+<p><code>join()</code>: 等待所有线程退出。</p>
+</li>
+<li>
+<p><code>usleep()</code>: 等待几个us。</p>
+</li>
+</ul>
+</div>
+<p>在理解我们为什么需要互斥前，我们先要明白 Data Race (数据竞争) 是怎么回事。</p>
+<h3 id="_3">山寨支付宝<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;thread.h&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">money</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">deduct</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">money</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="n">usleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="n">money</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">create</span><span class="p">(</span><span class="n">deduct</span><span class="p">);</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="n">join</span><span class="p">();</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;money = %lu</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">money</span><span class="p">);</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">}</span>
+</code></pre></div>
+<p>使用 <code>gcc -O2 alipay.c &amp;&amp; ./a.out</code> 编译并运行，体验一把亿万富翁。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ gcc -O0 alipay.c &amp;&amp; ./a.out
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>money = 18446744073709551547
+</code></pre></div>
+</div>
+<p>山寨支付宝会创建100个线程，每个线程都尝试从钱包（共享资源）中扣款，如果钱包没钱了那就不扣款（局部序）。<code>usleep</code> 用于强制触发一段时间的等待。</p>
+<p>我们会发现，<code>money</code> 突然变成了一个很大的值，这是因为我们对 <code>unsigned long</code> 进行减法导致了溢出。我们考虑如下运行图，对所有白色方块强制排序（全局序）：</p>
+<p><img alt="image" src="../../assets/xv6lab-sync/xv6lab-sync-alipay.png" /></p>
+<p>在最坏的情况下，钱包里只剩下1元时，两个线程都检查到了钱包余额为1元，所以它们俩都进行了扣款，然后就导致了溢出。</p>
+<div class="admonition info">
+<p class="admonition-title">数学视角的多线程</p>
+<p>将 <code>money &gt;= 1 ?</code> 和 <code>money--</code> 两步骤称为 A 与 B。A永远在B之前执行，我们写作 <code>A &gt; B</code> (A happens-before B)。</p>
+<p>我们发现，多线程的运行步骤（全局序）是每个线程的运行步骤（局部序）的一个排列 (Permutation)。</p>
+<p>全局序是四个步骤 <code>{A1, B1, A2, B2}</code> 进行排列，其中满足局部序 <code>A1 &gt; B1</code> 和 <code>A2 &gt; B2</code> 的排列均是一个合法的全局序。
+例如，<code>(A1, B1, A2, B2)</code>, <code>(A2, B2, A1, B1)</code>, <code>(A1, A2, B1, B2)</code> 均是合法的全局序，而后者即是 bug 的根源。</p>
+<p>如果你感兴趣，你可以试着回答这个问题：我们可以从数学上验证一个多线程程序的正确性，即所有全局序都不会造成 bug。从计算复杂性理论 (Computational complexity theory) 的角度而言，解这个问题是 P 问题、NP 问题、还是 NP完全问题。</p>
+</div>
+<h3 id="_4">求和<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>考虑以下程序，我们创建了两个线程</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;thread.h&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#define N 100000000</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kt">long</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T_sum</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="n">create</span><span class="p">(</span><span class="n">T_sum</span><span class="p">);</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="n">create</span><span class="p">(</span><span class="n">T_sum</span><span class="p">);</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">join</span><span class="p">();</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sum = %ld</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">}</span>
+</code></pre></div>
 
 
 
