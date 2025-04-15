@@ -6,13 +6,13 @@
 2. 掌握三种缺页中断的处理方式
 3. 掌握页面置换的几种基础算法
 
-!!!warning "xv6-lab8 代码分支"
+!!!warning "xv6-lab7 代码分支"
     
     https://github.com/yuk1i/SUSTechOS/tree/pgfault
 
     注意：仓库并不是以前的 SUSTech-OS-2025。 
 
-    使用命令 `git clone https://github.com/yuk1i/SUSTechOS -b pgfault xv6lab8` 下载 xv6lab8 代码。
+    使用命令 `git clone https://github.com/yuk1i/SUSTechOS -b pgfault xv6lab7` 下载 xv6lab7 代码。
 
     使用 `make run` 运行本次 Lab 的内核，运行 `pgfault` 程序，对照 `user/src/pgfault.c`，观察内核的行为。
 

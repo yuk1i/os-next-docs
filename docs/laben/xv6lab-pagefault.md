@@ -6,6 +6,16 @@
 2. Master the three types of page fault handling methods.
 3. Learn several basic page replacement algorithms.
 
+!!!warning "xv6-lab7 Code Branch"
+    
+    https://github.com/yuk1i/SUSTechOS/tree/pgfault
+
+    Note: The repository is not the same as the previous SUSTech-OS-2025.
+
+    Use the command `git clone https://github.com/yuk1i/SUSTechOS -b pgfault xv6lab7` to download the xv6lab7 code.
+
+    Use `make run` to run the kernel for this lab, and run the `pgfault` program. Refer to `user/src/pgfault.c` to observe the behavior of the kernel.
+
 ## Page Fault
 
 A **Page Fault** is an exception. If a requested virtual address (for instruction fetch, read, or write) does not match the page table's description, the MMU triggers a Page Fault exception. The `Exception Code` in `scause` defines three types of Page Faults: `Instruction page fault`, `Load page fault`, and `Store/AMO page fault`.
