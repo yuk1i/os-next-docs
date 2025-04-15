@@ -1385,6 +1385,13 @@
 <li>Master the three types of page fault handling methods.</li>
 <li>Learn several basic page replacement algorithms.</li>
 </ol>
+<div class="admonition warning">
+<p class="admonition-title">xv6-lab7 Code Branch</p>
+<p><a href="https://github.com/yuk1i/SUSTechOS/tree/pgfault">https://github.com/yuk1i/SUSTechOS/tree/pgfault</a></p>
+<p>Note: The repository is not the same as the previous SUSTech-OS-2025.</p>
+<p>Use the command <code>git clone https://github.com/yuk1i/SUSTechOS -b pgfault xv6lab7</code> to download the xv6lab7 code.</p>
+<p>Use <code>make run</code> to run the kernel for this lab, and run the <code>pgfault</code> program. Refer to <code>user/src/pgfault.c</code> to observe the behavior of the kernel.</p>
+</div>
 <h2 id="page-fault_1">Page Fault<a class="headerlink" href="#page-fault_1" title="Permanent link">&para;</a></h2>
 <p>A <strong>Page Fault</strong> is an exception. If a requested virtual address (for instruction fetch, read, or write) does not match the page table's description, the MMU triggers a Page Fault exception. The <code>Exception Code</code> in <code>scause</code> defines three types of Page Faults: <code>Instruction page fault</code>, <code>Load page fault</code>, and <code>Store/AMO page fault</code>.</p>
 <p>The privileged architecture manual, in section <code>4.3.2 Virtual Address Translation Process</code>, specifies all scenarios that may cause a page fault during address translation.</p>
@@ -1507,8 +1514,8 @@ The stack grows from high to low addresses, meaning it expands dynamically durin
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/aec8b67d, 2025-04-14 19:13:32+08:00" target="_blank" rel="noopener">
-            aec8b67d, 2025-04-14 19:13:32+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/d4ef98c6, 2025-04-15 13:53:58+08:00" target="_blank" rel="noopener">
+            d4ef98c6, 2025-04-15 13:53:58+08:00
         </a>
     </div>
 </div>
