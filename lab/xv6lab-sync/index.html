@@ -853,24 +853,24 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      什么是互斥，什么是同步：
+      多处理器编程
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#mutual-exclusion" class="md-nav__link">
     <span class="md-ellipsis">
-      为什么需要互斥
+      互斥 Mutual Exclusion
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="为什么需要互斥">
+    <nav class="md-nav" aria-label="互斥 Mutual Exclusion">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       山寨支付宝
     </span>
@@ -879,7 +879,58 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      单核处理器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compare-and-swap" class="md-nav__link">
+    <span class="md-ellipsis">
+      原子 Compare-And-Swap 指令
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lock-primitive" class="md-nav__link">
+    <span class="md-ellipsis">
+      锁原语 Lock Primitive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      锁的实现
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是互斥，什么是同步：
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="什么是互斥，什么是同步：">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       求和
     </span>
@@ -1258,24 +1309,24 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      什么是互斥，什么是同步：
+      多处理器编程
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#mutual-exclusion" class="md-nav__link">
     <span class="md-ellipsis">
-      为什么需要互斥
+      互斥 Mutual Exclusion
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="为什么需要互斥">
+    <nav class="md-nav" aria-label="互斥 Mutual Exclusion">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       山寨支付宝
     </span>
@@ -1284,7 +1335,58 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      单核处理器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compare-and-swap" class="md-nav__link">
+    <span class="md-ellipsis">
+      原子 Compare-And-Swap 指令
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lock-primitive" class="md-nav__link">
+    <span class="md-ellipsis">
+      锁原语 Lock Primitive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      锁的实现
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      什么是互斥，什么是同步：
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="什么是互斥，什么是同步：">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       求和
     </span>
@@ -1316,24 +1418,16 @@
 
 
 <h1 id="mutual-exclusion-synchronization">互斥与同步 Mutual Exclusion &amp; Synchronization<a class="headerlink" href="#mutual-exclusion-synchronization" title="Permanent link">&para;</a></h1>
-<h2 id="_1">什么是互斥，什么是同步：<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>互斥 (Mutual Exclusion) 是指 <strong>在同一时刻，只有一个线程</strong> 可以访问共享资源。</p>
-<p>同步 (Synchronization) 是指多个进程之间的事件 <strong>按某种顺序执行</strong> ，我们称之为 happens-before。</p>
-<p>我们可以用现实的例子来描述这两件事情。</p>
-<ol>
-<li>
-<p>考虑有一个厕所单间，有许多人需要上厕所。但是，在同一时刻，只有一个人能呆在这个厕所单间里面。</p>
-<p>这个问题中，“厕所” 即是共享资源。</p>
-</li>
-<li>
-<p>考虑一个十字路口的红绿灯：每个方向上，有机动车道的红绿灯；与之垂直的，有人行斑马线的红绿灯。我们要求，在机动车道亮绿灯前，与之垂直的斑马线一定已经亮红灯。</p>
-<p>这个问题中，我们定义了 <code>斑马线亮绿灯</code> happens-before <code>机动车道亮红灯</code>。</p>
-</li>
-</ol>
-<h2 id="_2">为什么需要互斥<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_1">多处理器编程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Multiple Processes Programming 多处理器编程，从入门到放弃。</p>
+</blockquote>
+<p>我们常说：进程有独立的地址空间，而线程是共享地址空间。这引入了 <strong>共享内存</strong> 的概念：即一个进程内的多个线程，会共享一部分内存空间。</p>
+<p>这就会引入一个问题：当一个线程在读写一个内存地址时，另一个线程也在读写同一个内存地址，那这时候会发生什么？</p>
+<h2 id="mutual-exclusion">互斥 Mutual Exclusion<a class="headerlink" href="#mutual-exclusion" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
 <p class="admonition-title">函数声明</p>
-<p>我们会在之后的代码中使用一些简化的函数来表示线程创建等问题：</p>
+<p>我们会在之后的代码中使用一些简化的函数来表示线程创建等步骤：</p>
 <ul>
 <li>
 <p><code>create(func)</code>: 创建一个线程，它从给定的函数 <code>func</code> 起开始运行。</p>
@@ -1347,7 +1441,7 @@
 </ul>
 </div>
 <p>在理解我们为什么需要互斥前，我们先要明白 Data Race (数据竞争) 是怎么回事。</p>
-<h3 id="_3">山寨支付宝<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_2">山寨支付宝<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <div class="admonition info">
 <p class="admonition-title">code</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;thread.h&quot;</span>
@@ -1368,42 +1462,143 @@
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">}</span>
 </code></pre></div>
 <p>使用 <code>gcc -O2 alipay.c &amp;&amp; ./a.out</code> 编译并运行，体验一把亿万富翁。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ gcc -O0 alipay.c &amp;&amp; ./a.out
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ gcc -O2 alipay.c &amp;&amp; ./a.out
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>money = 18446744073709551547
 </code></pre></div>
 </div>
-<p>山寨支付宝会创建100个线程，每个线程都尝试从钱包（共享资源）中扣款，如果钱包没钱了那就不扣款（局部序）。<code>usleep</code> 用于强制触发一段时间的等待。</p>
-<p>我们会发现，<code>money</code> 突然变成了一个很大的值，这是因为我们对 <code>unsigned long</code> 进行减法导致了溢出。我们考虑如下运行图，对所有白色方块强制排序（全局序）：</p>
+<p>山寨支付宝会创建100个线程，每个线程都检查钱包中是否有钱，如果有那就扣款（局部序）。<code>usleep</code> 用于强制触发一段时间的等待。</p>
+<p>在这个问题中，钱包 <code>money</code> 即是共享资源。我们会发现，<code>money</code> 突然变成了一个很大的值，这是因为我们对 <code>unsigned long</code> 进行减法导致了溢出。我们考虑如下运行图，对所有白色方块强制排序（全局序）：</p>
 <p><img alt="image" src="../../assets/xv6lab-sync/xv6lab-sync-alipay.png" /></p>
 <p>在最坏的情况下，钱包里只剩下1元时，两个线程都检查到了钱包余额为1元，所以它们俩都进行了扣款，然后就导致了溢出。</p>
 <div class="admonition info">
-<p class="admonition-title">数学视角的多线程</p>
+<p class="admonition-title">数学模型下的多线程</p>
 <p>将 <code>money &gt;= 1 ?</code> 和 <code>money--</code> 两步骤称为 A 与 B。A永远在B之前执行，我们写作 <code>A &gt; B</code> (A happens-before B)。</p>
 <p>我们发现，多线程的运行步骤（全局序）是每个线程的运行步骤（局部序）的一个排列 (Permutation)。</p>
 <p>全局序是四个步骤 <code>{A1, B1, A2, B2}</code> 进行排列，其中满足局部序 <code>A1 &gt; B1</code> 和 <code>A2 &gt; B2</code> 的排列均是一个合法的全局序。
 例如，<code>(A1, B1, A2, B2)</code>, <code>(A2, B2, A1, B1)</code>, <code>(A1, A2, B1, B2)</code> 均是合法的全局序，而后者即是 bug 的根源。</p>
-<p>如果你感兴趣，你可以试着回答这个问题：我们可以从数学上验证一个多线程程序的正确性，即所有全局序都不会造成 bug。从计算复杂性理论 (Computational complexity theory) 的角度而言，解这个问题是 P 问题、NP 问题、还是 NP完全问题。</p>
+<p>如果你感兴趣，你可以试着回答这个问题：我们可以从数学上验证一个多线程程序的正确性，即枚举所有全局序，验证它们都不会造成 bug。从计算复杂性理论 (Computational complexity theory) 的角度而言，解这个问题是 P 问题、NP 问题、还是 NP完全问题。</p>
 </div>
-<h3 id="_4">求和<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>考虑以下程序，我们创建了两个线程</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;thread.h&quot;</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#define N 100000000</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kt">long</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T_sum</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="n">create</span><span class="p">(</span><span class="n">T_sum</span><span class="p">);</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="n">create</span><span class="p">(</span><span class="n">T_sum</span><span class="p">);</span>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">join</span><span class="p">();</span>
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sum = %ld</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span>
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">}</span>
+<p>如果我们不在 <code>if (money &gt;= 0)</code> 后面加上 <code>usleep</code>，我们会发现程序的运行结果 <strong>大概率</strong> 是正确的。这是因为检查和扣款的指令序列太短了，以至于我们不太可能会造成 data race。但是，不太可能 != 绝对不会。在考虑并发问题时，我们需要的是正确性。</p>
+<p>数学模型中，<code>(A1, A2, B1, B2)</code> 表示线程1和线程2都识别到了 <code>money == 1</code>，并且都将执行 <code>money--</code>。所以，解决这个问题的方式就是：不要让 <code>(A, B)</code> 变得可分割。我们可以从多个视角来理解：</p>
+<ol>
+<li>
+<p>我们不再允许 <code>(A1, B1)</code>, <code>(A2, B2)</code> 交错，即我们将 <code>(A1, A2, B1, B2)</code> 这种情况排除出“合法的全局序”中。</p>
+</li>
+<li>
+<p>我们可以将 <code>(A, B)</code> 打包 <strong>一个不可中断的整体</strong>。即，在其他CPU的视角下，这两个事件是在一瞬间就发生完了的（即原子的 (Atomic)）。也就是说，其他CPU不可能看到这个整体的中间状态。</p>
+</li>
+<li>
+<p>注意到第二种描述，实际上就是 Critical Section。</p>
+</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Takeaway Message</p>
+<p>人是一种单线程生物。在多处理器编程的模型下，单线程思维不再一定正确了，共享变量有可能在任何时刻被别人更改。</p>
+</div>
+<h3 id="_3">单核处理器<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>如果你成功理解了上述的三个视角，在单 CPU 下，解决方案变得非常明朗：我们不允许在 <code>(A, B)</code> 中间产生 Context Switch。这即是我们所学习的第一种实现互斥的方式：关中断。这也是内核实现 "不可中断的整体" 的方式。</p>
+<p>但是，需要注意到关中断不是万能的。<strong>用户模式关不了中断</strong>。（回忆：允许 Interrupt 的条件）</p>
+<h3 id="compare-and-swap">原子 Compare-And-Swap 指令<a class="headerlink" href="#compare-and-swap" title="Permanent link">&para;</a></h3>
+<p>对于山寨支付宝的例子，我们可以从另一个角度理解为什么会出问题：当线程2检查完 <code>money</code>，在进行 <code>money--</code> 前，<code>money</code>的值已经被线程1改了；这时，线程2进行 <code>money--</code> 的条件就不再满足了！</p>
+<p>我们可以对此进行进一步抽象：要修改某个变量（内存地址）的值时，该变量的值已经不是原来的值了。</p>
+<p>幸运的是，现代 CPU 基本都具有一种特殊的指令：当修改某个地址的值时，检查该地址的值是否为给定的原来的值。这种指令被称为 Compare-And-Swap 指令。绝大多数情况，这种指令会被以 <strong>原子的</strong> 方式执行；即，在其他 CPU 的眼里，该指令是 <strong>一瞬间</strong> 就完成的。</p>
+<p>我们可以把 <code>deduct</code> 函数改成下面这样，它显著地区分了共享变量 <code>money</code> 和它的局部副本 <code>local_money</code>。每当想修改 <code>money</code> 的值时，我们使用 <code>__sync_bool_compare_and_swap</code> 函数来修改 <code>&amp;money</code> 这个内存地址的值，并且期望它现在的值和原来我们读到的值 (<code>local_money</code>) 一致。该函数会生成一条原子指令 <code>lock cmpxchg</code>。在 RISC-V 平台上，这会是一条 <code>amoswap</code> 指令。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// bool __sync_bool_compare_and_swap (type *ptr, type oldval, type newval). </span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">//   -&gt; return true if the comparison is successful and newval is written.</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">money</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">deduct</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">local_money</span><span class="p">;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">do</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="n">local_money</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">money</span><span class="p">;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">local_money</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="n">usleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">__sync_bool_compare_and_swap</span><span class="p">(</span><span class="o">&amp;</span><span class="n">money</span><span class="p">,</span><span class="w"> </span><span class="n">local_money</span><span class="p">,</span><span class="w"> </span><span class="n">local_money</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="c1">// will be compiled to: </span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="c1">// 124e:       f0 48 0f b1 15 f1 2d     lock cmpxchg QWORD PTR [rip+0x2df1],rdx</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="p">}</span>
 </code></pre></div>
+<p>gcc 下所有 __sync_ 开头的内置 Atomic 函数：<a href="https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/_005f_005fsync-Builtins.html">https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/_005f_005fsync-Builtins.html</a></p>
+<h3 id="lock-primitive">锁原语 Lock Primitive<a class="headerlink" href="#lock-primitive" title="Permanent link">&para;</a></h3>
+<p>尽管我们可以使用 __sync 等内置 Atomic 函数来解决山寨支付宝的例子，我们仍需要一种通用的、实现互斥的办法。</p>
+<p>回顾 Mutual Exclusion 的最基本要求：同一时刻，有且只有一个线程能够执行。我们定义一套原语：<code>lock</code>/<code>unlock</code> （也可以写作 <code>acquire</code>/<code>release</code> ）：</p>
+<ol>
+<li>
+<p>所有期望实现 Mutual Exclusion 的线程都需要调用 <code>lock</code> 方法。在同一时刻，只能有一个线程将从 <code>lock</code> 方法中返回。</p>
+</li>
+<li>
+<p>当某线程成功从 <code>lock</code> 方法中返回后，在该线程调用 <code>unlock</code> 前，其他所有线程不得从 <code>lock</code> 中返回。</p>
+</li>
+</ol>
+<p>我们可以发现：从 <code>lock</code> 返回后，即是 Critical Section 的开始，<code>unlock</code> 即是 Critical Section 的结束。</p>
+<h3 id="_4">锁的实现<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>我们可以想当然地写出以下代码，<code>status</code> 是一个共享变量，多个线程同时调用 <code>lock</code> 方法，尝试把 <code>status</code> 改为 <code>LOCKED</code>。最终，只有一个线程成功执行到 <code>status = LOCKED</code> 处，其他线程都在 <code>retry</code> 中打转。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UNLOCKED</span><span class="p">;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">lock</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nl">retry</span><span class="p">:</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">UNLOCKED</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">retry</span><span class="p">;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LOCKED</span><span class="p">;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">}</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="kt">void</span><span class="w"> </span><span class="nf">unlock</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UNLOCKED</span><span class="p">;</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>但是，如果我们按照上述山寨支付宝例子进行分析，我们可以很容易地发现一处 data race：当某个线程通过了 <code>if (status != UNLOCKED)</code> 检查后，另一个线程已经执行到了 <code>status = LOCKED</code> 处，这破坏了该线程上锁的条件。</p>
+<p>所以，我们应该使用一个原子指令来替代 Compare and Set 这一步：每个线程都尝试原子地将 <code>status</code> 从 <code>UNLOCKED</code> 改为 <code>LOCKED</code>，CPU的实现保证了只有一个 CPU 能成功。对于那些没有成功的 CPU，它们会在这个 while 循环上一直等待。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">lock</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">__sync_bool_compare_and_swap</span><span class="p">(</span><span class="o">&amp;</span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">UNLOCKED</span><span class="p">,</span><span class="w"> </span><span class="n">LOCKED</span><span class="p">));</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">}</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">如果没有原子指令</p>
+<p>那我们只能使用 Peterson 算法来实现两个线程之间的互斥。</p>
+</div>
+<h2 id="_5">什么是互斥，什么是同步：<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>互斥 (Mutual Exclusion) 是指 <strong>在同一时刻，只有一个线程</strong> 能够执行。</p>
+<p>同步 (Synchronization) 是指多个线程之间的事件 <strong>按某种顺序执行</strong> ，我们称之为 <code>happens-before</code>。</p>
+<p>我们可以用现实的例子来描述这两件事情。</p>
+<ol>
+<li>
+<p>考虑有一个厕所单间，有许多人需要上厕所。但是，在同一时刻，只有一个人能呆在这个厕所单间里面。</p>
+<p>这个问题中，“厕所” 即是共享资源。</p>
+</li>
+<li>
+<p>考虑一个十字路口的红绿灯：每个方向上，有机动车道的红绿灯；与之垂直的，有人行斑马线的红绿灯。我们要求，在机动车道亮绿灯前，与之垂直的斑马线一定已经亮红灯。</p>
+<p>这个问题中，我们定义了 <code>斑马线亮绿灯</code> happens-before <code>机动车道亮红灯</code>。</p>
+</li>
+</ol>
+<p>我们需要注意到，互斥并不一定代表着同步：例如 A、B、C 三个事件互斥，这表示它们不能同时执行；但这并不代表着它们执行的顺序一定是 ABC。</p>
+<p>TO BE REMOVED:</p>
+<h3 id="_6">求和<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;thread.h&quot;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="cp">#define N 100000000</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T_sum</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">        </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="p">}</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="n">create</span><span class="p">(</span><span class="n">T_sum</span><span class="p">);</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">    </span><span class="n">create</span><span class="p">(</span><span class="n">T_sum</span><span class="p">);</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="n">join</span><span class="p">();</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sum = %ld</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sum</span><span class="p">);</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="p">}</span>
+</code></pre></div>
+<p>使用 <code>gcc -O0 sum.c &amp;&amp; ./a.out</code> 编译并运行，观察运行结果。</p>
+<p><code>sum.c</code> 创建了两个线程分别执行 <code>T_sum</code>，每个线程执行 N 次的 <code>sum++</code>，我们期望最终的结果是 <code>sum = 2 * N</code>。</p>
+</div>
+<p>这个例子很好地展示了两个问题：数据竞争 Data race 和指令的原子性</p>
 
 
 
@@ -1443,8 +1638,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/546ccc34, 2025-04-15 22:00:32+08:00" target="_blank" rel="noopener">
-            546ccc34, 2025-04-15 22:00:32+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/261b7579, 2025-04-17 17:36:35+08:00" target="_blank" rel="noopener">
+            261b7579, 2025-04-17 17:36:35+08:00
         </a>
     </div>
 </div>
