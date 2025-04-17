@@ -96,7 +96,7 @@
 
 幸运的是，现代 CPU 基本都具有一种特殊的指令：当修改某个地址的值时，检查该地址的值是否为给定的原来的值。这种指令被称为 Compare-And-Swap 指令。绝大多数情况，这种指令会被以 **原子的** 方式执行；即，在其他 CPU 的眼里，该指令是 **一瞬间** 就完成的。
 
-我们可以把 `deduct` 函数改成下面这样，它显著地区分了共享变量 `money` 和它的局部副本 `local_money`。每当想修改 `money` 的值时，我们使用 `__sync_bool_compare_and_swap` 函数来修改 `&money` 这个内存地址的值，并且期望它现在的值和原来我们读到的值 (`local_money`) 一致。该函数会生成一条原子指令 `lock cmpxchg`。在 RISC-V 平台上，这会是一条 `amoswap` 指令。
+我们可以把 `deduct` 函数改成下面这样，它显著地区分了共享变量 `money` 和它的局部副本 `local_money`。每当想修改 `money` 的值时，我们使用 `__sync_bool_compare_and_swap` 函数来修改 `&money` 这个内存地址的值，并且期望它现在的值和原来我们读到的值 (`local_money`) 一致，如果不一致，则说明有其他 CPU 对该内存进行了更新。该函数会生成一条原子指令 `lock cmpxchg`。在 RISC-V 平台上，这会是一条 `amoswap` 指令。
 
 ```c
 // bool __sync_bool_compare_and_swap (type *ptr, type oldval, type newval). 
@@ -120,7 +120,7 @@ gcc 下所有 __sync_ 开头的内置 Atomic 函数：https://gcc.gnu.org/online
 
 ### 锁原语 Lock Primitive
 
-尽管我们可以使用 __sync 等内置 Atomic 函数来解决山寨支付宝的例子，我们仍需要一种通用的、实现互斥的办法。
+尽管我们可以使用 __sync 等原子指令来解决山寨支付宝的例子，我们仍需要一种通用的、实现互斥的办法。
 
 回顾 Mutual Exclusion 的最基本要求：同一时刻，有且只有一个线程能够执行。我们定义一套原语：`lock`/`unlock` （也可以写作 `acquire`/`release` ）：
 
@@ -161,7 +161,7 @@ void lock() {
 ```
 
 !!!warning "如果没有原子指令"
-    那我们只能使用 Peterson 算法来实现两个线程之间的互斥。
+    这也是为什么 Peterson 算法看起来比较复杂。在第一个正确的互斥算法(Dekker's Alg) 被发明的年代 (1960s)，CPU 还没有原子指令。
 
 ### spinlock & sleeplock
 
@@ -464,13 +464,13 @@ void T1() {
 
 我们将这种问题称为 "The Lost Wake-Up Problem".
 
-这种问题的根本原因是：我们在标记自己为 SLEEPING 前，就将 `mtx` 解锁了。但是我们又不能先 `sleep()` 再 `unlock()`，因为 `sleep` 不会再被唤醒前返回，即 `unlock()` 永远不会被执行到。
+这种问题的根本原因是：我们在标记自己为 SLEEPING 前，就将 `mtx` 解锁了。但是我们又不能先 `sleep()` 再 `unlock()`，因为 `sleep` 不会在被唤醒前返回，即 `unlock()` 永远不会被执行到。
 
 所以，我们需要将 "标记自己为 SLEEPING" 和 "解锁 mtx" 两件事情视为一个整体，即将 "标记自己为 SLEEPING" 纳入 Critical Section。
 
 至此，我们应该就能理解为什么 xv6 中的 `sleep` 方法，参数中包含一个 `spinlock_t*` 了。
 
-注：在 xv6 中，访问 `p->state` 必须要持有 `p->lock`，所以 "标记自己为 SLEEPING" 和 `acquire(&p->lock)` 是等价的。
+注：在 xv6 中，访问 `p->state` 必须要持有 `p->lock`，所以 "标记自己为 SLEEPING"（或者说，别人发现我是 SLEEPING） 和 `acquire(&p->lock)` 是等价的。
 
 ```c
 void sleep(void *chan, spinlock_t *lk) {
