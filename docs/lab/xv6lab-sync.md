@@ -60,7 +60,7 @@
 在最坏的情况下，钱包里只剩下1元时，两个线程都检查到了钱包余额为1元，所以它们俩都进行了扣款，然后就导致了溢出。
 
 !!!info "数学模型下的多线程"
-    将 `money >= 1 ?` 和 `money--` 两步骤称为 A 与 B。A永远在B之前执行，我们写作 `A > B` (A happens-before B)。
+    将 `money >= 1 ?` 和 `money--` 两步骤称为 A 与 B。A永远在B之前执行，我们写作 `A > B` （ `A` happens-before `B` ）。
     
     我们发现，多线程的运行步骤（全局序）是每个线程的运行步骤（局部序）的一个排列 (Permutation)。
     
@@ -150,7 +150,7 @@ void unlock() {
 }
 ```
 
-但是，如果我们按照上述山寨支付宝例子进行分析，我们可以很容易地发现一处 data race：当某个线程通过了 `if (status != UNLOCKED)` 检查后，另一个线程已经执行到了 `status = LOCKED` 处，这破坏了该线程上锁的条件。
+但是，如果我们按照上述山寨支付宝例子进行分析，我们可以很容易地发现一处 data race：当某个线程通过了 `if (status != UNLOCKED)` 检查后，另一个线程执行了 `status = LOCKED` 处，这破坏了该线程上锁的条件。
 
 所以，我们应该使用一个原子指令来替代 Compare and Set 这一步：每个线程都尝试原子地将 `status` 从 `UNLOCKED` 改为 `LOCKED`，CPU的实现保证了只有一个 CPU 能成功。对于那些没有成功的 CPU，它们会在这个 while 循环上一直等待。
 
@@ -163,7 +163,169 @@ void lock() {
 !!!warning "如果没有原子指令"
     那我们只能使用 Peterson 算法来实现两个线程之间的互斥。
 
-## 什么是互斥，什么是同步：
+### spinlock & sleeplock
+
+在上面的章节，我们只定义了锁的一个基本属性：实现互斥。锁还有一个属性：如果一个线程抢不到锁，那它应该怎么办。
+
+我们可以将锁分为两类：自旋锁 (`spinlock`) 和睡眠锁 (`sleeplock`)。
+
+`spinlock` 会在抢不到锁的时候一直尝试抢，即上述 `lock` 方法，它会在 `__sync_bool_compare_and_swap` 失败时一直执行，CPU 就会在这一条指令上打转，就好像自旋一样。这种锁适用于 Critical Section 较短、能在固定时间内执行完毕的情况。
+
+`sleeplock` 会在抢不到锁时将该线程置于睡眠状态 `SLEEPING`，并放弃 CPU 切换到 `scheduler`。等到原来持有锁的线程释放锁时，它需要负责唤醒等待者。这种锁适用于 Critical Section 较长、有着不确定时间的情况，例如等待 I/O。
+
+在 **唤醒等待者** 这件事情上，`sleeplock` 可以用不同的实现方式：
+
+1. 直接唤醒所有的等待者，只有抢到锁的线程能继续执行下去，没抢到锁的重新进入睡眠。
+
+2. 只唤醒一个等待者，其余的保持睡眠。
+
+### xv6 spinlock
+
+xv6 中，一个 `spinlock_t` 结构体包含最核心的一个 `locked` 标志，和其他用于调试的字段。
+
+`acquire` 一个 `spinlock_t` 会使用 `__sync_lock_test_and_set`（原子指令 `amoswap`） 尝试将 1 写入 `locked`，并返回之前 `locked` 的值。如果返回值为0，则表示该 CPU 是唯一一个完成了将 `locked: 0->1` 的 CPU，即抢到锁了。
+
+`release` 则原子地将 0 写入 `locked`。
+
+```c
+// Mutual exclusion lock.
+struct spinlock {
+    uint64 locked;  // Is the lock held?, use AMO instructions to access this field.
+
+    // For debugging:
+    char *name;       // Name of lock.
+    struct cpu *cpu;  // The cpu holding the lock.
+    void *where;      // who calls acquire?
+};
+
+// Acquire the lock.
+// Loops (spins) until the lock is acquired.
+void acquire(spinlock_t *lk)
+{
+	uint64 ra = r_ra();
+	push_off();         // disable interrupts to avoid deadlock.
+	if (holding(lk))    // check against reentrance
+		panic("already acquired by %p, now %p", lk->where, ra);
+
+	// On RISC-V, sync_lock_test_and_set turns into an atomic swap:
+	//   a5 = 1
+	//   s1 = &lk->locked
+	//   amoswap.d.aq a5, a5, (s1)
+	while (__sync_lock_test_and_set(&lk->locked, 1) != 0)
+		;
+
+	__sync_synchronize();
+
+	// Record info about lock acquisition for holding() and debugging.
+	lk->cpu = mycpu();
+	lk->where = (void *)ra;
+}
+
+// Release the lock.
+void release(spinlock_t *lk)
+{
+	if (!holding(lk))
+		panic("release");
+
+	lk->cpu = 0;
+	lk->where = 0;
+
+	__sync_synchronize();
+
+	// Release the lock, equivalent to lk->locked = 0.
+	// On RISC-V, sync_lock_release turns into an atomic swap:
+	//   s1 = &lk->locked
+	//   amoswap.w zero, zero, (s1)
+	__sync_lock_release(&lk->locked);
+
+	pop_off();
+}
+
+// Check whether this cpu is holding the lock.
+// Interrupts must be off.
+int holding(spinlock_t *lk)
+{
+	int r;
+	r = (lk->locked && lk->cpu == mycpu());
+	return r;
+}
+```
+
+!!!info "__sync_synchronize() & Memory Ordering"
+    我们在讲解中刻意忽略了 `__sync_synchronize()` 的细节。该函数与 CPU 的 Memory Ordering (内存序) 有关，其原理和细节已经超出了本科操作系统课程的范畴。
+
+    简而言之，核心对内存的写入，会最终 (eventually) 对其他核心可见。Relaxed Memory Order (RISC-V, ARM) 没有保证：某核心前后两个 Store 在被其他核心 Load 时，观测到的值一定是 Store 在代码中的顺序。
+    而 x86 (IA-32, amd64) 平台为 Total Store Order，核心 Store 的顺序在其他核心的视角下一定为 Store 在代码中的顺序。这也是 Windows on ARM 难以模拟 x86 软件的原因。
+
+    再简而言之，其他核心会先观测到锁被释放，然后观测到理应在 Critical Section 中被覆盖的旧值。
+
+    如果你对此感兴趣，推荐阅读以下材料：
+
+    1. https://jyywiki.cn/OS/2025/lect13.md (13.4 放弃 (3)：全局的指令执行顺序)
+
+    2. riscv-spec-v2.1.pdf, Section 6.1, Specifying Ordering of Atomic Instructions
+
+    3. https://blog.cyyself.name/memory-ordering/
+
+    4. https://people.mpi-sws.org/~viktor/papers/asplos2023-atomig.pdf
+
+### 关中断
+
+我们使用 `push_off()` 和 `pop_off()` 表示一对 关中断/开中断的操作。具体细节请参照 Context Switch 一章。
+
+### 锁的检查
+
+如果我们在已经持有一把锁的情况下，再尝试对这把锁上锁会怎么样？我们会永远卡在上锁的 spin loop 中。
+以及，在一个进程持有一把锁并陷入睡眠时，其他进程尝试上锁也会永远卡死。
+
+这就是为什么我们在 `sched()` 中检查了当前 CPU 持有了多少把自旋锁。
+
+```c
+void sched() {
+    // ...
+    
+    if (mycpu()->noff != 1)
+        panic("holding another locks");
+    
+    swtch(&p->context, &mycpu()->sched_context);
+    // ...
+}
+```
+
+对于 Kernel Trap，我们不希望出现嵌套中断，所以我们会在 `kernel_trap` 中检查 trap 深度。
+
+```c
+void kernel_trap(struct ktrapframe *ktf) {
+    mycpu()->inkernel_trap++;
+
+    if (cause & SCAUSE_INTERRUPT) {
+        if (mycpu()->inkernel_trap > 1) {
+            // should never have nested interrupt
+            print_sysregs(true);
+            print_ktrapframe(ktf);
+            panic("nested kerneltrap");
+        }
+    }
+}
+```
+
+并且，当我们尝试在 Kernel Trap 中通过释放锁打开中断，内核也会报错：
+
+```c
+void pop_off(void) {
+    struct cpu* c = mycpu();
+    c->noff -= 1;
+    if (c->noff == 0 && c->interrupt_on) {
+        if (c->inkernel_trap)
+            panic("pop_off->intr_on happens in kernel trap");
+        
+        // we will enable the interrupt, must not happen in kernel trap context.
+        intr_on();
+    }
+}
+```
+
+## 互斥与同步
 
 互斥 (Mutual Exclusion) 是指 **在同一时刻，只有一个线程** 能够执行。
 
@@ -179,39 +341,176 @@ void lock() {
 
     这个问题中，我们定义了 `斑马线亮绿灯` happens-before `机动车道亮红灯`。
 
-我们需要注意到，互斥并不一定代表着同步：例如 A、B、C 三个事件互斥，这表示它们不能同时执行；但这并不代表着它们执行的顺序一定是 ABC。
+我们需要注意到，互斥并不一定代表着同步：例如 A、B、C 三个事件互斥，这表示它们不能同时执行；但这并不代表着它们执行的顺序一定是 A > B > C。
 
+## 同步 Synchronization
 
+**同步** 表示我们希望控制事件发生的先后顺序：A > B > C，形成受我们控制的 "happens-before" 关系。
 
+### 理解同步
 
-TO BE REMOVED:
+同步通常用 **等待** 来描述。
 
-### 求和
+例如，三个人一起约饭，他们先约定在一号门集合，再一起前往宝能城。在这样的表述中，三人就 "在一号门集合" 这件事情上完成了同步。对于每个人而言，它需要等待另外两个人到来，才执行下一个操作：前往宝能城。
 
-!!!info "code"
-    ```c
-    #include "thread.h"
+事件即是代码的执行，而顺序则是每条代码之间的 "happens-before" 关系。
 
-    #define N 100000000
-    volatile long sum = 0;
+- 在单线程程序中，代码是天然地按照顺序 "happens-before"。
+- 在多线程程序中，同一个线程中的事件（代码的执行）仍然保持着它们的 "happens-before" 关系；而不同线程之间的事件（代码的执行）则没有任何约束。
 
-    void T_sum() { 
-        for (int i = 0; i < N; i++) {
-            sum++;
+同步则是让不同线程之间，在某个事件（代码的执行）点上，重新构建 "happens-before" 关系。
+
+![image](../assets/xv6lab-sync/xv6lab-sync-happens-before.png)
+
+我们依然用 `A > B` 表示 `A happens-before B`。我们可以分别列出 T1 和 T2 的内部的 "happens-before" 关系：
+
+- T1: `A > B`, `B > sync`, `sync > C`, `C > D`
+
+- T2: `E > F`, `F > sync`, `sync > G`, `G > H`
+
+假设 T1 和 T2 在 `sync` 这个事件上完成了同步，那么，我们实现了不同线程之间的 "happens-before" 关系： `B > sync > G`, `F > sync > C`。
+
+### 条件变量
+
+假设我们有三个线程，它们各自死循环地执行 A、B、C 三个函数，我们期望这三个函数总是以 `A -> B -> C -> A` 的顺序被运行：
+
+![image](../assets/xv6lab-sync/xv6lab-sync.png)
+
+考虑 T2，它什么时候能执行 `B` ？我们要求 `A` happens-before `B`：**只有 `A` 事件发生后，`B` 才能得到执行**。
+
+我们非常顺利地写出了 `B` **能够执行的条件**。我们因此也将同步问题转换成了：**检查条件是否满足**。
+
+```c
+int last = 'C';
+
+void T1() {
+    while (1) {
+        while (last != 'C');    // wait for last == 'C'
+        A();
+        last = 'A';
+    }
+}
+
+void T2() {
+    while (1) {
+        while (last != 'A');    // wait for last == 'A'
+        B();
+        last = 'B';
+    }
+}
+
+void T3() {
+    while (1) {
+        while (last != 'B');    // wait for last == 'B'
+        C();
+        last = 'C';
+    }
+}
+```
+
+接下来，我们首先需要考虑两个问题：如何正确设置 Critical Section，以及在等待条件时应该干什么。
+
+`last` 状态变量显然是一个共享变量，它会被三个线程分别读写。所以，对它的访问需要加锁保护。
+
+```c
+mutex_t mtx;
+int last = 'C';
+
+void T1() {
+    while (1) {
+        lock(&mtx);
+        while (last != 'C');    // wait for last == 'C'
+        A();
+        last = 'A';
+        unlock(&mtx);
+    }
+}
+```
+
+而在 `while` 等待循环中，我们 **不能一直持有互斥锁 mtx** ，因为我们需要其他线程来更改 `last` 状态变量。
+所以，我们在判断条件后，如果发现条件不满足，则释放锁并将自己陷入睡眠，并在自己被唤醒后重新上锁。
+因此，在修改条件后，我们需要唤醒所有人来再次检查条件。
+
+这样的设计满足了两个要求：
+
+1. 检查同步条件 `last` 时，当前线程持有锁。
+1. 同步条件检查通过后，当前线程持有锁（即执行 `A` 的部分）。
+
+```c
+mutex_t mtx;
+int last = 'C';
+
+void T1() {
+    while (1) {
+        lock(&mtx);
+        while (last != 'C') {
+            unlock(&mtx);
+            sleep(myself);
+            lock(&mtx);
         }
+        A();
+        last = 'A';
+        unlock(&mtx);
+        wakeup(all);
     }
+}
+```
 
-    int main() {
-        create(T_sum);
-        create(T_sum);
-        join();
-        printf("sum = %ld\n", sum);
-    }
-    ```
+但是，这里面存在一点问题，考虑如下的执行图，黄色部分为 Critical Section，它们的执行是不可与其他线程的 Critical Section 重叠的。
 
-    使用 `gcc -O0 sum.c && ./a.out` 编译并运行，观察运行结果。
+![image](../assets/xv6lab-sync/xv6lab-sync-condvar.png)
 
-    `sum.c` 创建了两个线程分别执行 `T_sum`，每个线程执行 N 次的 `sum++`，我们期望最终的结果是 `sum = 2 * N`。
+在某种情况下，T1 `unlock` 后并没有立即陷入 `sleep`，反而 T2 在 `lock` 得到锁后先一步调用了 `wakeup`，而此时 T1 还没有陷入睡眠，自然也不会被唤醒。而在 T1 睡眠后，再也没有线程能够唤醒它了，至此，所有的线程都进入了睡眠模式。
 
-这个例子很好地展示了两个问题：数据竞争 Data race 和指令的原子性
+我们将这种问题称为 "The Lost Wake-Up Problem".
+
+这种问题的根本原因是：我们在标记自己为 SLEEPING 前，就将 `mtx` 解锁了。但是我们又不能先 `sleep()` 再 `unlock()`，因为 `sleep` 不会再被唤醒前返回，即 `unlock()` 永远不会被执行到。
+
+所以，我们需要将 "标记自己为 SLEEPING" 和 "解锁 mtx" 两件事情视为一个整体，即将 "标记自己为 SLEEPING" 纳入 Critical Section。
+
+至此，我们应该就能理解为什么 xv6 中的 `sleep` 方法，参数中包含一个 `spinlock_t*` 了。
+
+注：在 xv6 中，访问 `p->state` 必须要持有 `p->lock`，所以 "标记自己为 SLEEPING" 和 `acquire(&p->lock)` 是等价的。
+
+```c
+void sleep(void *chan, spinlock_t *lk) {
+    struct proc *p = curr_proc();
+
+    // Must acquire p->lock in order to
+    // change p->state and then call sched.
+    // Once we hold p->lock, we can be
+    // guaranteed that we won't miss any wakeup
+    // (wakeup locks p->lock),
+    // so it's okay to release lk.
+
+    acquire(&p->lock);  // DOC: sleeplock1
+    release(lk);
+
+    // Go to sleep.
+    p->sleep_chan = chan;
+    p->state      = SLEEPING;
+
+    sched();
+
+    // p get waking up, Tidy up.
+    p->sleep_chan = 0;
+
+    // Reacquire original lock.
+    release(&p->lock);
+    acquire(lk);
+}
+```
+
+![image](../assets/xv6lab-sync/xv6lab-sleep.png)
+
+!!!info "为什么不用原子指令替代条件检查"
+    因为真实情况下的条件可能没有简单到能使用一条原子指令表示，我们还是希望使用互斥锁（更加通用）来保护对条件的访问。
+
+### 生产者-消费者模型
+
+### Semaphore
+
+## Lab 练习
+
+1. 在 "条件变量" 一章的末尾，T2 的 `wakeup` 可以移出 `lk` 的 Critical Section 吗？即 T2 先 `release(lk)` 再 `wakeup()`。
 
