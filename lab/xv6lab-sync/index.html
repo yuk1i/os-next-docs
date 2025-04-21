@@ -2023,8 +2023,13 @@
 <p>在 "条件变量" 一章的末尾，T2 的 <code>wakeup</code> 可以移出 <code>lk</code> 的 Critical Section 吗？即 T2 先 <code>release(lk)</code> 再 <code>wakeup()</code>。</p>
 </li>
 <li>
-<p>假设有两种线程，每种线程若干个：第一种线程死循环地打印左括号 <code>(</code>，第二种线程死循环地打印右括号 <code>)</code>。现在要求：打印出来的字符串是平衡的括号，如 <code>()(())</code>，最多允许 N 层嵌套括号。</p>
-<p>请你写出这两种线程的同步条件。即，每种线程在什么时候可以打印 <code>(</code> 或 <code>)</code>。</p>
+<p>假设有两种线程，每种线程若干个：第一种线程死循环地打印左括号 <code>(</code>，第二种线程死循环地打印右括号 <code>)</code>。现在要求：打印出来的字符串是平衡的括号（或中间状态），如 <code>()(())</code>，最多允许 N 层嵌套括号。</p>
+<p>例如：
+- <code>()((()))</code> 是一个合法的平衡括号。
+- <code>())</code> 不是一个合法的平衡括号。
+- <code>((()</code> 是一个嵌套深度为 2 的平衡括号的中间状态。</p>
+<p>已知有一个变量表示：目前左括号比右括号多了几个。请你写出这两种线程的同步条件。即，每种线程在什么时候可以打印 <code>(</code> 或 <code>)</code>。</p>
+<p>这两种线程会一直打印，你不需要考虑程序 Ctrl C 结束时产生的字符串是否为一个完整的平衡括号，这时的字符串可以是一个平衡括号的中间状态。</p>
 </li>
 </ol>
 
@@ -2066,8 +2071,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/7117cc47, 2025-04-21 11:35:54+08:00" target="_blank" rel="noopener">
-            7117cc47, 2025-04-21 11:35:54+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/a5aa6e12, 2025-04-21 12:12:49+08:00" target="_blank" rel="noopener">
+            a5aa6e12, 2025-04-21 12:12:49+08:00
         </a>
     </div>
 </div>
