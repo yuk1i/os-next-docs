@@ -292,7 +292,8 @@ void sched() {
 }
 ```
 
-对于 Kernel Trap，我们不希望出现嵌套中断，所以我们会在 `kernel_trap` 中检查 trap 深度。
+对于 Kernel Trap，我们不希望出现嵌套中断。
+我们会在 `kernel_trap` 中检查 Trap 深度，如果遇到了嵌套中断，则panic报错。
 
 ```c
 void kernel_trap(struct ktrapframe *ktf) {
@@ -309,7 +310,7 @@ void kernel_trap(struct ktrapframe *ktf) {
 }
 ```
 
-并且，当我们尝试在 Kernel Trap 中通过释放锁打开中断，内核也会报错：
+我们需要确保在 `kernel_trap` 下中断一直为关的。所以，当我们尝试在 Kernel Trap 上下文中通过释放锁打开中断，内核也会报错：
 
 ```c
 void pop_off(void) {
@@ -507,6 +508,27 @@ void sleep(void *chan, spinlock_t *lk) {
     因为真实情况下的条件可能没有简单到能使用一条原子指令表示，我们还是希望使用互斥锁（更加通用）来保护对条件的访问。
 
 ## Lab 练习
+
+1. 假设 `sum` 是一个共享变量，有三个线程并发地执行 `T_sum` 函数，那么等三个线程退出后，`sum` 可能的最小值是什么？
+
+    Hint: 怎么证明某个值是可能的最小值：1. 所有比它小的值都不可能。2. 存在某种并发顺序，使得产生该最小值的序列是合法的
+
+```c
+int sum = 0;
+void T_sum() {
+    for (int i = 0; i < 3; i++) {
+        int t = load(sum);
+        t += 1;
+        store(sum, t);
+    }
+}
+
+int main() {
+    for (int i = 0; i < 3; i++) create(T_sum);
+    join();
+    printf("sum = %d\n", sum);
+}
+```
 
 1. 在 "条件变量" 一章的末尾，T2 的 `wakeup` 可以移出 `lk` 的 Critical Section 吗？即 T2 先 `release(lk)` 再 `wakeup()`。
 
