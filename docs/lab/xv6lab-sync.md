@@ -96,7 +96,7 @@
 
 幸运的是，现代 CPU 基本都具有一种特殊的指令：当修改某个地址的值时，检查该地址的值是否为给定的原来的值。这种指令被称为 Compare-And-Swap 指令。绝大多数情况，这种指令会被以 **原子的** 方式执行；即，在其他 CPU 的眼里，该指令是 **一瞬间** 就完成的。
 
-我们可以把 `deduct` 函数改成下面这样，它显著地区分了共享变量 `money` 和它的局部副本 `local_money`。每当想修改 `money` 的值时，我们使用 `__sync_bool_compare_and_swap` 函数来修改 `&money` 这个内存地址的值，并且期望它现在的值和原来我们读到的值 (`local_money`) 一致，如果不一致，则说明有其他 CPU 对该内存进行了更新。该函数会生成一条原子指令 `lock cmpxchg`。在 RISC-V 平台上，这会是一条 `amoswap` 指令。
+我们可以把 `deduct` 函数改成下面这样，它显著地区分了共享变量 `money` 和它的局部副本 `local_money`。每当想修改 `money` 的值时，我们使用 `__sync_bool_compare_and_swap(&money, local_money, local_money - 1)` 来修改 `&money` 这个内存地址的值，并且期望它现在的值和原来我们读到的值 ( `local_money` ) 一致：如果一致，则将 `&money` 修改为新值（ `local_money-1` ），并返回true; 如果不一致，则说明有其他 CPU 对该内存进行了更新，不更新值，并返回false。该函数会生成一条原子指令 `lock cmpxchg` 。在 RISC-V 平台上，这会是一条 `amoswap` 指令。
 
 ```c
 // bool __sync_bool_compare_and_swap (type *ptr, type oldval, type newval). 
@@ -505,10 +505,6 @@ void sleep(void *chan, spinlock_t *lk) {
 
 !!!info "为什么不用原子指令替代条件检查"
     因为真实情况下的条件可能没有简单到能使用一条原子指令表示，我们还是希望使用互斥锁（更加通用）来保护对条件的访问。
-
-### 生产者-消费者模型
-
-### Semaphore
 
 ## Lab 练习
 
