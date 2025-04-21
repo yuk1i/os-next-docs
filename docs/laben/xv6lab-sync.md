@@ -2,26 +2,26 @@
 
 ## Multiple Processes Programming
 
-> Multiple Processes Programming 多处理器编程，从入门到放弃。
 
-我们常说：进程有独立的地址空间，而线程是共享地址空间。这引入了 **共享内存** 的概念：即一个进程内的多个线程，会共享一部分内存空间。
 
-这就会引入一个问题：当一个线程在读写一个内存地址时，另一个线程也在读写同一个内存地址，那这时候会发生什么？
+It is often said that processes have independent address spaces, while threads share an address space. This introduces the concept of **shared memory**: multiple threads within a process share a portion of the memory space.
 
-## 互斥 Mutual Exclusion
+This leads to a problem: what happens when one thread is reading or writing to a memory address while another thread is also reading or writing to the same address?
 
-!!!info "函数声明"
-    我们会在之后的代码中使用一些简化的函数来表示线程创建等步骤：
+## Mutual Exclusion
 
-    - `create(func)`: 创建一个线程，它从给定的函数 `func` 起开始运行。
+!!!info "Function Declarations"
+    In the following code, we will use simplified functions to represent thread creation and related operations:
 
-    - `join()`: 等待所有线程退出。
+    - `create(func)`: Creates a thread that starts running from the given function `func`.
 
-    - `usleep()`: 等待几个us。
+    - `join()`: Waits for all threads to exit.
 
-在理解我们为什么需要互斥前，我们先要明白 Data Race (数据竞争) 是怎么回事。
+    - `usleep()`: Waits for a few microseconds.
 
-### 山寨支付宝
+Before understanding why we need mutual exclusion, we must first grasp what a **data race** is.
+
+### Counterfeit Alipay
 
 !!!info "code"
 
@@ -44,59 +44,59 @@
     }
     ```
 
-    使用 `gcc -O2 alipay.c && ./a.out` 编译并运行，体验一把亿万富翁。
+    Compile and run with `gcc -O2 alipay.c && ./a.out` to experience being a billionaire.
 
     ```
     $ gcc -O2 alipay.c && ./a.out
     money = 18446744073709551547
     ```
 
-山寨支付宝会创建100个线程，每个线程都检查钱包中是否有钱，如果有那就扣款（局部序）。`usleep` 用于强制触发一段时间的等待。
+Counterfeit Alipay creates 100 threads, each checking if there is money in the wallet and deducting if there is (local ordering). `usleep` is used to force a period of waiting.
 
-在这个问题中，钱包 `money` 即是共享资源。我们会发现，`money` 突然变成了一个很大的值，这是因为我们对 `unsigned long` 进行减法导致了溢出。我们考虑如下运行图，对所有白色方块强制排序（全局序）：
+In this problem, the wallet `money` is the shared resource. We observe that `money` suddenly becomes a very large value due to an overflow caused by subtraction on an `unsigned long`. Consider the following execution diagram, enforcing a global ordering on all white blocks:
 
 ![image](../assets/xv6lab-sync/xv6lab-sync-alipay.png)
 
-在最坏的情况下，钱包里只剩下1元时，两个线程都检查到了钱包余额为1元，所以它们俩都进行了扣款，然后就导致了溢出。
+In the worst case, when only 1 yuan remains in the wallet, two threads both check and see a balance of 1 yuan, so both deduct, leading to an overflow.
 
-!!!info "数学模型下的多线程"
-    将 `money >= 1 ?` 和 `money--` 两步骤称为 A 与 B。A永远在B之前执行，我们写作 `A > B` （ `A` happens-before `B` ）。
-    
-    我们发现，多线程的运行步骤（全局序）是每个线程的运行步骤（局部序）的一个排列 (Permutation)。
-    
-    全局序是四个步骤 `{A1, B1, A2, B2}` 进行排列，其中满足局部序 `A1 > B1` 和 `A2 > B2` 的排列均是一个合法的全局序。
-    例如，`(A1, B1, A2, B2)`, `(A2, B2, A1, B1)`, `(A1, A2, B1, B2)` 均是合法的全局序，而后者即是 bug 的根源。
+!!!info "Multithreading in a Mathematical Model"
+    Label the steps `money >= 1 ?` and `money--` as A and B. A always executes before B, written as `A > B` (`A` happens-before `B`).
 
-    如果你感兴趣，你可以试着回答这个问题：我们可以从数学上验证一个多线程程序的正确性，即枚举所有全局序，验证它们都不会造成 bug。从计算复杂性理论 (Computational complexity theory) 的角度而言，解这个问题是 P 问题、NP 问题、还是 NP完全问题。
+    We find that the global ordering of multithreaded execution steps is a permutation of each thread's local ordering steps.
 
-如果我们不在 `if (money >= 0)` 后面加上 `usleep`，我们会发现程序的运行结果 **大概率** 是正确的。这是因为检查和扣款的指令序列太短了，以至于我们不太可能会造成 data race。但是，不太可能 != 绝对不会。在考虑并发问题时，我们需要的是正确性。
+    The global ordering consists of four steps `{A1, B1, A2, B2}`, where any permutation satisfying the local orderings `A1 > B1` and `A2 > B2` is a valid global ordering.
+    For example, `(A1, B1, A2, B2)`, `(A2, B2, A1, B1)`, and `(A1, A2, B1, B2)` are valid global orderings, with the latter being the source of the bug.
 
-数学模型中，`(A1, A2, B1, B2)` 表示线程1和线程2都识别到了 `money == 1`，并且都将执行 `money--`。所以，解决这个问题的方式就是：不要让 `(A, B)` 变得可分割。我们可以从多个视角来理解：
+    If you're interested, try answering this question: We can mathematically verify the correctness of a multithreaded program by enumerating all global orderings and ensuring none cause bugs. From the perspective of computational complexity theory, is solving this problem a P problem, an NP problem, or an NP-complete problem?
 
-1. 我们不再允许 `(A1, B1)`, `(A2, B2)` 交错，即我们将 `(A1, A2, B1, B2)` 这种情况排除出“合法的全局序”中。
+If we remove the `usleep` after `if (money >= 0)`, the program is **likely** to produce the correct result. This is because the instruction sequence for checking and deducting is so short that a data race is unlikely. However, unlikely ≠ impossible. When dealing with concurrency, we need correctness.
 
-2. 我们可以将 `(A, B)` 打包 **一个不可中断的整体**。即，在其他CPU的视角下，这两个事件是在一瞬间就发生完了的（即原子的 (Atomic)）。也就是说，其他CPU不可能看到这个整体的中间状态。
+In the mathematical model, `(A1, A2, B1, B2)` means both thread 1 and thread 2 observe `money == 1` and both execute `money--`. The solution is to make `(A, B)` indivisible. This can be understood from multiple perspectives:
 
-3. 注意到第二种描述，实际上就是 Critical Section。
+1. We no longer allow `(A1, B1)` and `(A2, B2)` to interleave, i.e., we exclude `(A1, A2, B1, B2)` from the set of "valid global orderings."
+
+2. We can package `(A, B)` as an **uninterruptible whole**. From the perspective of other CPUs, these two events happen instantaneously (i.e., atomically). This means other CPUs cannot observe the intermediate state of this whole.
+
+3. Note that the second description is essentially a **Critical Section**.
 
 !!!info "Takeaway Message"
-    人是一种单线程生物。在多处理器编程的模型下，单线程思维不再一定正确了，共享变量有可能在任何时刻被别人更改。
+    Humans are single-threaded beings. In the model of multiprocessor programming, single-threaded thinking is no longer always correct; shared variables can be modified by others at any moment.
 
-### 单核处理器
+### Single-Core Processor
 
-如果你成功理解了上述的三个视角，在单 CPU 下，解决方案变得非常明朗：我们不允许在 `(A, B)` 中间产生 Context Switch。这即是我们所学习的第一种实现互斥的方式：关中断。这也是内核实现 "不可中断的整体" 的方式。
+If you understand the three perspectives above, the solution on a single CPU becomes clear: we prevent a context switch between `(A, B)`. This is the first method we learn for achieving mutual exclusion: **disabling interrupts**. This is also how the kernel implements an "uninterruptible whole."
 
-但是，需要注意到关中断不是万能的。**用户模式关不了中断**。（回忆：允许 Interrupt 的条件）
+However, disabling interrupts is not a universal solution. **User mode cannot disable interrupts**. (Recall: Conditions for allowing interrupts)
 
-### 原子 Compare-And-Swap 指令
+### Atomic Compare-And-Swap Instruction
 
-对于山寨支付宝的例子，我们可以从另一个角度理解为什么会出问题：当线程2检查完 `money`，在进行 `money--` 前，`money`的值已经被线程1改了；这时，线程2进行 `money--` 的条件就不再满足了！
+For the Counterfeit Alipay example, we can understand the issue from another angle: when thread 2 checks `money` and before it performs `money--`, thread 1 has already modified `money`, making thread 2's condition for `money--` invalid.
 
-我们可以对此进行进一步抽象：要修改某个变量（内存地址）的值时，该变量的值已经不是原来的值了。
+We can abstract this further: when attempting to modify a variable (memory address), its value is no longer the original value.
 
-幸运的是，现代 CPU 基本都具有一种特殊的指令：当修改某个地址的值时，检查该地址的值是否为给定的原来的值。这种指令被称为 Compare-And-Swap 指令。绝大多数情况，这种指令会被以 **原子的** 方式执行；即，在其他 CPU 的眼里，该指令是 **一瞬间** 就完成的。
+Fortunately, modern CPUs generally provide a special instruction: when modifying a memory address's value, it checks if the address's value matches the expected original value. This is called the **Compare-And-Swap (CAS)** instruction. In most cases, this instruction is executed **atomically**, meaning it appears to complete instantaneously to other CPUs.
 
-我们可以把 `deduct` 函数改成下面这样，它显著地区分了共享变量 `money` 和它的局部副本 `local_money`。每当想修改 `money` 的值时，我们使用 `__sync_bool_compare_and_swap(&money, local_money, local_money - 1)` 来修改 `&money` 这个内存地址的值，并且期望它现在的值和原来我们读到的值 ( `local_money` ) 一致：如果一致，则将 `&money` 修改为新值（ `local_money-1` ），并返回true; 如果不一致，则说明有其他 CPU 对该内存进行了更新，不更新值，并返回false。该函数会生成一条原子指令 `lock cmpxchg` 。在 RISC-V 平台上，这会是一条 `amoswap` 指令。
+We can modify the `deduct` function as follows, clearly distinguishing the shared variable `money` from its local copy `local_money`. Whenever we want to modify `money`, we use `__sync_bool_compare_and_swap(&money, local_money, local_money - 1)` to update the memory address `&money`, expecting its current value to match the value we read (`local_money`). If it matches, `&money` is updated to the new value (`local_money - 1`) and returns `true`. If it doesn't match, it means another CPU has updated the memory, so the value is not updated, and `false` is returned. This function generates an atomic instruction `lock cmpxchg`. On RISC-V, this is an `amoswap` instruction.
 
 ```c
 // bool __sync_bool_compare_and_swap (type *ptr, type oldval, type newval). 
@@ -116,23 +116,23 @@ void deduct() {
 }
 ```
 
-gcc 下所有 __sync_ 开头的内置原子指令封装：https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/_005f_005fsync-Builtins.html
+GCC's documentation for `__sync` built-in atomic instructions: https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/_005f_005fsync-Builtins.html
 
-### 锁原语 Lock Primitive
+### Lock Primitive
 
-尽管我们可以使用 __sync 等原子指令来解决山寨支付宝的例子，我们仍需要一种通用的、实现互斥的办法。
+Although we can use `__sync` atomic instructions to solve the Counterfeit Alipay example, we still need a general method to achieve mutual exclusion.
 
-回顾 Mutual Exclusion 的最基本要求：同一时刻，有且只有一个线程能够执行。我们定义一套原语：`lock`/`unlock` （也可以写作 `acquire`/`release` ）：
+Recall the fundamental requirement of mutual exclusion: **at any given moment, only one thread can execute**. We define a set of primitives: `lock`/`unlock` (also written as `acquire`/`release`):
 
-1. 所有期望实现 Mutual Exclusion 的线程都需要调用 `lock` 方法。在同一时刻，只能有一个线程将从 `lock` 方法中返回。
+1. All threads seeking mutual exclusion must call the `lock` method. At any moment, only one thread can return from the `lock` method.
 
-2. 当某线程成功从 `lock` 方法中返回后，在该线程调用 `unlock` 前，其他所有线程不得从 `lock` 中返回。
+2. Once a thread successfully returns from the `lock` method, no other thread can return from `lock` until that thread calls `unlock`.
 
-我们可以发现：从 `lock` 返回后，即是 Critical Section 的开始，`unlock` 即是 Critical Section 的结束。
+We can see that returning from `lock` marks the start of the **Critical Section**, and `unlock` marks its end.
 
-### 锁的实现
+### Lock Implementation
 
-我们可以想当然地写出以下代码，`status` 是一个共享变量，多个线程同时调用 `lock` 方法，尝试把 `status` 改为 `LOCKED`。最终，只有一个线程成功执行到 `status = LOCKED` 处，其他线程都在 `retry` 中打转。
+We might naively write the following code, where `status` is a shared variable. Multiple threads call `lock` simultaneously, attempting to set `status` to `LOCKED`. Ultimately, only one thread succeeds in executing `status = LOCKED`, while others spin in the `retry` loop.
 
 ```c
 int status = UNLOCKED;
@@ -150,9 +150,9 @@ void unlock() {
 }
 ```
 
-但是，如果我们按照上述山寨支付宝例子进行分析，我们可以很容易地发现一处 data race：当某个线程通过了 `if (status != UNLOCKED)` 检查后，另一个线程执行了 `status = LOCKED` 处，这破坏了该线程上锁的条件。
+However, analyzing this with the Counterfeit Alipay example, we can easily spot a data race: after a thread passes the `if (status != UNLOCKED)` check, another thread executes `status = LOCKED`, invalidating the first thread's condition for locking.
 
-所以，我们应该使用一个原子指令来替代 Compare and Set 这一步：每个线程都尝试原子地将 `status` 从 `UNLOCKED` 改为 `LOCKED`，CPU的实现保证了只有一个 CPU 能成功。对于那些没有成功的 CPU，它们会在这个 while 循环上一直等待。
+Thus, we should use an atomic instruction for the compare-and-set step: each thread attempts to atomically change `status` from `UNLOCKED` to `LOCKED`. The CPU ensures only one CPU succeeds. Unsuccessful CPUs continue waiting in the while loop.
 
 ```c
 void lock() {
@@ -160,32 +160,32 @@ void lock() {
 }
 ```
 
-!!!warning "如果没有原子指令"
-    这也是为什么 Peterson 算法看起来比较复杂。在第一个正确的互斥算法(Dekker's Alg) 被发明的年代 (1960s)，CPU 还没有原子指令。
+!!!warning "Without Atomic Instructions"
+    This is why Peterson's algorithm seems complex. In the 1960s, when the first correct mutual exclusion algorithm (Dekker's Algorithm) was developed, CPUs lacked atomic instructions.
 
-### spinlock & sleeplock
+### Spinlock & Sleeplock
 
-在上面的章节，我们只定义了锁的一个基本属性：实现互斥。锁还有一个属性：如果一个线程抢不到锁，那它应该怎么办。
+In the sections above, we defined only one fundamental property of locks: achieving mutual exclusion. Locks have another property: what should a thread do if it cannot acquire the lock?
 
-我们可以将锁分为两类：自旋锁 (`spinlock`) 和睡眠锁 (`sleeplock`)。
+Locks can be divided into two categories: **spinlocks** and **sleeplocks**.
 
-`spinlock` 会在抢不到锁的时候一直尝试抢，即上述 `lock` 方法，它会在 `__sync_bool_compare_and_swap` 失败时一直执行，CPU 就会在这一条指令上打转，就好像自旋一样。这种锁适用于 Critical Section 较短、能在固定时间内执行完毕的情况。
+A **spinlock** continuously tries to acquire the lock when it fails, as in the `lock` method above. It keeps executing `__sync_bool_compare_and_swap` on failure, causing the CPU to spin on this instruction. This lock is suitable for short critical sections that complete in a fixed time.
 
-`sleeplock` 会在抢不到锁时将该线程置于睡眠状态 `SLEEPING`，并放弃 CPU 切换到 `scheduler`。等到原来持有锁的线程释放锁时，它需要负责唤醒等待者。这种锁适用于 Critical Section 较长、有着不确定时间的情况，例如等待 I/O。
+A **sleeplock** puts the thread into a `SLEEPING` state when it cannot acquire the lock, yielding the CPU to the `scheduler`. When the lock-holding thread releases the lock, it must wake up the waiting threads. This lock is suitable for long critical sections with uncertain durations, such as waiting for I/O.
 
-在 **唤醒等待者** 这件事情上，`sleeplock` 可以用不同的实现方式：
+Regarding **waking up waiters**, sleeplocks can be implemented in different ways:
 
-1. 直接唤醒所有的等待者，只有抢到锁的线程能继续执行下去，没抢到锁的重新进入睡眠。
+1. Wake up all waiting threads; only the thread that acquires the lock continues, while others go back to sleep.
 
-2. 只唤醒一个等待者，其余的保持睡眠。
+2. Wake up only one waiting thread, leaving others asleep.
 
-### xv6 spinlock
+### xv6 Spinlock
 
-xv6 中，一个 `spinlock_t` 结构体包含最核心的一个 `locked` 标志，和其他用于调试的字段。
+In xv6, a `spinlock_t` structure contains the core `locked` flag and other fields for debugging.
 
-`acquire` 一个 `spinlock_t` 会使用 `__sync_lock_test_and_set`（原子指令 `amoswap`） 尝试将 1 写入 `locked`，并返回之前 `locked` 的值。如果返回值为0，则表示该 CPU 是唯一一个完成了将 `locked: 0->1` 的 CPU，即抢到锁了。
+To `acquire` a `spinlock_t`, `__sync_lock_test_and_set` (atomic `amoswap` instruction) attempts to write 1 to `locked` and returns the previous value of `locked`. If the return value is 0, the CPU is the only one that changed `locked` from 0 to 1, meaning it acquired the lock.
 
-`release` 则原子地将 0 写入 `locked`。
+The `release` operation atomically writes 0 to `locked`.
 
 ```c
 // Mutual exclusion lock.
@@ -194,74 +194,74 @@ struct spinlock {
 
     // For debugging:
     char *name;       // Name of lock.
-    struct cpu *cpu;  // The cpu holding the lock.
-    void *where;      // who calls acquire?
+    struct cpu *cpu;  // The CPU holding the lock.
+    void *where;      // Who calls acquire?
 };
 
 // Acquire the lock.
 // Loops (spins) until the lock is acquired.
 void acquire(spinlock_t *lk)
 {
-	uint64 ra = r_ra();
-	push_off();         // disable interrupts to avoid deadlock.
-	if (holding(lk))    // check against reentrance
-		panic("already acquired by %p, now %p", lk->where, ra);
+    uint64 ra = r_ra();
+    push_off();         // Disable interrupts to avoid deadlock.
+    if (holding(lk))    // Check against reentrance
+        panic("already acquired by %p, now %p", lk->where, ra);
 
-	// On RISC-V, sync_lock_test_and_set turns into an atomic swap:
-	//   a5 = 1
-	//   s1 = &lk->locked
-	//   amoswap.d.aq a5, a5, (s1)
-	while (__sync_lock_test_and_set(&lk->locked, 1) != 0)
-		;
+    // On RISC-V, sync_lock_test_and_set turns into an atomic swap:
+    //   a5 = 1
+    //   s1 = &lk->locked
+    //   amoswap.d.aq a5, a5, (s1)
+    while (__sync_lock_test_and_set(&lk->locked, 1) != 0)
+        ;
 
-	__sync_synchronize();
+    __sync_synchronize();
 
-	// Record info about lock acquisition for holding() and debugging.
-	lk->cpu = mycpu();
-	lk->where = (void *)ra;
+    // Record info about lock acquisition for holding() and debugging.
+    lk->cpu = mycpu();
+    lk->where = (void *)ra;
 }
 
 // Release the lock.
 void release(spinlock_t *lk)
 {
-	if (!holding(lk))
-		panic("release");
+    if (!holding(lk))
+        panic("release");
 
-	lk->cpu = 0;
-	lk->where = 0;
+    lk->cpu = 0;
+    lk->where = 0;
 
-	__sync_synchronize();
+    __sync_synchronize();
 
-	// Release the lock, equivalent to lk->locked = 0.
-	// On RISC-V, sync_lock_release turns into an atomic swap:
-	//   s1 = &lk->locked
-	//   amoswap.w zero, zero, (s1)
-	__sync_lock_release(&lk->locked);
+    // Release the lock, equivalent to lk->locked = 0.
+    // On RISC-V, sync_lock_release turns into an atomic swap:
+    //   s1 = &lk->locked
+    //   amoswap.w zero, zero, (s1)
+    __sync_lock_release(&lk->locked);
 
-	pop_off();
+    pop_off();
 }
 
-// Check whether this cpu is holding the lock.
+// Check whether this CPU is holding the lock.
 // Interrupts must be off.
 int holding(spinlock_t *lk)
 {
-	int r;
-	r = (lk->locked && lk->cpu == mycpu());
-	return r;
+    int r;
+    r = (lk->locked && lk->cpu == mycpu());
+    return r;
 }
 ```
 
 !!!info "__sync_synchronize() & Memory Ordering"
-    我们在讲解中刻意忽略了 `__sync_synchronize()` 的细节。该函数与 CPU 的 Memory Ordering (内存序) 有关，其原理和细节已经超出了本科操作系统课程的范畴。
+    We intentionally omitted details about `__sync_synchronize()`. This function relates to CPU memory ordering, and its principles are beyond the scope of an undergraduate operating systems course.
 
-    简而言之，核心对内存的写入，会最终 (eventually) 对其他核心可见。Relaxed Memory Order (RISC-V, ARM) 没有保证：某核心前后两个 Store 在被其他核心 Load 时，观测到的值一定是 Store 在代码中的顺序。
-    而 x86 (IA-32, amd64) 平台为 Total Store Order，核心 Store 的顺序在其他核心的视角下一定为 Store 在代码中的顺序。这也是 Windows on ARM 难以模拟 x86 软件的原因。
+    In short, writes to memory by one core will eventually be visible to other cores. Relaxed Memory Order (RISC-V, ARM) does not guarantee that two stores by one core will be observed by other cores in the order they appear in the code. 
+    In contrast, x86 (IA-32, amd64) platforms use Total Store Order, ensuring that the order of stores by one core is observed by others as in the code. This is one reason why Windows on ARM struggles to emulate x86 software.
 
-    再简而言之，其他核心会先观测到锁被释放，然后观测到理应在 Critical Section 中被覆盖的旧值。
+    Simply put, other cores may observe the lock release before observing old values that should have been overwritten in the critical section.
 
-    如果你对此感兴趣，推荐阅读以下材料：
+    If you're interested, we recommend the following resources:
 
-    1. https://jyywiki.cn/OS/2025/lect13.md (13.4 放弃 (3)：全局的指令执行顺序)
+    1. https://jyywiki.cn/OS/2025/lect13.md (13.4 Giving Up (3): Global Instruction Execution Order)
 
     2. riscv-spec-v2.1.pdf, Section 6.1, Specifying Ordering of Atomic Instructions
 
@@ -269,16 +269,16 @@ int holding(spinlock_t *lk)
 
     4. https://people.mpi-sws.org/~viktor/papers/asplos2023-atomig.pdf
 
-### 关中断
+### Disabling Interrupts
 
-我们使用 `push_off()` 和 `pop_off()` 表示一对 关中断/开中断的操作。具体细节请参照 Context Switch 一章。
+We use `push_off()` and `pop_off()` to represent a pair of disable/enable interrupt operations. For details, refer to the Context Switch chapter.
 
-### 锁的检查
+### Lock Checking
 
-如果我们在已经持有一把锁的情况下，再尝试对这把锁上锁会怎么样？我们会永远卡在上锁的 spin loop 中。
-以及，在一个进程持有一把锁并陷入睡眠时，其他进程尝试上锁也会永远卡死。
+What happens if we try to lock a lock we already hold? We would get stuck in the spin loop forever. 
+Similarly, if a process holding a lock goes to sleep, other processes trying to acquire the lock will deadlock.
 
-这就是为什么我们在 `sched()` 中检查了当前 CPU 持有了多少把自旋锁。
+This is why we check how many spinlocks the current CPU holds in `sched()`.
 
 ```c
 void sched() {
@@ -292,8 +292,8 @@ void sched() {
 }
 ```
 
-对于 Kernel Trap，我们不希望出现嵌套中断。
-我们会在 `kernel_trap` 中检查 Trap 深度，如果遇到了嵌套中断，则panic报错。
+For kernel traps, we want to avoid nested interrupts. 
+In `kernel_trap`, we check the trap depth and panic if a nested interrupt occurs.
 
 ```c
 void kernel_trap(struct ktrapframe *ktf) {
@@ -301,7 +301,7 @@ void kernel_trap(struct ktrapframe *ktf) {
 
     if (cause & SCAUSE_INTERRUPT) {
         if (mycpu()->inkernel_trap > 1) {
-            // should never have nested interrupt
+            // Should never have nested interrupt
             print_sysregs(true);
             print_ktrapframe(ktf);
             panic("nested kerneltrap");
@@ -310,7 +310,7 @@ void kernel_trap(struct ktrapframe *ktf) {
 }
 ```
 
-我们需要确保在 `kernel_trap` 下中断一直为关的。所以，当我们尝试在 Kernel Trap 上下文中通过释放锁打开中断，内核也会报错：
+We ensure interrupts remain disabled in the `kernel_trap` context. If we attempt to enable interrupts by releasing a lock in the kernel trap context, the kernel will panic:
 
 ```c
 void pop_off(void) {
@@ -320,66 +320,66 @@ void pop_off(void) {
         if (c->inkernel_trap)
             panic("pop_off->intr_on happens in kernel trap");
         
-        // we will enable the interrupt, must not happen in kernel trap context.
+        // We will enable the interrupt, must not happen in kernel trap context.
         intr_on();
     }
 }
 ```
 
-## 互斥与同步
+## Mutual Exclusion and Synchronization
 
-互斥 (Mutual Exclusion) 是指 **在同一时刻，只有一个线程** 能够执行。
+**Mutual Exclusion** means **only one thread can execute at a given moment**.
 
-同步 (Synchronization) 是指多个线程之间的事件 **按某种顺序执行** ，我们称之为 `happens-before`。
+**Synchronization** means events across multiple threads execute **in a specific order**, which we call `happens-before`.
 
-我们可以用现实的例子来描述这两件事情。
+We can illustrate these concepts with real-world examples:
 
-1. 考虑有一个厕所单间，有许多人需要上厕所。但是，在同一时刻，只有一个人能呆在这个厕所单间里面。
+1. Consider a single-occupancy restroom with many people needing to use it. At any moment, only one person can be inside.
 
-    这个问题中，“厕所” 即是共享资源。
+    In this problem, the "restroom" is the shared resource.
 
-2. 考虑一个十字路口的红绿灯：每个方向上，有机动车道的红绿灯；与之垂直的，有人行斑马线的红绿灯。我们要求，在机动车道亮绿灯前，与之垂直的斑马线一定已经亮红灯。
+2. Consider a traffic light at an intersection: one direction has a traffic light for vehicles, and perpendicular to it is a pedestrian crosswalk light. We require that before the vehicle light turns green, the perpendicular crosswalk light must already be red.
 
-    这个问题中，我们定义了 `斑马线亮绿灯` happens-before `机动车道亮红灯`。
+    In this problem, we define `crosswalk light turns green` happens-before `vehicle light turns red`.
 
-我们需要注意到，互斥并不一定代表着同步：例如 A、B、C 三个事件互斥，这表示它们不能同时执行；但这并不代表着它们执行的顺序一定是 A > B > C。
+Note that mutual exclusion does not necessarily imply synchronization: for example, if events A, B, and C are mutually exclusive, they cannot execute simultaneously, but this does not mean they must execute in the order A > B > C.
 
-## 同步 Synchronization
+## Synchronization
 
-**同步** 表示我们希望控制事件发生的先后顺序：A > B > C，形成受我们控制的 "happens-before" 关系。
+**Synchronization** means controlling the order of events: A > B > C, forming a controlled `happens-before` relationship.
 
-### 理解同步
+### Understanding Synchronization
 
-同步通常用 **等待** 来描述。
+Synchronization is often described in terms of **waiting**.
 
-例如，三个人一起约饭，他们先约定在一号门集合，再一起前往宝能城。在这样的表述中，三人就 "在一号门集合" 这件事情上完成了同步。对于每个人而言，它需要等待另外两个人到来，才执行下一个操作：前往宝能城。
+For example, three people plan to eat together. They agree to meet at Gate 1 before heading to Baoneng City. In this scenario, the three synchronize on the event of "meeting at Gate 1." Each person waits for the other two to arrive before proceeding to the next step: going to Baoneng City.
 
-事件即是代码的执行，而顺序则是每条代码之间的 "happens-before" 关系。
+Events are the execution of code, and ordering is the `happens-before` relationship between code segments.
 
-- 在单线程程序中，代码是天然地按照顺序 "happens-before"。
-- 在多线程程序中，同一个线程中的事件（代码的执行）仍然保持着它们的 "happens-before" 关系；而不同线程之间的事件（代码的执行）则没有任何约束。
+- In a single-threaded program, code naturally follows a `happens-before` order.
+- In a multithreaded program, events (code execution) within the same thread maintain their `happens-before` relationship, but events across different threads have no constraints.
 
-同步则是让不同线程之间，在某个事件（代码的执行）点上，重新构建 "happens-before" 关系。
+Synchronization re-establishes `happens-before` relationships between events (code execution) across different threads at specific points.
 
 ![image](../assets/xv6lab-sync/xv6lab-sync-happens-before.png)
 
-我们依然用 `A > B` 表示 `A happens-before B`。我们可以分别列出 T1 和 T2 的内部的 "happens-before" 关系：
+We use `A > B` to denote `A happens-before B`. We can list the internal `happens-before` relationships for threads T1 and T2:
 
 - T1: `A > B`, `B > sync`, `sync > C`, `C > D`
 
 - T2: `E > F`, `F > sync`, `sync > G`, `G > H`
 
-假设 T1 和 T2 在 `sync` 这个事件上完成了同步，那么，我们实现了不同线程之间的 "happens-before" 关系： `B > sync > G`, `F > sync > C`。
+If T1 and T2 synchronize on the `sync` event, we establish `happens-before` relationships across threads: `B > sync > G`, `F > sync > C`.
 
-### 条件变量
+### Condition Variables
 
-假设我们有三个线程，它们各自死循环地执行 A、B、C 三个函数，我们期望这三个函数总是以 `A -> B -> C -> A` 的顺序被运行：
+Suppose we have three threads, each running functions A, B, and C in an infinite loop, and we want these functions to always execute in the order `A -> B -> C -> A`:
 
 ![image](../assets/xv6lab-sync/xv6lab-sync.png)
 
-考虑 T2，它什么时候能执行 `B` ？我们要求 `A` happens-before `B`：**只有 `A` 事件发生后，`B` 才能得到执行**。
+Consider T2: when can it execute `B`? We require `A` happens-before `B`: **B can only execute after event A occurs**.
 
-我们非常顺利地写出了 `B` **能够执行的条件**。我们因此也将同步问题转换成了：**检查条件是否满足**。
+We naturally derive the **condition** for executing `B`. Thus, the synchronization problem becomes **checking if the condition is satisfied**.
 
 ```c
 int last = 'C';
@@ -409,9 +409,9 @@ void T3() {
 }
 ```
 
-接下来，我们首先需要考虑两个问题：如何正确设置 Critical Section，以及在等待条件时应该干什么。
+Next, we need to address two questions: how to properly set up the critical section, and what to do while waiting for the condition.
 
-`last` 状态变量显然是一个共享变量，它会被三个线程分别读写。所以，对它的访问需要加锁保护。
+The `last` state variable is clearly a shared variable, read and written by all three threads. Thus, access to it must be protected by a lock.
 
 ```c
 mutex_t mtx;
@@ -420,7 +420,7 @@ int last = 'C';
 void T1() {
     while (1) {
         lock(&mtx);
-        while (last != 'C');    // wait for last == 'C'
+        while (last != 'C');    // Wait for last == 'C'
         A();
         last = 'A';
         unlock(&mtx);
@@ -428,14 +428,14 @@ void T1() {
 }
 ```
 
-而在 `while` 等待循环中，我们 **不能一直持有互斥锁 mtx** ，因为我们需要其他线程来更改 `last` 状态变量。
-所以，我们在判断条件后，如果发现条件不满足，则释放锁并将自己陷入睡眠，并在自己被唤醒后重新上锁。
-因此，在修改条件后，我们需要唤醒所有人来再次检查条件。
+In the `while` waiting loop, we **cannot hold the mutex `mtx` continuously**, as other threads need to modify the `last` state variable.
+Thus, if the condition is not met after checking, we release the lock, put the thread to sleep, and reacquire the lock upon waking. 
+Therefore, after modifying the condition, we must wake up all threads to recheck the condition.
 
-这样的设计满足了两个要求：
+This design satisfies two requirements:
 
-1. 检查同步条件 `last` 时，当前线程持有锁。
-1. 同步条件检查通过后，当前线程持有锁（即执行 `A` 的部分）。
+1. When checking the synchronization condition `last`, the current thread holds the lock.
+2. After the synchronization condition is met, the current thread holds the lock (i.e., during the execution of `A`).
 
 ```c
 mutex_t mtx;
@@ -457,21 +457,21 @@ void T1() {
 }
 ```
 
-但是，这里面存在一点问题，考虑如下的执行图，黄色部分为 Critical Section，它们的执行是不可与其他线程的 Critical Section 重叠的。
+However, there is an issue. Consider the following execution diagram, where yellow sections are critical sections that cannot overlap with other threads' critical sections.
 
 ![image](../assets/xv6lab-sync/xv6lab-sync-condvar.png)
 
-在某种情况下，T1 `unlock` 后并没有立即陷入 `sleep`，反而 T2 在 `lock` 得到锁后先一步调用了 `wakeup`，而此时 T1 还没有陷入睡眠，自然也不会被唤醒。而在 T1 睡眠后，再也没有线程能够唤醒它了，至此，所有的线程都进入了睡眠模式。
+In some cases, after T1 calls `unlock`, it does not immediately go to `sleep`. Instead, T2 acquires the lock and calls `wakeup` first, while T1 has not yet gone to sleep, so it is not woken up. After T1 goes to sleep, no thread can wake it, causing all threads to enter sleep mode.
 
-我们将这种问题称为 "The Lost Wake-Up Problem".
+We call this issue the **Lost Wake-Up Problem**.
 
-这种问题的根本原因是：我们在标记自己为 SLEEPING 前，就将 `mtx` 解锁了。但是我们又不能先 `sleep()` 再 `unlock()`，因为 `sleep` 不会在被唤醒前返回，即 `unlock()` 永远不会被执行到。
+The root cause is that we unlock `mtx` before marking ourselves as `SLEEPING`. However, we cannot call `sleep()` before `unlock()`, as `sleep` does not return until woken, meaning `unlock()` would never execute.
 
-所以，我们需要将 "标记自己为 SLEEPING" 和 "解锁 mtx" 两件事情视为一个整体，即将 "标记自己为 SLEEPING" 纳入 Critical Section。
+Thus, we need to treat "marking ourselves as SLEEPING" and "unlocking mtx" as a single unit, i.e., include "marking as SLEEPING" in the critical section.
 
-至此，我们应该就能理解为什么 xv6 中的 `sleep` 方法，参数中包含一个 `spinlock_t*` 了。
+This explains why xv6's `sleep` method takes a `spinlock_t*` parameter.
 
-注：在 xv6 中，访问 `p->state` 必须要持有 `p->lock`，所以 "标记自己为 SLEEPING"（或者说，别人发现我是 SLEEPING） 和 `acquire(&p->lock)` 是等价的。
+Note: In xv6, accessing `p->state` requires holding `p->lock`, so "marking ourselves as SLEEPING" (or others observing us as SLEEPING) is equivalent to `acquire(&p->lock)`.
 
 ```c
 void sleep(void *chan, spinlock_t *lk) {
@@ -504,14 +504,14 @@ void sleep(void *chan, spinlock_t *lk) {
 
 ![image](../assets/xv6lab-sync/xv6lab-sleep.png)
 
-!!!info "为什么不用原子指令替代条件检查"
-    因为真实情况下的条件可能没有简单到能使用一条原子指令表示，我们还是希望使用互斥锁（更加通用）来保护对条件的访问。
+!!!info "Why Not Use Atomic Instructions for Condition Checking?"
+    Because real-world conditions may not be simple enough to express with a single atomic instruction, we prefer using mutexes (more general) to protect condition access.
 
-## Lab 练习
+## Lab Exercises
 
-1. 假设 `sum` 是一个共享变量，有三个线程并发地执行 `T_sum` 函数，那么等三个线程退出后，`sum` 可能的最小值是什么？
+1. Suppose `sum` is a shared variable, and three threads concurrently execute the `T_sum` function. What is the minimum possible value of `sum` after all threads exit?
 
-    Hint: 怎么证明某个值是可能的最小值：1. 所有比它小的值都不可能。2. 存在某种并发顺序，使得产生该最小值的序列是合法的
+    Hint: To prove a value is the minimum: 1. Show that all smaller values are impossible. 2. Demonstrate a valid concurrent execution order that produces this minimum value.
 
     ```c
     int sum = 0;
@@ -530,7 +530,7 @@ void sleep(void *chan, spinlock_t *lk) {
     }
     ```
 
-2. 使用 gcc 内置的原子 CAS 函数 `__sync_bool_compare_and_swap` 来解决多线程自增的问题。
+2. Use GCC's built-in atomic CAS function `__sync_bool_compare_and_swap` to solve the multithreaded increment problem.
 
     ```c
     volatile int sum = 0;
@@ -549,18 +549,18 @@ void sleep(void *chan, spinlock_t *lk) {
     }
     ```
 
-    gcc 的文档：https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/_005f_005fsync-Builtins.html
+    GCC documentation: https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/_005f_005fsync-Builtins.html
 
 
-3. 在 "条件变量" 一章的末尾，T2 的 `wakeup` 可以移出 `lk` 的 Critical Section 吗？即 T2 先 `release(lk)` 再 `wakeup()`。
+3. In the "Condition Variables" section, can T2's `wakeup` be moved outside the critical section of `lk`? That is, can T2 call `release(lk)` before `wakeup()`?
 
-4. 假设有两种线程，每种线程若干个：第一种线程死循环地打印左括号 `(`，第二种线程死循环地打印右括号 `)`。现在要求：打印出来的字符串是平衡的括号（或中间状态），如 `()(())`，最多允许 N 层嵌套括号。
+4. Suppose there are two types of threads, each with multiple instances: one type loops indefinitely printing left parentheses `(`, and the other loops indefinitely printing right parentheses `)`. The requirement is that the printed string forms balanced parentheses (or an intermediate state), such as `()(())`, with a maximum nesting depth of N.
 
-    例如：
-    - `()((()))` 是一个合法的平衡括号。
-    - `())` 不是一个合法的平衡括号。
-    - `((()` 是一个嵌套深度为 2 的平衡括号的中间状态。
+    For example:
+    - `()((()))` is a valid balanced parenthesis string.
+    - `())` is not a valid balanced parenthesis string.
+    - `((()` is an intermediate state of a balanced parenthesis string with nesting depth 2.
 
-    已知有一个变量表示：目前左括号比右括号多了几个。请你写出这两种线程的同步条件。即，每种线程在什么时候可以打印 `(` 或 `)`。
+    Given a variable indicating how many more left parentheses than right parentheses exist, write the synchronization conditions for these threads. That is, when can each thread print `(` or `)`?
 
-    这两种线程会一直打印，你不需要考虑程序 Ctrl C 结束时产生的字符串是否为一个完整的平衡括号，这时的字符串可以是一个平衡括号的中间状态。
+    These threads print indefinitely, and you do not need to consider whether the string is a complete balanced parenthesis string when the program is terminated with Ctrl+C; the string may be an intermediate state of balanced parentheses.
