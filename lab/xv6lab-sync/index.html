@@ -992,24 +992,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#-" class="md-nav__link">
-    <span class="md-ellipsis">
-      生产者-消费者模型
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#semaphore" class="md-nav__link">
-    <span class="md-ellipsis">
-      Semaphore
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1529,24 +1511,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#-" class="md-nav__link">
-    <span class="md-ellipsis">
-      生产者-消费者模型
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#semaphore" class="md-nav__link">
-    <span class="md-ellipsis">
-      Semaphore
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1664,7 +1628,7 @@
 <p>对于山寨支付宝的例子，我们可以从另一个角度理解为什么会出问题：当线程2检查完 <code>money</code>，在进行 <code>money--</code> 前，<code>money</code>的值已经被线程1改了；这时，线程2进行 <code>money--</code> 的条件就不再满足了！</p>
 <p>我们可以对此进行进一步抽象：要修改某个变量（内存地址）的值时，该变量的值已经不是原来的值了。</p>
 <p>幸运的是，现代 CPU 基本都具有一种特殊的指令：当修改某个地址的值时，检查该地址的值是否为给定的原来的值。这种指令被称为 Compare-And-Swap 指令。绝大多数情况，这种指令会被以 <strong>原子的</strong> 方式执行；即，在其他 CPU 的眼里，该指令是 <strong>一瞬间</strong> 就完成的。</p>
-<p>我们可以把 <code>deduct</code> 函数改成下面这样，它显著地区分了共享变量 <code>money</code> 和它的局部副本 <code>local_money</code>。每当想修改 <code>money</code> 的值时，我们使用 <code>__sync_bool_compare_and_swap</code> 函数来修改 <code>&amp;money</code> 这个内存地址的值，并且期望它现在的值和原来我们读到的值 (<code>local_money</code>) 一致，如果不一致，则说明有其他 CPU 对该内存进行了更新。该函数会生成一条原子指令 <code>lock cmpxchg</code>。在 RISC-V 平台上，这会是一条 <code>amoswap</code> 指令。</p>
+<p>我们可以把 <code>deduct</code> 函数改成下面这样，它显著地区分了共享变量 <code>money</code> 和它的局部副本 <code>local_money</code>。每当想修改 <code>money</code> 的值时，我们使用 <code>__sync_bool_compare_and_swap(&amp;money, local_money, local_money - 1)</code> 来修改 <code>&amp;money</code> 这个内存地址的值，并且期望它现在的值和原来我们读到的值 ( <code>local_money</code> ) 一致：如果一致，则将 <code>&amp;money</code> 修改为新值（ <code>local_money-1</code> ），并返回true; 如果不一致，则说明有其他 CPU 对该内存进行了更新，不更新值，并返回false。该函数会生成一条原子指令 <code>lock cmpxchg</code> 。在 RISC-V 平台上，这会是一条 <code>amoswap</code> 指令。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// bool __sync_bool_compare_and_swap (type *ptr, type oldval, type newval). </span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">//   -&gt; return true if the comparison is successful and newval is written.</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">money</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span>
@@ -2014,8 +1978,6 @@
 <p class="admonition-title">为什么不用原子指令替代条件检查</p>
 <p>因为真实情况下的条件可能没有简单到能使用一条原子指令表示，我们还是希望使用互斥锁（更加通用）来保护对条件的访问。</p>
 </div>
-<h3 id="-">生产者-消费者模型<a class="headerlink" href="#-" title="Permanent link">&para;</a></h3>
-<h3 id="semaphore">Semaphore<a class="headerlink" href="#semaphore" title="Permanent link">&para;</a></h3>
 <h2 id="lab">Lab 练习<a class="headerlink" href="#lab" title="Permanent link">&para;</a></h2>
 <ol>
 <li>在 "条件变量" 一章的末尾，T2 的 <code>wakeup</code> 可以移出 <code>lk</code> 的 Critical Section 吗？即 T2 先 <code>release(lk)</code> 再 <code>wakeup()</code>。</li>
@@ -2059,8 +2021,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/2971b013, 2025-04-17 21:33:44+08:00" target="_blank" rel="noopener">
-            2971b013, 2025-04-17 21:33:44+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/e80ba953, 2025-04-21 11:10:45+08:00" target="_blank" rel="noopener">
+            e80ba953, 2025-04-21 11:10:45+08:00
         </a>
     </div>
 </div>
