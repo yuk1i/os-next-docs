@@ -1,8 +1,17 @@
 # Mutual Exclusion & Synchronization
 
+!!!warning "synclab & xv6lab8 Code Branch"
+
+    https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab8
+
+    Use the command git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab8 synclab to download the synclab code.
+
+    Enter the `sync-lab` folder, read the README.md (recommended to read after class), and run the example programs inside.
+
+    For the xv6 part of the code, refer to the main repository, and use `git clone https://github.com/yuk1i/SUSTechOS xv6lab8` to download the code.
+
+
 ## Multiple Processes Programming
-
-
 
 It is often said that processes have independent address spaces, while threads share an address space. This introduces the concept of **shared memory**: multiple threads within a process share a portion of the memory space.
 
@@ -369,8 +378,7 @@ We use `A > B` to denote `A happens-before B`. We can list the internal `happens
 
 - T2: `E > F`, `F > sync`, `sync > G`, `G > H`
 
-If T1 and T2 synchronize on the `sync` event, we establish `happens-before` relationships across threads: `B > sync > G`, `F > sync > C`.
-
+Assume that both T1 and T2 wait on the sync event and continue only after the other has reached this point. In this case, we can say that T1 and T2 have completed a synchronization, and we have established a "happens-before" relationship between different threads: B > sync > G, F > sync > C.
 ### Condition Variables
 
 Suppose we have three threads, each running functions A, B, and C in an infinite loop, and we want these functions to always execute in the order `A -> B -> C -> A`:
@@ -513,6 +521,8 @@ void sleep(void *chan, spinlock_t *lk) {
 
     Hint: To prove a value is the minimum: 1. Show that all smaller values are impossible. 2. Demonstrate a valid concurrent execution order that produces this minimum value.
 
+    Using our "mathematical model": each thread has 6 parts: (Load, Store, Load, Store, Load, Store). There are three such threads, and they are arranged in a sequence. The last Store operation determines the value of sum after all three threads have finished.
+
     ```c
     int sum = 0;
     void T_sum() {
@@ -553,14 +563,3 @@ void sleep(void *chan, spinlock_t *lk) {
 
 
 3. In the "Condition Variables" section, can T2's `wakeup` be moved outside the critical section of `lk`? That is, can T2 call `release(lk)` before `wakeup()`?
-
-4. Suppose there are two types of threads, each with multiple instances: one type loops indefinitely printing left parentheses `(`, and the other loops indefinitely printing right parentheses `)`. The requirement is that the printed string forms balanced parentheses (or an intermediate state), such as `()(())`, with a maximum nesting depth of N.
-
-    For example:
-    - `()((()))` is a valid balanced parenthesis string.
-    - `())` is not a valid balanced parenthesis string.
-    - `((()` is an intermediate state of a balanced parenthesis string with nesting depth 2.
-
-    Given a variable indicating how many more left parentheses than right parentheses exist, write the synchronization conditions for these threads. That is, when can each thread print `(` or `)`?
-
-    These threads print indefinitely, and you do not need to consider whether the string is a complete balanced parenthesis string when the program is terminated with Ctrl+C; the string may be an intermediate state of balanced parentheses.

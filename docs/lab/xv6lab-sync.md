@@ -1,6 +1,6 @@
 # 互斥与同步 Mutual Exclusion & Synchronization
 
-!!!warning "xv6-lab8 代码分支"
+!!!warning "synclab & xv6lab8 代码分支"
     
     https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab8
 
@@ -385,7 +385,7 @@ void pop_off(void) {
 
 - T2: `E > F`, `F > sync`, `sync > G`, `G > H`
 
-假设 T1 和 T2 在 `sync` 这个事件上完成了同步，那么，我们实现了不同线程之间的 "happens-before" 关系： `B > sync > G`, `F > sync > C`。
+假设 T1 和 T2 在 `sync` 这个事件上都会等待对方执行到这里再继续，那么我们可以说 T1 和 T2 完成了一次同步，我们实现了不同线程之间的 "happens-before" 关系： `B > sync > G`, `F > sync > C`。
 
 ### 条件变量
 
