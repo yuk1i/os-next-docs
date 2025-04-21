@@ -116,7 +116,7 @@ void deduct() {
 }
 ```
 
-gcc 下所有 __sync_ 开头的内置 Atomic 函数：https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/_005f_005fsync-Builtins.html
+gcc 下所有 __sync_ 开头的内置原子指令封装：https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/_005f_005fsync-Builtins.html
 
 ### 锁原语 Lock Primitive
 
@@ -513,22 +513,47 @@ void sleep(void *chan, spinlock_t *lk) {
 
     Hint: 怎么证明某个值是可能的最小值：1. 所有比它小的值都不可能。2. 存在某种并发顺序，使得产生该最小值的序列是合法的
 
-```c
-int sum = 0;
-void T_sum() {
-    for (int i = 0; i < 3; i++) {
-        int t = load(sum);
-        t += 1;
-        store(sum, t);
+    ```c
+    int sum = 0;
+    void T_sum() {
+        for (int i = 0; i < 3; i++) {
+            int t = load(sum);
+            t += 1;
+            store(sum, t);
+        }
     }
-}
 
-int main() {
-    for (int i = 0; i < 3; i++) create(T_sum);
-    join();
-    printf("sum = %d\n", sum);
-}
-```
+    int main() {
+        for (int i = 0; i < 3; i++) create(T_sum);
+        join();
+        printf("sum = %d\n", sum);
+    }
+    ```
 
-1. 在 "条件变量" 一章的末尾，T2 的 `wakeup` 可以移出 `lk` 的 Critical Section 吗？即 T2 先 `release(lk)` 再 `wakeup()`。
+2. 使用 gcc 内置的原子 CAS 函数 `__sync_bool_compare_and_swap` 来解决多线程自增的问题。
 
+    ```c
+    volatile int sum = 0;
+
+    void T_sum() {
+        for(int i=0;i < 10000; i++) {
+            // your code here: increase sum atomically.
+
+        }
+    }
+
+    int main() {
+        for (int i=0;i<5;i++) create(T_sum);
+        join();
+        printf("sum = %d\n", sum);
+    }
+    ```
+
+    gcc 的文档：https://gcc.gnu.org/onlinedocs/gcc-14.2.0/gcc/_005f_005fsync-Builtins.html
+
+
+3. 在 "条件变量" 一章的末尾，T2 的 `wakeup` 可以移出 `lk` 的 Critical Section 吗？即 T2 先 `release(lk)` 再 `wakeup()`。
+
+4. 假设有两种线程，每种线程若干个：第一种线程死循环地打印左括号 `(`，第二种线程死循环地打印右括号 `)`。现在要求：打印出来的字符串是平衡的括号，如 `()(())`，最多允许 N 层嵌套括号。
+
+    请你写出这两种线程的同步条件。即，每种线程在什么时候可以打印 `(` 或 `)`。
