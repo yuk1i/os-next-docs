@@ -1,5 +1,15 @@
 # 互斥与同步 Mutual Exclusion & Synchronization
 
+!!!warning "xv6-lab8 代码分支"
+    
+    https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab8
+
+    使用命令 `git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab8 synclab` 下载 synclab 代码。
+
+    进入 `sync-lab` 文件夹中，阅读 `README.md`（建议课后阅读） 以及执行里面的样例程序。
+
+    对于 xv6 部分的代码，请参照主仓库，使用 `git clone https://github.com/yuk1i/SUSTechOS xv6lab8` 下载代码。
+
 ## 多处理器编程
 
 > Multiple Processes Programming 多处理器编程，从入门到放弃。
@@ -19,6 +29,8 @@
 
     - `usleep()`: 等待几个us。
 
+    在 `synclab` 代码包中，有一个我们自己写的 `thread.h`，它是一个对 pthread 的简单封装。
+
 在理解我们为什么需要互斥前，我们先要明白 Data Race (数据竞争) 是怎么回事。
 
 ### 山寨支付宝
@@ -26,6 +38,8 @@
 !!!info "code"
 
     ```c
+    // alipay.c
+
     #include "thread.h"
 
     unsigned long money = 30;
@@ -37,7 +51,7 @@
         }
     }
 
-    void main() {
+    int main() {
         for (int i = 0; i < 100; i++) create(deduct);
         join();
         printf("money = %lu\n", money);
@@ -99,6 +113,8 @@
 我们可以把 `deduct` 函数改成下面这样，它显著地区分了共享变量 `money` 和它的局部副本 `local_money`。每当想修改 `money` 的值时，我们使用 `__sync_bool_compare_and_swap(&money, local_money, local_money - 1)` 来修改 `&money` 这个内存地址的值，并且期望它现在的值和原来我们读到的值 ( `local_money` ) 一致：如果一致，则将 `&money` 修改为新值（ `local_money-1` ），并返回true; 如果不一致，则说明有其他 CPU 对该内存进行了更新，不更新值，并返回false。该函数会生成一条原子指令 `lock cmpxchg` 。在 RISC-V 平台上，这会是一条 `amoswap` 指令。
 
 ```c
+// code: alipay2.c
+
 // bool __sync_bool_compare_and_swap (type *ptr, type oldval, type newval). 
 //   -> return true if the comparison is successful and newval is written.
 unsigned long money = 30;
@@ -513,6 +529,8 @@ void sleep(void *chan, spinlock_t *lk) {
 
     Hint: 怎么证明某个值是可能的最小值：1. 所有比它小的值都不可能。2. 存在某种并发顺序，使得产生该最小值的序列是合法的
 
+    采用我们的“数学模型”：每个线程有6个部分：(Load, Store, Load, Store, Load, Store)，有三个这样的线程，对它们进行排列，最后一次 Store 则为三个线程退出后 `sum` 的值。
+
     ```c
     int sum = 0;
     void T_sum() {
@@ -553,14 +571,3 @@ void sleep(void *chan, spinlock_t *lk) {
 
 
 3. 在 "条件变量" 一章的末尾，T2 的 `wakeup` 可以移出 `lk` 的 Critical Section 吗？即 T2 先 `release(lk)` 再 `wakeup()`。
-
-4. 假设有两种线程，每种线程若干个：第一种线程死循环地打印左括号 `(`，第二种线程死循环地打印右括号 `)`。现在要求：打印出来的字符串是平衡的括号（或中间状态），如 `()(())`，最多允许 N 层嵌套括号。
-
-    例如：
-    - `()((()))` 是一个合法的平衡括号。
-    - `())` 不是一个合法的平衡括号。
-    - `((()` 是一个嵌套深度为 2 的平衡括号的中间状态。
-
-    已知有一个变量表示：目前左括号比右括号多了几个。请你写出这两种线程的同步条件。即，每种线程在什么时候可以打印 `(` 或 `)`。
-
-    这两种线程会一直打印，你不需要考虑程序 Ctrl C 结束时产生的字符串是否为一个完整的平衡括号，这时的字符串可以是一个平衡括号的中间状态。
