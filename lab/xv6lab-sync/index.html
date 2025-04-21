@@ -1566,7 +1566,7 @@
 
 <h1 id="mutual-exclusion-synchronization">互斥与同步 Mutual Exclusion &amp; Synchronization<a class="headerlink" href="#mutual-exclusion-synchronization" title="Permanent link">&para;</a></h1>
 <div class="admonition warning">
-<p class="admonition-title">xv6-lab8 代码分支</p>
+<p class="admonition-title">synclab &amp; xv6lab8 代码分支</p>
 <p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab8">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab8</a></p>
 <p>使用命令 <code>git clone https://github.com/yuk1i/SUSTech-OS-2025 -b xv6-lab8 synclab</code> 下载 synclab 代码。</p>
 <p>进入 <code>sync-lab</code> 文件夹中，阅读 <code>README.md</code>（建议课后阅读） 以及执行里面的样例程序。</p>
@@ -1899,7 +1899,7 @@
 <p>T2: <code>E &gt; F</code>, <code>F &gt; sync</code>, <code>sync &gt; G</code>, <code>G &gt; H</code></p>
 </li>
 </ul>
-<p>假设 T1 和 T2 在 <code>sync</code> 这个事件上完成了同步，那么，我们实现了不同线程之间的 "happens-before" 关系： <code>B &gt; sync &gt; G</code>, <code>F &gt; sync &gt; C</code>。</p>
+<p>假设 T1 和 T2 在 <code>sync</code> 这个事件上都会等待对方执行到这里再继续，那么我们可以说 T1 和 T2 完成了一次同步，我们实现了不同线程之间的 "happens-before" 关系： <code>B &gt; sync &gt; G</code>, <code>F &gt; sync &gt; C</code>。</p>
 <h3 id="_9">条件变量<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p>假设我们有三个线程，它们各自死循环地执行 A、B、C 三个函数，我们期望这三个函数总是以 <code>A -&gt; B -&gt; C -&gt; A</code> 的顺序被运行：</p>
 <p><img alt="image" src="../../assets/xv6lab-sync/xv6lab-sync.png" /></p>
@@ -2096,8 +2096,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/d03f82d8, 2025-04-21 17:58:33+08:00" target="_blank" rel="noopener">
-            d03f82d8, 2025-04-21 17:58:33+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/dc15dbe1, 2025-04-21 18:05:22+08:00" target="_blank" rel="noopener">
+            dc15dbe1, 2025-04-21 18:05:22+08:00
         </a>
     </div>
 </div>

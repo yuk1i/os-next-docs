@@ -1565,6 +1565,13 @@
 
 
 <h1 id="mutual-exclusion-synchronization">Mutual Exclusion &amp; Synchronization<a class="headerlink" href="#mutual-exclusion-synchronization" title="Permanent link">&para;</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">synclab &amp; xv6lab8 Code Branch</p>
+<p><a href="https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab8">https://github.com/yuk1i/SUSTech-OS-2025/tree/xv6-lab8</a></p>
+<p>Use the command git clone <a href="https://github.com/yuk1i/SUSTech-OS-2025">https://github.com/yuk1i/SUSTech-OS-2025</a> -b xv6-lab8 synclab to download the synclab code.</p>
+<p>Enter the <code>sync-lab</code> folder, read the README.md (recommended to read after class), and run the example programs inside.</p>
+<p>For the xv6 part of the code, refer to the main repository, and use <code>git clone https://github.com/yuk1i/SUSTechOS xv6lab8</code> to download the code.</p>
+</div>
 <h2 id="multiple-processes-programming">Multiple Processes Programming<a class="headerlink" href="#multiple-processes-programming" title="Permanent link">&para;</a></h2>
 <p>It is often said that processes have independent address spaces, while threads share an address space. This introduces the concept of <strong>shared memory</strong>: multiple threads within a process share a portion of the memory space.</p>
 <p>This leads to a problem: what happens when one thread is reading or writing to a memory address while another thread is also reading or writing to the same address?</p>
@@ -1884,7 +1891,7 @@ In <code>kernel_trap</code>, we check the trap depth and panic if a nested inter
 <p>T2: <code>E &gt; F</code>, <code>F &gt; sync</code>, <code>sync &gt; G</code>, <code>G &gt; H</code></p>
 </li>
 </ul>
-<p>If T1 and T2 synchronize on the <code>sync</code> event, we establish <code>happens-before</code> relationships across threads: <code>B &gt; sync &gt; G</code>, <code>F &gt; sync &gt; C</code>.</p>
+<p>Assume that both T1 and T2 wait on the sync event and continue only after the other has reached this point. In this case, we can say that T1 and T2 have completed a synchronization, and we have established a "happens-before" relationship between different threads: B &gt; sync &gt; G, F &gt; sync &gt; C.</p>
 <h3 id="condition-variables">Condition Variables<a class="headerlink" href="#condition-variables" title="Permanent link">&para;</a></h3>
 <p>Suppose we have three threads, each running functions A, B, and C in an infinite loop, and we want these functions to always execute in the order <code>A -&gt; B -&gt; C -&gt; A</code>:</p>
 <p><img alt="image" src="../../assets/xv6lab-sync/xv6lab-sync.png" /></p>
@@ -2002,6 +2009,7 @@ Therefore, after modifying the condition, we must wake up all threads to recheck
 <li>
 <p>Suppose <code>sum</code> is a shared variable, and three threads concurrently execute the <code>T_sum</code> function. What is the minimum possible value of <code>sum</code> after all threads exit?</p>
 <p>Hint: To prove a value is the minimum: 1. Show that all smaller values are impossible. 2. Demonstrate a valid concurrent execution order that produces this minimum value.</p>
+<p>Using our "mathematical model": each thread has 6 parts: (Load, Store, Load, Store, Load, Store). There are three such threads, and they are arranged in a sequence. The last Store operation determines the value of sum after all three threads have finished.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T_sum</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -2039,15 +2047,6 @@ Therefore, after modifying the condition, we must wake up all threads to recheck
 </li>
 <li>
 <p>In the "Condition Variables" section, can T2's <code>wakeup</code> be moved outside the critical section of <code>lk</code>? That is, can T2 call <code>release(lk)</code> before <code>wakeup()</code>?</p>
-</li>
-<li>
-<p>Suppose there are two types of threads, each with multiple instances: one type loops indefinitely printing left parentheses <code>(</code>, and the other loops indefinitely printing right parentheses <code>)</code>. The requirement is that the printed string forms balanced parentheses (or an intermediate state), such as <code>()(())</code>, with a maximum nesting depth of N.</p>
-<p>For example:
-- <code>()((()))</code> is a valid balanced parenthesis string.
-- <code>())</code> is not a valid balanced parenthesis string.
-- <code>((()</code> is an intermediate state of a balanced parenthesis string with nesting depth 2.</p>
-<p>Given a variable indicating how many more left parentheses than right parentheses exist, write the synchronization conditions for these threads. That is, when can each thread print <code>(</code> or <code>)</code>?</p>
-<p>These threads print indefinitely, and you do not need to consider whether the string is a complete balanced parenthesis string when the program is terminated with Ctrl+C; the string may be an intermediate state of balanced parentheses.</p>
 </li>
 </ol>
 
@@ -2089,8 +2088,8 @@ Therefore, after modifying the condition, we must wake up all threads to recheck
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/d03f82d8, 2025-04-21 17:58:33+08:00" target="_blank" rel="noopener">
-            d03f82d8, 2025-04-21 17:58:33+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/dc15dbe1, 2025-04-21 18:05:22+08:00" target="_blank" rel="noopener">
+            dc15dbe1, 2025-04-21 18:05:22+08:00
         </a>
     </div>
 </div>
