@@ -49,6 +49,7 @@ nav:
     - Week 7 - Userspace: laben/xv6lab-userspace.md
     - Week 8 - User Process: laben/xv6lab-userprocess.md
     - Week 9 - Page Fault: laben/xv6lab-pagefault.md
+    - Week 10 - Mutual Exclusion & Synchronization: laben/xv6lab-sync.md
   - 快速参考手册:
     - 目录: qrh/nav.md
     - VisionFive2 板子教程: qrh/vf2.md
@@ -138,7 +139,14 @@ plugins:
           subtitle: Lab 9 - Page Fault
           include:
           - laben/xv6lab-pagefault
-        
+        - pdf: pdf/lab10.pdf
+          subtitle: Lab 10 - 互斥与同步 Mutual Exclusion & Synchronization
+          include:
+          - lab/xv6lab-sync
+        - pdf: pdf/lab10-en.pdf
+          subtitle: Lab 10 - Mutual Exclusion & Synchronization
+          include:
+          - laben/xv6lab-sync
         # - pdf: pdf/oslab-quick-reference-handbook.pdf
         #   include: qrh
 
