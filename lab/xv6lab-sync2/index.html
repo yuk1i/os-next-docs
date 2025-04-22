@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../xv6lab-sync/">
+      
+      
+        <link rel="next" href="../../laben/lab2/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -16,7 +20,7 @@
     
     
       
-        <title>Xv6lab sync2 - 操作系统实验文档</title>
+        <title>Week 12 - 同步 2 Synchronization 2 - 操作系统实验文档</title>
       
     
     
@@ -58,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#-" class="md-skip">
+        <a href="#synchronization-2" class="md-skip">
           跳转至
         </a>
       
@@ -93,7 +97,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Xv6lab sync2
+              Week 12 - 同步 2 Synchronization 2
             
           </span>
         </div>
@@ -201,10 +205,12 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../lab1/" class="md-tabs__link">
           
   
@@ -564,23 +570,28 @@
       
   
   
+    
   
   
+  
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -591,7 +602,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             每周实验
@@ -803,6 +814,132 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Week 12 - 同步 2 Synchronization 2
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Week 12 - 同步 2 Synchronization 2
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#synchronization-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Synchronization 2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronization 2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-race" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Race
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semaphore" class="md-nav__link">
+    <span class="md-ellipsis">
+      Semaphore
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      生产者-消费者模型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invariant" class="md-nav__link">
+    <span class="md-ellipsis">
+      不变量 Invariant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#posix" class="md-nav__link">
+    <span class="md-ellipsis">
+      POSIX
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab 练习
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1182,6 +1319,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#synchronization-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Synchronization 2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronization 2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-race" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Race
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semaphore" class="md-nav__link">
+    <span class="md-ellipsis">
+      Semaphore
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#-" class="md-nav__link">
     <span class="md-ellipsis">
       生产者-消费者模型
@@ -1189,13 +1354,27 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#semaphore" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#invariant" class="md-nav__link">
     <span class="md-ellipsis">
-      Semaphore
+      不变量 Invariant
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#posix" class="md-nav__link">
+    <span class="md-ellipsis">
+      POSIX
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1226,18 +1405,55 @@
   
 
 
-  <h1>Xv6lab sync2</h1>
+  <h1>Week 12 - 同步 2 Synchronization 2</h1>
 
-<h3 id="-">生产者-消费者模型<a class="headerlink" href="#-" title="Permanent link">&para;</a></h3>
+<h2 id="synchronization-2">Synchronization 2<a class="headerlink" href="#synchronization-2" title="Permanent link">&para;</a></h2>
+<h3 id="data-race">Data Race<a class="headerlink" href="#data-race" title="Permanent link">&para;</a></h3>
+<p>我们在上节课没有给数据竞争一个精准的定义，我们现在补上它：</p>
+<p>Two (or more) memory operations <strong>conflict</strong> if they access the same location and at least one of them is a write operation.</p>
+<p>如果多个内存访问访问同一个地址、并且至少一个为写，我们称这种情况为数据竞争。</p>
+<div class="admonition info">
+<p class="admonition-title">如果我们不让写，那是不是可以并发地读？</p>
+<p>这就是 <code>rwlock</code> 的设计原理，我们将对共享资源（内存）的访问分为读、写两种情况。<code>lock</code> 操作分为 <code>rdlock</code> 和 <code>wrlock</code>。</p>
+<p>在同一时刻，所有读者 (reader) 可以并发地读（同时从 <code>rdlock</code> 返回），或者只能有一个写者 (writer)。单个 writer 和所有 reader 以及其他 writer 互斥。</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">如果数据竞争没有副作用 (side-effect)</p>
+<p>假如说，我们允许数据竞争的出现，但是保证它不引起bug，我们就可以避免使用锁了。</p>
+<p>RCU (Read-Copy-Update) 是一种同步机制，用于在由指针链接（如链表）的多个对象中避免使用锁。当更新指针时，所有读者被保证看到的都是旧副本或新副本，其中不会出现数据不一致的情况，例如读到一个非法指针。</p>
+<p>In computer science, read-copy-update (RCU) is a synchronization mechanism that avoids the use of lock primitives while multiple threads concurrently read and update elements that are linked through pointers and that belong to shared data structures (e.g., linked lists, trees, hash tables).</p>
+<p>Whenever a thread is inserting or deleting elements of data structures in shared memory, all readers are guaranteed to see and traverse either the older or the new structure, therefore avoiding inconsistencies (e.g., dereferencing null pointers).</p>
+</div>
 <h3 id="semaphore">Semaphore<a class="headerlink" href="#semaphore" title="Permanent link">&para;</a></h3>
+<p>信号量是一种 <strong>带计数器的互斥锁</strong>，最多有 N 个线程能同时持有同一个 Semaphore。</p>
+<p>我们定义一套原语：<code>sem_acquire</code>/<code>sem_release</code>（也可以写作 <code>P()</code>/<code>V()</code> ）：</p>
+<ol>
+<li>
+<p>在同一时刻，<strong>最多只能有 N 个</strong> 线程将从 <code>sem_acquire</code> 方法中返回。我们称为该线程持有 Semaphore。</p>
+</li>
+<li>
+<p>超过数量的线程会等待（即互斥）。</p>
+</li>
+<li>
+<p>当某线程调用 <code>sem_release</code> 后，持有 Semaphore 的线程总数减一。在等待的线程可以从 <code>sem_acquire</code> 中返回。</p>
+</li>
+</ol>
+<p>我们可以发现，互斥锁 mutex 是 Semaphore 中 N = 1 的特殊情况。</p>
+<p>我们可以用 “有限个数的共享资源” 来理解 Semaphore。例如游泳馆的储物柜、或者停车场的车位。</p>
+<p>在进入游泳馆时，给每个人发一个手环（持有 Semaphore）；只有持有手环的人才能进入游泳馆（互斥）；当储物柜被占满时，我们无法给新来的人发手环了，于是他们只能等待（等待）；离开游泳馆的人要还回手环（释放）。</p>
+<p>我们将在最后一次作业中，在 xv6 上实现信号量，并实现哲学家吃饭问题。</p>
+<h3 id="-">生产者-消费者模型<a class="headerlink" href="#-" title="Permanent link">&para;</a></h3>
+<p>Producer-Consumer 模型</p>
+<h3 id="invariant">不变量 Invariant<a class="headerlink" href="#invariant" title="Permanent link">&para;</a></h3>
+<h3 id="posix">POSIX<a class="headerlink" href="#posix" title="Permanent link">&para;</a></h3>
 <h2 id="lab">Lab 练习<a class="headerlink" href="#lab" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
-<p>假设有两种线程，每种线程若干个：第一种线程死循环地打印左括号 <code>(</code>，第二种线程死循环地打印右括号 <code>)</code>。现在要求：打印出来的字符串是平衡的括号（或中间状态），如 <code>()(())</code>，最多允许 N 层嵌套括号。</p>
+<p>假设有两种线程，每种线程若干个：第一种线程死循环地打印左括号 <code>(</code>，第二种线程死循环地打印右括号 <code>)</code>。现在要求：打印出来的字符串是平衡的括号字符串或其前缀，如 <code>()(())</code> 和 <code>((()</code>，最多允许 N 层嵌套括号。</p>
 <p>例如：
 - <code>()((()))</code> 是一个合法的平衡括号。
 - <code>())</code> 不是一个合法的平衡括号。
-- <code>((()</code> 是一个嵌套深度为 2 的平衡括号的中间状态。</p>
+- <code>((()</code> 是 <code>((()))</code> 的前缀，嵌套深度为 2。</p>
 <p>已知有一个变量表示：目前左括号比右括号多了几个。请你写出这两种线程的同步条件。即，每种线程在什么时候可以打印 <code>(</code> 或 <code>)</code>。</p>
 <p>这两种线程会一直打印，你不需要考虑程序 Ctrl C 结束时产生的字符串是否为一个完整的平衡括号，这时的字符串可以是一个平衡括号的中间状态。</p>
 </li>
@@ -1281,8 +1497,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/dc15dbe1, 2025-04-21 18:05:22+08:00" target="_blank" rel="noopener">
-            dc15dbe1, 2025-04-21 18:05:22+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/0d7b9030, 2025-04-22 22:01:19+08:00" target="_blank" rel="noopener">
+            0d7b9030, 2025-04-22 22:01:19+08:00
         </a>
     </div>
 </div>
