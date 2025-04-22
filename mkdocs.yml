@@ -40,6 +40,7 @@ nav:
     - Week 8 - 进程 Process: lab/xv6lab-userprocess.md
     - Week 9 - 缺页异常 Page Fault: lab/xv6lab-pagefault.md
     - Week 10 - 互斥与同步 Mutual Exclusion & Synchronization: lab/xv6lab-sync.md
+    - Week 12 - 同步 2 Synchronization 2: lab/xv6lab-sync2.md
   - Weekly Lab Material:
     - Week 2 - C language basic & Makefile: laben/lab2.md
     - Week 3 - Bare Metal: laben/xv6lab-baremetal.md
