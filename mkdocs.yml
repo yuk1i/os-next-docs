@@ -53,6 +53,7 @@ nav:
     - Week 8 - User Process: laben/xv6lab-userprocess.md
     - Week 9 - Page Fault: laben/xv6lab-pagefault.md
     - Week 10 - Mutual Exclusion & Synchronization: laben/xv6lab-sync.md
+    - Week 11 - CPU Scheduling: laben/xv6lab-scheduling.md
   - 快速参考手册:
     - 目录: qrh/nav.md
     - VisionFive2 板子教程: qrh/vf2.md
@@ -153,7 +154,11 @@ plugins:
         - pdf: pdf/lab11.pdf
           subtitle: Lab 11 - CPU调度 CPU Scheduling
           include:
-          - lab/xv6lab-sync
+          - lab/xv6lab-scheduling
+        - pdf: pdf/lab11-en.pdf
+          subtitle: Lab 11 - CPU Scheduling
+          include:
+          - laben/xv6lab-scheduling
         # - pdf: pdf/oslab-quick-reference-handbook.pdf
         #   include: qrh
 
