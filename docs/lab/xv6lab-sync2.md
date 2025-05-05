@@ -109,6 +109,8 @@ void* consume(void* data) {
 }
 ```
 
+具体实现可以参照 xv6lab10 中的 `sync_main.c` 文件。
+
 #### Semaphore
 
 我们也可以使用信号量来实现生产者-消费者模型：
