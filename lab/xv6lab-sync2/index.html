@@ -1636,11 +1636,12 @@
 <h3 id="invariant">不变量 Invariant<a class="headerlink" href="#invariant" title="Permanent link">&para;</a></h3>
 <p>什么是不变量 Invariant：不变量（invariant）是在程序执行的 <strong>任何时刻都必须成立的断言(assert)</strong>。</p>
 <p>我们可能在数理逻辑课程上学习过 循环不变量 (loop invariant) 的概念，它表示在一个循环中永远成立的一个条件，通常可以用于证明一个循环的性质。</p>
-<p>在并发编程中，某些复杂的同步问题中会涉及到多个共享变量之间的关系。不变量就是几个变量之间的逻辑关系。通常来说，我们在 Critical Section 中会访问、修改多个共享变量，但是他们之间恒定地满足某种关系。</p>
+<p>在并发编程中，某些复杂的同步问题中会涉及到多个共享变量之间的关系。不变量就是几个变量之间的逻辑关系。假如我们使用两个 <code>int</code> 类型的变量 <code>avail</code> 和 <code>empty</code> 表示一个定长的 Ring Buffer 有多少个对象、多少个空余对象。那么它的不变量就是 <code>avail + empty == N</code>。</p>
 <p>那么，如果我们有时候需要打破不变式，那么我们就使用 Critical Section 将其保护起来，使得其他 CPU 永远不能观测到该不变式被打破了，这也即是我们在之前的课程中提到的：</p>
 <blockquote>
 <p>我们可以将 <code>(A, B)</code> 打包 <strong>一个不可中断的整体</strong>。即，在其他CPU的视角下，这两个事件是在一瞬间就发生完了的（即原子的 (Atomic)）。也就是说，其他CPU不可能看到这个整体的中间状态。</p>
 </blockquote>
+<p>通常来说，我们在 Critical Section 中会访问、修改多个共享变量，但是他们在 Critical Section 之外恒定地满足某种关系。</p>
 <!-- 例如，在上述使用 Semaphore 的例子中，所有代码位置上，该条件永远为真： `empty + avail <= N`。即使是在 `avail/empty --` 到 `critical section` 中间也是如此。所以，我们不能在 `consume` 中先 `post(empty)` 再 `wait(avail)`。 -->
 
 <h2 id="linux-pthread-api">Linux pthread API<a class="headerlink" href="#linux-pthread-api" title="Permanent link">&para;</a></h2>
@@ -1787,8 +1788,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/94c6819c, 2025-05-05 09:11:29+08:00" target="_blank" rel="noopener">
-            94c6819c, 2025-05-05 09:11:29+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/aa7e9e08, 2025-05-05 09:14:38+08:00" target="_blank" rel="noopener">
+            aa7e9e08, 2025-05-05 09:14:38+08:00
         </a>
     </div>
 </div>
