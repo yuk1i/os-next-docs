@@ -895,7 +895,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Synchronization 2">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验目的">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -927,7 +936,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       条件变量
     </span>
@@ -1391,7 +1400,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Synchronization 2">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="实验目的">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1423,7 +1441,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       条件变量
     </span>
@@ -1498,6 +1516,11 @@
   <h1>Week 12 - 同步 2 Synchronization 2</h1>
 
 <h2 id="synchronization-2">Synchronization 2<a class="headerlink" href="#synchronization-2" title="Permanent link">&para;</a></h2>
+<h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li>掌握信号量原理</li>
+<li>掌握生产者消费模型</li>
+</ol>
 <h3 id="data-race">Data Race<a class="headerlink" href="#data-race" title="Permanent link">&para;</a></h3>
 <p>在 Sychronization 1 的课程内容中，我们没有给数据竞争一个精准的定义，我们现在补上它：</p>
 <p>Two (or more) memory operations <strong>conflict</strong> if they access the same location and at least one of them is a write operation.</p>
@@ -1549,7 +1572,7 @@
 </ul>
 <p>在 Producer 和 Comsumer 之间，我们完成了一种同步：同一个 object 的生产必须 happens-before 消费。</p>
 <p>通常来说，缓冲区一般是固定大小的数组（一旦创建后不再扩容），例如 Ring Buffer。</p>
-<h4 id="_1">条件变量<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<h4 id="_2">条件变量<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
 <p>有了同步条件后，我们可以使用上次课程中学习的条件变量来完成同步：同步的对象 (chan) 为 <code>&amp;buf</code>，保护它的 spinlock 为 <code>&amp;buf.lock</code>；每当往 buffer 中放置/取走数据后，我们使用 <code>wakeup</code> 通知所有在该对象上 <code>sleep</code> 的线程。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">buffer</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">spinlock_t</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
@@ -1797,8 +1820,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/35a23ed1, 2025-05-05 15:59:12+08:00" target="_blank" rel="noopener">
-            35a23ed1, 2025-05-05 15:59:12+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/1f49022f, 2025-05-05 16:00:35+08:00" target="_blank" rel="noopener">
+            1f49022f, 2025-05-05 16:00:35+08:00
         </a>
     </div>
 </div>
