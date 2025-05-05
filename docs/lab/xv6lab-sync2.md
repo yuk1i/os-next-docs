@@ -109,7 +109,12 @@ void* consume(void* data) {
 }
 ```
 
-具体实现可以参照 xv6lab10 中的 `sync_main.c` 文件。
+具体实现可以参照 xv6lab10 中的 `sync_main.c` 文件。你可以尝试注释掉 `producer` 和 `consumer` 中的条件检查，观察是否能通过检查。
+
+```c
+        while (is_empty(&buf)) sleep(&buf, &buf.lock);
+        assert(!is_empty(&buf));
+```
 
 #### Semaphore
 
