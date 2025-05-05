@@ -1,5 +1,10 @@
 ## Synchronization 2
 
+## 实验目的
+
+1. 掌握信号量原理
+2. 掌握生产者消费模型
+
 ### Data Race
 
 在 Sychronization 1 的课程内容中，我们没有给数据竞争一个精准的定义，我们现在补上它：
