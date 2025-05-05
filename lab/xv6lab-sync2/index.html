@@ -1499,9 +1499,9 @@
 
 <h2 id="synchronization-2">Synchronization 2<a class="headerlink" href="#synchronization-2" title="Permanent link">&para;</a></h2>
 <h3 id="data-race">Data Race<a class="headerlink" href="#data-race" title="Permanent link">&para;</a></h3>
-<p>我们在上节课没有给数据竞争一个精准的定义，我们现在补上它：</p>
+<p>在 Sychronization 1 的课程内容中，我们没有给数据竞争一个精准的定义，我们现在补上它：</p>
 <p>Two (or more) memory operations <strong>conflict</strong> if they access the same location and at least one of them is a write operation.</p>
-<p>如果多个内存访问访问同一个地址、并且至少一个为写，我们称这种情况为数据竞争。</p>
+<p>如果多个内存访问在访问同一个地址、并且至少其中一个为写访问，我们称这种情况为数据竞争。</p>
 <div class="admonition info">
 <p class="admonition-title">如果我们不让写，那是不是可以并发地读？</p>
 <p>这就是 <code>rwlock</code> 的设计原理，我们将对共享资源（内存）的访问分为读、写两种情况。<code>lock</code> 操作分为 <code>rdlock</code> 和 <code>wrlock</code>。</p>
@@ -1518,6 +1518,10 @@
 </div>
 <h3 id="semaphore">Semaphore<a class="headerlink" href="#semaphore" title="Permanent link">&para;</a></h3>
 <p>信号量是一种 <strong>带计数器的互斥锁</strong>。</p>
+<p>我们可以用 “有限个数的共享资源” 来理解 Semaphore。例如游泳馆的储物柜、或者停车场的车位。</p>
+<p>游泳馆有有限个手环，在进入游泳馆时，给每个人发一个手环（持有 Semaphore）；只有持有手环的人才能进入游泳馆（互斥）；当储物柜被占满时，我们无法给新来的人发手环了，于是他们只能等待（等待）；离开游泳馆的人要还回手环（释放）。</p>
+<p>我们可以发现，互斥锁 mutex 是 Semaphore 中 N = 1 的特殊情况。</p>
+<p>信号量有两种主要行为：请求和释放。当信号量有剩余时，则请求的结果是持有信号量直到释放；当信号量没有剩余时，则请求的结果是等待，直到有多余的信号量释放出来则变为持有信号量。</p>
 <p>我们定义一套原语：<code>sem_acquire()</code>/<code>sem_release()</code>（也可以写作 <code>P()</code>/<code>V()</code>、<code>wait()</code>/<code>post()</code>、<code>decrease()</code>/<code>increase()</code>）：</p>
 <ol>
 <li>Semaphore 拥有一个初始值。</li>
@@ -1529,9 +1533,6 @@
 <p>sem_post()  increments  (unlocks)  the  semaphore  pointed  to  by sem.  If the semaphore's value consequently becomes greater than zero, then another process or thread blocked in a sem_wait(3) call will be woken up and proceed to lock the semaphore. </p>
 </blockquote>
 <p>另一个额外的性质：<code>acquire</code> (<code>wait</code>) 可能会导致等待（阻塞），而 <code>release</code> (<code>post</code>) 永远不会导致等待（阻塞）。</p>
-<p>我们可以发现，互斥锁 mutex 是 Semaphore 中 N = 1 的特殊情况。</p>
-<p>我们可以用 “有限个数的共享资源” 来理解 Semaphore。例如游泳馆的储物柜、或者停车场的车位。</p>
-<p>在进入游泳馆时，给每个人发一个手环（持有 Semaphore）；只有持有手环的人才能进入游泳馆（互斥）；当储物柜被占满时，我们无法给新来的人发手环了，于是他们只能等待（等待）；离开游泳馆的人要还回手环（释放）。</p>
 <p>我们将在最后一次作业中，在 xv6 上实现信号量，并实现哲学家吃饭问题。</p>
 <h3 id="-">生产者-消费者模型<a class="headerlink" href="#-" title="Permanent link">&para;</a></h3>
 <p>Producer-Consumer 模型是同步问题和并发编程中非常常见的模型。</p>
@@ -1540,10 +1541,10 @@
 <p>我们可以写出来 Producer 和 Consumer 的同步条件：</p>
 <ul>
 <li>
-<p>Producer (生产数据)：如果缓冲区有空位，放入；否则等待</p>
+<p>Producer (生产数据)：如果缓冲区有空位，放入；否则等待（阻塞）</p>
 </li>
 <li>
-<p>Consumer (消费数据)：如果缓冲区有数据，取走；否则等待</p>
+<p>Consumer (消费数据)：如果缓冲区有数据，取走；否则等待（阻塞）</p>
 </li>
 </ul>
 <p>在 Producer 和 Comsumer 之间，我们完成了一种同步：同一个 object 的生产必须 happens-before 消费。</p>
@@ -1651,8 +1652,12 @@
 <h2 id="linux-pthread-api">Linux pthread API<a class="headerlink" href="#linux-pthread-api" title="Permanent link">&para;</a></h2>
 <p>pthread (posix thread) 库是 Linux 下的多线程库。它有以下几组 API：</p>
 <ol>
-<li>创建线程：<code>pthread_create</code>，等待线程退出：<code>pthread_join</code>。</li>
-<li>互斥锁 mutex（一种 sleeplock）：<code>pthread_mutex_t</code></li>
+<li>
+<p>创建线程：<code>pthread_create</code>，等待线程退出：<code>pthread_join</code>。</p>
+</li>
+<li>
+<p>互斥锁 mutex（一种 sleeplock）：<code>pthread_mutex_t</code></p>
+</li>
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// man pthread_mutex_init</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
@@ -1792,8 +1797,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/6e00707a, 2025-05-05 12:25:01+08:00" target="_blank" rel="noopener">
-            6e00707a, 2025-05-05 12:25:01+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/35a23ed1, 2025-05-05 15:59:12+08:00" target="_blank" rel="noopener">
+            35a23ed1, 2025-05-05 15:59:12+08:00
         </a>
     </div>
 </div>
