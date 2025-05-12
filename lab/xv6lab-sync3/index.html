@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#synchronization-3" class="md-skip">
+        <a href="#_1" class="md-skip">
           跳转至
         </a>
       
@@ -910,15 +910,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#synchronization-3" class="md-nav__link">
-    <span class="md-ellipsis">
-      Synchronization 3
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       实验目的
@@ -1021,17 +1012,17 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sync-1-2-lab" class="md-nav__link">
     <span class="md-ellipsis">
       Sync 1 &amp; 2 Lab 练习解析
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1460,15 +1451,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#synchronization-3" class="md-nav__link">
-    <span class="md-ellipsis">
-      Synchronization 3
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       实验目的
@@ -1571,17 +1553,17 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sync-1-2-lab" class="md-nav__link">
     <span class="md-ellipsis">
       Sync 1 &amp; 2 Lab 练习解析
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1605,7 +1587,6 @@
 
   <h1>Week 13 - 同步 3 Synchronization 3</h1>
 
-<h2 id="synchronization-3">Synchronization 3<a class="headerlink" href="#synchronization-3" title="Permanent link">&para;</a></h2>
 <h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ol>
 <li>掌握并发 Bug 出现的原因和解决办法</li>
@@ -1826,7 +1807,7 @@ If another thread changed the value of the futex word after the calling thread d
 <p class="admonition-title">glibc 源代码</p>
 <p>glibc 源代码非常复杂，它为了性能进行了高度优化。</p>
 <p>这一部分代码位于 <code>nptl/lowlevellock.c</code> 以及 <code>sysdeps/nptl/lowlevellock.h</code>。</p>
-<p><code>pthread_mutex_t</code> 的基础功能是依赖于 <code>lll</code> low</p>
+<p><code>pthread_mutex_t</code> 的基础功能是依赖于 <code>lll</code> lowlevellock</p>
 </div>
 <p><code>pthread_mutex_t</code> 中有一个 <code>uint32_t</code>，表示锁的状态：0 表示未上锁，1 表示上锁了但是没有 waiter，<code>&gt;1</code> 表示上锁但是可能存在 waiter。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">lll_lock</span><span class="p">(</span><span class="kt">uint32_t</span><span class="o">*</span><span class="w"> </span><span class="n">futex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1923,7 +1904,7 @@ If another thread changed the value of the futex word after the calling thread d
 <a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>        |                   |                   (woken-up)
 <a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    (released)         
 </code></pre></div>
-<h3 id="sync-1-2-lab">Sync 1 &amp; 2 Lab 练习解析<a class="headerlink" href="#sync-1-2-lab" title="Permanent link">&para;</a></h3>
+<h2 id="sync-1-2-lab">Sync 1 &amp; 2 Lab 练习解析<a class="headerlink" href="#sync-1-2-lab" title="Permanent link">&para;</a></h2>
 <p>上课讲。</p>
 
 
@@ -1964,8 +1945,8 @@ If another thread changed the value of the futex word after the calling thread d
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/292f5163, 2025-05-12 21:11:23+08:00" target="_blank" rel="noopener">
-            292f5163, 2025-05-12 21:11:23+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/479fab1a, 2025-05-12 21:38:48+08:00" target="_blank" rel="noopener">
+            479fab1a, 2025-05-12 21:38:48+08:00
         </a>
     </div>
 </div>
