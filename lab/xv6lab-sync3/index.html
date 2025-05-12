@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#bug" class="md-skip">
+        <a href="#synchronization-3" class="md-skip">
           跳转至
         </a>
       
@@ -910,6 +910,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#synchronization-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Synchronization 3
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#bug" class="md-nav__link">
     <span class="md-ellipsis">
       并发 Bug
@@ -933,15 +951,6 @@
   <a href="#aa-deadlock" class="md-nav__link">
     <span class="md-ellipsis">
       AA-deadlock
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      防御性编程
     </span>
   </a>
   
@@ -976,18 +985,51 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#futex" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      Futex
+      用户模式下的锁
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="用户模式下的锁">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-lost-wake-up-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Lost Wake-Up Problem
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#futex" class="md-nav__link">
+    <span class="md-ellipsis">
+      futex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pthread_mutex_t" class="md-nav__link">
+    <span class="md-ellipsis">
+      pthread_mutex_t
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#sync-1-2-lab" class="md-nav__link">
+  <a href="#virtual-file-system" class="md-nav__link">
     <span class="md-ellipsis">
-      Sync 1 &amp; 2 Lab 练习解析
+      Virtual File System
     </span>
   </a>
   
@@ -1418,6 +1460,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#synchronization-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Synchronization 3
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      实验目的
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#bug" class="md-nav__link">
     <span class="md-ellipsis">
       并发 Bug
@@ -1441,15 +1501,6 @@
   <a href="#aa-deadlock" class="md-nav__link">
     <span class="md-ellipsis">
       AA-deadlock
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      防御性编程
     </span>
   </a>
   
@@ -1484,18 +1535,51 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#futex" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      Futex
+      用户模式下的锁
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="用户模式下的锁">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-lost-wake-up-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Lost Wake-Up Problem
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#futex" class="md-nav__link">
+    <span class="md-ellipsis">
+      futex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pthread_mutex_t" class="md-nav__link">
+    <span class="md-ellipsis">
+      pthread_mutex_t
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#sync-1-2-lab" class="md-nav__link">
+  <a href="#virtual-file-system" class="md-nav__link">
     <span class="md-ellipsis">
-      Sync 1 &amp; 2 Lab 练习解析
+      Virtual File System
     </span>
   </a>
   
@@ -1521,9 +1605,17 @@
 
   <h1>Week 13 - 同步 3 & VFS Synchronization 3 & VFS</h1>
 
+<h2 id="synchronization-3">Synchronization 3<a class="headerlink" href="#synchronization-3" title="Permanent link">&para;</a></h2>
+<h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li>掌握并发 Bug 出现的原因和解决办法</li>
+<li>掌握死锁的必要条件</li>
+<li>掌握用户模式上锁的方式</li>
+</ol>
 <h2 id="bug">并发 Bug<a class="headerlink" href="#bug" title="Permanent link">&para;</a></h2>
+<p>为了保护资源，我们需要进行上锁，但是上锁是个非常复杂且精细的操作，所以我们可能出现因为上锁的顺序不对导致 <strong>死锁</strong> 的情况，也可能出现因为上锁方式错了导致 <strong>data race</strong> 依然存在的情况。我们称它们为并发 Bug 。</p>
 <h3 id="deadlock">Deadlock<a class="headerlink" href="#deadlock" title="Permanent link">&para;</a></h3>
-<p>上锁是一个非常精细的步骤，而最常见的问题就是死锁。死锁问题通常分为两种：AA-deadlock 和 ABBA-deadlock。</p>
+<p>死锁问题通常分为两种：AA-deadlock 和 ABBA-deadlock。</p>
 <h4 id="aa-deadlock">AA-deadlock<a class="headerlink" href="#aa-deadlock" title="Permanent link">&para;</a></h4>
 <p>AA-deadlock 表示你在对一把已经获得了的锁重新上锁：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lk</span><span class="p">);</span>
@@ -1557,7 +1649,7 @@
 </code></pre></div>
 <p>当控制流从 <code>B</code> 进入 <code>A</code> 时是不会死锁的，而从 <code>C</code> 进入 <code>A</code> 时会死锁。</p>
 <p>以及想象另一种情况，你 debug 找到了一个并发 bug；为了解决它，你在 <code>A</code> 中加入了上锁解锁的代码；你可能认为只有 <code>B</code> 会调用 <code>A</code>，而实际上存在 <code>C -&gt; A</code> 这一条调用链，而这条调用链里面你在 <code>C</code> 中上了锁。</p>
-<h4 id="_1">防御性编程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<p><strong>如何解决？</strong></p>
 <p>xv6 中，我们使用防御性编程来避免这种问题：</p>
 <ol>
 <li>
@@ -1602,8 +1694,8 @@
 </ul>
 <p>我们可以总结出死锁产生的 <strong>必要条件</strong>，将锁（可以推广为“共享资源”）视为一个球：</p>
 <ol>
-<li>Mutual Exclusion: 拿到的完整的球，不可能出现一人一半的情况</li>
-<li>Hold and Wait：持有球的情况下等待额外的球</li>
+<li>Mutual Exclusion: 一个人拿到的完整的球，不可能两个人同时拿到一部分球。</li>
+<li>Hold and wait：持有球的情况下等待额外的球</li>
 <li>No-Preemption：不能抢别人手里的球</li>
 <li>Circular wait：形成循环等待的关系</li>
 </ol>
@@ -1629,22 +1721,21 @@ condition). </p>
 <p>如果避免环：我们可以给锁编号(Lock Ordering)，强制按照从小到大的顺序上锁。</p>
 <p>此外，我们也可以动态检测死锁。</p>
 <h3 id="data-race">Data Race<a class="headerlink" href="#data-race" title="Permanent link">&para;</a></h3>
-<p>有时候，我们即使对共享资源的访问上了锁，但是没有上对，仍然会有数据竞争的并发 bug，主要是以下两种：</p>
+<p>关于数据竞争的并发 bug，主要是以下两种：</p>
 <ol>
 <li>上错了锁</li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span><span class="w"> </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">B</span><span class="p">);</span><span class="w"> </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">B</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T_1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span><span class="w"> </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T_2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">B</span><span class="p">);</span><span class="w"> </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">B</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <ol>
 <li>忘记上锁</li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span><span class="w"> </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T_1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">spin_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span><span class="w"> </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">T_2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">sum</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
-<p>即使 T1 访问 sum 时上了锁，但是它依然和 T2 有 data race。结论是，对于同一个共享变量，我们应该总是使用同一把锁来保护。</p>
-<p>即使是 Mozilla 和 Google 的程序员也会犯这种错误。</p>
-<h2 id="futex">Futex<a class="headerlink" href="#futex" title="Permanent link">&para;</a></h2>
+<h2 id="_2">用户模式下的锁<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="the-lost-wake-up-problem">The Lost Wake-Up Problem<a class="headerlink" href="#the-lost-wake-up-problem" title="Permanent link">&para;</a></h3>
 <p>在之前的课程中，我们介绍并发和同步的代码均是在内核模式中介绍的。那么，在用户模式下的互斥与同步是怎么实现的？</p>
 <div class="admonition info">
 <p class="admonition-title">共享内存</p>
@@ -1697,11 +1788,12 @@ condition). </p>
 <a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="p">}</span>
 </code></pre></div>
 <p>然后，我们就会陷入和 Sync 1 课上讲的 "The Lost Wake-Up Problem" 一样的问题，<code>syscall_sleep</code> 可能会导致唤醒信号丢失。</p>
-<p>最简单的正确方法即是将所有加锁和解锁的操作都放置到内核处理。但是，系统调用是一种相当耗时的操作，所以我们期望将 fast-path 留在用户态。对于 <code>sleeplock</code> 而言，fast-path 就是没有人争抢锁的情况下，只需要使用一条原子指令标记当前锁被占有，而不需要非常耗时地陷入内核态。</p>
-<p>对于 "lost wakeup" 问题，我们只需要将 slow-path “把自己睡眠” 交给内核处理，并由内核实现与 wakeup 的互斥即可。</p>
-<blockquote>
-<p>man 7 futex, man 2 futex</p>
-</blockquote>
+<p>最简单的正确方法即是将所有加锁和解锁的操作都放置到内核处理。但是，系统调用是一种相当耗时的操作，所以我们期望将 fast-path 留在用户态。对于 <code>sleeplock</code> 而言，fast-path 就是没有人争抢锁的情况下，只需要使用一条原子指令标记当前锁被占有。</p>
+<h3 id="futex">futex<a class="headerlink" href="#futex" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>请在 Linux 环境中执行 man 7 futex 和 man 2 futex 查看其相关文档</p>
+</div>
 <p>futex 是 Linux 内核提供的一个 syscall，用于实现 fast user-space mutexes，其定义如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">long</span><span class="w"> </span><span class="nf">syscall</span><span class="p">(</span><span class="n">SYS_futex</span><span class="p">,</span><span class="w"> </span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="o">*</span><span class="n">uaddr</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">futex_op</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">val</span><span class="p">,</span>
@@ -1709,9 +1801,7 @@ condition). </p>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="o">*</span><span class="n">uaddr2</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">val3</span><span class="p">);</span>
 </code></pre></div>
 <p>它接受一个虚拟地址 uaddr 和用户的预期值 val，以及 futex 的操作 futex_op。
-futex 会通过虚拟地址背后的物理地址来区分调用者将在哪个 futex 对象同步。</p>
-<!-- 所以，对于跨进程的 `shm` 而言，只要它们各自的虚拟地址是同一个物理地址，那它们就可以通过 futex 实现同步。 -->
-
+futex 会通过虚拟地址背后的物理地址来区分不同的 futex 对象。所以，对于跨进程的 <code>shm</code> 而言，只要它们各自的虚拟地址是同一个物理地址，那它们就可以通过 futex 实现同步。</p>
 <p>最重要的两个op是：</p>
 <ol>
 <li>
@@ -1725,15 +1815,18 @@ If another thread changed the value of the futex word after the calling thread d
 </li>
 <li>
 <p><code>FUTEX_WAKE</code>： 唤醒在 <code>uaddr</code> 上等待的所有 waiter。</p>
-<p>This operation wakes at most <code>val</code> of the waiters that are waiting (e.g., inside <code>FUTEX_WAIT</code>) on the futex word at the address <code>uaddr</code>.  Most commonly, val is specified as either 1 (wake up a single waiter) or <code>INT_MAX</code> (wake up all waiters).</p>
+<p>This operation wakes at most <code>val</code> of the waiters that are waiting (e.g., inside <code>FUTEX_WAIT</code>) on the futex word at the addresslevellock 的。
+ <code>uaddr</code>.  Most commonly, val is specified as either 1 (wake up a single waiter) or <code>INT_MAX</code> (wake up all waiters).</p>
 </li>
 </ol>
+<h3 id="pthread_mutex_t">pthread_mutex_t<a class="headerlink" href="#pthread_mutex_t" title="Permanent link">&para;</a></h3>
+<p><code>pthread_mutex_t</code> 是 libc 里面的 pthread 库提供的，它使用futex这个syscall来实现 <strong>mutex</strong> 的功能。</p>
 <p>我们可以一探究竟 <code>pthread_mutex_t</code> 是如何实现的：</p>
 <div class="admonition info">
 <p class="admonition-title">glibc 源代码</p>
-<p>pthread 的实现源代码位于 glibc 源代码中。它为了性能进行了高度优化，所以看起来会非常复杂。</p>
-<p><code>pthread_mutex_t</code> 的基础功能是依赖于 <code>lll</code> lowlevellock 的。</p>
+<p>glibc 源代码非常复杂，它为了性能进行了高度优化。</p>
 <p>这一部分代码位于 <code>nptl/lowlevellock.c</code> 以及 <code>sysdeps/nptl/lowlevellock.h</code>。</p>
+<p><code>pthread_mutex_t</code> 的基础功能是依赖于 <code>lll</code> low</p>
 </div>
 <p><code>pthread_mutex_t</code> 中有一个 <code>uint32_t</code>，表示锁的状态：0 表示未上锁，1 表示上锁了但是没有 waiter，<code>&gt;1</code> 表示上锁但是可能存在 waiter。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">lll_lock</span><span class="p">(</span><span class="kt">uint32_t</span><span class="o">*</span><span class="w"> </span><span class="n">futex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1742,7 +1835,7 @@ If another thread changed the value of the futex word after the calling thread d
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">        </span><span class="c1">// if cmpxhg fails: </span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">        </span><span class="c1">// try to exchange 2 into `*futex`, return the original value.</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">atomic_exchange_acquire</span><span class="p">(</span><span class="n">futex</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">atomic_exchange_acquire</span><span class="w"> </span><span class="p">(</span><span class="n">futex</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">            </span><span class="c1">// if old value is not `UNLOCKED`</span>
 <a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">            </span><span class="n">syscall_futex</span><span class="p">(</span><span class="n">futex</span><span class="p">,</span><span class="w"> </span><span class="n">FUTEX_WAIT</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"> </span><span class="cm">/* Wait if *futex == 2.  */</span>
@@ -1757,7 +1850,7 @@ If another thread changed the value of the futex word after the calling thread d
 <a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>
 <a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="kt">void</span><span class="w"> </span><span class="nf">lll_unlock</span><span class="p">(</span><span class="kt">uint32_t</span><span class="o">*</span><span class="w"> </span><span class="n">futex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">    </span><span class="c1">// exchange 0 UNLOCKED into futex</span>
-<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">__oldval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atomic_exchange_release</span><span class="p">(</span><span class="n">futex</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">__oldval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atomic_exchange_release</span><span class="w"> </span><span class="p">(</span><span class="n">futex</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 <a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
 <a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">__oldval</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="w">        </span><span class="c1">// wake up one waiter</span>
@@ -1775,7 +1868,7 @@ If another thread changed the value of the futex word after the calling thread d
 <ol>
 <li>将 0 写入 futex，如果旧值大于1，则使用 <code>futex</code> syscall 唤醒一个 waiter。</li>
 </ol>
-<p>你可以试着证明这个锁满足三个锁的要求：Mutual Exclusion, Bounded Waiting, Progress。注意，在用户模式下，每一步执行都是可以被中断的、可以与其他函数执行步骤交错的。</p>
+<p>你可以试着证明这个锁满足三个锁的要求：Mutual Exclusion, Bounded Waiting, Progress。注意，在用户模式下，每一步执行都是被中断、与其他函数执行步骤交错的。</p>
 <p>例如以下例子描述了 T1 T2 竞争锁的流程图：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>        T1                  T2
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>        |                   |
@@ -1830,8 +1923,49 @@ If another thread changed the value of the futex word after the calling thread d
 <a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>        |                   |                   (woken-up)
 <a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    (released)         
 </code></pre></div>
-<h2 id="sync-1-2-lab">Sync 1 &amp; 2 Lab 练习解析<a class="headerlink" href="#sync-1-2-lab" title="Permanent link">&para;</a></h2>
-<p>TODO</p>
+<h2 id="virtual-file-system">Virtual File System<a class="headerlink" href="#virtual-file-system" title="Permanent link">&para;</a></h2>
+<p>在进入文件系统一章前，我们可以先试着了解：<strong>什么是文件？</strong></p>
+<ol>
+<li>
+<p>当讨论文件系统上存储的文件时，<strong>文件是一个字节序列</strong>。</p>
+<p>不管是二进制文件（如 ELF 格式的可执行文件）还是 Markdown 格式的文本文件，它们本质上都是一串字节序列，只不过我们解读 (interpret) 它们的方式不同。</p>
+<p>内存空间也是一个字节序列，所以，能不能将文件的一部分映射到内存空间呢？这就是 <code>mmap(2)</code> 系统调用。</p>
+</li>
+<li>
+<p>当讨论操作系统中内核与用户模式交互时，<strong>文件是内核中一个可以和用户程序交互的对象</strong>。</p>
+<p>当我们使用 <code>open(2)</code> 系统调用打开一个文件路径时，内核返回了一个 <code>int</code> 类型的值，它是文件描述符 file descriptor。</p>
+<p>我们可以使用 <code>read(2)</code>、<code>write(2)</code>、<code>fcntl(2)</code> 等系统调用对这个文件进行读写等操作，它们的原型中均带有一个 <code>fd</code> 参数。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">fcntl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="cm">/* arg */</span><span class="w"> </span><span class="p">);</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="kt">off_t</span><span class="w"> </span><span class="nf">lseek</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">whence</span><span class="p">);</span>
+</code></pre></div>
+<p>Unix 哲学中 Everything is a file. 当然内核可以创建一个不是代表着“文件系统上的文件”的文件描述符。</p>
+<p>例如，我们可以创建一个 fd 来接收 signal！（就是我们project的那个signal）</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">signalfd</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">sigset_t</span><span class="w"> </span><span class="o">*</span><span class="n">mask</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1">// signalfd() creates a file descriptor that can be used to accept signals targeted at the caller.  </span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1">// This provides an alternative to the use of a signal handler or sigwaitinfo(2), and has the advantage that the</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1">//   file descriptor may be monitored by select(2), poll(2), and epoll(7).</span>
+</code></pre></div>
+<p>以及一种特殊的对象 epoll，它可以以非常低的性能代价监控超多 file descriptor 的状态变化。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// epoll_create, epoll_create1 - open an epoll file descriptor. </span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1">//  epoll_create() returns a file descriptor referring to the new epoll instance.</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_create</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1">// This  system call is used to add, modify, or remove entries in the interest list of the epoll(7) instance</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1">//    referred to by the file descriptor epfd.  It requests that the operation op be performed for  the  target</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1">//    file descriptor, fd.</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_ctl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">_Nullable</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1">// epoll_wait - wait for an I/O event on an epoll file descriptor</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_wait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">events</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">maxevents</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
+</code></pre></div>
+<p>我们的控制台对应的文件描述符 0 (stdin), 1 (stdout), 2 (stderr) 也不是存储在磁盘上的文件系统中的一个文件。</p>
+<p>在xv6启动第一个进程时，它会创建两个文件 stdin 和 stdout，分别绑定(install) 到第一个进程的 0 号 fd 和 1 号 fd。</p>
+<p>在第一个进程(init)通过 fork exec 创建第二个进程 <code>sh</code> 时，<code>sh</code> 从 <code>init</code> 手里继承了这两个文件，并且仍然通过 0 和 1 这两个文件描述符索引它们。</p>
+</li>
+</ol>
+<p>总而言之，<strong>文件描述符是用户程序操作内核对象的一个标识符</strong>。当内核创建一个对象后（它可能不是一个“存储在磁盘上的文件”），内核将它绑定到文件描述符表 (File Descriptor Table, fdt) 中的某个整数上，用户可以通过一些系统调用对这个文件进行操作，通过文件描述符来指定操作哪个文件。</p>
 
 
 
@@ -1871,8 +2005,8 @@ If another thread changed the value of the futex word after the calling thread d
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/24a12e52, 2025-05-12 20:21:00+08:00" target="_blank" rel="noopener">
-            24a12e52, 2025-05-12 20:21:00+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/b4411d21, 2025-05-12 20:58:49+08:00" target="_blank" rel="noopener">
+            b4411d21, 2025-05-12 20:58:49+08:00
         </a>
     </div>
 </div>
