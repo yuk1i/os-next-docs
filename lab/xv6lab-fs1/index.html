@@ -16,7 +16,7 @@
     
     
       
-        <title>GDB - 操作系统实验文档</title>
+        <title>Xv6lab fs1 - 操作系统实验文档</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#gdb" class="md-skip">
+        <a href="#io" class="md-skip">
           跳转至
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              GDB
+              Xv6lab fs1
             
           </span>
         </div>
@@ -205,7 +205,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../lab/lab1/" class="md-tabs__link">
+        <a href="../lab1/" class="md-tabs__link">
           
   
   每周实验
@@ -241,7 +241,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../nav/" class="md-tabs__link">
+        <a href="../../qrh/nav/" class="md-tabs__link">
           
   
   快速参考手册
@@ -605,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/lab1/" class="md-nav__link">
+      <a href="../lab1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -626,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/lab2/" class="md-nav__link">
+      <a href="../lab2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -647,7 +647,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-baremetal/" class="md-nav__link">
+      <a href="../xv6lab-baremetal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -668,7 +668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-interrupts/" class="md-nav__link">
+      <a href="../xv6lab-interrupts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -689,7 +689,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-contextswitch/" class="md-nav__link">
+      <a href="../xv6lab-contextswitch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -710,7 +710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-paging/" class="md-nav__link">
+      <a href="../xv6lab-paging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -731,7 +731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-userspace/" class="md-nav__link">
+      <a href="../xv6lab-userspace/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -752,7 +752,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-userprocess/" class="md-nav__link">
+      <a href="../xv6lab-userprocess/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -773,7 +773,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-pagefault/" class="md-nav__link">
+      <a href="../xv6lab-pagefault/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -794,7 +794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-sync/" class="md-nav__link">
+      <a href="../xv6lab-sync/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -815,7 +815,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-scheduling/" class="md-nav__link">
+      <a href="../xv6lab-scheduling/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -836,7 +836,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-sync2/" class="md-nav__link">
+      <a href="../xv6lab-sync2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -857,7 +857,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../lab/xv6lab-sync3/" class="md-nav__link">
+      <a href="../xv6lab-sync3/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1199,7 +1199,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../nav/" class="md-nav__link">
+      <a href="../../qrh/nav/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1220,7 +1220,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../vf2/" class="md-nav__link">
+      <a href="../../qrh/vf2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1241,7 +1241,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ssh-vscode/" class="md-nav__link">
+      <a href="../../qrh/ssh-vscode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1279,8 +1279,56 @@
   
   
   
-    
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#io" class="md-nav__link">
+    <span class="md-ellipsis">
+      I/O
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="I/O">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      串口设备
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      块设备
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtual-file-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Virtual File System
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1298,7 +1346,121 @@
   
 
 
-<h1 id="gdb">GDB<a class="headerlink" href="#gdb" title="Permanent link">&para;</a></h1>
+  <h1>Xv6lab fs1</h1>
+
+<h2 id="io">I/O<a class="headerlink" href="#io" title="Permanent link">&para;</a></h2>
+<p>什么是 I/O 设备？ <strong>I/O 设备就是一堆寄存器</strong>。IO 设备通过寄存器完成与 CPU 的数据交换，然后根据寄存器中的要求完成任务。</p>
+<p>CPU 怎么访问 I/O 设备的寄存器：I/O指令，或 Memory-Mapped Register。</p>
+<div class="admonition success">
+<p class="admonition-title">Recall 计组</p>
+<p>我们可以先回顾一下，在计算机组成原理课的 Project 上，我们要使用 RISC-V 指令点亮一个 FPGA 板子上的一个灯泡。</p>
+<p>而 “FPGA 板子上的灯泡” 是通过 FPGA 芯片上的引脚连接到电路板上的 LED 灯。我们在 FPGA 上编程时，需要使用 <code>reg led[0:7]</code> 创建一些 Registers 并用它驱动 FPGA 芯片的引脚。</p>
+<p>而我们的 CPU 是怎么访问这些寄存器的？计组课可能会教两种方法：创建一种新的指令，专门用它来操作 LED 灯；将 LED 灯这些寄存器映射到 Address Space 上，通过普通的访存指令访问它们。</p>
+</div>
+<h3 id="_1">串口设备<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>在 QEMU 平台和 VisionFive2 上，串口所使用的设备模型是 uart8250。它的 MMIO 接口暴露了 8 个寄存器。具体的细节可见：<a href="https://www.lammertbies.nl/comm/info/serial-uart">https://www.lammertbies.nl/comm/info/serial-uart</a></p>
+<p>uart8250 具有一个读口和一个写口，分别是 <code>RHR</code> 和 <code>THR</code>，它们都是8-bits的寄存器。在寄存器 <code>LSR</code> 中，各有一个 bit 表示读口有数据 (Bit 0, Data available) 和写口空闲（Bit 5, THR is empty）。</p>
+<p>我们通过 Memory-mapped 地址访问设备的寄存器：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#define Reg(reg) ((volatile unsigned char *)(KERNEL_UART0_BASE + (reg)))</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">set_reg</span><span class="p">(</span><span class="n">uint32</span><span class="w"> </span><span class="n">reg</span><span class="p">,</span><span class="w"> </span><span class="n">uint32</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">writeb</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">Reg</span><span class="p">(</span><span class="n">reg</span><span class="p">));</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">static</span><span class="w"> </span><span class="n">uint32</span><span class="w"> </span><span class="nf">read_reg</span><span class="p">(</span><span class="n">uint32</span><span class="w"> </span><span class="n">reg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">readb</span><span class="p">(</span><span class="n">Reg</span><span class="p">(</span><span class="n">reg</span><span class="p">));</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
+</code></pre></div>
+<p>对于写入，我们使用轮询 Polling，只要 <code>LSR.THR</code> 提示 <code>THR</code> 空闲，我们就向 <code>THR</code> 中写入一个字符。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">uart_putchar</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">ch</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">read_reg</span><span class="p">(</span><span class="n">LSR</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">LSR_TX_IDLE</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">set_reg</span><span class="p">(</span><span class="n">THR</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="p">);</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>对于读取，我们使用中断，每当 I/O 设备填充完毕 <code>RHR</code> 后，它会发起一个中断，这个中断将由 PLIC 处理并分发到某个核心上，我们在中断处理函数中读取该字节。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">uart_intr</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uartgetc</span><span class="p">();</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="c1">// infof(&quot;uart: %c&quot;, c);</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="n">consintr</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_2">块设备<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>我们对串口设备的访问是一个字节一个字节的，我们称这种设备为 Character Device。
+与之对应的，块设备的访问是以一个块为单位的，块大小一般为 512B 或 4KiB，我们称这种设备为 Block Device。
+我们所使用的硬盘，包括固态硬盘和机械硬盘，都是块设备。</p>
+<p>在 QEMU 上，块设备一般由 VirtIO Block-Device 提供。</p>
+<p>VirtIO 是一种在虚拟化平台上非常常用的设备模型。它也定义了一堆寄存器接口，并通过 Memory-mapped register 进行访问。</p>
+<div class="admonition info">
+<p class="admonition-title">virtio</p>
+<p>VirtIO 代码位于 <code>fs/virtio.c</code>，你可以参照 VirtIO 手册了解具体的细节。</p>
+<p><a href="https://docs.oasis-open.org/virtio/virtio/v1.3/csd01/virtio-v1.3-csd01.pdf">https://docs.oasis-open.org/virtio/virtio/v1.3/csd01/virtio-v1.3-csd01.pdf</a></p>
+</div>
+<p><code>make run</code> 运行内核，它包含一个基本的操作 Block Device 的代码样例。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">fs_init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">infof</span><span class="p">(</span><span class="s">&quot;fs_init&quot;</span><span class="p">);</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">buf</span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bread</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">b</span><span class="o">-&gt;</span><span class="n">valid</span><span class="p">);</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="n">infof</span><span class="p">(</span><span class="s">&quot;first read done!&quot;</span><span class="p">);</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="n">hexdump</span><span class="p">(</span><span class="n">b</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">BSIZE</span><span class="p">);</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="n">memmove</span><span class="p">(</span><span class="n">b</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello, world!&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">);</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="n">bwrite</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="n">infof</span><span class="p">(</span><span class="s">&quot;first write done!&quot;</span><span class="p">);</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="n">infof</span><span class="p">(</span><span class="s">&quot;fs_init ends&quot;</span><span class="p">);</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">}</span>
+</code></pre></div>
+<p>首先我们通过 <code>bread</code> 读取 0 号设备（我们只有这一个块设备）的第0号块（block no），然后将其最初始的内容覆盖为 "hello world"，随后重新将这个块写入到块设备中。</p>
+<h2 id="virtual-file-system">Virtual File System<a class="headerlink" href="#virtual-file-system" title="Permanent link">&para;</a></h2>
+<p>在进入文件系统一章前，我们可以先试着了解：<strong>什么是文件？</strong></p>
+<ol>
+<li>
+<p>当讨论文件系统上存储的文件时，<strong>文件是一个字节序列</strong>。</p>
+<p>不管是二进制文件（如 ELF 格式的可执行文件）还是 Markdown 格式的文本文件，它们本质上都是一串字节序列，只不过我们解读 (interpret) 它们的方式不同。</p>
+<p>内存空间也是一个字节序列，所以，能不能将文件的一部分映射到内存空间呢？这就是 <code>mmap(2)</code> 系统调用。</p>
+</li>
+<li>
+<p>当讨论操作系统中内核与用户模式交互时，<strong>文件是内核中一个可以和用户程序交互的对象</strong>。</p>
+<p>当我们使用 <code>open(2)</code> 系统调用打开一个文件路径时，内核返回了一个 <code>int</code> 类型的值，它是文件描述符 file descriptor。</p>
+<p>我们可以使用 <code>read(2)</code>、<code>write(2)</code>、<code>fcntl(2)</code> 等系统调用对这个文件进行读写等操作，它们的原型中均带有一个 <code>fd</code> 参数。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">fcntl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="cm">/* arg */</span><span class="w"> </span><span class="p">);</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kt">off_t</span><span class="w"> </span><span class="nf">lseek</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">whence</span><span class="p">);</span>
+</code></pre></div>
+<p>Unix 哲学中 Everything is a file. 当然内核可以创建一个不是代表着“文件系统上的文件”的文件描述符。</p>
+<p>例如，我们可以创建一个 fd 来接收 signal！（就是我们project的那个signal）</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">signalfd</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">sigset_t</span><span class="w"> </span><span class="o">*</span><span class="n">mask</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">// signalfd() creates a file descriptor that can be used to accept signals targeted at the caller.  </span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">// This provides an alternative to the use of a signal handler or sigwaitinfo(2), and has the advantage that the</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">//   file descriptor may be monitored by select(2), poll(2), and epoll(7).</span>
+</code></pre></div>
+<p>以及一种特殊的对象 epoll，它可以以非常低的性能代价监控超多 file descriptor 的状态变化。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// epoll_create, epoll_create1 - open an epoll file descriptor. </span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1">//  epoll_create() returns a file descriptor referring to the new epoll instance.</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_create</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1">// This  system call is used to add, modify, or remove entries in the interest list of the epoll(7) instance</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1">//    referred to by the file descriptor epfd.  It requests that the operation op be performed for  the  target</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">//    file descriptor, fd.</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_ctl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">_Nullable</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">// epoll_wait - wait for an I/O event on an epoll file descriptor</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_wait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">events</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">maxevents</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
+</code></pre></div>
+<p>我们的控制台对应的文件描述符 0 (stdin), 1 (stdout), 2 (stderr) 也不是存储在磁盘上的文件系统中的一个文件。</p>
+<p>在xv6启动第一个进程时，它会创建两个文件 stdin 和 stdout，分别绑定(install) 到第一个进程的 0 号 fd 和 1 号 fd。</p>
+<p>在第一个进程(init)通过 fork exec 创建第二个进程 <code>sh</code> 时，<code>sh</code> 从 <code>init</code> 手里继承了这两个文件，并且仍然通过 0 和 1 这两个文件描述符索引它们。</p>
+</li>
+</ol>
+<p>总而言之，<strong>文件描述符是用户程序操作内核对象的一个标识符</strong>。当内核创建一个对象后（它可能不是一个“存储在磁盘上的文件”），内核将它绑定到文件描述符表 (File Descriptor Table, fdt) 中的某个整数上，用户可以通过一些系统调用对这个文件进行操作，通过文件描述符来指定操作哪个文件。</p>
 
 
 
