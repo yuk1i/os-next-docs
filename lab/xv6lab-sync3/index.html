@@ -1868,7 +1868,7 @@ If another thread changed the value of the futex word after the calling thread d
 <ol>
 <li>将 0 写入 futex，如果旧值大于1，则使用 <code>futex</code> syscall 唤醒一个 waiter。</li>
 </ol>
-<p>你可以试着证明这个锁满足三个锁的要求：Mutual Exclusion, Bounded Waiting, Progress。注意，在用户模式下，每一步执行都是被中断、与其他函数执行步骤交错的。</p>
+<p>你可以试着证明这个锁永远不会 lost wakeup。注意，在用户模式下，每一步执行都是被中断、与其他函数执行步骤交错的。</p>
 <p>例如以下例子描述了 T1 T2 竞争锁的流程图：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>        T1                  T2
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>        |                   |
@@ -1964,8 +1964,8 @@ If another thread changed the value of the futex word after the calling thread d
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/774515ec, 2025-05-12 21:00:27+08:00" target="_blank" rel="noopener">
-            774515ec, 2025-05-12 21:00:27+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/292f5163, 2025-05-12 21:11:23+08:00" target="_blank" rel="noopener">
+            292f5163, 2025-05-12 21:11:23+08:00
         </a>
     </div>
 </div>
