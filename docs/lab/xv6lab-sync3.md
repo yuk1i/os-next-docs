@@ -374,63 +374,6 @@ unlock(store 0, see 2)      |                       |
     (released)         
 ```
 
+### Sync 1 & 2 Lab 练习解析
 
-## Virtual File System
-
-在进入文件系统一章前，我们可以先试着了解：**什么是文件？**
-
-1. 当讨论文件系统上存储的文件时，**文件是一个字节序列**。
-
-    不管是二进制文件（如 ELF 格式的可执行文件）还是 Markdown 格式的文本文件，它们本质上都是一串字节序列，只不过我们解读 (interpret) 它们的方式不同。
-
-    内存空间也是一个字节序列，所以，能不能将文件的一部分映射到内存空间呢？这就是 `mmap(2)` 系统调用。
-
-2. 当讨论操作系统中内核与用户模式交互时，**文件是内核中一个可以和用户程序交互的对象**。
-
-    当我们使用 `open(2)` 系统调用打开一个文件路径时，内核返回了一个 `int` 类型的值，它是文件描述符 file descriptor。
-
-    我们可以使用 `read(2)`、`write(2)`、`fcntl(2)` 等系统调用对这个文件进行读写等操作，它们的原型中均带有一个 `fd` 参数。
-
-    ```c
-    ssize_t read(int fd, void buf[.count], size_t count);
-    ssize_t write(int fd, const void buf[.count], size_t count);
-    int fcntl(int fd, int op, ... /* arg */ );
-    off_t lseek(int fd, off_t offset, int whence);
-    ```
-
-    Unix 哲学中 Everything is a file. 当然内核可以创建一个不是代表着“文件系统上的文件”的文件描述符。
-
-    例如，我们可以创建一个 fd 来接收 signal！（就是我们project的那个signal）
-
-    ```c
-    int signalfd(int fd, const sigset_t *mask, int flags);
-    // signalfd() creates a file descriptor that can be used to accept signals targeted at the caller.  
-    // This provides an alternative to the use of a signal handler or sigwaitinfo(2), and has the advantage that the
-    //   file descriptor may be monitored by select(2), poll(2), and epoll(7).
-    ```
-
-    以及一种特殊的对象 epoll，它可以以非常低的性能代价监控超多 file descriptor 的状态变化。
-
-    ```c
-    // epoll_create, epoll_create1 - open an epoll file descriptor. 
-    //  epoll_create() returns a file descriptor referring to the new epoll instance.
-    int epoll_create(int size);
-
-    // This  system call is used to add, modify, or remove entries in the interest list of the epoll(7) instance
-    //    referred to by the file descriptor epfd.  It requests that the operation op be performed for  the  target
-    //    file descriptor, fd.
-    int epoll_ctl(int epfd, int op, int fd, struct epoll_event *_Nullable event);
-
-    // epoll_wait - wait for an I/O event on an epoll file descriptor
-    int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
-    ```
-
-    我们的控制台对应的文件描述符 0 (stdin), 1 (stdout), 2 (stderr) 也不是存储在磁盘上的文件系统中的一个文件。
-    
-    在xv6启动第一个进程时，它会创建两个文件 stdin 和 stdout，分别绑定(install) 到第一个进程的 0 号 fd 和 1 号 fd。
-
-    在第一个进程(init)通过 fork exec 创建第二个进程 `sh` 时，`sh` 从 `init` 手里继承了这两个文件，并且仍然通过 0 和 1 这两个文件描述符索引它们。
-
-
-总而言之，**文件描述符是用户程序操作内核对象的一个标识符**。当内核创建一个对象后（它可能不是一个“存储在磁盘上的文件”），内核将它绑定到文件描述符表 (File Descriptor Table, fdt) 中的某个整数上，用户可以通过一些系统调用对这个文件进行操作，通过文件描述符来指定操作哪个文件。
-
+上课讲。
