@@ -312,7 +312,7 @@ void lll_unlock(uint32_t* futex) {
 
 1. 将 0 写入 futex，如果旧值大于1，则使用 `futex` syscall 唤醒一个 waiter。
 
-你可以试着证明这个锁满足三个锁的要求：Mutual Exclusion, Bounded Waiting, Progress。注意，在用户模式下，每一步执行都是被中断、与其他函数执行步骤交错的。
+你可以试着证明这个锁永远不会 lost wakeup。注意，在用户模式下，每一步执行都是被中断、与其他函数执行步骤交错的。
 
 例如以下例子描述了 T1 T2 竞争锁的流程图：
 
