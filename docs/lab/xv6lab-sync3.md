@@ -1,8 +1,18 @@
+## Synchronization 3
+
+## 实验目的
+
+1. 掌握并发 Bug 出现的原因和解决办法
+2. 掌握死锁的必要条件
+3. 掌握用户模式上锁的方式
+
 ## 并发 Bug
+
+为了保护资源，我们需要进行上锁，但是上锁是个非常复杂且精细的操作，所以我们可能出现因为上锁的顺序不对导致 **死锁** 的情况，也可能出现因为上锁方式错了导致 **data race** 依然存在的情况。我们称它们为并发 Bug 。
 
 ### Deadlock
 
-上锁是一个非常精细的步骤，而最常见的问题就是死锁。死锁问题通常分为两种：AA-deadlock 和 ABBA-deadlock。
+死锁问题通常分为两种：AA-deadlock 和 ABBA-deadlock。
 
 #### AA-deadlock
 
@@ -47,7 +57,7 @@ void C() {
 
 以及想象另一种情况，你 debug 找到了一个并发 bug；为了解决它，你在 `A` 中加入了上锁解锁的代码；你可能认为只有 `B` 会调用 `A`，而实际上存在 `C -> A` 这一条调用链，而这条调用链里面你在 `C` 中上了锁。
 
-#### 防御性编程
+**如何解决？**
 
 xv6 中，我们使用防御性编程来避免这种问题：
 
@@ -96,8 +106,8 @@ ABBA 型死锁则是：线程 1 以 `A -> B` 的顺序上锁，线程2 以 `B ->
 
 我们可以总结出死锁产生的 **必要条件**，将锁（可以推广为“共享资源”）视为一个球：
 
-1. Mutual Exclusion: 拿到的完整的球，不可能出现一人一半的情况
-2. Hold and Wait：持有球的情况下等待额外的球
+1. Mutual Exclusion: 一个人拿到的完整的球，不可能两个人同时拿到一部分球。
+2. Hold and wait：持有球的情况下等待额外的球
 3. No-Preemption：不能抢别人手里的球
 4. Circular wait：形成循环等待的关系
 
@@ -128,27 +138,25 @@ ABBA 型死锁则是：线程 1 以 `A -> B` 的顺序上锁，线程2 以 `B ->
 
 ### Data Race
 
-有时候，我们即使对共享资源的访问上了锁，但是没有上对，仍然会有数据竞争的并发 bug，主要是以下两种：
+关于数据竞争的并发 bug，主要是以下两种：
 
 1. 上错了锁
 
 ```c
-void T1() { acquire(&A); sum++; release(&A); }
-void T2() { acquire(&B); sum++; release(&B); }
+void T_1() { spin_lock(&A); sum++; spin_unlock(&A); }
+void T_2() { spin_lock(&B); sum++; spin_unlock(&B); }
 ```
 
 2. 忘记上锁
 
 ```c
-void T1() { acquire(&A); sum++; release(&A); }
-void T2() { sum++; }
+void T_1() { spin_lock(&A); sum++; spin_unlock(&A); }
+void T_2() { sum++; }
 ```
 
-即使 T1 访问 sum 时上了锁，但是它依然和 T2 有 data race。结论是，对于同一个共享变量，我们应该总是使用同一把锁来保护。
+## 用户模式下的锁
 
-即使是 Mozilla 和 Google 的程序员也会犯这种错误。
-
-## Futex
+### The Lost Wake-Up Problem
 
 在之前的课程中，我们介绍并发和同步的代码均是在内核模式中介绍的。那么，在用户模式下的互斥与同步是怎么实现的？
 
@@ -203,15 +211,19 @@ void sleeplock_release(sleeplock_t *lk) {
     // C.
     syscall_wakeup(nextone);
 }
+
 ```
 
 然后，我们就会陷入和 Sync 1 课上讲的 "The Lost Wake-Up Problem" 一样的问题，`syscall_sleep` 可能会导致唤醒信号丢失。
 
-最简单的正确方法即是将所有加锁和解锁的操作都放置到内核处理。但是，系统调用是一种相当耗时的操作，所以我们期望将 fast-path 留在用户态。对于 `sleeplock` 而言，fast-path 就是没有人争抢锁的情况下，只需要使用一条原子指令标记当前锁被占有，而不需要非常耗时地陷入内核态。
+最简单的正确方法即是将所有加锁和解锁的操作都放置到内核处理。但是，系统调用是一种相当耗时的操作，所以我们期望将 fast-path 留在用户态。对于 `sleeplock` 而言，fast-path 就是没有人争抢锁的情况下，只需要使用一条原子指令标记当前锁被占有。
 
-对于 "lost wakeup" 问题，我们只需要将 slow-path “把自己睡眠” 交给内核处理，并由内核实现与 wakeup 的互斥即可。
+### futex
 
-> man 7 futex, man 2 futex
+!!! note
+
+    请在 Linux 环境中执行 man 7 futex 和 man 2 futex 查看其相关文档
+
 
 futex 是 Linux 内核提供的一个 syscall，用于实现 fast user-space mutexes，其定义如下：
 
@@ -223,8 +235,7 @@ long syscall(SYS_futex,
 ```
 
 它接受一个虚拟地址 uaddr 和用户的预期值 val，以及 futex 的操作 futex_op。
-futex 会通过虚拟地址背后的物理地址来区分调用者将在哪个 futex 对象同步。
-<!-- 所以，对于跨进程的 `shm` 而言，只要它们各自的虚拟地址是同一个物理地址，那它们就可以通过 futex 实现同步。 -->
+futex 会通过虚拟地址背后的物理地址来区分不同的 futex 对象。所以，对于跨进程的 `shm` 而言，只要它们各自的虚拟地址是同一个物理地址，那它们就可以通过 futex 实现同步。
 
 最重要的两个op是：
 
@@ -242,16 +253,21 @@ futex 会通过虚拟地址背后的物理地址来区分调用者将在哪个 f
 
 2. `FUTEX_WAKE`： 唤醒在 `uaddr` 上等待的所有 waiter。
 
-    This operation wakes at most `val` of the waiters that are waiting (e.g., inside `FUTEX_WAIT`) on the futex word at the address `uaddr`.  Most commonly, val is specified as either 1 (wake up a single waiter) or `INT_MAX` (wake up all waiters).
+    This operation wakes at most `val` of the waiters that are waiting (e.g., inside `FUTEX_WAIT`) on the futex word at the addresslevellock 的。
+ `uaddr`.  Most commonly, val is specified as either 1 (wake up a single waiter) or `INT_MAX` (wake up all waiters).
+
+### pthread_mutex_t
+
+`pthread_mutex_t` 是 libc 里面的 pthread 库提供的，它使用futex这个syscall来实现 **mutex** 的功能。
 
 我们可以一探究竟 `pthread_mutex_t` 是如何实现的：
 
 !!!info "glibc 源代码"
-    pthread 的实现源代码位于 glibc 源代码中。它为了性能进行了高度优化，所以看起来会非常复杂。
+    glibc 源代码非常复杂，它为了性能进行了高度优化。
     
-    `pthread_mutex_t` 的基础功能是依赖于 `lll` lowlevellock 的。
-
     这一部分代码位于 `nptl/lowlevellock.c` 以及 `sysdeps/nptl/lowlevellock.h`。
+
+    `pthread_mutex_t` 的基础功能是依赖于 `lll` low
 
 `pthread_mutex_t` 中有一个 `uint32_t`，表示锁的状态：0 表示未上锁，1 表示上锁了但是没有 waiter，`>1` 表示上锁但是可能存在 waiter。
 
@@ -262,7 +278,7 @@ void lll_lock(uint32_t* futex) {
         // if cmpxhg fails: 
 
         // try to exchange 2 into `*futex`, return the original value.
-        while (atomic_exchange_acquire(futex, 2) != 0) {
+        while (atomic_exchange_acquire (futex, 2) != 0) {
 
             // if old value is not `UNLOCKED`
             syscall_futex(futex, FUTEX_WAIT, 2); /* Wait if *futex == 2.  */
@@ -277,7 +293,7 @@ void lll_lock(uint32_t* futex) {
 
 void lll_unlock(uint32_t* futex) {
     // exchange 0 UNLOCKED into futex
-    int __oldval = atomic_exchange_release(futex, 0);
+    int __oldval = atomic_exchange_release (futex, 0);
 
     if (__oldval > 1) {
         // wake up one waiter
@@ -296,7 +312,7 @@ void lll_unlock(uint32_t* futex) {
 
 1. 将 0 写入 futex，如果旧值大于1，则使用 `futex` syscall 唤醒一个 waiter。
 
-你可以试着证明这个锁满足三个锁的要求：Mutual Exclusion, Bounded Waiting, Progress。注意，在用户模式下，每一步执行都是可以被中断的、可以与其他函数执行步骤交错的。
+你可以试着证明这个锁满足三个锁的要求：Mutual Exclusion, Bounded Waiting, Progress。注意，在用户模式下，每一步执行都是被中断、与其他函数执行步骤交错的。
 
 例如以下例子描述了 T1 T2 竞争锁的流程图：
 
@@ -358,7 +374,63 @@ unlock(store 0, see 2)      |                       |
     (released)         
 ```
 
-## Sync 1 & 2 Lab 练习解析
 
-TODO
+## Virtual File System
+
+在进入文件系统一章前，我们可以先试着了解：**什么是文件？**
+
+1. 当讨论文件系统上存储的文件时，**文件是一个字节序列**。
+
+    不管是二进制文件（如 ELF 格式的可执行文件）还是 Markdown 格式的文本文件，它们本质上都是一串字节序列，只不过我们解读 (interpret) 它们的方式不同。
+
+    内存空间也是一个字节序列，所以，能不能将文件的一部分映射到内存空间呢？这就是 `mmap(2)` 系统调用。
+
+2. 当讨论操作系统中内核与用户模式交互时，**文件是内核中一个可以和用户程序交互的对象**。
+
+    当我们使用 `open(2)` 系统调用打开一个文件路径时，内核返回了一个 `int` 类型的值，它是文件描述符 file descriptor。
+
+    我们可以使用 `read(2)`、`write(2)`、`fcntl(2)` 等系统调用对这个文件进行读写等操作，它们的原型中均带有一个 `fd` 参数。
+
+    ```c
+    ssize_t read(int fd, void buf[.count], size_t count);
+    ssize_t write(int fd, const void buf[.count], size_t count);
+    int fcntl(int fd, int op, ... /* arg */ );
+    off_t lseek(int fd, off_t offset, int whence);
+    ```
+
+    Unix 哲学中 Everything is a file. 当然内核可以创建一个不是代表着“文件系统上的文件”的文件描述符。
+
+    例如，我们可以创建一个 fd 来接收 signal！（就是我们project的那个signal）
+
+    ```c
+    int signalfd(int fd, const sigset_t *mask, int flags);
+    // signalfd() creates a file descriptor that can be used to accept signals targeted at the caller.  
+    // This provides an alternative to the use of a signal handler or sigwaitinfo(2), and has the advantage that the
+    //   file descriptor may be monitored by select(2), poll(2), and epoll(7).
+    ```
+
+    以及一种特殊的对象 epoll，它可以以非常低的性能代价监控超多 file descriptor 的状态变化。
+
+    ```c
+    // epoll_create, epoll_create1 - open an epoll file descriptor. 
+    //  epoll_create() returns a file descriptor referring to the new epoll instance.
+    int epoll_create(int size);
+
+    // This  system call is used to add, modify, or remove entries in the interest list of the epoll(7) instance
+    //    referred to by the file descriptor epfd.  It requests that the operation op be performed for  the  target
+    //    file descriptor, fd.
+    int epoll_ctl(int epfd, int op, int fd, struct epoll_event *_Nullable event);
+
+    // epoll_wait - wait for an I/O event on an epoll file descriptor
+    int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
+    ```
+
+    我们的控制台对应的文件描述符 0 (stdin), 1 (stdout), 2 (stderr) 也不是存储在磁盘上的文件系统中的一个文件。
+    
+    在xv6启动第一个进程时，它会创建两个文件 stdin 和 stdout，分别绑定(install) 到第一个进程的 0 号 fd 和 1 号 fd。
+
+    在第一个进程(init)通过 fork exec 创建第二个进程 `sh` 时，`sh` 从 `init` 手里继承了这两个文件，并且仍然通过 0 和 1 这两个文件描述符索引它们。
+
+
+总而言之，**文件描述符是用户程序操作内核对象的一个标识符**。当内核创建一个对象后（它可能不是一个“存储在磁盘上的文件”），内核将它绑定到文件描述符表 (File Descriptor Table, fdt) 中的某个整数上，用户可以通过一些系统调用对这个文件进行操作，通过文件描述符来指定操作哪个文件。
 
