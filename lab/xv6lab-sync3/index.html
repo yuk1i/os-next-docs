@@ -20,7 +20,7 @@
     
     
       
-        <title>Week 13 - 同步 3 & VFS Synchronization 3 & VFS - 操作系统实验文档</title>
+        <title>Week 13 - 同步 3 Synchronization 3 - 操作系统实验文档</title>
       
     
     
@@ -97,7 +97,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Week 13 - 同步 3 & VFS Synchronization 3 & VFS
+              Week 13 - 同步 3 Synchronization 3
             
           </span>
         </div>
@@ -879,7 +879,7 @@
           
   
   <span class="md-ellipsis">
-    Week 13 - 同步 3 & VFS Synchronization 3 & VFS
+    Week 13 - 同步 3 Synchronization 3
   </span>
   
 
@@ -890,7 +890,7 @@
         
   
   <span class="md-ellipsis">
-    Week 13 - 同步 3 & VFS Synchronization 3 & VFS
+    Week 13 - 同步 3 Synchronization 3
   </span>
   
 
@@ -1021,17 +1021,17 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#virtual-file-system" class="md-nav__link">
+          <li class="md-nav__item">
+  <a href="#sync-1-2-lab" class="md-nav__link">
     <span class="md-ellipsis">
-      Virtual File System
+      Sync 1 &amp; 2 Lab 练习解析
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1571,17 +1571,17 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#virtual-file-system" class="md-nav__link">
+          <li class="md-nav__item">
+  <a href="#sync-1-2-lab" class="md-nav__link">
     <span class="md-ellipsis">
-      Virtual File System
+      Sync 1 &amp; 2 Lab 练习解析
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1603,7 +1603,7 @@
   
 
 
-  <h1>Week 13 - 同步 3 & VFS Synchronization 3 & VFS</h1>
+  <h1>Week 13 - 同步 3 Synchronization 3</h1>
 
 <h2 id="synchronization-3">Synchronization 3<a class="headerlink" href="#synchronization-3" title="Permanent link">&para;</a></h2>
 <h2 id="_1">实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
@@ -1923,49 +1923,8 @@ If another thread changed the value of the futex word after the calling thread d
 <a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>        |                   |                   (woken-up)
 <a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    (released)         
 </code></pre></div>
-<h2 id="virtual-file-system">Virtual File System<a class="headerlink" href="#virtual-file-system" title="Permanent link">&para;</a></h2>
-<p>在进入文件系统一章前，我们可以先试着了解：<strong>什么是文件？</strong></p>
-<ol>
-<li>
-<p>当讨论文件系统上存储的文件时，<strong>文件是一个字节序列</strong>。</p>
-<p>不管是二进制文件（如 ELF 格式的可执行文件）还是 Markdown 格式的文本文件，它们本质上都是一串字节序列，只不过我们解读 (interpret) 它们的方式不同。</p>
-<p>内存空间也是一个字节序列，所以，能不能将文件的一部分映射到内存空间呢？这就是 <code>mmap(2)</code> 系统调用。</p>
-</li>
-<li>
-<p>当讨论操作系统中内核与用户模式交互时，<strong>文件是内核中一个可以和用户程序交互的对象</strong>。</p>
-<p>当我们使用 <code>open(2)</code> 系统调用打开一个文件路径时，内核返回了一个 <code>int</code> 类型的值，它是文件描述符 file descriptor。</p>
-<p>我们可以使用 <code>read(2)</code>、<code>write(2)</code>、<code>fcntl(2)</code> 等系统调用对这个文件进行读写等操作，它们的原型中均带有一个 <code>fd</code> 参数。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">fcntl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="cm">/* arg */</span><span class="w"> </span><span class="p">);</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="kt">off_t</span><span class="w"> </span><span class="nf">lseek</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">whence</span><span class="p">);</span>
-</code></pre></div>
-<p>Unix 哲学中 Everything is a file. 当然内核可以创建一个不是代表着“文件系统上的文件”的文件描述符。</p>
-<p>例如，我们可以创建一个 fd 来接收 signal！（就是我们project的那个signal）</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">signalfd</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">sigset_t</span><span class="w"> </span><span class="o">*</span><span class="n">mask</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1">// signalfd() creates a file descriptor that can be used to accept signals targeted at the caller.  </span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1">// This provides an alternative to the use of a signal handler or sigwaitinfo(2), and has the advantage that the</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1">//   file descriptor may be monitored by select(2), poll(2), and epoll(7).</span>
-</code></pre></div>
-<p>以及一种特殊的对象 epoll，它可以以非常低的性能代价监控超多 file descriptor 的状态变化。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// epoll_create, epoll_create1 - open an epoll file descriptor. </span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1">//  epoll_create() returns a file descriptor referring to the new epoll instance.</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_create</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1">// This  system call is used to add, modify, or remove entries in the interest list of the epoll(7) instance</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1">//    referred to by the file descriptor epfd.  It requests that the operation op be performed for  the  target</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1">//    file descriptor, fd.</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_ctl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">_Nullable</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1">// epoll_wait - wait for an I/O event on an epoll file descriptor</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_wait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">events</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">maxevents</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
-</code></pre></div>
-<p>我们的控制台对应的文件描述符 0 (stdin), 1 (stdout), 2 (stderr) 也不是存储在磁盘上的文件系统中的一个文件。</p>
-<p>在xv6启动第一个进程时，它会创建两个文件 stdin 和 stdout，分别绑定(install) 到第一个进程的 0 号 fd 和 1 号 fd。</p>
-<p>在第一个进程(init)通过 fork exec 创建第二个进程 <code>sh</code> 时，<code>sh</code> 从 <code>init</code> 手里继承了这两个文件，并且仍然通过 0 和 1 这两个文件描述符索引它们。</p>
-</li>
-</ol>
-<p>总而言之，<strong>文件描述符是用户程序操作内核对象的一个标识符</strong>。当内核创建一个对象后（它可能不是一个“存储在磁盘上的文件”），内核将它绑定到文件描述符表 (File Descriptor Table, fdt) 中的某个整数上，用户可以通过一些系统调用对这个文件进行操作，通过文件描述符来指定操作哪个文件。</p>
+<h3 id="sync-1-2-lab">Sync 1 &amp; 2 Lab 练习解析<a class="headerlink" href="#sync-1-2-lab" title="Permanent link">&para;</a></h3>
+<p>上课讲。</p>
 
 
 
@@ -2005,8 +1964,8 @@ If another thread changed the value of the futex word after the calling thread d
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/b4411d21, 2025-05-12 20:58:49+08:00" target="_blank" rel="noopener">
-            b4411d21, 2025-05-12 20:58:49+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/774515ec, 2025-05-12 21:00:27+08:00" target="_blank" rel="noopener">
+            774515ec, 2025-05-12 21:00:27+08:00
         </a>
     </div>
 </div>
