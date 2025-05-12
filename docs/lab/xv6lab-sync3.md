@@ -47,7 +47,7 @@ void C() {
 
 以及想象另一种情况，你 debug 找到了一个并发 bug；为了解决它，你在 `A` 中加入了上锁解锁的代码；你可能认为只有 `B` 会调用 `A`，而实际上存在 `C -> A` 这一条调用链，而这条调用链里面你在 `C` 中上了锁。
 
-**如何解决？**
+#### 防御性编程
 
 xv6 中，我们使用防御性编程来避免这种问题：
 
@@ -97,7 +97,7 @@ ABBA 型死锁则是：线程 1 以 `A -> B` 的顺序上锁，线程2 以 `B ->
 我们可以总结出死锁产生的 **必要条件**，将锁（可以推广为“共享资源”）视为一个球：
 
 1. Mutual Exclusion: 拿到的完整的球，不可能出现一人一半的情况
-2. Wait-For：持有球的情况下等待额外的球
+2. Hold and Wait：持有球的情况下等待额外的球
 3. No-Preemption：不能抢别人手里的球
 4. Circular wait：形成循环等待的关系
 
@@ -128,21 +128,25 @@ ABBA 型死锁则是：线程 1 以 `A -> B` 的顺序上锁，线程2 以 `B ->
 
 ### Data Race
 
-关于数据竞争的并发 bug，主要是以下两种：
+有时候，我们即使对共享资源的访问上了锁，但是没有上对，仍然会有数据竞争的并发 bug，主要是以下两种：
 
 1. 上错了锁
 
 ```c
-void T_1() { spin_lock(&A); sum++; spin_unlock(&A); }
-void T_2() { spin_lock(&B); sum++; spin_unlock(&B); }
+void T1() { acquire(&A); sum++; release(&A); }
+void T2() { acquire(&B); sum++; release(&B); }
 ```
 
 2. 忘记上锁
 
 ```c
-void T_1() { spin_lock(&A); sum++; spin_unlock(&A); }
-void T_2() { sum++; }
+void T1() { acquire(&A); sum++; release(&A); }
+void T2() { sum++; }
 ```
+
+即使 T1 访问 sum 时上了锁，但是它依然和 T2 有 data race。结论是，对于同一个共享变量，我们应该总是使用同一把锁来保护。
+
+即使是 Mozilla 和 Google 的程序员也会犯这种错误。
 
 ## Futex
 
@@ -199,10 +203,13 @@ void sleeplock_release(sleeplock_t *lk) {
     // C.
     syscall_wakeup(nextone);
 }
+```
 
 然后，我们就会陷入和 Sync 1 课上讲的 "The Lost Wake-Up Problem" 一样的问题，`syscall_sleep` 可能会导致唤醒信号丢失。
 
-最简单的正确方法即是将所有加锁和解锁的操作都放置到内核处理。但是，系统调用是一种相当耗时的操作，所以我们期望将 fast-path 留在用户态。对于 `sleeplock` 而言，fast-path 就是没有人争抢锁的情况下，只需要使用一条原子指令标记当前锁被占有。
+最简单的正确方法即是将所有加锁和解锁的操作都放置到内核处理。但是，系统调用是一种相当耗时的操作，所以我们期望将 fast-path 留在用户态。对于 `sleeplock` 而言，fast-path 就是没有人争抢锁的情况下，只需要使用一条原子指令标记当前锁被占有，而不需要非常耗时地陷入内核态。
+
+对于 "lost wakeup" 问题，我们只需要将 slow-path “把自己睡眠” 交给内核处理，并由内核实现与 wakeup 的互斥即可。
 
 > man 7 futex, man 2 futex
 
@@ -216,7 +223,8 @@ long syscall(SYS_futex,
 ```
 
 它接受一个虚拟地址 uaddr 和用户的预期值 val，以及 futex 的操作 futex_op。
-futex 会通过虚拟地址背后的物理地址来区分不同的 futex 对象。所以，对于跨进程的 `shm` 而言，只要它们各自的虚拟地址是同一个物理地址，那它们就可以通过 futex 实现同步。
+futex 会通过虚拟地址背后的物理地址来区分调用者将在哪个 futex 对象同步。
+<!-- 所以，对于跨进程的 `shm` 而言，只要它们各自的虚拟地址是同一个物理地址，那它们就可以通过 futex 实现同步。 -->
 
 最重要的两个op是：
 
@@ -239,11 +247,11 @@ futex 会通过虚拟地址背后的物理地址来区分不同的 futex 对象�
 我们可以一探究竟 `pthread_mutex_t` 是如何实现的：
 
 !!!info "glibc 源代码"
-    glibc 源代码非常复杂，它为了性能进行了高度优化。
+    pthread 的实现源代码位于 glibc 源代码中。它为了性能进行了高度优化，所以看起来会非常复杂。
     
-    这一部分代码位于 `nptl/lowlevellock.c` 以及 `sysdeps/nptl/lowlevellock.h`。
-
     `pthread_mutex_t` 的基础功能是依赖于 `lll` lowlevellock 的。
+
+    这一部分代码位于 `nptl/lowlevellock.c` 以及 `sysdeps/nptl/lowlevellock.h`。
 
 `pthread_mutex_t` 中有一个 `uint32_t`，表示锁的状态：0 表示未上锁，1 表示上锁了但是没有 waiter，`>1` 表示上锁但是可能存在 waiter。
 
@@ -254,7 +262,7 @@ void lll_lock(uint32_t* futex) {
         // if cmpxhg fails: 
 
         // try to exchange 2 into `*futex`, return the original value.
-        while (atomic_exchange_acquire (futex, 2) != 0) {
+        while (atomic_exchange_acquire(futex, 2) != 0) {
 
             // if old value is not `UNLOCKED`
             syscall_futex(futex, FUTEX_WAIT, 2); /* Wait if *futex == 2.  */
@@ -269,7 +277,7 @@ void lll_lock(uint32_t* futex) {
 
 void lll_unlock(uint32_t* futex) {
     // exchange 0 UNLOCKED into futex
-    int __oldval = atomic_exchange_release (futex, 0);
+    int __oldval = atomic_exchange_release(futex, 0);
 
     if (__oldval > 1) {
         // wake up one waiter
@@ -288,7 +296,7 @@ void lll_unlock(uint32_t* futex) {
 
 1. 将 0 写入 futex，如果旧值大于1，则使用 `futex` syscall 唤醒一个 waiter。
 
-你可以试着证明这个锁满足三个锁的要求：Mutual Exclusion, Bounded Waiting, Progress。注意，在用户模式下，每一步执行都是被中断、与其他函数执行步骤交错的。
+你可以试着证明这个锁满足三个锁的要求：Mutual Exclusion, Bounded Waiting, Progress。注意，在用户模式下，每一步执行都是可以被中断的、可以与其他函数执行步骤交错的。
 
 例如以下例子描述了 T1 T2 竞争锁的流程图：
 
@@ -354,9 +362,99 @@ unlock(store 0, see 2)      |                       |
 
 TODO
 
-## IO
+## I/O
 
-TODO
+什么是 I/O 设备？ **I/O 设备就是一堆寄存器**。IO 设备通过寄存器完成与 CPU 的数据交换，然后根据寄存器中的指令完成任务。
+
+CPU 怎么访问 I/O 设备的寄存器：I/O指令，或 Memory-Mapped Register。
+
+!!!success "Recall 计组"
+    我们可以先回顾一下，在计算机组成原理课的 Project 上，我们要使用 RISC-V 指令点亮一个 FPGA 板子上的一个灯泡。
+
+    而 “FPGA 板子上的灯泡” 是通过 FPGA 芯片上的引脚连接到电路板上的 LED 灯。我们在 FPGA 上编程时，需要使用 `reg led[0:7]` 创建一些 Registers 并用它驱动 FPGA 芯片的引脚。
+
+    而我们的 CPU 是怎么访问这些寄存器的？计组课可能会教两种方法：创建一种新的指令，专门用它来操作 LED 灯；将 LED 灯这些寄存器映射到 Address Space 上，通过普通的访存指令访问它们。
+
+### 串口设备
+
+在 QEMU 平台和 VisionFive2 上，串口所使用的设备模型是 uart8250。它的 MMIO 接口暴露了 8 个寄存器。具体的细节可见：https://www.lammertbies.nl/comm/info/serial-uart
+
+uart8250 具有一个读口和一个写口，分别是 `RHR` 和 `THR`，它们都是8-bits的寄存器。在寄存器 `LSR` 中，各有一个 bit 表示读口有数据 (Bit 0, Data available) 和写口空闲（Bit 5, THR is empty）。
+
+我们通过 Memory-mapped 地址访问设备的寄存器：
+
+```c
+#define Reg(reg) ((volatile unsigned char *)(KERNEL_UART0_BASE + (reg)))
+
+static void set_reg(uint32 reg, uint32 val) {
+    writeb(val, Reg(reg));
+}
+
+static uint32 read_reg(uint32 reg) {
+    return readb(Reg(reg));
+}
+```
+
+对于写入，我们使用轮询 Polling，只要 `LSR.THR` 提示 `THR` 空闲，我们就向 `THR` 中写入一个字符。
+
+```c
+static void uart_putchar(int ch) {
+    while ((read_reg(LSR) & LSR_TX_IDLE) == 0);
+
+    set_reg(THR, ch);
+}
+```
+
+对于读取，我们使用中断，每当 I/O 设备填充完毕 `RHR` 后，它会发起一个中断，我们在中断处理函数中读取该字节。
+
+```c
+void uart_intr() {
+    while (1) {
+        int c = uartgetc();
+        if (c == -1)
+            break;
+        // infof("uart: %c", c);
+        consintr(c);
+    }
+}
+```
+
+### 块设备
+
+我们对串口设备的访问是一个字节一个字节的，我们称这种设备为 Character Device。
+与之对应的，块设备的访问是以一个块为单位的，块大小一般为 512B 或 4KiB，我们称这种设备为 Block Device。
+我们所使用的硬盘，包括固态硬盘和机械硬盘，都是块设备。
+
+在 QEMU 上，块设备一般由 VirtIO Block-Device 提供。
+
+VirtIO 是一种在虚拟化平台上非常常用的设备模型。它也定义了一堆寄存器接口，并通过 Memory-mapped register 进行访问。
+
+!!!info "virtio"
+    VirtIO 代码位于 `fs/virtio.c`，你可以参照 VirtIO 手册了解具体的细节。
+
+    https://docs.oasis-open.org/virtio/virtio/v1.3/csd01/virtio-v1.3-csd01.pdf
+
+`make run` 运行内核，它包含一个基本的操作 Block Device 的代码样例。
+
+```c
+void fs_init() {
+    infof("fs_init");
+
+    struct buf* b = bread(0, 0);
+    assert(b->valid);
+    infof("first read done!");
+
+    hexdump(b->data, BSIZE);
+
+    memmove(b->data, "hello, world!", 13);
+    bwrite(b);
+    infof("first write done!");
+
+    infof("fs_init ends");
+}
+```
+
+首先我们通过 `bread` 读取 0 号设备（我们只有这一个块设备）的第0号块（block no），然后将其最初始的内容覆盖为 "hello world"，随后重新将这个块写入到块设备中。
 
 ## Virtual File System
 
