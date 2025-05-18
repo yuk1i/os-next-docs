@@ -43,6 +43,7 @@ nav:
     - Week 11 - CPU调度 CPU Scheduling: lab/xv6lab-scheduling.md
     - Week 12 - 同步 2 Synchronization 2: lab/xv6lab-sync2.md
     - Week 13 - 同步 3 Synchronization 3: lab/xv6lab-sync3.md
+    - Week 14 - 文件系统 1: lab/xv6lab-fs1.md
     
   - Weekly Lab Material:
     - Week 2 - C language basic & Makefile: laben/lab2.md
