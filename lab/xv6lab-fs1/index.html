@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#filesystem-design" class="md-skip">
+        <a href="#file-system-design" class="md-skip">
           跳转至
         </a>
       
@@ -968,19 +968,19 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#filesystem" class="md-nav__link">
+  <a href="#file-system" class="md-nav__link">
     <span class="md-ellipsis">
-      FileSystem
+      File System
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="FileSystem">
+    <nav class="md-nav" aria-label="File System">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#filesystem-api" class="md-nav__link">
+  <a href="#file-system-api" class="md-nav__link">
     <span class="md-ellipsis">
-      FileSystem API
+      File System API
     </span>
   </a>
   
@@ -990,6 +990,15 @@
   <a href="#in-memory-file-system" class="md-nav__link">
     <span class="md-ellipsis">
       In-Memory File System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      对文件系统的查询与修改
     </span>
   </a>
   
@@ -1010,9 +1019,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#virtual-file-system" class="md-nav__link">
+  <a href="#file-descriptor" class="md-nav__link">
     <span class="md-ellipsis">
-      Virtual File System
+      File Descriptor
     </span>
   </a>
   
@@ -1508,19 +1517,19 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#filesystem" class="md-nav__link">
+  <a href="#file-system" class="md-nav__link">
     <span class="md-ellipsis">
-      FileSystem
+      File System
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="FileSystem">
+    <nav class="md-nav" aria-label="File System">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#filesystem-api" class="md-nav__link">
+  <a href="#file-system-api" class="md-nav__link">
     <span class="md-ellipsis">
-      FileSystem API
+      File System API
     </span>
   </a>
   
@@ -1530,6 +1539,15 @@
   <a href="#in-memory-file-system" class="md-nav__link">
     <span class="md-ellipsis">
       In-Memory File System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      对文件系统的查询与修改
     </span>
   </a>
   
@@ -1550,9 +1568,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#virtual-file-system" class="md-nav__link">
+  <a href="#file-descriptor" class="md-nav__link">
     <span class="md-ellipsis">
-      Virtual File System
+      File Descriptor
     </span>
   </a>
   
@@ -1585,7 +1603,7 @@
   
 
 
-<h1 id="filesystem-design">FileSystem Design<a class="headerlink" href="#filesystem-design" title="Permanent link">&para;</a></h1>
+<h1 id="file-system-design">File System Design<a class="headerlink" href="#file-system-design" title="Permanent link">&para;</a></h1>
 <h2 id="io">I/O<a class="headerlink" href="#io" title="Permanent link">&para;</a></h2>
 <p>什么是 I/O 设备？ <strong>I/O 设备就是一堆寄存器</strong>。IO 设备通过寄存器完成与 CPU 的数据交换，然后根据寄存器中的要求完成任务。</p>
 <p>CPU 怎么访问 I/O 设备的寄存器：I/O指令，或 Memory-Mapped Register。</p>
@@ -1631,6 +1649,7 @@
 <p>我们对串口设备的访问是一个字节一个字节的，我们称这种设备为 Character Device。
 与之对应的，块设备的访问是以一个块为单位的，块大小一般为 2的整数幂，如 512B 或 4KiB，我们称这种设备为 Block Device。
 我们所使用的硬盘，包括固态硬盘和机械硬盘，都是块设备。</p>
+<p>每个块拥有一个唯一的编号，称为 Logical block addressing (LBA)。第一个块为 LBA 0，第二个块为 LBA 1，以此类推。</p>
 <p>在 QEMU 上，块设备一般由 VirtIO Block-Device 提供。</p>
 <p>VirtIO 是一种在虚拟化平台上非常常用的设备模型。它也定义了一堆寄存器接口，并通过 Memory-mapped register 进行访问。</p>
 <div class="admonition info">
@@ -1638,7 +1657,7 @@
 <p>VirtIO 代码位于 <code>fs/virtio.c</code>，你可以参照 VirtIO 手册了解具体的细节。</p>
 <p><a href="https://docs.oasis-open.org/virtio/virtio/v1.3/csd01/virtio-v1.3-csd01.pdf">https://docs.oasis-open.org/virtio/virtio/v1.3/csd01/virtio-v1.3-csd01.pdf</a></p>
 </div>
-<h2 id="filesystem">FileSystem<a class="headerlink" href="#filesystem" title="Permanent link">&para;</a></h2>
+<h2 id="file-system">File System<a class="headerlink" href="#file-system" title="Permanent link">&para;</a></h2>
 <p><strong>文件系统是一个树状结构</strong>。每个节点（统称为 <strong>文件</strong> ）要么是一个目录（directory）要么是一个普通文件（regular file）。树根称为 <strong>根目录</strong>，文件的路径名是从根目录到某个文件的路径上所有文件名的 concat。</p>
 <p><img alt="img" src="../../assets/xv6lab-fs1/fs.png" /></p>
 <p>每个文件拥有一个全局唯一的id，我们称之为 inode number (ino)。每个文件包含一些元信息（metadata），如大小、访问日期、权限等。</p>
@@ -1670,7 +1689,7 @@
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getDirectoryContent</span><span class="p">();</span>
 <a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">}</span>
 </code></pre></div>
-<h3 id="filesystem-api">FileSystem API<a class="headerlink" href="#filesystem-api" title="Permanent link">&para;</a></h3>
+<h3 id="file-system-api">File System API<a class="headerlink" href="#file-system-api" title="Permanent link">&para;</a></h3>
 <p>文件系统 API 就是对这个树的查询、修改等操作。</p>
 <p>对于目录结构，我们可以使用 <code>creat</code> 来创建一个文件、用 <code>mkdir</code> 来创建一个目录、用 <code>unlink</code> 来删除一个文件、用 <code>rmdir</code> 来删除一个目录。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">creat</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">pathname</span><span class="p">,</span><span class="w"> </span><span class="kt">mode_t</span><span class="w"> </span><span class="n">mode</span><span class="p">);</span>
@@ -1678,31 +1697,35 @@
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">unlink</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">pathname</span><span class="p">);</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">rmdir</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">pathname</span><span class="p">);</span>
 </code></pre></div>
-<p>我们可以使用 <code>read</code>, <code>write</code> 来读写一个普通文件的内容，其返回值包含成功读写的字节数。</p>
+<p>我们可以使用 <code>read</code>, <code>write</code> 来读写一个普通文件的内容，其返回值包含成功读写的字节数。如果要删除文件的内容，我们可以使用 <code>truncate</code> 设置文件的大小到 <code>length</code>。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">ftruncate</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">length</span><span class="p">);</span>
 </code></pre></div>
-<p>如果要列出一个目录，我们可以使用 <code>getdents64</code>，内核会在用户的缓冲区中填充多个 <code>struct linux_dirent64</code> 结构体。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">getdents64</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">dirp</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">linux_dirent64</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">ino64_t</span><span class="w">        </span><span class="n">d_ino</span><span class="p">;</span><span class="w">    </span><span class="cm">/* 64-bit inode number */</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="n">off64_t</span><span class="w">        </span><span class="n">d_off</span><span class="p">;</span><span class="w">    </span><span class="cm">/* Not an offset; see getdents() */</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">d_reclen</span><span class="p">;</span><span class="w"> </span><span class="cm">/* Size of this dirent */</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w">  </span><span class="n">d_type</span><span class="p">;</span><span class="w">   </span><span class="cm">/* File type */</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="kt">char</span><span class="w">           </span><span class="n">d_name</span><span class="p">[];</span><span class="w"> </span><span class="cm">/* Filename (null-terminated) */</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">};</span>
+<p>注意：在某些 API 里面，我们使用的是一个 <code>int fd</code> 来表示一个 <strong>打开的文件对象</strong>，我们使用 <code>open</code> syscall 来打开一个位于 <code>pathname</code> 的文件，并返回一个 int 类型的文件描述符。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">open</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">pathname</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+</code></pre></div>
+<p>如果要列出一个目录，我们可以使用 <code>getdents64</code>，传入某个表示目录的 <code>fd</code>，内核会在用户的缓冲区中填充多个 <code>struct linux_dirent64</code> 结构体，其中包含文件名、inode number 和类型。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">getdents64</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">dirp</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">linux_dirent64</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">ino64_t</span><span class="w">        </span><span class="n">d_ino</span><span class="p">;</span><span class="w">    </span><span class="cm">/* 64-bit inode number */</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="n">off64_t</span><span class="w">        </span><span class="n">d_off</span><span class="p">;</span><span class="w">    </span><span class="cm">/* Not an offset; see getdents() */</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">d_reclen</span><span class="p">;</span><span class="w"> </span><span class="cm">/* Size of this dirent */</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w">  </span><span class="n">d_type</span><span class="p">;</span><span class="w">   </span><span class="cm">/* File type */</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="kt">char</span><span class="w">           </span><span class="n">d_name</span><span class="p">[];</span><span class="w"> </span><span class="cm">/* Filename (null-terminated) */</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">};</span>
 </code></pre></div>
 <h3 id="in-memory-file-system">In-Memory File System<a class="headerlink" href="#in-memory-file-system" title="Permanent link">&para;</a></h3>
 <p>我们可以试着在内存中构建一个文件系统。在数据结构课程上，我们学习到可以使用指针或者数组下标来构建一颗树。</p>
 <p>构建文件系统实际上也就是构建一棵树，我们将每个节点称为 <code>inode</code>，并且用“下标”即 <code>inode number</code> 来表示对 <code>inode</code> 的指针。</p>
 <p>每个 <code>inode</code> 拥有一个全局唯一的 id：<code>inode number</code> (<code>ino</code>)，但是我们可以不将它囊括在它自己的结构体 <code>struct inode</code> 中，因为我们永远是通过父级 inode 来找到子级的 inode.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Regular</span><span class="p">,</span><span class="w"> </span><span class="n">Directory</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">type</span><span class="p">;</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">};</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Regular</span><span class="p">,</span><span class="w"> </span><span class="n">Directory</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">type</span><span class="p">;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">};</span>
 </code></pre></div>
 <p>在 <code>struct inode</code> 中，它包含这个文件的类型、大小以及一个数据指针。我们规定：</p>
 <ol>
@@ -1713,20 +1736,74 @@
 <p>对于类型为 Directory 的路径，<code>*data</code> 指针指向一个 <code>struct dirent[]</code> 数组，其具有 <code>size</code> 个 <code>struct dirent</code> 元素，总共大小为 <code>sizeof(struct dirent) * size</code>。</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">dirent</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">ino</span><span class="p">;</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">};</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">dirent</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">ino</span><span class="p">;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">};</span>
 </code></pre></div>
 <p>每个 <code>struct dirent</code> 表示这个目录下的一个文件，它可能是一个普通文件、也可能是一个目录。</p>
 <p>对于目录，它的子文件列表包含两个特殊的 <code>struct dirent</code>： <code>.</code> 和 <code>..</code>。前者表示一个指向它自己的目录，后者表示一个指向它上级目录的目录。</p>
 <p><img alt="img" src="../../assets/xv6lab-fs1/fs-in-memory.png" /></p>
+<h3 id="_3">对文件系统的查询与修改<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>首先，我们考虑对 Regular 文件的内容的读取和修改，在上述的简单模型中，文件的内容直接保存在一个 <code>char*</code> 数组里面。读取和写入可以直接从里面 <code>memcpy</code> 即可，写入则需要额外考虑一种情况：写入的内容可能超过这个数组的大小（即 <code>struct inode</code> 中的 size），这种情况下需要 <strong>扩充这个数组</strong>。</p>
+<p>然后，对于文件的目录结构：</p>
+<ol>
+<li>
+<p>定位一个文件（普通文件和目录）（<code>open</code>）是通过 <code>pathname</code> （如 <code>/etc/passwd</code>、<code>/usr/bin/bash</code>）来定位的，我们可以从根目录开始一级一级的开始查找，最终找到最后一个文件的 <code>struct inode</code>。</p>
+<p>对于 <code>/usr/bin/bash</code>，我们首先从根目录 （ino 0） 开始，在它的 <code>struct dirent[]</code> 中找到它的下一级 <code>usr</code> 目录的 ino 1，然后再从 ino 1 的 <code>struct dirent[]</code> 中找到 <code>bin</code> 的 ino 9，最终从 ino 9 的 <code>struct dirent[]</code> 中找到 <code>bash</code> 的 ino 10。</p>
+</li>
+<li>
+<p>创建普通文件和目录就是在树中添加一个节点：先 <strong>分配一个全局唯一的 inode number</strong>，创建一个 <code>struct inode</code> 结构体，并在其父级目录中的 <code>struct dirent[]</code> 中添加它的文件名和ino。</p>
+<p>假如我们要创建 <code>/etc/passwd0</code> 文件：</p>
+<ol>
+<li>
+<p>先分配一个 inode number 12，然后创建一个 <code>struct inode</code>。</p>
+</li>
+<li>
+<p>找到 <code>/etc/</code> 这个目录的 ino 5，在它的 <code>dirent[]</code> 中添加 <code>passwd0: 12</code></p>
+</li>
+</ol>
+</li>
+</ol>
 <h3 id="memory-vs-disk">Memory v.s. Disk<a class="headerlink" href="#memory-vs-disk" title="Permanent link">&para;</a></h3>
-<p>当我们尝试将上面这个树（即文件系统）保存到磁盘上时，我们必须先理解磁盘上存储数据结构的限制：</p>
-<p>TODO</p>
+<p>当我们尝试将上面这个树（即文件系统）保存到磁盘上时，我们必须先理解磁盘（block device）上存储数据结构的限制：</p>
+<ol>
+<li>
+<p>块设备的读写单位是块大小（512B or 4KiB），并且块设备仅接受以块为单位的读写操作。任何不是对整个块的读写操作将不得不填充并对齐到块大小。所以，我们通常令数据结构对齐到块大小，避免读取一个数据结构时需要跨块读取。</p>
+</li>
+<li>
+<p>块设备上的空间不能保证一定能连续，也就是说没法自由地 <strong>扩充</strong>。</p>
+<p>假如有两个连续的块，前者分给了 <code>/etc/passwd</code>，后者分给了 <code>/etc/passwd0</code>。当我们想扩充 <code>/etc/passwd</code> 的内容时，与它连续的下一个块被分配给了另一个文件，我们无法像使用 <code>malloc</code> 和 <code>realloc</code> 自动扩容内存空间一样扩容前面这个块。</p>
+<p>因此，我们通常使用链表来链接一个文件的所有数据块，也就是有一个 <code>int next[]</code> 数组。当我们想扩充一个普通文件的数据，我们扩充它的所有数据块，并使用 <code>next</code> 指针链接它们。</p>
+<p>如何保存这个 <code>next[]</code> 数组又有两种实现方式：</p>
+<ol>
+<li>
+<p>将 data block 512B 切分为两部分，前 4B 用来存储 <code>next</code> 指针，后 508B 来存储实际的数据。</p>
+</li>
+<li>
+<p>将 <code>next[]</code> 数组单独保存，每个 data block 恰好是 512B。</p>
+</li>
+</ol>
+<p>现代文件系统均使用第二种方法。第一种方法有一些问题：</p>
+<ol>
+<li>
+<p>每个块大小不再是 2 的整数幂。假如我们想读取一个文件的第 114514 字节，我们需要拿 114514 / 508 = 225 余 214，所以这个字节位于第 225 个块的第 214 字节处。使用 2 的整数幂次方可以避免使用除法，而可以直接使用位运算。</p>
+</li>
+<li>
+<p>随机访问性能低。当我们需要定位到一个文件的第 225 个块时，我们要通过 225 次 <code>next</code> 指针才能找到这个块。如果每个 <code>next</code> 指针位于每个块头部，那么为了读取 225 次 <code>next</code> 指针，我们就需要读取 225 个块。但是如果我们将所有 <code>next</code> 指针尽量打包在同一个块中，我们只需要读取 2 个 512B 的块即可。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>如何分配一个空闲的对象？</p>
+<p>我们在两个地方提到了 <strong>分配一个空闲的对象</strong>：第一处是分配 inode number，第二处是分配 data block。</p>
+<p>TODO：</p>
+</li>
+</ol>
+<p>磁盘的随机访问 (Random Access) 性能低下</p>
 <p>我们将在下一节课学习如何在磁盘上存储一个文件系统。</p>
-<h2 id="virtual-file-system">Virtual File System<a class="headerlink" href="#virtual-file-system" title="Permanent link">&para;</a></h2>
-<p>在进入文件系统一章前，我们可以先试着了解：<strong>什么是文件？</strong></p>
+<h2 id="file-descriptor">File Descriptor<a class="headerlink" href="#file-descriptor" title="Permanent link">&para;</a></h2>
+<p>当我们在操作系统中讨论文件时，我们可能有两种东西同时称之为文件。</p>
 <ol>
 <li>
 <p>当讨论文件系统上存储的文件时，<strong>文件是一个字节序列</strong>。</p>
@@ -1737,30 +1814,17 @@
 <p>当讨论操作系统中内核与用户模式交互时，<strong>文件是内核中一个可以和用户程序交互的对象</strong>。</p>
 <p>当我们使用 <code>open(2)</code> 系统调用打开一个文件路径时，内核返回了一个 <code>int</code> 类型的值，它是文件描述符 file descriptor。</p>
 <p>我们可以使用 <code>read(2)</code>、<code>write(2)</code>、<code>fcntl(2)</code> 等系统调用对这个文件进行读写等操作，它们的原型中均带有一个 <code>fd</code> 参数。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">fcntl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="cm">/* arg */</span><span class="w"> </span><span class="p">);</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="kt">off_t</span><span class="w"> </span><span class="nf">lseek</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">whence</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">ssize_t</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">buf</span><span class="p">[.</span><span class="n">count</span><span class="p">],</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">fcntl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="cm">/* arg */</span><span class="w"> </span><span class="p">);</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="kt">off_t</span><span class="w"> </span><span class="nf">lseek</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">whence</span><span class="p">);</span>
 </code></pre></div>
 <p>Unix 哲学中 Everything is a file. 当然内核可以创建一个不是代表着“文件系统上的文件”的文件描述符。</p>
 <p>例如，我们可以创建一个 fd 来接收 signal！（就是我们project的那个signal）</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">signalfd</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">sigset_t</span><span class="w"> </span><span class="o">*</span><span class="n">mask</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1">// signalfd() creates a file descriptor that can be used to accept signals targeted at the caller.  </span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1">// This provides an alternative to the use of a signal handler or sigwaitinfo(2), and has the advantage that the</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">//   file descriptor may be monitored by select(2), poll(2), and epoll(7).</span>
-</code></pre></div>
-<p>以及一种特殊的对象 epoll，它可以以非常低的性能代价监控超多 file descriptor 的状态变化。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">// epoll_create, epoll_create1 - open an epoll file descriptor. </span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1">//  epoll_create() returns a file descriptor referring to the new epoll instance.</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_create</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1">// This  system call is used to add, modify, or remove entries in the interest list of the epoll(7) instance</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1">//    referred to by the file descriptor epfd.  It requests that the operation op be performed for  the  target</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1">//    file descriptor, fd.</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_ctl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">_Nullable</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1">// epoll_wait - wait for an I/O event on an epoll file descriptor</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_wait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">events</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">maxevents</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">signalfd</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">sigset_t</span><span class="w"> </span><span class="o">*</span><span class="n">mask</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1">// signalfd() creates a file descriptor that can be used to accept signals targeted at the caller.  </span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1">// This provides an alternative to the use of a signal handler or sigwaitinfo(2), and has the advantage that the</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1">//   file descriptor may be monitored by select(2), poll(2), and epoll(7).</span>
 </code></pre></div>
 <p>我们的控制台对应的文件描述符 0 (stdin), 1 (stdout), 2 (stderr) 也不是存储在磁盘上的文件系统中的一个文件。</p>
 <p>在xv6启动第一个进程时，它会创建两个文件 stdin 和 stdout，分别绑定(install) 到第一个进程的 0 号 fd 和 1 号 fd。</p>
@@ -1811,8 +1875,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/53a435d7, 2025-05-18 22:40:22+08:00" target="_blank" rel="noopener">
-            53a435d7, 2025-05-18 22:40:22+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/1c35749e, 2025-05-19 12:26:03+08:00" target="_blank" rel="noopener">
+            1c35749e, 2025-05-19 12:26:03+08:00
         </a>
     </div>
 </div>
