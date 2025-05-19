@@ -1766,13 +1766,14 @@
 </li>
 </ol>
 <h3 id="memory-vs-disk">Memory v.s. Disk<a class="headerlink" href="#memory-vs-disk" title="Permanent link">&para;</a></h3>
-<p>当我们尝试将上面这个树（即文件系统）保存到磁盘上时，我们必须先理解磁盘（block device）上存储数据结构的限制：</p>
+<p>当我们尝试将上面这个树（即文件系统）保存到磁盘上时（即 Persistence 持久化），我们必须先理解磁盘（block device）上存储数据结构的特点和限制。</p>
+<p>内存是一种 Random Access 的模型，并且有 Memory Hierarchy 提供缓存加速。而磁盘是为连续访问 (Sequential Access) 优化的，其随机访问 (Random Access) 性能低下。</p>
 <ol>
 <li>
-<p>块设备的读写单位是块大小（512B or 4KiB），并且块设备仅接受以块为单位的读写操作。任何不是对整个块的读写操作将不得不填充并对齐到块大小。所以，我们通常令数据结构对齐到块大小，避免读取一个数据结构时需要跨块读取。</p>
+<p>块设备的读写单位是块大小（512B or 4KiB），并且 <strong>块设备仅接受以块为单位的读写操作</strong> 。任何不是对整个块的读写操作将不得不填充并对齐到块大小。所以，我们通常令数据结构对齐到块大小，避免读取一个数据结构时需要跨块读取。</p>
 </li>
 <li>
-<p>块设备上的空间不能保证一定能连续，也就是说没法自由地 <strong>扩充</strong>。</p>
+<p>块设备上的 <strong>空闲空间</strong> 很难保证一定能连续，也就是说没法自由地 <strong>扩充</strong>。</p>
 <p>假如有两个连续的块，前者分给了 <code>/etc/passwd</code>，后者分给了 <code>/etc/passwd0</code>。当我们想扩充 <code>/etc/passwd</code> 的内容时，与它连续的下一个块被分配给了另一个文件，我们无法像使用 <code>malloc</code> 和 <code>realloc</code> 自动扩容内存空间一样扩容前面这个块。</p>
 <p>因此，我们通常使用链表来链接一个文件的所有数据块，也就是有一个 <code>int next[]</code> 数组。当我们想扩充一个普通文件的数据，我们扩充它的所有数据块，并使用 <code>next</code> 指针链接它们。</p>
 <p>如何保存这个 <code>next[]</code> 数组又有两种实现方式：</p>
@@ -1781,9 +1782,10 @@
 <p>将 data block 512B 切分为两部分，前 4B 用来存储 <code>next</code> 指针，后 508B 来存储实际的数据。</p>
 </li>
 <li>
-<p>将 <code>next[]</code> 数组单独保存，每个 data block 恰好是 512B。</p>
+<p>将 <code>next[]</code> 数组单独保存在一个单独的 data block，每个 data block 恰好是 512B。</p>
 </li>
 </ol>
+<p><img alt="img" src="../../assets/xv6lab-fs1/fs-disk-structure.png" /></p>
 <p>现代文件系统均使用第二种方法。第一种方法有一些问题：</p>
 <ol>
 <li>
@@ -1793,15 +1795,24 @@
 <p>随机访问性能低。当我们需要定位到一个文件的第 225 个块时，我们要通过 225 次 <code>next</code> 指针才能找到这个块。如果每个 <code>next</code> 指针位于每个块头部，那么为了读取 225 次 <code>next</code> 指针，我们就需要读取 225 个块。但是如果我们将所有 <code>next</code> 指针尽量打包在同一个块中，我们只需要读取 2 个 512B 的块即可。</p>
 </li>
 </ol>
+<p>而第二种方法利用了读取的局部性(Locality)，当我们读取某个块的时候，我们有可能也会读取它临近的块，这使得缓存 <code>next[]</code> 数组变得高效。</p>
 </li>
 <li>
 <p>如何分配一个空闲的对象？</p>
 <p>我们在两个地方提到了 <strong>分配一个空闲的对象</strong>：第一处是分配 inode number，第二处是分配 data block。</p>
-<p>TODO：</p>
+<p>如果你对内存分配器有所了解，你可能会知道它是由一个 <code>freelist</code> 构成的，其中包含所有空闲块的链表。但是，内存分配器中的 <code>freelist</code> 的块大小可能是不相等的。</p>
+<p><img alt="img" src="../../assets/xv6lab-fs1/fs-vs-mm-allocator.png" /></p>
+<p>而在块设备上的分配器，所要分配的 block 和 <code>struct inode</code>，具有以下优良的性质：<strong>天然等大的</strong>、个数 <strong>有限的</strong>、可以由唯一的编号定位、并且编号是线性的。</p>
+<p>所以，我们可以使用另一种更加空间上高效的方法来表示 <strong>某个位置上的对象是否被分配</strong>：Bitmap (位图)。</p>
+<p>Bitmap 的核心思想是用 <strong>每个 bit 表示每个对象是否分配</strong>。512B 的块中有 512 * 8 = 4096 bit，所以它能表示 4096 个 block 是否被分配了。具体而言，我们使用 每个 Byte 表示 8 个 block 的状态，其中的 Least Significant Bit 表示这8个块中的第0个块的状态，以此类推。</p>
 </li>
 </ol>
-<p>磁盘的随机访问 (Random Access) 性能低下</p>
-<p>我们将在下一节课学习如何在磁盘上存储一个文件系统。</p>
+<p><strong>总结</strong></p>
+<p>我们概述了如何在 block device 上优雅地保存一个树状数据结构：也就是我们的文件系统。</p>
+<p>我们分为两种重要的对象：data block 和 <code>struct inode</code>，他们都具有一个全局唯一的线性编号 (<code>block number</code>, <code>inode number</code>)，我们使用 bitmap 来分配它们。</p>
+<p>对于 <code>data blocks</code>，我们可以使用一个单独的 <code>data block</code> 作为 <code>next[]</code> 指针，将所有 blocks 串联在一起。</p>
+<p>对于 <code>struct inode</code>，我们使用 <code>children[]</code> 列表在父节点中保存指向子节点的指针。</p>
+<p>我们将在下一节课学习一些真实的文件系统实现。</p>
 <h2 id="file-descriptor">File Descriptor<a class="headerlink" href="#file-descriptor" title="Permanent link">&para;</a></h2>
 <p>当我们在操作系统中讨论文件时，我们可能有两种东西同时称之为文件。</p>
 <ol>
@@ -1875,8 +1886,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/1c35749e, 2025-05-19 12:26:03+08:00" target="_blank" rel="noopener">
-            1c35749e, 2025-05-19 12:26:03+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/a99cdac2, 2025-05-19 14:39:09+08:00" target="_blank" rel="noopener">
+            a99cdac2, 2025-05-19 14:39:09+08:00
         </a>
     </div>
 </div>
