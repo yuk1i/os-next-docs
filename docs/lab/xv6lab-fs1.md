@@ -1,4 +1,10 @@
-# File System Design
+# File System 1
+
+## 实验目的
+
+1. 理解 IO 的两种访问方式 Explicit I/O instructions 和 Memory-mapped I/O
+2. 掌握 Character Device 和 Block Device 的区别
+3. 理解 file system 的设计思路
 
 ## I/O
 
@@ -13,9 +19,11 @@ CPU 怎么访问 I/O 设备的寄存器：I/O指令，或 Memory-Mapped Register
 
     而我们的 CPU 是怎么访问这些寄存器的？计组课可能会教两种方法：创建一种新的指令，专门用它来操作 LED 灯；将 LED 灯这些寄存器映射到 Address Space 上，通过普通的访存指令访问它们。
 
-### 串口设备
+### Character Device
 
-在 QEMU 平台和 VisionFive2 上，串口所使用的设备模型是 uart8250。它的 MMIO 接口暴露了 8 个寄存器。具体的细节可见：https://www.lammertbies.nl/comm/info/serial-uart
+Character Device 指以字节为单位进行数据访问的 IO 设备。
+
+在 QEMU 平台和 VisionFive2 上，串口就是一种 Character Device ，它所使用的设备模型是 uart8250。它的 MMIO 接口暴露了 8 个寄存器。具体的细节可见：https://www.lammertbies.nl/comm/info/serial-uart
 
 uart8250 具有一个读口和一个写口，分别是 `RHR` 和 `THR`，它们都是8-bits的寄存器。在寄存器 `LSR` 中，各有一个 bit 表示读口有数据 (Bit 0, Data available) 和写口空闲（Bit 5, THR is empty）。
 
@@ -33,7 +41,7 @@ static uint32 read_reg(uint32 reg) {
 }
 ```
 
-对于写入，我们使用轮询 Polling，只要 `LSR.THR` 提示 `THR` 空闲，我们就向 `THR` 中写入一个字符。
+对于写入，我们使用 **轮询 Polling** ，只要 `LSR.THR` 提示 `THR` 空闲，我们就向 `THR` 中写入一个字符。
 
 ```c
 static void uart_putchar(int ch) {
@@ -43,7 +51,7 @@ static void uart_putchar(int ch) {
 }
 ```
 
-对于读取，我们使用中断，每当 I/O 设备填充完毕 `RHR` 后，它会发起一个中断，这个中断将由 PLIC 处理并分发到某个核心上，我们在中断处理函数中读取该字节。
+对于读取，我们使用 **中断 Interrupts**，每当 I/O 设备填充完毕 `RHR` 后，它会发起一个中断，这个中断将由 PLIC 处理并分发到某个核心上，我们在中断处理函数中读取该字节。
 
 ```c
 void uart_intr() {
@@ -57,10 +65,9 @@ void uart_intr() {
 }
 ```
 
-### 块设备
+### Block Device
 
-我们对串口设备的访问是一个字节一个字节的，我们称这种设备为 Character Device。
-与之对应的，块设备的访问是以一个块为单位的，块大小一般为 2的整数幂，如 512B 或 4KiB，我们称这种设备为 Block Device。
+对应 Character Device 以字节为单位进行访问，块设备的访问是以一个块为单位的，块大小一般为 2的整数幂，如 512B 或 4KiB，我们称这种设备为 Block Device。
 我们所使用的硬盘，包括固态硬盘和机械硬盘，都是块设备。
 
 每个块拥有一个唯一的编号，称为 Logical block addressing (LBA)。第一个块为 LBA 0，第二个块为 LBA 1，以此类推。
@@ -75,6 +82,8 @@ VirtIO 是一种在虚拟化平台上非常常用的设备模型。它也定义�
     https://docs.oasis-open.org/virtio/virtio/v1.3/csd01/virtio-v1.3-csd01.pdf
 
 ## File System
+
+### 文件系统是什么样的？
 
 **文件系统是一个树状结构**。每个节点（统称为 **文件** ）要么是一个目录（directory）要么是一个普通文件（regular file）。树根称为 **根目录**，文件的路径名是从根目录到某个文件的路径上所有文件名的 concat。
 
@@ -116,9 +125,11 @@ class Directory extends File {
 }
 ```
 
-### File System API
+### 用户可以对文件系统做什么？-- File System API
 
-文件系统 API 就是对这个树的查询、修改等操作。
+操作系统需要对用户模式提供一些必须文件系统 API ，其中包括对文件系统 “树” 的查询、修改等基础操作。
+
+以 Linux 系统为例，有以下 API ：
 
 对于目录结构，我们可以使用 `creat` 来创建一个文件、用 `mkdir` 来创建一个目录、用 `unlink` 来删除一个文件、用 `rmdir` 来删除一个目录。
 
@@ -157,11 +168,11 @@ struct linux_dirent64 {
 };
 ```
 
-### In-Memory File System
+### 如何设计一个 In-Memory File System ？
 
-我们可以试着在内存中构建一个文件系统。在数据结构课程上，我们学习到可以使用指针或者数组下标来构建一颗树。
+如果我们希望在 xv6 的内存中构建一个文件系统，那么我们可以使用在数据结构课程上学习到的指针或者数组下标来构建一颗树。
 
-构建文件系统实际上也就是构建一棵树，我们将每个节点称为 `inode`，并且用“下标”即 `inode number` 来表示对 `inode` 的指针。
+在文件系统“树”中，我们将每个节点称为 `inode`，并且用“下标”即 `inode number` 来表示对 `inode` 的指针。
 
 每个 `inode` 拥有一个全局唯一的 id：`inode number` (`ino`)，但是我们可以不将它囊括在它自己的结构体 `struct inode` 中，因为我们永远是通过父级 inode 来找到子级的 inode.
 
@@ -193,7 +204,7 @@ struct dirent {
 
 ![img](../assets/xv6lab-fs1/fs-in-memory.png)
 
-### 对文件系统的查询与修改
+### 如何实现对文件系统的查询与修改？
 
 首先，我们考虑对 Regular 文件的内容的读取和修改，在上述的简单模型中，文件的内容直接保存在一个 `char*` 数组里面。读取和写入可以直接从里面 `memcpy` 即可，写入则需要额外考虑一种情况：写入的内容可能超过这个数组的大小（即 `struct inode` 中的 size），这种情况下需要 **扩充这个数组**。
 
@@ -211,7 +222,7 @@ struct dirent {
 
     2. 找到 `/etc/` 这个目录的 ino 5，在它的 `dirent[]` 中添加 `passwd0: 12`
 
-### Memory v.s. Disk
+### 内存中的文件系统如何保存到磁盘中？
 
 当我们尝试将上面这个树（即文件系统）保存到磁盘上时（即 Persistence 持久化），我们必须先理解磁盘（block device）上存储数据结构的特点和限制。
 
@@ -310,7 +321,4 @@ struct dirent {
 
 总而言之，**文件描述符是用户程序操作内核对象的一个标识符**。当内核创建一个对象后（它可能不是一个“存储在磁盘上的文件”），内核将它绑定到文件描述符表 (File Descriptor Table, fdt) 中的某个整数上，用户可以通过一些系统调用对这个文件进行操作，通过文件描述符来指定操作哪个文件。
 
-## Lab Report
-
-1. 我们在哪里存储文件名？为什么？
 
