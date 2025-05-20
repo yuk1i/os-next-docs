@@ -43,7 +43,7 @@ nav:
     - Week 11 - CPU调度 CPU Scheduling: lab/xv6lab-scheduling.md
     - Week 12 - 同步 2 Synchronization 2: lab/xv6lab-sync2.md
     - Week 13 - 同步 3 Synchronization 3: lab/xv6lab-sync3.md
-    - Week 14 - 文件系统 1: lab/xv6lab-fs1.md
+    - Week 14 - 文件系统 1 File System 1: lab/xv6lab-fs1.md
     
   - Weekly Lab Material:
     - Week 2 - C language basic & Makefile: laben/lab2.md
@@ -58,6 +58,7 @@ nav:
     - Week 11 - CPU Scheduling: laben/xv6lab-scheduling.md
     - Week 12 - Synchronization 2: laben/xv6lab-sync2.md
     - Week 13 - Synchronization 3: laben/xv6lab-sync3.md
+    - Week 14 - File System 1: laben/xv6lab-fs1.md
   - 快速参考手册:
     - 目录: qrh/nav.md
     - VisionFive2 板子教程: qrh/vf2.md
@@ -179,6 +180,14 @@ plugins:
           subtitle: Lab 13 - Synchronization 3
           include:
           - laben/xv6lab-sync3
+        - pdf: pdf/lab14.pdf
+          subtitle: Lab 14 - 文件系统 1 File System 1
+          include:
+          - lab/xv6lab-fs1
+        - pdf: pdf/lab14-en.pdf
+          subtitle: Lab 14 - File System 1
+          include:
+          - laben/xv6lab-fs1
         # - pdf: pdf/oslab-quick-reference-handbook.pdf
         #   include: qrh
 
