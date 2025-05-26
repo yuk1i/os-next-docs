@@ -1008,8 +1008,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Crash Recovery">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#journaling" class="md-nav__link">
@@ -1017,11 +1016,6 @@
       Journaling
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1551,8 +1545,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Crash Recovery">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#journaling" class="md-nav__link">
@@ -1560,11 +1553,6 @@
       Journaling
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1592,6 +1580,13 @@
 
 
 <h1 id="file-system-2">File System 2<a class="headerlink" href="#file-system-2" title="Permanent link">&para;</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">xv6-lab14 代码分支</p>
+<p><a href="https://github.com/yuk1i/SUSTechOS/tree/fs">https://github.com/yuk1i/SUSTechOS/tree/fs</a></p>
+<p>使用命令 <code>git clone https://github.com/yuk1i/SUSTechOS/ -b fs xv6-labfs</code> 下载 xv6-labfs 代码。</p>
+<p>使用 <code>make run</code> 运行本次 Lab 的内核，它会开始一个文件系统的自测，其源代码位于 <code>fs/fstest.c</code>。</p>
+<p>初始的文件系统由 <code>scripts/mkfs.c</code> 构建，它是一个跑在宿主机上的程序。Makefile 会先调用它创建 <code>fs.img</code>，再启动 QEMU。</p>
+</div>
 <h2 id="virtual-file-system">Virtual File System<a class="headerlink" href="#virtual-file-system" title="Permanent link">&para;</a></h2>
 <p>VFS（Virtual File System，虚拟文件系统）是操作系统内核中的一个关键抽象层，主要用于屏蔽不同文件系统（如 FAT32、ext4等）之间的差异，为用户空间程序提供统一的文件操作接口。
 我们在上节课讨论了 "用户可以对文件系统做什么？"，也就是文件系统暴露的 API，其中包含 <code>open</code>、<code>creat</code>、<code>mkdir</code>、<code>unlink</code>、<code>rmdir</code> 等。</p>
@@ -1921,7 +1916,55 @@
 <p>如果说块设备的写入单位是块，那么我们可以假设每次块设备写入一个块的操作都是原子的。按照我们在同步所讲的，既然我们不期望中间状态被其它人发现，那么只需要将好几步操作打包成”一个原子的操作“即可。但是块设备并没有提供原子的 multi-write。</p>
 <p>更讨厌的是，块设备会因为性能原因 reorder 我们的写入请求（想象一下旋转的磁盘，优先处理将要转到的 LBA），以及在数据未落盘时就从 <code>bwrite</code> 中返回。假如磁盘先修改了 inode 再修改了 bitmap，而前者落盘成功后者没有落盘，该 inode 会引用到一个未被分配的块，那假如这个块又被分配给其他人了？</p>
 <p>为了对抗 reorder，我们可以引入一种新的块设备 IO 命令：fence。它强制要求块设备在落盘前面的写入前，不得处理后面的写入。</p>
-<h4 id="journaling">Journaling<a class="headerlink" href="#journaling" title="Permanent link">&para;</a></h4>
+<h3 id="journaling">Journaling<a class="headerlink" href="#journaling" title="Permanent link">&para;</a></h3>
+<p>Journaling 文件系统是一种能记录（log）文件系统 <strong>变化“意图”</strong> 的文件系统。它在进行实际文件操作之前，先把即将进行的更改操作写入一个专用的日志区域（Journal）。只有当日志记录成功后，才会真正修改主数据区。</p>
+<p>简单类比：就像你要修改一个文件之前，先在备忘录上写一条“我要把这些东西改成 XX 模样”，然后再去执行。</p>
+<p>在数据库领域，同样的技术被称为 Write-Ahead-Log (WAL)。</p>
+<p><img alt="img" src="../../assets/xv6lab-fs2/journaling.png" /></p>
+<p>上图表示了一个 on-disk 的 layout，前面的蓝色和红色块是 blocks，它可能用于存储 bitmap、inodes、data blocks 等。</p>
+<p>假设有一个对文件的写入请求(<code>write</code>)，经过文件系统层后，它需要向块设备写入 LBA 1、2、5、10。</p>
+<ol>
+<li>
+<p><strong>但是，当文件系统使用 <code>bwrite</code> 写入一个块时，我们先将它在内存中缓存起来</strong>，即图上方的橙色块，表示内存中的 <code>struct buf</code>。</p>
+</li>
+<li>
+<p>当该 <code>write</code> 结束后，我们先将 <code>struct buf</code> 1、2、5、10 写入 journals 区域的 <code>j0</code>、<code>j1</code>、<code>j2</code>、<code>j3</code>。</p>
+</li>
+<li>
+<p>使用 fence 确保上述步骤落盘。构造 journal header，其中包含：<code>n</code>：<code>j0</code> 到 <code>j3</code> 是我们的”意图“，<code>j0</code> 要写入到 LBA 2、<code>j1</code> 要写入到 LBA 5。将该 journal header 写入到 LBA 11。</p>
+</li>
+<li>
+<p>使用 fence 确保上述步骤落盘。然后，将 <code>struct buf</code> 1、2、5、10 写入 LBA 1、2、5、10。</p>
+</li>
+<li>
+<p>使用 fence 确保上述步骤落盘。然后，清空 journal header。</p>
+</li>
+<li>
+<p>使用 fence 确保上述步骤落盘。<code>write</code> 结束。</p>
+</li>
+</ol>
+<p>现在，我们可以分析假如在步骤 1-6 中发生 crash，系统该如何恢复。</p>
+<ol>
+<li>
+<p>这时，所有修改仍然停留在内存中，磁盘上的数据结构是完整的。不需要恢复。</p>
+</li>
+<li>
+<p>磁盘的 blocks 区域数据完整。不需要恢复。</p>
+</li>
+<li>
+<p>磁盘的 blocks 区域数据完整，并且我们"看不到" journals 区域的元数据（即 journal header）。不需要恢复。</p>
+</li>
+<li>
+<p>系统在加载文件系统时读取 journal header，并发现其中有我们的 <strong>写入意图</strong>。从 journals 区域读取出我们需要 <strong>重放 replay</strong> 四个 blocks 的数据，从 <code>j0</code> 到 <code>j3</code>，并依据 journal header 中记录的它们的最终目的地写入到前面的 blocks 区域。</p>
+<p>如果此时系统仍然崩溃，我们没有修改 journals 区域的数据，重新从头开始重放即可。</p>
+</li>
+<li>
+<p>同步骤4，从头重放。</p>
+</li>
+<li>
+<p>磁盘的 blocks 区域数据完整，并且是写入后的结果。</p>
+</li>
+</ol>
 
 
 
@@ -1961,8 +2004,8 @@
         <div class="md-copyright">
     <div class="md-copyright__highlight">
         commit: 
-        <a href="https://github.com/yuk1i/os-next-docs/commit/4b4cee5c, 2025-05-26 23:20:31+08:00" target="_blank" rel="noopener">
-            4b4cee5c, 2025-05-26 23:20:31+08:00
+        <a href="https://github.com/yuk1i/os-next-docs/commit/f7a70a21, 2025-05-26 23:56:16+08:00" target="_blank" rel="noopener">
+            f7a70a21, 2025-05-26 23:56:16+08:00
         </a>
     </div>
 </div>
