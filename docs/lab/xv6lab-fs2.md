@@ -1,5 +1,16 @@
 # File System 2
 
+!!!warning "xv6-lab14 代码分支"
+    
+    https://github.com/yuk1i/SUSTechOS/tree/fs
+
+    使用命令 `git clone https://github.com/yuk1i/SUSTechOS/ -b fs xv6-labfs` 下载 xv6-labfs 代码。
+
+    使用 `make run` 运行本次 Lab 的内核，它会开始一个文件系统的自测，其源代码位于 `fs/fstest.c`。
+
+    初始的文件系统由 `scripts/mkfs.c` 构建，它是一个跑在宿主机上的程序。Makefile 会先调用它创建 `fs.img`，再启动 QEMU。
+
+
 ## Virtual File System
 
 VFS（Virtual File System，虚拟文件系统）是操作系统内核中的一个关键抽象层，主要用于屏蔽不同文件系统（如 FAT32、ext4等）之间的差异，为用户空间程序提供统一的文件操作接口。
@@ -400,8 +411,46 @@ RAID 的底层原理是异或：已知 abc 是三个 bit，令 `x = a XOR b XOR 
 
 为了对抗 reorder，我们可以引入一种新的块设备 IO 命令：fence。它强制要求块设备在落盘前面的写入前，不得处理后面的写入。
 
+### Journaling
 
+Journaling 文件系统是一种能记录（log）文件系统 **变化“意图”** 的文件系统。它在进行实际文件操作之前，先把即将进行的更改操作写入一个专用的日志区域（Journal）。只有当日志记录成功后，才会真正修改主数据区。
 
-#### Journaling
+简单类比：就像你要修改一个文件之前，先在备忘录上写一条“我要把这些东西改成 XX 模样”，然后再去执行。
+
+在数据库领域，同样的技术被称为 Write-Ahead-Log (WAL)。
+
+![img](../assets/xv6lab-fs2/journaling.png)
+
+上图表示了一个 on-disk 的 layout，前面的蓝色和红色块是 blocks，它可能用于存储 bitmap、inodes、data blocks 等。
+
+假设有一个对文件的写入请求(`write`)，经过文件系统层后，它需要向块设备写入 LBA 1、2、5、10。
+
+1. **但是，当文件系统使用 `bwrite` 写入一个块时，我们先将它在内存中缓存起来**，即图上方的橙色块，表示内存中的 `struct buf`。
+
+2. 当该 `write` 结束后，我们先将 `struct buf` 1、2、5、10 写入 journals 区域的 `j0`、`j1`、`j2`、`j3`。
+
+3. 使用 fence 确保上述步骤落盘。构造 journal header，其中包含：`n`：`j0` 到 `j3` 是我们的”意图“，`j0` 要写入到 LBA 2、`j1` 要写入到 LBA 5。将该 journal header 写入到 LBA 11。
+
+4. 使用 fence 确保上述步骤落盘。然后，将 `struct buf` 1、2、5、10 写入 LBA 1、2、5、10。
+
+5. 使用 fence 确保上述步骤落盘。然后，清空 journal header。
+
+6. 使用 fence 确保上述步骤落盘。`write` 结束。
+
+现在，我们可以分析假如在步骤 1-6 中发生 crash，系统该如何恢复。
+
+1. 这时，所有修改仍然停留在内存中，磁盘上的数据结构是完整的。不需要恢复。
+
+2. 磁盘的 blocks 区域数据完整。不需要恢复。
+
+3. 磁盘的 blocks 区域数据完整，并且我们"看不到" journals 区域的元数据（即 journal header）。不需要恢复。
+
+4. 系统在加载文件系统时读取 journal header，并发现其中有我们的 **写入意图**。从 journals 区域读取出我们需要 **重放 replay** 四个 blocks 的数据，从 `j0` 到 `j3`，并依据 journal header 中记录的它们的最终目的地写入到前面的 blocks 区域。
+
+    如果此时系统仍然崩溃，我们没有修改 journals 区域的数据，重新从头开始重放即可。
+
+5. 同步骤4，从头重放。
+
+6. 磁盘的 blocks 区域数据完整，并且是写入后的结果。
 
 
